@@ -1,0 +1,19 @@
+citHeader("To cite the greenbrown package in publications use")
+
+citEntry(entry = "Article",
+         title = "Trend Change Detection in NDVI Time Series: Effects of Inter-Annual Variability and Methodology",
+         author = personList(as.person("Matthias Forkel"), as.person("Nuno Carvalhais"), as.person("Jan Verbesselt"), 
+                     as.person("Miguel D. Mahecha"), as.person("Christopher C. Neigh"), as.person("Markus Reichstein")),
+         journal      = "Remote Sensing",
+         year         = "2013",
+	 volume       = "5",
+	 number       = "",
+	 pages        = "",
+	 doi          = "",
+         
+         textVersion = 
+         paste("Matthias Forkel, Nuno Carvalhais, Jan Verbesselt, Miguel D. Mahecha, Christopher Neigh and Markus Reichstein (2013).", "Trend Change Detection in NDVI Time Series: Effects of Inter-Annual Variability and Methodology.",
+	       "Remote Sensing, 5, ",
+	       ""),
+)
+
