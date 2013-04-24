@@ -47,13 +47,11 @@ echo $contents; } ?>
 
 <!-- end of project description -->
 
-<h1>Currently, the full functionality of this package will be made availabe during March 2013.</h1> 
-
 <p>'Greening' describes in the earth observation community positive trends in vegetation greenness. Vegetation greenness can be expressed as Normalized Difference Vegetation Index (NDVI) that is related to the coverage of green vegetation, photosynthetic activity and green biomass. Greening trends were observed worldwide based on satellite observations of the last 30 years (1980-2012). On the other hand, some regions have negative trends in vegetation greenness ('browning'). The package 'greenbrown' provides access to different methods to analyze such greening and browning trends and trend changes in raster datasets like from satellite observations. A description, comparison and application of these methods for trend and trend change analysis can be found in Forkel et al. (2013).</p>
 
 
 <h3>Installation and loading</h3>
-<p>The package greenbrown was developed and tested under the R version 2.15.3.</p>
+<p>The package greenbrown was developed and tested under the R version 2.15.3. To install the package directly from Rforge you need the most recent R version 3.0.</p>
 <p>To install the most recent version of greenbrown type directly within R: <br><b>install.packages("greenbrown", repos="http://R-Forge.R-project.org")</b></p>
 <p>If you want to use greenbrown, you have to load the package at the beginning of each R session with: <br><b>library(greenbrown)</b></p> 
 
