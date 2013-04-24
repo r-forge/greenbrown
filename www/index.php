@@ -85,7 +85,7 @@ echo $contents; } ?>
 <hr>
 
 <h3>Contact</h3>
-<p>Matthias Forkel, mforkel [at] bgc-jena.mpg.de </p>
+<p>Matthias Forkel, mforkel [at] bgc-jena.mpg.de, Max Planck Institute for Biogeochemistry Jena, Germany </p>
 
 <hr>
 
