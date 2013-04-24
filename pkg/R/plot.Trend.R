@@ -33,6 +33,8 @@ plot.Trend <- structure(function(
 		} 
 		for (i in 1:nrow(ci)) lines(x=ci[i,], y=rep(min(x$series), 3), col="red")
 	}
+	# add legend
+	legend("bottomleft", paste("Slope = ", signif(x$slope, 2), " (p-value = ", signif(x$pval, 2), ")", sep=""), bty="n", text.col="blue")
 		
 	axis(1, pretty(x$time), pretty(x$time))
 }, ex=function() {
