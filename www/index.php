@@ -80,7 +80,7 @@ echo $contents; } ?>
 <hr>
 
 <h3>References</h3>
-<p>Forkel, M., N. Carvalhais, J. Verbesselt, M. Mahecha, C. Neigh and M. Reichstein (2013): Trend Change Detection in NDVI Time Series: Effects of Inter-Annual Variability and Methodology. - Remote Sensing, submitted.</p>
+<p>Forkel, M., N. Carvalhais, J. Verbesselt, M. Mahecha, C. Neigh and M. Reichstein (2013): <a href="http://www.mdpi.com/2072-4292/5/5/2113" target="_blank">Trend Change Detection in NDVI Time Series: Effects of Inter-Annual Variability and Methodology.</a> - Remote Sensing 5, 2113-2144.</p>
 
 <hr>
 
