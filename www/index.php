@@ -20,7 +20,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 	<title><?php echo $group_name; ?></title>
 	<link href="http://<?php echo $themeroot; ?>styles/estilo1.css" rel="stylesheet" type="text/css" />
 	<style type="text/css">
-	b { font-family:Courier; font-weight:normal; }
+	b { font-family:Courier New; font-weight:normal; color:#0000DD; padding:4px }
 	h1, h2, h3, p, li { font-family:Arial; font-weight:normal; }
 	</style>
   </head>
@@ -130,7 +130,7 @@ Fig. 1: Trend in mean annual NDVI from an example grid cell in central Alaska.</
 # load a multi-temporal raster dataset of Normalized Difference Vegetation Index<br>
 data(ndvimap) # load the data<br>
 ndvimap # some information about the data<br>
-?ndvimap # some more information baout the dtaa
+?ndvimap # some more information about the data<br>
 plot(ndvimap, 8, col=brgr.colors(50))<br>
 <br>
 # Note: you can load your own raster data with the function 'brick' - see ?brick for help<br>
