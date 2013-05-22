@@ -36,6 +36,7 @@ TrendAAT <- structure(function(
 	}
 	time <- time(Yt)	
 	d <- bfastpp(Yt)
+	if (nrow(d) < 2) return(NoTrend(Yt))
 	
 	# breakpoints should be calculated?	
 	sum.na <- sum(is.na(Yt))

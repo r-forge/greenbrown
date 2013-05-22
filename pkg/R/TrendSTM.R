@@ -29,6 +29,7 @@ TrendSTM <- structure(function(
 	
 	# prepare data for analysis
 	d <- bfastpp(Yt, order = 2)
+	if (nrow(d) < 2) return(NoTrend(Yt))
 	
 	# breakpoints should be calculated?	
 	sum.na <- sum(is.na(Yt))

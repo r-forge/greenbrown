@@ -82,7 +82,7 @@ print.Trend <- summary.Trend <- structure(function(
     cat(  "$time   : a vector of time steps.", "\n")
     cat(  "$bp     : an object of class breakpoints.", "\n")
     cat(  "$slope  : a vector of the trend slopes for each trend segment.", "\n")
-    cat(  "$pval   : a vector of the p-values of teh trend for each trend segment.", "\n")
+    cat(  "$pval   : a vector of the p-values of the trend for each trend segment.", "\n")
 	cat("\n")
 	cat("Time series start   : ", paste(start(x$series), sep="-"), "\n")
 	cat("Time series end     : ", paste(end(x$series), sep="-"), "\n")

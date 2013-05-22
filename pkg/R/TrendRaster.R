@@ -69,7 +69,7 @@ TrendRaster <- structure(function(
 		# length of result vector
 		if (breaks > 0) length.res <- length(c(1:(breaks+1), 1:breaks, 1:(breaks+1), 1:(breaks+1)))
 		if (breaks == 0) length.res <- length(c(1:(breaks+1), 1:(breaks+1), 1:(breaks+1)))
-		#x.global <<- x
+		# x.global <<- x
 		
 		# return NA if less than 3 values are NA
 		if ((sum(is.na(x))/length(x) > 0.6) | (AllEqual(x))) return(rep(NA, length.res))
@@ -104,7 +104,7 @@ TrendRaster <- structure(function(
 		# return result as vector
 		result <- c(seg.length.res, bp.dates.res, slopes.res, pvals.res)
 		return(result)
-	}	
+	}
 	
 	# apply function on raster
 	r.trend <- calc(r, fun=.funForRaster, ...)	
