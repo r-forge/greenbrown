@@ -1,7 +1,7 @@
 \name{NoTrend}
 \alias{NoTrend}
 \title{Initialize an empty list of trends}
-\description{This is an internal function to make an empty list of breakpoints. For the user there is usually no need to use this function.}
+\description{This is an internal function to make an empty list of class Trend. For the user there is usually no need to use this function.}
 \usage{NoTrend(Yt)}
 \arguments{
   \item{Yt}{univariate time series of class \code{\link{ts}}}
