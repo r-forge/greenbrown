@@ -27,14 +27,14 @@ plot(trendmap)
 # layer names ot the result
 NamesTrendRaster(breaks)
 NamesTrendRaster(trendmap)
-layerNames(trendmap)
+names(trendmap)
 
 # now imagine you are loosing the layer names ...
-layerNames(trendmap) <- 1:11
+names(trendmap) <- 1:11
 plot(trendmap)	# X1, X2 ... is not meaningfull. How can you get the names back?
 
 # re-create the layer names with NamesTrendRaster
-layerNames(trendmap) <- NamesTrendRaster(trendmap)
+names(trendmap) <- NamesTrendRaster(trendmap)
 plot(trendmap)
 
 }

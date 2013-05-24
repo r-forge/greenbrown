@@ -13,7 +13,7 @@
 
 
 
-\seealso{\code{\link{TrendSeasonalAdjusted}}, \code{\link[Rssa]{new.ssa}}, \code{\link[Rssa]{reconstruct}}}
+\seealso{\code{\link{TrendSeasonalAdjusted}}, \code{\link[Rssa]{ssa}}, \code{\link[Rssa]{reconstruct}}}
 \examples{
 # load a time series of Normalized Difference Vegetation Index
 data(ndvi)
