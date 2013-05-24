@@ -17,6 +17,9 @@ plot.CompareClassification <- structure(function(
 	main="Classification agreement",
 	### A title for the plot
 	
+	names=NULL,
+	### a list with names of the two classifications and class names. See example section for details.
+	
 	ul="burlywood4", 
 	### starting color in the upper left corner of the \code{\link{ColorMatrix}}
 	
@@ -45,10 +48,19 @@ plot.CompareClassification <- structure(function(
 
 	# create colors for map
 	col.m <- ColorMatrix(ncl, ul, lr, ll, ur, ctr)
+	
+	# names for the table
+	if (is.null(names)) {
+		rnames <- rownames(x$table)[1:ncl]
+		cnames <- colnames(x$table)[1:ncl]
+	} else {
+		rnames <- names[[1]]
+		cnames <- names[[2]]
+	}
 
 	# create legend text
 	agree <- round(as.vector(prop.table(x$table[1:ncl, 1:ncl]) * 100), 1) 
-	lgd <- expand.grid(rownames(x$table)[1:ncl], rownames(x$table)[1:ncl])
+	lgd <- expand.grid(rnames, cnames)
 	lgd <- paste(lgd[,1], "/", lgd[,2], " = ", agree, sep="")	
 	
 	# create plot
