@@ -123,7 +123,6 @@ plot(trd) # this line will produce figure 1:<br>
 Fig. 1: Trend in mean annual NDVI from an example grid cell in central Alaska.</p>
 
 
-<p>
 <b>
 # 2. calculate trends on raster data sets<br>
 <br>
@@ -146,7 +145,6 @@ plot(trendmap, col=brgr.colors(20), legend.width=2) # this line will produce fig
 <p><img src="figure2.png"><br>
 Fig. 2: Trends on annual maximum NDVI with detected breakpoints (BP, year of breakpoint), length of the time series segments (LengthSEG, in years), slope of the trend in each segment (SlopeSEG) and p-value of the trend in each segment (Pval).</p>
 
-<p>
 <b>
 # Now you can classify the trend analysis result into significant positive and significant negative trends:<br>
 trendclassmap <- TrendClassification(trendmap, min.length=8, max.pval=0.05)<br>
@@ -155,8 +153,33 @@ plot(trendclassmap, col=brgr.colors(3), legend.width=2) # this line produces fig
 
 <p><img src="figure3.png"><br>
 Fig. 3: Significant greening and browning trends on annual maximum NDVI in each time series segment.</p>
-<br>
 
+<b>
+# 3. compare trend maps<br>
+<br>
+# Trend estimates from different methods or from different datasets can be compared regarding their significant trend directions. For example, trends from two different methods can be compared ...<br>
+<br>
+data(ndvimap)<br>
+<br>
+# calculate trends with two different methods<br>
+AATmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="AAT", breaks=0)<br>
+STMmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="STM", breaks=0)<br>
+<br>
+# classify the trend estimates from the two methods into significant positive, negative and no trend<br>
+AATmap.cl <- TrendClassification(AATmap)<br>
+STMmap.cl <- TrendClassification(STMmap)<br>
+<br>
+# now the two classifcations of trends can be compared<br>
+compare <- CompareClassification(AATmap.cl, STMmap.cl, names=list('AAT'=c("Br", "No", "Gr"), 'STM'=c("Br", "No", "Gr")))<br>
+compare # this line gives a contingency table of the two trend classifications<br>
+<br>
+# plot the comparison<br>
+plot(compare) # this line produces figure 4:
+</b>
+<p><img src="figure4.png"><br>
+Fig. 4: Comparsion of greening and browning trends on annual mean NDVI from two different methods.</p>
+
+<br>
 <hr>
 
 <p> The <strong>greenbrown developper summary page</strong> you can find <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/"><strong>here</strong></a>. </p>
