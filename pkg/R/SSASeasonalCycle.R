@@ -11,7 +11,7 @@ SSASeasonalCycle <- structure(function(
 	##references<<Golyandina, N., Nekrutkin, V. and Zhigljavsky, A. (2001): Analysis of Time Series Structure: SSA and related techniques. Chapman and Hall/CRC. ISBN 1584881941 
 	
 	##seealso<<
-	## \code{\link{TrendSeasonalAdjusted}}, \code{\link[Rssa]{new.ssa}}, \code{\link[Rssa]{reconstruct}}
+	## \code{\link{TrendSeasonalAdjusted}}, \code{\link[Rssa]{ssa}}, \code{\link[Rssa]{reconstruct}}
 ) {
 
 	if (class(ts) != "ts") stop("ts should be of class ts.")

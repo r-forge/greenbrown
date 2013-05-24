@@ -74,7 +74,7 @@ TrendSegmentsRaster <- structure(function(
 	
 	# apply function on raster
 	trend.seg.rb <- calc(trend.rb, fun=.funForRaster, ...)
-	layerNames(trend.seg.rb) <- as.character(paste("X", time.ts, sep=""))
+	names(trend.seg.rb) <- as.character(paste("X", time.ts, sep=""))
 	return(trend.seg.rb)
 	### The function returns a RasterBrick. 
 },ex=function(){

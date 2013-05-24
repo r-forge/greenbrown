@@ -17,10 +17,10 @@ TrendClassification <- structure(function(
 	### additional arguments as for \code{\link{writeRaster}}
 		
 	##details<<
-	## This function expects a RasterBrick as created with \code{\link{TrendRaster}} as input and classifies for each pixel and each time series segment if a trend is significant positive, significant negative or not significant (no trend). Per default a p-value of 0.05 is used to classify trends as significant. Additionally, the minimum duration of a trend can be specified with min.length: For example, if only time series segments longer than 10 years should be considered as trend, set min.length=11 in case of annual data. In case of monthly data set it to 132 (12 observations per year * 11 years).
+	## This function expects a RasterBrick as created with \code{\link{TrendRaster}} as input and classifies for each pixel and each time series segment if a trend is significant positive, significant negative or not significant (no trend). Per default a p-value of 0.05 is used to classify trends as significant. Additionally, the minimum duration of a trend can be specified with min.length: For example, if only time series segments longer than 10 years should be considered as trend, set min.length=11 in case of annual data. In case of monthly data set it to 132 (12 observations per year * 11 years). The function \code{\link{CompareClassification}} can be used to compare classified trends from different methods or data sets. 
 
 	##seealso<<
-	## \code{\link{TrendRaster}}
+	## \code{\link{TrendRaster}}, \code{\link{CompareClassification}}
 
 	) {
 
@@ -48,7 +48,7 @@ TrendClassification <- structure(function(
 		return(result)
 	}
 	trend <- calc(r, .funForRaster, ...)
-	layerNames(trend) <- paste("TrendSEG", 1:nseg, sep="")
+	names(trend) <- paste("TrendSEG", 1:nseg, sep="")
 	return(trend)
 	### The function returns a RasterLayer in case of one time series segment or a RasterBrick in case of multiple time series segments. Pixels with a significant positive trend have the value 1; pixels with significant negative trends -1 and non-significant trends 0.
 }, ex=function() {

@@ -110,7 +110,7 @@ TrendRaster <- structure(function(
 	r.trend <- calc(r, fun=.funForRaster, ...)	
 	
 	# names for raster layers
-	layerNames(r.trend) <- NamesTrendRaster(breaks)
+	names(r.trend) <- NamesTrendRaster(breaks)
 	return(r.trend)
 	### The function returns a RasterBrick with different trend and breakpoint statistics. The layers are named:
 	### \itemize{ 

@@ -46,7 +46,7 @@ GetTsStatisticsRaster <- structure(function(
 	} # end GetTsStatistics
 	
 	result <- calc(r, GetTsStatistics)
-	layerNames(result) <- c("Mean", "Trend.slope", "IAV.range", "IAV.sd", 
+	names(result) <- c("Mean", "Trend.slope", "IAV.range", "IAV.sd", 
 		"Seas.range", "STV.range", "STV.sd")
 	return(result)
 	### The function returns a RasterBrick with 7 layers (mean, trend slope, range of IAV, standard deviation of inter-annual variabililty, range of seasonal cycle, range and standard deviaition of short-term variabililty. 
