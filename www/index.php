@@ -63,7 +63,7 @@ echo $contents; } ?>
 <p>The main function to calculate trends and breakpoints on single time series is <b>Trend</b>. Type <b>?Trend</b> for the help page with a description of the parameters and examples. The function <b>Trend</b> offers a common access to different methods for trend analysis. Currently, the following methods are implemented in the greenbrown package:</p>
 <ul>
 <li><b>TrendAAT</b> computes trends on annual aggregated time series.</li> 
-<li><b>TrendSTM</b> computes trends based on a season-trend model.</li>
+<li><b>TrendSTM</b> computes trends based on a season-trend model (similar to the time series analysis approach used in <a href="http://cran.r-project.org/web/packages/bfast/index.html" target="_blank">bfast</a>).</li>
 <li><b>TrendSeasonalAdjusted</b> removes first the seasonal cycle from a time series and computes then the trend on the seasonal-adjusted time series.</li>
 </ul>
 
@@ -139,12 +139,23 @@ plot(ndvimap, 8, col=brgr.colors(50))<br>
 ?TrendRaster <br>
 <br>
 # calculate trend on the raster dataset using annual maximum NDVI<br>
-AATmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="AAT", breaks=2, funAnnual=max)<br>
-plot(AATmap, col=brgr.colors(20), legend.width=2) # this line will produce figure 2:<br>
+trendmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="AAT", breaks=2, funAnnual=max)<br>
+plot(trendmap, col=brgr.colors(20), legend.width=2) # this line will produce figure 2:<br>
 </b>
 
 <p><img src="figure2.png"><br>
 Fig. 2: Trends on annual maximum NDVI with detected breakpoints (BP, year of breakpoint), length of the time series segments (LengthSEG, in years), slope of the trend in each segment (SlopeSEG) and p-value of the trend in each segment (Pval).</p>
+
+<p>
+<b>
+# Now you can classify the trend analysis result into significant positive and significant negative trends:<br>
+trendclassmap <- TrendClassification(trendmap, min.length=8, max.pval=0.05)<br>
+plot(trendclassmap, col=brgr.colors(3), legend.width=2) # this line produces figure 3:<br>
+</b>
+
+<p><img src="figure3.png"><br>
+Fig. 3: Significant greening and browning trends on annual maximum NDVI in each time series segment.</p>
+<br>
 
 <hr>
 
