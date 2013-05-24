@@ -7,13 +7,13 @@ citEntry(entry = "Article",
          journal      = "Remote Sensing",
          year         = "2013",
 	 volume       = "5",
-	 number       = "",
+	 number       = "5",
 	 pages        = "",
-	 doi          = "",
+	 doi          = "10.3390/rs5052113",
          
          textVersion = 
          paste("Matthias Forkel, Nuno Carvalhais, Jan Verbesselt, Miguel D. Mahecha, Christopher Neigh and Markus Reichstein (2013).", "Trend Change Detection in NDVI Time Series: Effects of Inter-Annual Variability and Methodology.",
-	       "Remote Sensing, 5, ",
+	       "Remote Sensing, 5(5), 2113-2144.",
 	       ""),
 )
 
