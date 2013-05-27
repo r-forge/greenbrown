@@ -19,12 +19,7 @@ CompareClassification <- structure(function(
 
 ) {
 	# crop x and y to same extent
-	same.ext <- compareRaster(x, y, extent=TRUE, rowcol=FALSE, crs=FALSE, res=FALSE, orig=FALSE, rotation=FALSE) 
-	if (!same.ext) {
-		ext <- GetCommonExtent(list(x, y))
-		x <- crop(x, ext)
-		y <- crop(y, ext)
-	}
+	same.ext <- compareRaster(x, y, extent=TRUE, rowcol=TRUE, crs=FALSE, res=TRUE, orig=TRUE, rotation=TRUE) 
 
 	# get unique class IDs
 	classes <- na.omit(unique(c(unique(values(x)), unique(values(y)))))
@@ -66,7 +61,7 @@ CompareClassification <- structure(function(
 	### \itemize{ 
 	### \item{ \code{raster} a raster layer indicating the agreement of the two classifications. }
 	### \item{ \code{table} a contingency table with user, producer and total accuracies. Rows in the table correpond to the classification x, columns to the classifcation y. }
-	### \item{ \code{kappa} Kappa coeffcient. }
+	### \item{ \code{kappa} Kappa coefficient. }
 	### }
 }, ex=function() {
 # Example: calculate NDVI trends from two methods and compare the significant trends

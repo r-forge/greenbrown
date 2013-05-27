@@ -66,9 +66,9 @@ plot.CompareClassification <- structure(function(
 	# create plot
 	par(mar=c(2.7, 2.7, ncl*2, 2))
 	brks <- seq(min(cl)-0.5, max(cl)+0.5)
-	plot(x$raster, col=as.vector(col.m), breaks=brks, xlab=xlab, ylab=ylab)
+	image(x$raster, col=as.vector(col.m), breaks=brks, xlab=xlab, ylab=ylab)
 	coord <- coordinates(x$raster)
-	legend(x=mean(coord[,1]), y=max(coord[,2])+(abs(max(coord[,2]) - min(coord[,2])) * 0.02), lgd, fill=as.vector(col.m), ncol=ncl, xjust=0.5, yjust=0, xpd=TRUE, bty="n", title=main)
+	legend(x=mean(coord[,1]), y=max(coord[,2])+(abs(max(coord[,2]) - min(coord[,2])) * 0.02), lgd, fill=as.vector(col.m), ncol=ncl, xjust=0.5, yjust=0, xpd=TRUE, title=main, bg="white")
 }, ex=function() {
 # Example: calculate NDVI trends from two methods and compare the significant trends
 
