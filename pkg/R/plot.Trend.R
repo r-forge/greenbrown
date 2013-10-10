@@ -11,32 +11,69 @@ plot.Trend <- structure(function(
 	ylab="NDVI",
 	### A title for the y axis
 	
+	add=FALSE,
+	### add to exisiting plot
+	
+	col=c("black", "blue", "red"),
+	### colors for time series (1), trend line (2) and breakpoint
+	
+	lty=c(2, 1, 2),
+	### line types for time series (1), trend line (2) and breakpoint
+	
+	symbolic=FALSE,
+	### add significance as symbols (TRUE) or as legend text (FALSE). If TRUE the p-value of a trend slope is added as symbol as following: *** (p <= 0.001), ** (p <= 0.01), * (p <= 0.05), . (p <= 0.1) and no symbol if p > 0.1. 
+	
 	...
 	### Further arguments that can be passed \code{\link{plot.default}}
 		
 	##seealso<<
 	## \code{\link{plot.default}}, \code{\link{plot.ts}}
 ) {
+	if (length(col) != 3) col <- rep(col[1], 3)
+	if (length(lty) != 3) lty <- rep(lty[1], 3)
 
 	# plot time series
-	plot(x$series, type="l", xaxt="n", xlab="", ylab=ylab, ...)
-	lines(x$trend, col="blue", ...)
-	
-	# add lines for confidence intervalls
+	if (!add) {
+		plot(x$series, type="l", xaxt="n", xlab="", col=col[1], lty=lty[1], ylab=ylab, ...)
+		axis(1, pretty(x$time), pretty(x$time))
+	}
+	if (add) lines(x$series, col=col[1], lty=lty[1])
+	lines(x$trend, col=col[2], lty=lty[2], lwd=2, ...)
+		
+	# add lines for breakpoints with confidence intervalls
 	if (!is.na(x$bp$breakpoints[1])) {
-		abline(v=x$time[x$bp$breakpoints], col="red", lty=2)
+		if (symbolic) points(x=x$time[x$bp$breakpoints], y=x$trend[x$bp$breakpoints], col=col[3], pch=3, cex=1.2)
+		if (!symbolic) abline(v=x$time[x$bp$breakpoints], col=col[3], lty=lty[3])
 		ci <- confint(x$bp)$confint
 		for (i in 1:length(ci)) {
 			ti <- ci[i]
 			ti[ti == 0] <- 1
 			ci[i] <- x$time[ti]
 		} 
-		for (i in 1:nrow(ci)) lines(x=ci[i,], y=rep(min(x$series), 3), col="red")
-	}
-	# add legend
-	legend("bottomleft", paste("Slope = ", signif(x$slope, 2), " (p-value = ", signif(x$pval, 2), ")", sep=""), bty="n", text.col="blue")
+		for (i in 1:nrow(ci)) lines(x=ci[i,], y=rep(x$trend[x$bp$breakpoints[i]], 3), col=col[3])
+	}	
+	
+	# add legend or symbolic representation of significance
+	if (symbolic) {
+		pval.symbol <- symnum(x$pval, corr = FALSE, na = FALSE, cutpoints = c(0, 0.001, 0.01, 0.05, 0.1, 1), symbols = c("***", "**", "*", ".", " "))
+		if (!is.na(x$bp$breakpoints[1])) {
+			xpos <- NULL
+			ypos <- NULL
+			seg <- breakfactor(x$bp)
+			for (i in 1:length(unique(seg))) {
+				xpos <- c(xpos, mean(x$time[seg == unique(seg)[i]])[1])
+				ypos <- c(ypos, quantile(x$trend[seg == unique(seg)[i]], prob=0.6)[1])
+			}
+		} else {
+			xpos <- max(x$time)[1]
+			ypos <- max(x$trend)[1]
+		}
+		text(xpos, ypos, pval.symbol, col=col[2], font=2, cex=2)
 		
-	axis(1, pretty(x$time), pretty(x$time))
+	} else {
+		legend("bottomleft", paste("Slope = ", signif(x$slope, 2), " (p-value = ", signif(x$pval, 2), ")", sep=""), bty="n", text.col="blue")	
+	}
+	
 }, ex=function() {
 # load a time series of Normalized Difference Vegetation Index
 data(ndvi)
@@ -45,9 +82,17 @@ plot(ndvi)
 # calculate a trend and look at the results
 ndvi.trend <- Trend(ndvi)
 ndvi.trend
-print(ndvi.trend)
-summary(ndvi.trend)
 plot(ndvi.trend)
+
+ndvi.trend.aat <- Trend(ndvi, method="AAT", mosum.pval=1)
+plot(ndvi.trend.aat)
+plot(ndvi.trend.aat, symbolic=TRUE)
+
+ndvi.trend.stm <- Trend(ndvi, method="STM", mosum.pval=1)
+plot(ndvi.trend.stm, symbolic=TRUE)
+
+plot(ndvi.trend.aat, symbolic=TRUE, ylim=c(0.23, 0.31), col=c("blue", "blue", "red"))
+plot(ndvi.trend.stm, symbolic=TRUE, col=c("darkgreen", "darkgreen", "red"), lty=c(0, 1, 1), add=TRUE)
 	
 })
 
@@ -116,7 +161,6 @@ ndvi.trend <- Trend(ndvi)
 ndvi.trend
 print(ndvi.trend)
 summary(ndvi.trend)
-plot(ndvi.trend)
 	
 })
 
