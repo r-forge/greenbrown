@@ -61,12 +61,16 @@ plot.Trend <- structure(function(
 			ypos <- NULL
 			seg <- breakfactor(x$bp)
 			for (i in 1:length(unique(seg))) {
-				xpos <- c(xpos, mean(x$time[seg == unique(seg)[i]])[1])
-				ypos <- c(ypos, quantile(x$trend[seg == unique(seg)[i]], prob=0.6)[1])
+				d <- x$time[seg == unique(seg)[i]]
+				d <- d[!is.na(d)]
+				xpos <- c(xpos, mean(d, na.rm=TRUE)[1])
+				d <- x$trend[seg == unique(seg)[i]]
+				d <- d[!is.na(d)]
+				ypos <- c(ypos, quantile(d, prob=0.6, na.rm=TRUE)[1])
 			}
 		} else {
-			xpos <- max(x$time)[1]
-			ypos <- max(x$trend)[1]
+			xpos <- mean(x$time[!is.na(x$trend)], na.rm=TRUE)[1]
+			ypos <- quantile(x$trend[!is.na(x$trend)], prob=0.6, na.rm=TRUE)[1]
 		}
 		text(xpos, ypos, pval.symbol, col=col[2], font=2, cex=2)
 		
