@@ -50,7 +50,8 @@ CompareClassification <- structure(function(
 		names <- list(x=classes, y=classes)
 	}	
 	tab <- as.matrix(tab)
-	dimnames(tab) <- names
+	rownames(tab) <- names[[1]]
+	colnames(tab) <- names[[2]]
 	
 	# calculate accuracy assessment
 	aa <- AccuracyAssessment(tab)
