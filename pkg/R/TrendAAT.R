@@ -137,7 +137,7 @@ plot(trd.annualmean)
 # calculate trend on annual peak (maximum) NDVI
 trd.annualmax <- TrendAAT(ndvi, funAnnual=max, mosum.pval=1)
 trd.annualmax 
-plot(trd.annualmax )
+plot(trd.annualmax)
 
 # calculate trend on an annual quantile NDVI (e.g. upper 0.9 quantile)
 fun <- function(x, ...) { quantile(x, 0.9, ...) }
@@ -153,9 +153,9 @@ plot(trd.annualquantile1)
 
 # compare trends
 plot(ndvi)
-lines(trd.annualmean$trend, col="green")
-lines(trd.annualmax$trend, col="red")
-lines(trd.annualquantile9$trend, col="orange")
-lines(trd.annualquantile1$trend, col="blue")
+plot(trd.annualmean, add=TRUE, col="darkgreen", symbolic=TRUE)
+plot(trd.annualmax, add=TRUE, col="red", symbolic=TRUE)
+plot(trd.annualquantile9, add=TRUE, col="orange", symbolic=TRUE)
+plot(trd.annualquantile1, add=TRUE, col="blue", symbolic=TRUE)
 })
 

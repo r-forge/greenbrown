@@ -106,6 +106,7 @@ plot(trd)
 trd <- Trend(ndvi, method="STM")
 trd
 plot(trd)
+plot(trd, symbolic=TRUE)
 
 # calculate trend based on removal of the seasonal cycle
 trd <- Trend(ndvi, method="SeasonalAdjusted", funSeasonalCycle=SSASeasonalCycle)
