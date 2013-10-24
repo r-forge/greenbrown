@@ -45,13 +45,13 @@ CompareClassification <- structure(function(
 	# calculate contingency table
 	tab <- crosstab(x, y)
 	
-	# names for the table
-	if (is.null(names)) {
-		names <- list(x=classes, y=classes)
-	}	
-	tab <- as.matrix(tab)
-	rownames(tab) <- names[[1]]
-	colnames(tab) <- names[[2]]
+	# # names for the table
+	# if (is.null(names)) {
+		# names <- list(x=classes, y=classes)
+	# }	
+	# tab <- as.matrix(tab)
+	# rownames(tab) <- names[[1]]
+	# colnames(tab) <- names[[2]]
 	
 	# calculate accuracy assessment
 	aa <- AccuracyAssessment(tab)
