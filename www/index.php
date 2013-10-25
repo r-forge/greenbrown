@@ -52,9 +52,12 @@ echo $contents; } ?>
 <hr>
 
 <h3>Installation and loading</h3>
-<p>The package greenbrown was developed and tested under the R version 2.15.3. To install the package directly from Rforge you need the most recent R version 3.0.</p>
+<p>The package greenbrown was developed and tested under the R version 2.15.3. To install the package directly from Rforge you need the most recent R version.</p>
 <p>To install the most recent version of greenbrown type directly within R: <br><b>install.packages("greenbrown", repos="http://R-Forge.R-project.org")</b></p>
 <p>If you want to use greenbrown, you have to load the package at the beginning of each R session with: <br><b>library(greenbrown)</b></p> 
+
+<p>Alternatively, you can receive all greenbrown source code files by using an anonymous SVN checout: <br><b>
+svn checkout svn://r-forge.r-project.org/svnroot/greenbrown/</b></p>
 
 <hr>
 
