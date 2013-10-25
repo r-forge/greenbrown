@@ -11,9 +11,12 @@ CompareClassification <- structure(function(
 	y,
 	### Second raster layer with classification.
 	
-	names=NULL
+	names=NULL,
 	### a list with names of the two classifications and class names. See example section for details.
 		
+	samplefrac=1
+	### fraction of grid cells to be sampled from both rasters in order to calculate the contingency table
+
 	##seealso<<
 	## \code{\link{plot.CompareClassification}}, \code{\link{AccuracyAssessment}}, \code{\link{TrendClassification}}
 
@@ -43,15 +46,17 @@ CompareClassification <- structure(function(
 	})
 	
 	# calculate contingency table
-	tab <- crosstab(x, y)
+	xval <- sampleRandom(x, ncell(x) * samplefrac)
+	yval <- sampleRandom(y, ncell(y) * samplefrac)
+	tab <- table(xval, yval)
 	
-	# # names for the table
-	# if (is.null(names)) {
-		# names <- list(x=classes, y=classes)
-	# }	
-	# tab <- as.matrix(tab)
-	# rownames(tab) <- names[[1]]
-	# colnames(tab) <- names[[2]]
+	# names for the table
+	if (is.null(names)) {
+		names <- list(x=classes, y=classes)
+	}	
+	tab <- as.matrix(tab)
+	rownames(tab) <- names[[1]]
+	colnames(tab) <- names[[2]]
 	
 	# calculate accuracy assessment
 	aa <- AccuracyAssessment(tab)
@@ -84,7 +89,7 @@ STMmap.cl <- TrendClassification(STMmap)
 plot(STMmap.cl, col=brgr.colors(3))
 
 # compare the two classifications
-compare <- CompareClassification(AATmap.cl, STMmap.cl, names=list('AAT'=c("Br", "No", "Gr"), 'STM'=c("Br", "No", "Gr")))
+compare <- CompareClassification(x=AATmap.cl, y=STMmap.cl, names=list('AAT'=c("Br", "No", "Gr"), 'STM'=c("Br", "No", "Gr")))
 compare
 
 # plot the comparison
