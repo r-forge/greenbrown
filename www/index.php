@@ -125,7 +125,6 @@ plot(trd) # this line will produce figure 1:<br>
 <p><img src="figure1.png"><br>
 Fig. 1: Trend in mean annual NDVI from an example grid cell in central Alaska.</p>
 
-
 <b>
 # 2. calculate trends on raster data sets<br>
 <br>
