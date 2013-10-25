@@ -4,27 +4,18 @@ InterpolateMatrix <- structure(function(
 	
 	##description<< This function interpolates missing values in a matrix with the mean of the neighbouring matrix cells.
 
-	m,
-	### a matrix
+	m
+	### a matrix with NA value to interpolate
 
-	iter=100
-	### maximum number of iterations for the moving window
 ) {
 	nrow <- nrow(m)
 	ncol <- ncol(m)
-	r <- raster(m)
-	r2 <- focal(r, 3, mean, na.rm=TRUE, NAonly=TRUE, pad=TRUE)
-	sum.na <- sum(is.na(matrix(values(r2), nrow=nrow, ncol=ncol)))
-	r2[is.nan(r2)] <- NA
-	i <- 1
-	while (sum.na > 0 & i <= iter) {
-		r2 <- focal(r2, 3, mean, na.rm=TRUE, pad=TRUE)
-		sum.na <- sum(is.na( matrix(values(r2), nrow=nrow, ncol=ncol)))
-		r2[is.nan(r2)] <- NA
-		i <- i + 1
-	}
-	m3 <- matrix(values(r2), nrow=nrow, ncol=ncol)
-	m[is.na(m)] <- m3[is.na(m)]
+
+	df <- data.frame(r=rep(1:nrow, ncol), c=rep(1:ncol, each=nrow), v=as.vector(m))
+	reg <- lm(v ~ r*c, data=df)
+	new <- predict(reg, df)
+	new <- (new - min(new)) * ( (max(df$v, na.rm=TRUE) - min(df$v, na.rm=TRUE)) / (max(new) - min(new))) + min(df$v, na.rm=TRUE)
+	m <- matrix(new, nrow=nrow, ncol=ncol)
 	return(m)
 	### matrix with interpolated values
 }, ex=function() {
