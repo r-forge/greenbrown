@@ -74,7 +74,7 @@ svn checkout svn://r-forge.r-project.org/svnroot/greenbrown/</b></p>
 
 <p>To read, write and process your raster datasets in R, please see the <a href="http://cran.r-project.org/web/packages/raster/" target="_blank">raster</a> package for more information. To read a multilayer raster dataset from a file, you will have to use the function <b>brick</b> (see <b>?brick</b> for help).</p> 
 
-<p>To estimate statistical properties of time series in a raster dataset (like trend slope, seasonality, inter-annual and short-term variability), use the function <b>GetTsStatisticsRaster</b> (see <b>?GetTsStatisticsRaster</b> for help).</p> 
+<p>To estimate statistical properties of time series in a raster dataset (like trend slope, Seasonality, inter-annual and short-term variability), use the function <b>GetTsStatisticsRaster</b> (see <b>?GetTsStatisticsRaster</b> for help).</p> 
 
 <p>The package provides further functions to simulate artifical (or surrogate) time series. Based on observed statistical properties of time series, artifical time series can be created in order to test different trend methods if they are able to re-detect the prescribed trend of the artifical time series. To create an artificial time series, use <b>SimTs</b>.</p> 
 
