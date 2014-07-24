@@ -22,4 +22,17 @@
 
 
 \seealso{\code{\link{Phenology}}}
+\examples{
 
+data(ndvi)
+plot(ndvi)
+
+# perform smoothing, gap filling and interpolation and extract seasonal cycle from first year
+x <- TsPP(ndvi, interpolate=TRUE)[1:365]
+plot(x)
+
+# calculate phenology metrics for first year
+metrics <- PhenoTrs(x, approach="White")
+PlotPhenCycle(x, metrics=metrics)
+
+}

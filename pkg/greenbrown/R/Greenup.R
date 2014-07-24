@@ -1,6 +1,6 @@
 Greenup <- structure(function(
 	##title<< 
-	## The function identifies 'greenup' (i.e. periods with increase) and 'dormancy' (i.e. periods with decrease) in time series 
+	## The function identifies 'greenup' (i.e. periods with increase) and 'senescence' (i.e. periods with decrease) in time series 
 	##description<<
 	## This function implements threshold methods for phenology. Please use the function \code{\link{Phenology}} to apply this method.
 	
@@ -21,7 +21,7 @@ Greenup <- structure(function(
 	greenup[ratio.deriv < 0] <- FALSE
 			
 	return(greenup)
-	### The function returns a vector with SOS, EOS, LOS, POP and MGS. }
+	### The function returns a boolean vector: TRUE (greenup) and FALSE (senescence). }
 })
 
 

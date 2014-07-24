@@ -20,7 +20,7 @@
 data(ndvimap)
 plot(ndvimap, 8)
 
-# calculate trend with maximum 2 breakpoints
+# calculate phenology
 phenmap <- PhenologyRaster(ndvimap, start=c(1982, 1), freq=12)
 plot(phenmap)
 plot(phenmap)

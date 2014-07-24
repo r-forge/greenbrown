@@ -1,6 +1,6 @@
 TrendRunmed <- structure(function(
 	##title<< 
-	## Trend estimation based on running median
+	## Trend estimation based on a running median
 	
 	##description<<
 	## The function computes a non-linear trend based a running median.
@@ -32,7 +32,7 @@ TrendRunmed <- structure(function(
 	Yt2 <- c(rep(Yt[1:freq], n/freq), Yt, rep(Yt[(n-freq+1):n], n/freq))
 	Tt <- runmed(Yt2, k)
 	Tt <- ts(runmed(Tt[(n+1):(n+n)], 3), start=start, end=end, frequency=freq)
-	Tt[Na1 == 1] <- NA	
+	Tt[Na == 1] <- NA	
 	
 	# results: pvalue with MannKendall test
 	mk <- MannKendall(Tt)

@@ -1,6 +1,6 @@
 \name{TrendRunmed}
 \alias{TrendRunmed}
-\title{Trend estimation based on running median}
+\title{Trend estimation based on a running median}
 \description{The function computes a non-linear trend based a running median.}
 \usage{TrendRunmed(Yt, k = NULL, ...)}
 \arguments{

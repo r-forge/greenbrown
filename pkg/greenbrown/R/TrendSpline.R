@@ -1,6 +1,6 @@
 TrendSpline <- structure(function(
 	##title<< 
-	## Trend estimation based on smoothing splines
+	## Trend estimation based on a smoothing splines
 	
 	##description<<
 	## The function computes a non-linear trend based on \code{\link{smooth.spline}}. 

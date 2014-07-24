@@ -1,8 +1,7 @@
 \name{PhenologyRaster}
 \alias{PhenologyRaster}
 \title{Calculate phenology metrics on time series in gridded (raster) data}
-\description{This function calculates metrics of vegetation phenology (start of season, end of season, length of season, peak date) on multi-temporal raster data. 
-This function calculates from time series in gridded (raster) data annual metrics of vegetation phenology using the function \code{\link{Phenology}}:
+\description{This function calculates metrics of vegetation phenology on multi-temporal raster data. See \code{\link{Phenology}}.
 \itemize{ 
 \item{ \code{sos} start of season }
 \item{ \code{eos} end of season }
@@ -14,10 +13,12 @@ This function calculates from time series in gridded (raster) data annual metric
 \item{ \code{mau} mean autumn value }
 \item{ \code{rsp} rate of spring greenup (not all methods) }
 \item{ \code{rau} rate of autumn senescence rates (not all methods) }
-The calculation of these metrics is performed in two steps and by using different methods:
+}
+The calculation of these metrics is performed in three steps and by using different methods:
 \itemize{ 
-\item{ Step 1: Time series pre-processing. Before phenology metrics can be estimated, time series need often to be pre-processed. This pre-processing involves filling of permanent and irregular gaps, temporal smoothing and interpolation to daily values. See \code{\link{TsPP}} for details and available methods. }
-\item{ Step 2: Estimation of phenology metrics. Phenology metrics are estimated from the gap filled, smoothed and interpolated time series. This can be done by treshold methods (\code{\link{PhenoTrs}}) or by using the derivative of the time series (\code{\link{PhenoDeriv}}). }
+\item{ Step 1: Filling of permanent (winter) gaps. See \code{\link{FillPermanentGaps}}}
+\item{ Step 2: Time series smoothing and interpolation. See \code{\link{TsPP}} }	
+\item{ Step 3: Detection of phenology metrics. Phenology metrics are estimated from the gap filled, smoothed and interpolated time series. This can be done by treshold methods (\code{\link{PhenoTrs}}) or by using the derivative of the time series (\code{\link{PhenoDeriv}}). }
 }}
 \usage{PhenologyRaster(r, start = c(1982, 1), freq = 12, approach = c("White", 
     "Trs", "Deriv"), min.mean = 0.1, trs = NULL, fpg = FillPermanentGaps, 
@@ -57,9 +58,9 @@ The calculation of these metrics is performed in two steps and by using differen
 \item{ \code{RAU.} rate of autumn senescence in year x (only if approach is 'Deriv') }
 }
 The number of years in the input raster will define the number of layers in the result.  }
-\references{Beck, P.S.A., C. Atzberger, K.A. Hodga, B. Johansen, A. Skidmore (2006): Improved monitoring of vegetation dynamics at very high latitudes: A new method using MODIS NDVI. - Remote Sensing of Environment 100:321-334.
-Elmore, A.J., S.M. Guinn, B.J. Minsley and A.D. Richardson (2012): Landscape controls on the timing of spring, autumn, and growing season length in mid-Atlantic forests. - Global Change Biology 18, 656-674.		
-White M.A., P.E. Thornton and S.W. Running (1997): A continental phenology model for monitoring vegetation responses to interannual climatic variability. - Global Biogeochemical Cycles 11:217–234.}
+\references{Beck, P.S.A., C. Atzberger, K.A. Hodga, B. Johansen, A. Skidmore (2006): Improved monitoring of vegetation dynamics at very high latitudes: A new method using MODIS NDVI. - Remote Sensing of Environment 100:321-334. \cr
+Elmore, A.J., S.M. Guinn, B.J. Minsley and A.D. Richardson (2012): Landscape controls on the timing of spring, autumn, and growing season length in mid-Atlantic forests. - Global Change Biology 18, 656-674. \cr	
+White M.A., P.E. Thornton and S.W. Running (1997): A continental phenology model for monitoring vegetation responses to interannual climatic variability. - Global Biogeochemical Cycles 11:217–234. }
 \author{Matthias Forkel <mforkel@bgc-jena.mpg.de>}
 
 

@@ -4,8 +4,8 @@ Seasonality <- structure(function(
 	##description<<
 	## This function checks a time series for seasonality using three different approaches: 
 	## \itemize{ 
-	## \item{ \code{'pgram'} computes a periodogram using fast fourier transformation (\code{\link{spec.pgram}}) and checks at which frequency the periodogram has a maximum. A maximum at a frequency of 1 indicates seasonality and the function return TRUE. }
-	## \item{ \code{'acf'} computes the auto-correlation function of the de-trended time series using \code{\link{acf}}. A minimum acf value at a lag of 0.5 indicates seasonality and the function return TRUE. }
+	## \item{ \code{'pgram'} computes a periodogram using fast fourier transformation (\code{\link{spec.pgram}}) and checks at which frequency the periodogram has a maximum. A maximum at a frequency of 1 indicates seasonality and the function returns TRUE. }
+	## \item{ \code{'acf'} computes the auto-correlation function of the de-trended time series using \code{\link{acf}}. A minimum acf value at a lag of 0.5 indicates seasonality and the function returns TRUE. }
 	## \item{ \code{'lm'} fits two linear models to the time series. The first model includes the trend and the seasonal cycle as factorial variable. The second model includes only the trend. Based on the \code{\link{BIC}} the better model is selected and the function returns TRUE if the first model (including a seasonal term) is better. }
 	## }
 	
@@ -97,6 +97,10 @@ Seasonality(Yt)
 Yt <- SimTs(Srange = 0.01, Tslope=c(0.0004, 0), Rsd=0.2, Rrange=0.4)[,1]
 plot(Yt)
 Seasonality(Yt)
+
+# plot results for each seasonality method
+Yt <- SimTs(Srange = 0.1, Tslope=c(0.0004, 0), Rsd=0.18, Rrange=0.25)[,1]
+Seasonality(Yt, plot=TRUE)
 
 
 })

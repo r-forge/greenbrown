@@ -84,6 +84,21 @@ PlotPhenCycle <- structure(function(
 		text(x=c(sos, eos), y=c(msp, mau), paste(c("RSP", "RAU"), "=", signif(c(rsp, rau), 2)), col=cols, pos=1) 
 	}
 
+}, ex=function() {
+
+data(ndvi)
+plot(ndvi)
+
+# perform smoothing, gap filling and interpolation and extract seasonal cycle from first year
+x <- TsPP(ndvi, interpolate=TRUE)[1:365]
+plot(x)
+
+# calculate phenology metrics for first year
+metrics <- PhenoTrs(x, approach="White")
+PlotPhenCycle(x, metrics=metrics)
+
 })
+
+
 
 

@@ -2,7 +2,7 @@ TSGFdoublelog <- structure(function(
 	##title<< 
 	## Temporal smoothing and gap filling using double logisitic functions
 	##description<<
-	## This function fills gaps and smoothes a time series by fitting for each year a double logisitic function. Two definitions for the shape of the double logistic function are available: 'Elmore' fits a function according to (Elmore et al. 2012) and 'Beck' fits a according to (Beck et al. 2006). If the time series has no Seasonality, double logistic fitting will be not performed but smoothing and interpolation will be done using \code{\link{TSGFspline}}.
+	## This function fills gaps and smoothes a time series by fitting for each year a double logisitic function. Two definitions for the shape of the double logistic function are available: 'Elmore' fits a function according to (Elmore et al. 2012) and 'Beck' fits a according to (Beck et al. 2006). If the time series has no Seasonality, double logistic fitting will be not performed but smoothing and interpolation will be done according to the selected \code{backup} algorithm.
 	
 	Yt, 
 	### univariate time series of class \code{\link{ts}}.
@@ -20,8 +20,8 @@ TSGFdoublelog <- structure(function(
 	### further arguments (currently not used)
 	
 	##references<< 
-	## Beck, P.S.A., C. Atzberger, K.A. Hodga, B. Johansen, A. Skidmore (2006): Improved monitoring of vegetation dynamics at very high latitudes: A new method using MODIS NDVI. - Remote Sensing of Environment 100:321-334.
-	## Elmore, A.J., S.M. Guinn, B.J. Minsley and A.D. Richardson (2012): Landscape controls on the timing of spring, autumn, and growing season length in mid-Atlantic forests. - Global Change Biology 18, 656-674.	
+	## Beck, P.S.A., C. Atzberger, K.A. Hodga, B. Johansen, A. Skidmore (2006): Improved monitoring of vegetation dynamics at very high latitudes: A new method using MODIS NDVI. - Remote Sensing of Environment 100:321-334. \cr
+	## Elmore, A.J., S.M. Guinn, B.J. Minsley and A.D. Richardson (2012): Landscape controls on the timing of spring, autumn, and growing season length in mid-Atlantic forests. - Global Change Biology 18, 656-674. 
 	
 	##seealso<<
 	## \code{\link{TsPP}}, \code{\link{Phenology}}
@@ -91,7 +91,7 @@ lines(tsgf1, col="red")
 lines(tsgf2, col="blue")
 
 # compare original data with gap-filled data
-plot(ndvi[is.na(gaps)], tsgf1[is.na(gaps)], col="red")
+plot(ndvi[is.na(gaps)], tsgf1[is.na(gaps)], col="red", xlab="original", ylab="gap filled")
 points(ndvi[is.na(gaps)], tsgf2[is.na(gaps)], col="blue")
 abline(0,1)
 r <- c(cor(ndvi[is.na(gaps)], tsgf1[is.na(gaps)], use="pairwise.complete.obs"), cor(ndvi[is.na(gaps)], tsgf2[is.na(gaps)], use="pairwise.complete.obs"))

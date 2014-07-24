@@ -8,7 +8,7 @@ TSGFlinear <- structure(function(
 	### univariate time series of class \code{\link{ts}}.
 	
 	interpolate = FALSE,
-	### Should the smoothed and gap filled time series be interpolated to daily values by using \code{\link{na.spline}}?
+	### Should the smoothed and gap filled time series be interpolated to daily values by using \code{\link{approx}}?
 	
 	...
 	### further arguments (currently not used)
@@ -70,7 +70,7 @@ plot(gaps)
 lines(tsgf, col="red")
 
 # compare original data with gap-filled data
-plot(ndvi[is.na(gaps)], tsgf[is.na(gaps)])
+plot(ndvi[is.na(gaps)], tsgf[is.na(gaps)], xlab="original", ylab="gap filled")
 abline(0,1)
 r <- cor(ndvi[is.na(gaps)], tsgf[is.na(gaps)])
 legend("topleft", paste("Cor =", round(r, 3)))

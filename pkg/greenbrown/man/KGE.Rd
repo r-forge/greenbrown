@@ -1,7 +1,7 @@
 \name{KGE}
 \alias{KGE}
 \title{Compare two time series and calculate relative effects on mean, variance, correlation and trend (optional) based on Kling-Gupta efficiency}
-\description{This function is an implementation of the Kling-Gupta efficiency (KGE) (Gupta et al. 2009) for model evaluation. It was originally developped to compare modelled and observed time series. The KGE is a model evluation criterion that can be decomposed in the contribution of mean, variance and correlation on model performance. 
+\description{This function is an implementation of the Kling-Gupta efficiency (KGE) (Gupta et al. 2009) for model evaluation. It was originally developed to compare modelled and observed time series. The KGE is a model evluation criterion that can be decomposed in the contribution of mean, variance and correlation on model performance. 
 In this implemenation, the Kling-Gupta effciency is defined as following:
 KGE = 1 - eTotal 
 eTotal is the euclidean distance of the actual effects of mean, variance, correlation and trend (optional) on the time series:

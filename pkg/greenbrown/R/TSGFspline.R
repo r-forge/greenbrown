@@ -68,7 +68,7 @@ plot(gaps)
 lines(tsgf, col="red")
 
 # compare original data with gap-filled data
-plot(ndvi[is.na(gaps)], tsgf[is.na(gaps)])
+plot(ndvi[is.na(gaps)], tsgf[is.na(gaps)], xlab="original", ylab="gap filled")
 abline(0,1)
 r <- cor(ndvi[is.na(gaps)], tsgf[is.na(gaps)])
 legend("topleft", paste("Cor =", round(r, 3)))

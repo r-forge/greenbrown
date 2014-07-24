@@ -1,6 +1,6 @@
 \name{TrendSpline}
 \alias{TrendSpline}
-\title{Trend estimation based on smoothing splines}
+\title{Trend estimation based on a smoothing splines}
 \description{The function computes a non-linear trend based on \code{\link{smooth.spline}}. }
 \usage{TrendSpline(Yt, ...)}
 \arguments{
