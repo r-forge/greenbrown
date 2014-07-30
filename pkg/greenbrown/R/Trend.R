@@ -31,8 +31,17 @@ Trend <- structure(function(
 	### \item{ \code{\link{SSASeasonalCycle}} detects a modulated seasonal cycle based on Singular Spectrum Analysis. }
 	### }
 	
-	funAnnual=mean
+	funAnnual=mean,
 	### function to aggregate time series to annual values if \code{AAT} is selected as method. The default function is the mean (i.e. trend calculated on mean annual time series). See \code{\link{TrendAAT}} for other examples
+	
+	sample.method = c("sample", "all", "none"),
+	### Sampling method for combinations of start and end dates to compute uncertainties in trends. If "sample" (default), trend statistics are computed for a sample of combinations of start and end dates according to \code{sample.size}. If "all", trend statistics are computed for all combinations of start and end dates longer than \code{sample.min.length}.  If "none", trend statistics will be only computed for the entire time series (i.e. no sampling of different start and end dates). 
+	
+	sample.min.length = 0.75,
+	### Minimum length of the time series (as a fraction of total length) that should be used to compute trend statistics. Time windows between start and end that are shorter than min.length will be not used for trend computation.
+	
+	sample.size = 30
+	### sample size (number of combinations of start and end dates) to be used if \code{method} is sample.	
 	
 	##details<<
 	## This function allows to calculate trends and trend changes based on different methods: see \code{\link{TrendAAT}}, \code{\link{TrendSTM}} or \code{\link{TrendSeasonalAdjusted}} for more details on these methods.
@@ -55,38 +64,17 @@ Trend <- structure(function(
 	
 	# return empty Trend object if less than 3 points are not NA
 	if (sum(!is.na(Yt)) < 3) {
-		Yt.na <- Yt
-		Yt.na[!is.na(Yt)] <- NA
-		bp_est <- NULL
-		bp_est$breakpoints <- NA
-		trend <- list(
-			series = Yt,
-			trend = Yt.na,
-			time = as.vector(time(Yt)),
-			bp = bp_est,
-			slope = NA,
-			bptest=NA,
-			pval = NA)
-		class(trend) <- "Trend"
 		warning("Yt has less than 4 non-NA values. Trend was not calculated.")
-		return(trend)
+		return(NoTrend(Yt))
 	}
 	
 	# compute trend
 	if (frequency(Yt) <= 1) method <- "AAT"
-	if (method[1] == "AAT") trend <- TrendAAT(Yt, h=h, breaks=breaks, mosum.pval=mosum.pval, funAnnual=funAnnual)
+	if (method[1] == "AAT") trend <- TrendAAT(Yt, h=h, breaks=breaks, mosum.pval=mosum.pval, funAnnual=funAnnual, sample.method=sample.method, sample.min.length=sample.min.length, sample.size=sample.size)
 	if (method[1] == "STM") trend <- TrendSTM(Yt, h=h, breaks=breaks, mosum.pval=mosum.pval)
-	if (method[1] == "SeasonalAdjusted") trend <- TrendSeasonalAdjusted(Yt, h=h, breaks=breaks, funSeasonalCycle=funSeasonalCycle, mosum.pval=mosum.pval)
+	if (method[1] == "SeasonalAdjusted") trend <- TrendSeasonalAdjusted(Yt, h=h, breaks=breaks, funSeasonalCycle=funSeasonalCycle, mosum.pval=mosum.pval, sample.method=sample.method, sample.min.length=sample.min.length, sample.size=sample.size)
 	return(trend)
-	### The function returns a list of class "Trend" with the following components:
-	### \itemize{ 
-	### \item{ \code{series} time series on which the trend was calculated. }
-	### \item{ \code{trend} time series with the estimated trend. }
-	### \item{ \code{time} a vector of time steps. }
-	### \item{ \code{bp} an object of class \code{"breakpoints"}. See \code{\link{breakpoints}} for details. }
-	### \item{ \code{slope} a vector of the trend slopes for each trend segment. }
-	### \item{ \code{pval} a vector of the p-values of teh trend for each trend segment. }
-	### }
+	### The function returns a list of class "Trend". 
 },ex=function(){
 # load a time series of NDVI (normalized difference vegetation index)
 data(ndvi)
@@ -106,7 +94,6 @@ plot(trd)
 trd <- Trend(ndvi, method="STM")
 trd
 plot(trd)
-plot(trd, symbolic=TRUE)
 
 # calculate trend based on removal of the seasonal cycle
 trd <- Trend(ndvi, method="SeasonalAdjusted", funSeasonalCycle=SSASeasonalCycle)
@@ -120,7 +107,7 @@ lines(trd$adjusted, col="green")
 trd
 
 # calculate trend based on removal of the seasonal cycle: modify maximal number of breakpoints
-trd <- Trend(ndvi, method="SeasonalAdjusted", breaks=1, funSeasonalCycle=MeanSeasonalCycle)
+trd <- Trend(ndvi, method="SeasonalAdjusted", breaks=1, funSeasonalCycle=MeanSeasonalCycle, sample.method="sample")
 plot(trd)
 trd
 

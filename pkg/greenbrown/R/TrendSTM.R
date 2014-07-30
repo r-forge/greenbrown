@@ -121,6 +121,10 @@ TrendSTM <- structure(function(
 	# results: trend and pvalue as significance from regression coefficient
 	pval_est <- m.sum$coefficients[grep("trend", rownames(m.sum$coefficients)),4]
 	slope_est <- m.sum$coefficients[grep("trend", rownames(m.sum$coefficients)),1]	
+	slope_unc <- rep(NA, length(slope_est))
+	pval_unc <- rep(NA, length(slope_est))
+	tau <- rep(NA, length(slope_est))
+	tau_unc <- rep(NA, length(slope_est))
 	
 	if (!is.na(bp_est$breakpoints[1])) {
 		bp_est$breakpoints <- d$trend[bp_est$breakpoints]
@@ -130,10 +134,14 @@ TrendSTM <- structure(function(
 	result <- list(
 		series = Yt,
 		trend = trend_est,
-		time = as.vector(time(Yt)),
+		time = time(Yt),
 		bp = bp_est,
 		slope = slope_est,
+		slope_unc = slope_unc,
 		pval = pval_est,
+		pval_unc = pval_unc,
+		tau = tau,
+		tau_unc = tau_unc,
 		bptest = test,
 		bptype = bptype,
 		bptrend = bptrend,
@@ -141,15 +149,7 @@ TrendSTM <- structure(function(
 		method = "STM")
 	class(result) <- "Trend"
 	return(result)
-	### The function returns a list of class "Trend" with the following components:
-	### \itemize{ 
-	### \item{ \code{series} time series on which the trend was calculated. }
-	### \item{ \code{trend} time series with the estimated trend. }
-	### \item{ \code{time} a vector of time steps. }
-	### \item{ \code{bp} an object of class \code{"breakpoints"}. See \code{\link{breakpoints}} for details. }
-	### \item{ \code{slope} a vector of the trend slopes for each trend segment. }
-	### \item{ \code{pval} a vector of the p-values of teh trend for each trend segment. }
-	### }
+	### The function returns a list of class "Trend". 
 }, ex=function(){
 # load a time series of NDVI (normalized difference vegetation index)
 data(ndvi)

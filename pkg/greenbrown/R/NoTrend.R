@@ -1,6 +1,6 @@
 NoTrend <- structure(function(
 	##title<<
-	## Initialize an empty list of trends
+	## Initialize an empty object of class "Trend"
 	
 	##description<< This is an internal function to make an empty list of class Trend. For the user there is usually no need to use this function.
 	
@@ -14,12 +14,16 @@ NoTrend <- structure(function(
 		time = time(Yt),
 		bp = NoBP(),
 		slope = NA,
+		slope_unc = NA,
 		pval = NA,
+		pval_unc = NA,
+		tau = NA,
+		tau_unc = NA,
 		bptest = bptest,
 		method = "AAT")
 	class(result) <- "Trend"
 	return(result)
-	### empty list with slot 'breakpoints'
+	### The function returns a list of class "Trend". 
 })
 
 

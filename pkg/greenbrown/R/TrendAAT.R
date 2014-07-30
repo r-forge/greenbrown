@@ -17,8 +17,17 @@ TrendAAT <- structure(function(
 	breaks=NULL, 
 	### maximal number of breaks to be calculated (integer number). By default the maximal number allowed by h is used. See \code{\link[strucchange]{breakpoints}} for details.
 	
-	funAnnual=mean
+	funAnnual=mean,
 	### function to aggregate time series to annual values The default function is the mean (i.e. trend calculated on mean annual time series). See example section for other examples.
+
+	sample.method = c("sample", "all", "none"),
+	### Sampling method for combinations of start and end dates to compute uncertainties in trends. If "sample" (default), trend statistics are computed for a sample of combinations of start and end dates according to \code{sample.size}. If "all", trend statistics are computed for all combinations of start and end dates longer than \code{sample.min.length}.  If "none", trend statistics will be only computed for the entire time series (i.e. no sampling of different start and end dates). 
+	
+	sample.min.length = 0.75,
+	### Minimum length of the time series (as a fraction of total length) that should be used to compute trend statistics. Time windows between start and end that are shorter than min.length will be not used for trend computation.
+	
+	sample.size = 30
+	### sample size (number of combinations of start and end dates) to be used if \code{method} is sample.	
 	
 	##references<< Forkel, M., N. Carvalhais, J. Verbesselt, M. Mahecha, C. Neigh and M. Reichstein (2013): Trend Change Detection in NDVI Time Series: Effects of Inter-Annual Variability and Methodology. - Remote Sensing 5.
 		
@@ -87,13 +96,8 @@ TrendAAT <- structure(function(
 	trend_est <- ts(trend_est, start=start(Yt), frequency=frequency(Yt))
 	trend_est <- (trend_est - mean(trend_est, na.rm=TRUE)) + mean(Yt, na.rm=TRUE)
 	
-	# results: pvalue with MannKendall test
-	if (!is.na(bp_est$breakpoints[1])) { 
-		pval_est <- aggregate(na.omit(as.vector(Yt)), by=list(d$seg), FUN=function(x) MannKendall(x)$sl )$x
-	} else {
-		pval_est <- MannKendall(Yt)$sl 
-	}
-	slope_est <- m.sum$coefficients[grep("trend", rownames(m.sum$coefficients)),1]
+	# results: estimate p-value, slope and uncertainties 
+	trd.unc <- TrendUncertainty(Yt, bp_est, sample.method = sample.method, sample.min.length=sample.min.length, sample.size=sample.size)
 	
 	if (!is.na(bp_est$breakpoints[1])) {
 		bp_est$breakpoints <- d$trend[bp_est$breakpoints]
@@ -105,21 +109,17 @@ TrendAAT <- structure(function(
 		trend = trend_est,
 		time = as.vector(time),
 		bp = bp_est,
-		slope = slope_est,
-		pval = pval_est,
+		slope = trd.unc$slope_est,
+		slope_unc = trd.unc$slope_unc,
+		pval = trd.unc$pval_est,
+		pval_unc = trd.unc$pval_unc,
+		tau = trd.unc$tau_est,
+		tau_unc = trd.unc$tau_unc,
 		bptest = test,
 		method = "AAT")
 	class(result) <- "Trend"
 	return(result)
-	### The function returns a list of class "Trend" with the following components:
-	### \itemize{ 
-	### \item{ \code{series} time series on which the trend was calculated. }
-	### \item{ \code{trend} time series with the estimated trend. }
-	### \item{ \code{time} a vector of time steps. }
-	### \item{ \code{bp} an object of class \code{"breakpoints"}. See \code{\link{breakpoints}} for details. }
-	### \item{ \code{slope} a vector of the trend slopes for each trend segment. }
-	### \item{ \code{pval} a vector of the p-values of teh trend for each trend segment. }
-	### }
+	### The function returns a list of class "Trend". 
 },ex=function(){
 # load a time series of NDVI (normalized difference vegetation index)
 data(ndvi)
