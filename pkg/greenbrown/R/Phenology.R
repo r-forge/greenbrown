@@ -197,7 +197,7 @@ winter <- (1:length(ndvi))[cycle(ndvi) == 1 | cycle(ndvi) == 2 | cycle(ndvi) == 
 ndvi[sample(winter, length(winter)*0.5)] <- NA
 plot(ndvi)
 
-# spline fit and trehsold
+# spline fit and threshold
 spl.trs <- Phenology(ndvi, tsgf="TSGFspline", approach="White") 
 spl.trs
 plot(spl.trs)	# default plot: start of season, end of season, position of peak
@@ -217,8 +217,6 @@ beck.deriv <- Phenology(ndvi, tsgf="TSGFdoublelog", method="Beck", approach="Der
 elmore.trs <- Phenology(ndvi, tsgf="TSGFdoublelog", method="Elmore", approach="White") # double logistic fit + treshold
 elmore.deriv <- Phenology(ndvi, tsgf="TSGFdoublelog", method="Elmore", approach="Deriv") # double logistic fit + derivative
 
-phen <- Phenology(Yt, tsgf="TSGFssa", approach="White")
-
 # compare results: SOS and EOS
 type <- c("sos", "eos")
 cols <- brewer.pal(10, "Paired")
@@ -233,10 +231,10 @@ plot(beck.trs, col=cols[7], type=type, add=TRUE)
 plot(beck.deriv, col=cols[8], type=type, add=TRUE)
 plot(elmore.trs, col=cols[9], type=type, add=TRUE)
 plot(elmore.deriv, col=cols[10], type=type, add=TRUE)
-legend("center", nms, text.col=cols, ncol=5, bty="n")
+legend("center", nms, text.col=cols, ncol=3, bty="n")
 
-cor(cbind(lin.trs$sos, lin.deriv$sos, spl.trs$sos, spl.deriv$sos, ssa.trs$sos, ssa.deriv$sos, beck.trs$sos, beck.deriv$sos, elmore.trs$sos, elmore.deriv$sos))
-cor(cbind(lin.trs$eos, lin.deriv$eos, spl.trs$eos, spl.deriv$eos, ssa.trs$eos, ssa.deriv$eos, beck.trs$eos, beck.deriv$eos, elmore.trs$eos, elmore.deriv$eos))
+cor(cbind(lin.trs$sos, lin.deriv$sos, spl.trs$sos, spl.deriv$sos, ssa.trs$sos, ssa.deriv$sos, beck.trs$sos, beck.deriv$sos, elmore.trs$sos, elmore.deriv$sos), use="pairwise.complete.obs")
+cor(cbind(lin.trs$eos, lin.deriv$eos, spl.trs$eos, spl.deriv$eos, ssa.trs$eos, ssa.deriv$eos, beck.trs$eos, beck.deriv$eos, elmore.trs$eos, elmore.deriv$eos), use="pairwise.complete.obs")
 
 # compare results: LOS
 type <- c("los")

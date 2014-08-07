@@ -52,7 +52,7 @@ KGERaster <- structure(function(
 		eTrend <- (rTrend - 1)^2	
 	} else {
 		eTrend <- raster(x, 1)
-		eTrend[] <- NA
+		eTrend[] <- 0
 	}
 	
 	# effect on mean
@@ -62,7 +62,7 @@ KGERaster <- structure(function(
 	eMean <- (rMean - 1)^2
 	
 	# NA mask
-	na.r <- x.mean + ref.mean
+	mask.r <- x.mean + ref.mean
 	
 	# detrend series in case of trend
 	if (trend) {
@@ -92,18 +92,23 @@ KGERaster <- structure(function(
 	eCor <- (r - 1)^2	
 	
 	# fractional effects
-	s <- sum(stack(eMean, eTrend, eVar, eCor), na.rm=TRUE)
+	s <- eMean + eTrend + eVar + eCor
 	fMean <- eMean / s
 	fTrend <- eTrend / s
 	fVar <- eVar / s
 	fCor <- eCor / s
+	
+	# if (!trend) {
+		# eTrend[] <- NA
+		# fTrend[] <- NA
+	# }
 	
 	# total effect
 	eTotal <- sqrt(s)
 	KGE <- 1 - eTotal
 	
 	kge.r <- brick(stack(KGE, eTotal, fMean, fVar, fCor, fTrend, eMean, eVar, eCor, eTrend))
-	kge.r <- mask(kge.r, na.r)
+	kge.r <- raster::mask(kge.r, mask.r)
 	names(kge.r) <- c("KGE", "eTotal", "fMean", "fVar", "fCor", "fTrend", "eMean", "eVar", "eCor", "eTrend")
 	return(kge.r)
 	### The function returns a raster brick with the following layers:
@@ -120,23 +125,23 @@ KGERaster <- structure(function(
 	### \item{ \code{eTrend} effect of trend (only if trend=TRUE)}	
 	### }
 },ex=function(){
-# load a map of NDVI (normalized difference vegetation index) time series
-data(ndvimap)
-plot(ndvimap)
+# # load a map of NDVI (normalized difference vegetation index) time series
+# data(ndvimap)
+# plot(ndvimap)
 
-# increase mean
-ndvimap2 <- ndvimap + 0.01
-kge1.r <- KGERaster(ndvimap2, ndvimap)
-plot(kge1.r)
+# # increase mean
+# ndvimap2 <- ndvimap + 0.01
+# kge1.r <- KGERaster(x=ndvimap2, ref=ndvimap)
+# plot(kge1.r)
 
-# increase mean and variance
-ndvimap3 <- ndvimap + 0.01 + rnorm(1000, 0, 0.05)
-kge2.r <- KGERaster(ndvimap3, ndvimap)
-plot(kge2.r)
+# # increase mean and variance
+# ndvimap3 <- ndvimap + 0.01 + rnorm(1000, 0, 0.05)
+# kge2.r <- KGERaster(ndvimap3, ndvimap)
+# plot(kge2.r)
 
-# check also effects on trend (takes more time because of trend calculations)
-kge3.r <- KGERaster(ndvimap3, ndvimap, trend=TRUE)
-plot(kge3.r)
+# # check also effects on trend (takes more time because of trend calculations)
+# kge3.r <- KGERaster(ndvimap3, ndvimap, trend=TRUE)
+# plot(kge3.r)
 	
 })
 

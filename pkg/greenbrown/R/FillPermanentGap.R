@@ -20,7 +20,7 @@ IsPermanentGap <- structure(function(
 	## 
 	
 	##seealso<<
-	## \code{\link{FillSmoothInterp}}
+	## \code{\link{TsPP}}
 
 ) {
 
@@ -132,7 +132,7 @@ FillPermanentGaps <- structure(function(
 	## 
 	
 	##seealso<<
-	## \code{\link{FillSmoothInterp}}
+	## \code{\link{TsPP}}
 
 ) {
 	if (class(Yt) != "ts") stop("Yt should be from class 'ts'.")

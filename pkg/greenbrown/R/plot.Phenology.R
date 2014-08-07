@@ -123,13 +123,13 @@ plot.Phenology <- structure(function(
 		# initalize graphic
 		if (!add & m == 1) {
 			xlim <- c(start[1], end[1]+1)
-			plot(ts, type="n", xlab="", col=col, ylim=ylim, xlim=xlim, ylab=ylab, ...)
+			plot(ts, type="n", xlab="", col=col, ylim=ylim, xlim=xlim, ylab=ylab) #, ...)
 		}
 		
 		# plot time series with or without trend line
 		if (plot.trend) {
 			trd <- Trend(ts)
-			plot(trd, symbolic=TRUE, add=TRUE, col=col, ...)
+			plot(trd, symbolic=TRUE, add=TRUE, col=col) #, ...)
 			ytxt[m] <- trd$trend[length(trd$trend)]
 		} else {
 			lines(ts, col=col, ...)

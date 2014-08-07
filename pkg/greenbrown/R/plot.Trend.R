@@ -40,11 +40,11 @@ plot.Trend <- structure(function(
 
 	# plot time series
 	if (!add) {
-		plot(x$series, type="l", xaxt="n", xlab="", col=col[1], lty=lty[1], ylab=ylab, lwd=lwd) #, ...)
+		plot(x$series, type="l", xaxt="n", xlab="", col=col[1], lty=lty[1], ylab=ylab, lwd=lwd, ...)
 		axis(1, pretty(x$time), pretty(x$time))
 	}
 	if (add) lines(x$series, col=col[1], lty=lty[1], lwd=lwd)
-	lines(x$trend, col=col[2], lty=lty[2], lwd=lwd*2) #, ...)
+	lines(x$trend, col=col[2], lty=lty[2], lwd=lwd*2, ...)
 			
 	# add lines for breakpoints with confidence intervalls
 	if (!is.na(x$bp$breakpoints[1])) {
