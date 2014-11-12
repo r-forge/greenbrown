@@ -21,7 +21,7 @@ SimSeas <- structure(function(
 	##seealso<<
 	## \code{\link{SimTs}}
 ) {
-	St <- ts(cos((1:n - (freq/2+1) ) / freq * 2 * pi) * (range / 2), start=start, freq=freq)  
+	St <- ts(cos((1:n - (freq/2+1) ) / freq * 2 * pi) * (range / 2), start=start, frequency=freq)  
 	return(St)
 	### time series of class \code{\link[stats]{ts}}
 }, ex=function(){
@@ -59,13 +59,13 @@ SimIAV <- structure(function(
 		iav[iav > (range/2)] <- 0
 		iav[iav < (range/2 * -1)] <- 0
 	}
-	iav <- ts(iav, freq=1)
+	iav <- ts(iav, frequency=1)
 	# try to avoid sub-trends in IAV by 'destroying' any order
 	iav <- iav[order(iav)]
 	o <- sample(seq(1, nyears))
 	iav <- iav[o]
 	iav <- iav - median(iav)
-	iav <- ts(iav[rep(1:nyears, each=freq)], start=start, freq=freq)
+	iav <- ts(iav[rep(1:nyears, each=freq)], start=start, frequency=freq)
 	return(iav)
 	### time series of class \code{\link[stats]{ts}}
 }, ex=function(){
@@ -105,7 +105,7 @@ SimRem <- structure(function(
 		rem[rem < (range/2 * -1)] <- 0
 	}
 	rem <- rem - median(rem)
-	rem <- ts(rem, start=start, freq=freq)
+	rem <- ts(rem, start=start, frequency=freq)
 	return(rem)
 	### time series of class \code{\link[stats]{ts}}
 }, ex=function(){
@@ -160,7 +160,7 @@ SimTrend <- structure(function(
 	}
 	Tt[n] <- Tt[n - 1]
 	Tt <- Tt - mean(range(Tt))	
-	Tt <- ts(Tt, start=start, freq=freq) 
+	Tt <- ts(Tt, start=start, frequency=freq) 
 	return(Tt)
 	### time series of class \code{\link[stats]{ts}}
 }, ex=function(){
@@ -219,25 +219,25 @@ SimTs <- structure(function(
 ) {
 
 	# get time series properties
-	time <- ts(rep(NA, n), start=start, freq=freq)
+	time <- ts(rep(NA, n), start=start, frequency=freq)
 	time <- time(time)
 	years <- as.integer(as.vector(time))
 	nyears <- length(unique(years))
 
 	# mean
-	Mt <- ts(rep(M, n), start=start, freq=freq)
+	Mt <- ts(rep(M, n), start=start, frequency=freq)
 
 	# seasonal
-	St <- SimSeas(Srange, n=n, start=start, freq=freq)
+	St <- SimSeas(Srange, n=n, start=start, frequency=freq)
 	
 	# IAV
-	It <- SimIAV(Isd, Irange, nyears, start=start, freq=freq)
+	It <- SimIAV(Isd, Irange, nyears, start=start, frequency=freq)
 	
 	# remainder
-	Rt <- SimRem(Rsd, Rrange, n=n, start=start, freq=freq)
+	Rt <- SimRem(Rsd, Rrange, n=n, start=start, frequency=freq)
 	
 	# create trend (per segment)
-	Tt <- SimTrend(Tslope, breaks, abrupt=abrupt, n=n, start=start, freq=freq)
+	Tt <- SimTrend(Tslope, breaks, abrupt=abrupt, n=n, start=start, frequency=freq)
 	
 	# plot(Tt)
 	

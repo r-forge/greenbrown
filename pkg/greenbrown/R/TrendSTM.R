@@ -121,10 +121,10 @@ TrendSTM <- structure(function(
 	# results: trend and pvalue as significance from regression coefficient
 	pval_est <- m.sum$coefficients[grep("trend", rownames(m.sum$coefficients)),4]
 	slope_est <- m.sum$coefficients[grep("trend", rownames(m.sum$coefficients)),1]	
-	slope_unc <- rep(NA, length(slope_est))
-	pval_unc <- rep(NA, length(slope_est))
 	tau <- rep(NA, length(slope_est))
-	tau_unc <- rep(NA, length(slope_est))
+	slope_unc <- data.frame(.id=1, NA, NA, NA)
+	pval_unc <- data.frame(.id=1, NA, NA, NA)
+	tau_unc <- data.frame(.id=1, NA, NA, NA)
 	
 	if (!is.na(bp_est$breakpoints[1])) {
 		bp_est$breakpoints <- d$trend[bp_est$breakpoints]

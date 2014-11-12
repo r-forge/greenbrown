@@ -16,7 +16,7 @@
 
 
 
-\seealso{\code{\link{FillSmoothInterp}}}
+\seealso{\code{\link{TsPP}}}
 \examples{
 # load NDVI data
 data(ndvi)

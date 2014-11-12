@@ -41,7 +41,7 @@ TrendAAT <- structure(function(
 		years <- as.integer(as.vector(time))
 		nyears <- length(unique(years))
 		Yt <- aggregate(as.vector(Yt), list(years), FUN=funAnnual, na.rm=TRUE)$x
-		Yt <- ts(Yt, start=years[1], end=years[length(years)], freq=1)
+		Yt <- ts(Yt, start=years[1], end=years[length(years)], frequency=1)
 	}
 	time <- time(Yt)	
 	d <- bfastpp(Yt)
@@ -109,12 +109,12 @@ TrendAAT <- structure(function(
 		trend = trend_est,
 		time = as.vector(time),
 		bp = bp_est,
-		slope = trd.unc$slope_est,
-		slope_unc = trd.unc$slope_unc,
-		pval = trd.unc$pval_est,
-		pval_unc = trd.unc$pval_unc,
-		tau = trd.unc$tau_est,
-		tau_unc = trd.unc$tau_unc,
+		slope = unlist(llply(trd.unc, function(x) x$slope)), 
+		slope_unc = ldply(trd.unc, function(x) x$slope_unc),
+		pval = unlist(llply(trd.unc, function(x) x$pval)),  
+		pval_unc = ldply(trd.unc, function(x) x$pval_unc),
+		tau = unlist(llply(trd.unc, function(x) x$tau)),
+		tau_unc = ldply(trd.unc, function(x) x$tau_unc),
 		bptest = test,
 		method = "AAT")
 	class(result) <- "Trend"

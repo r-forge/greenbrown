@@ -48,12 +48,22 @@ Seasonality <- structure(function(
 		if (freq > 0.95 & freq < 1.05) seasonal[1] <- TRUE
 		
 	# Test 2: auto-correlation function
-		Tt <- stl(Yt, s.window="per")$time.series[,2]
-		At <- Yt - Tt	# detrend time series
-		acf <- acf(At, plot=plot, main="", lag.max=length(At)*0.5)
-		lag <- acf$lag[which.min(acf$acf)]
-		if (plot) mtext("Auto-correlation function", line=0.5, font=2)
-		if (lag > 0.4 & lag < 0.6) seasonal[2] <- TRUE
+		Tt <- tryCatch({
+			stl(Yt, s.window="per")$time.series[,2]
+		}, error = function(e) {
+			NULL
+		}, finally = function(x) {
+			NULL
+		})
+		if (!is.null(Tt)) {
+			At <- Yt - Tt	# detrend time series
+			acf <- acf(At, plot=plot, main="", lag.max=length(At)*0.5)
+			lag <- acf$lag[which.min(acf$acf)]
+			if (plot) mtext("Auto-correlation function", line=0.5, font=2)
+			if (lag > 0.4 & lag < 0.6) seasonal[2] <- TRUE
+		} else {
+			seasonal[2] <- FALSE
+		}
 		
 	# Test 3: seasonal model
 		df <- data.frame(Yt, seas=cycle(Yt), trend=time(Yt))

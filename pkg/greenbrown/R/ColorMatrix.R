@@ -46,7 +46,7 @@ ColorMatrix <- structure(function(
 	blue.m <- InterpolateMatrix(blue.m)		
 	blue.m[blue.m < 0] <- 0
 	blue.m[blue.m > 255] <- 255
-	col <- rgb(as.vector(red.m), as.vector(green.m), as.vector(blue.m), max=255)
+	col <- rgb(as.vector(red.m), as.vector(green.m), as.vector(blue.m), maxColorValue=255)
 	col.m[is.na(col.m)] <- col[is.na(col.m)]
 	return(col.m)
 	### The function returns a square matrix of color names. 

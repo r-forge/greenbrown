@@ -10,15 +10,7 @@
   \item{mosum.pval}{Maximum p-value for the OLS-MOSUM test in order to search for breakpoints. If p = 0.05, breakpoints will be only searched in the time series trend component if the OLS-MOSUM test indicates a significant structural change in the time series. If p = 1 breakpoints will be always searched regardless if there is a significant structural change in the time series or not. See \code{\link[strucchange]{sctest}} for details.}
 }
 
-\value{The function returns a list of class "Trend" with the following components:
-\itemize{ 
-\item{ \code{series} time series on which the trend was calculated. }
-\item{ \code{trend} time series with the estimated trend. }
-\item{ \code{time} a vector of time steps. }
-\item{ \code{bp} an object of class \code{"breakpoints"}. See \code{\link{breakpoints}} for details. }
-\item{ \code{slope} a vector of the trend slopes for each trend segment. }
-\item{ \code{pval} a vector of the p-values of teh trend for each trend segment. }
-}}
+\value{The function returns a list of class "Trend". }
 \references{Verbesselt, J.; Hyndman, R.; Zeileis, A.; Culvenor, D., Phenological change detection while accounting for abrupt and gradual trends in satellite image time series. Remote Sensing of Environment 2010, 114, 2970-2980. \cr
 Verbesselt, J.; Zeileis, A.; Herold, M., Near real-time disturbance detection using satellite image time series. Remote Sensing of Environment 2012, 123, 98-108.}
 \author{Matthias Forkel <mforkel@bgc-jena.mpg.de>}

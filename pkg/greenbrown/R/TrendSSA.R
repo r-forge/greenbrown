@@ -12,8 +12,10 @@ TrendSSA <- structure(function(
 	### additional arguments (currently not used)
 	
 	##seealso<<
-	## \code{\link{stl}}
+	## \code{\link{ssa}}
 ) {
+	require(Rssa)
+	
 	# get time series properties
 	freq <- frequency(Yt)
 	start <- start(Yt)
@@ -29,7 +31,7 @@ TrendSSA <- structure(function(
 	
 	# perform a singular spectrum analysis on the data
 	ssa <- ssa(Yt1, kind="1d-ssa", L=as.integer(length(Yt1)*0.9))
-	ssarc <- Rssa:::reconstruct(ssa, groups=as.list(1:nu(ssa)))
+	ssarc <- Rssa::reconstruct(ssa, groups=as.list(1:nu(ssa)))
 	# plot(ssa, type="values"); plot(ssa, type="series"); plot(ssa, type="paired")
 	
 	# estimate frequency of each component
@@ -48,6 +50,9 @@ TrendSSA <- structure(function(
 	mk <- MannKendall(Tt)
 	mk.pval <- mk$sl 
 	mk.tau <- mk$tau
+	slope_unc <- data.frame(.id=1, NA, NA, NA)
+	pval_unc <- data.frame(.id=1, NA, NA, NA)
+	tau_unc <- data.frame(.id=1, NA, NA, NA)	
 	
 	# return results
 	result <- list(
@@ -56,11 +61,11 @@ TrendSSA <- structure(function(
 		time = as.vector(time),
 		bp = NoBP(),
 		slope = NA,
-		slope_unc= NA,
+		slope_unc = slope_unc,
 		pval = mk.pval,
-		pval_unc = NA,
+		pval_unc = pval_unc,
 		tau = mk.tau,
-		tau_unc = NA,
+		tau_unc = tau_unc,
 		bptest = NULL,
 		method = "SSA")
 	class(result) <- "Trend"

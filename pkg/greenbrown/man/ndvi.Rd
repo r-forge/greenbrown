@@ -3,7 +3,7 @@
 \alias{ndvi}
 \title{Time series of Normalized Difference Vegetation Index}
 \description{
-       This is an example time series of Normalized Difference Vegetation Index (NDVI) from a grid cell in central Alaska. NDVI is a measure of vegetation greenness and is related to the coverage of green vegetation, photosynthetic activity and green biomass. NDVI ranges between -1 and 1. Bare ground and snow has usually NDVI values below 0.2 while vegetated areas have NDVI values above 0.2. This NDVI time series is from the GIMMS (Global Inventory, Monitoring, and Modeling Studies) dataset that provides NDVI estimates from AVHRR (Advanced Very High Resolution Radiometer) satellite observations. 
+       This is an example time series of Normalized Difference Vegetation Index (NDVI) from a grid cell in central Alaska. NDVI is a measure of vegetation greenness and is related to the coverage of green vegetation, photosynthetic activity and green biomass. NDVI ranges between -1 and 1. Bare ground and snow has usually NDVI values below 0.2 while vegetated areas have NDVI values above 0.2. This NDVI time series is from the GIMMS (Global Inventory, Monitoring, and Modeling Studies) dataset (Tucker et al. 2005) that provides NDVI estimates from AVHRR (Advanced Very High Resolution Radiometer) satellite observations. 
 }
 \usage{
 data(ndvi)

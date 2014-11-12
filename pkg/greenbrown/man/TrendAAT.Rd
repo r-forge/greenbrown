@@ -2,24 +2,21 @@
 \alias{TrendAAT}
 \title{Trend estimation based on annual aggregated time series}
 \description{The function aggregates a time series to annual values and computes breakpoints and trends on the annual aggregated time series. The function can be applied to gridded (raster) data using the function \code{\link{TrendRaster}}. A detailed description of this method can be found in Forkel et al. (2013).}
-\usage{TrendAAT(Yt, mosum.pval = 0.05, h = 0.15, breaks = NULL, funAnnual = mean)}
+\usage{TrendAAT(Yt, mosum.pval = 0.05, h = 0.15, breaks = NULL, funAnnual = mean, 
+    sample.method = c("sample", "all", "none"), sample.min.length = 0.75, 
+    sample.size = 30)}
 \arguments{
   \item{Yt}{univariate time series of class \code{\link{ts}}}
   \item{mosum.pval}{Maximum p-value for the OLS-MOSUM test in order to search for breakpoints. If p = 0.05, breakpoints will be only searched in the time series trend component if the OLS-MOSUM test indicates a significant structural change in the time series. If p = 1 breakpoints will be always searched regardless if there is a significant structural change in the time series or not. See \code{\link[strucchange]{sctest}} for details.	}
   \item{h}{minimal segment size either given as fraction relative to the sample size or as an integer giving the minimal number of observations in each segment. See \code{\link[strucchange]{breakpoints}} for details.}
   \item{breaks}{maximal number of breaks to be calculated (integer number). By default the maximal number allowed by h is used. See \code{\link[strucchange]{breakpoints}} for details.}
   \item{funAnnual}{function to aggregate time series to annual values The default function is the mean (i.e. trend calculated on mean annual time series). See example section for other examples.}
+  \item{sample.method}{Sampling method for combinations of start and end dates to compute uncertainties in trends. If "sample" (default), trend statistics are computed for a sample of combinations of start and end dates according to \code{sample.size}. If "all", trend statistics are computed for all combinations of start and end dates longer than \code{sample.min.length}.  If "none", trend statistics will be only computed for the entire time series (i.e. no sampling of different start and end dates). }
+  \item{sample.min.length}{Minimum length of the time series (as a fraction of total length) that should be used to compute trend statistics. Time windows between start and end that are shorter than min.length will be not used for trend computation.}
+  \item{sample.size}{sample size (number of combinations of start and end dates) to be used if \code{method} is sample.	}
 }
 
-\value{The function returns a list of class "Trend" with the following components:
-\itemize{ 
-\item{ \code{series} time series on which the trend was calculated. }
-\item{ \code{trend} time series with the estimated trend. }
-\item{ \code{time} a vector of time steps. }
-\item{ \code{bp} an object of class \code{"breakpoints"}. See \code{\link{breakpoints}} for details. }
-\item{ \code{slope} a vector of the trend slopes for each trend segment. }
-\item{ \code{pval} a vector of the p-values of teh trend for each trend segment. }
-}}
+\value{The function returns a list of class "Trend". }
 \references{Forkel, M., N. Carvalhais, J. Verbesselt, M. Mahecha, C. Neigh and M. Reichstein (2013): Trend Change Detection in NDVI Time Series: Effects of Inter-Annual Variability and Methodology. - Remote Sensing 5.}
 \author{Matthias Forkel <mforkel@bgc-jena.mpg.de>}
 

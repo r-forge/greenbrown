@@ -79,13 +79,19 @@ plot.Trend <- structure(function(
 		d <- d[!is.na(d)]
 		ypos <- c(ypos, quantile(d, prob=0.6, na.rm=TRUE)[1])
 		
-		# calculate range of trend slope uncertainty
-		if (!is.na(x$slope_unc[i]) & uncertainty) {
+		# add trend slope uncertainty
+		if (!is.na(x$slope_unc[i,2]) & uncertainty) {
 			t <- x$time[seg == unique(seg)[i]]
 			y <-  x$trend[seg == unique(seg)[i]]
-			y1 <- (x$slope[i] + x$slope_unc[i]) * 1:length(t)
+			unc <- unlist(x$slope_unc[i,-1])
+			if (length(unc > 1)) {
+				y1 <- unc[1] * 1:length(t)
+				y2 <- unc[2] * 1:length(t)
+			} else {
+				y1 <- (x$slope[i] + unc[1]) * 1:length(t)
+				y2 <- (x$slope[i] - unc[1]) * 1:length(t)
+			}
 			y1 <- y1 - mean(y1, na.rm=TRUE) + mean(y, na.rm=TRUE)
-			y2 <- (x$slope[i] - x$slope_unc[i]) * 1:length(t)
 			y2 <- y2 - mean(y2, na.rm=TRUE) + mean(y, na.rm=TRUE)
 			lines(t, y1, col=col[2], lty=lty[4], lwd=lwd)
 			lines(t, y2, col=col[2], lty=lty[4], lwd=lwd)
@@ -135,12 +141,10 @@ print.Trend <- summary.Trend <- structure(function(
 	nseg <- length(x$slope)
 	# get coefficients for piecewise linear trend
 	trd <- format(signif(x$slope, 3), digits=3, scientific=FALSE, width=8)
-	trd_unc <- format(signif(x$slope_unc, 3), digits=3, scientific=FALSE, width=8)
 	tau <- format(signif(x$tau, 3), digits=3, scientific=FALSE, width=8)
-	tau_unc <- format(signif(x$tau_unc, 3), digits=3, scientific=FALSE, width=8)
 	pval <- format(signif(x$pval, 3), digits=3, width=8)
-	if (is.null(x$bptest) & !is.null(x$tau)) trd <- format(signif(x$tau, 3), digits=3, scientific=FALSE, width=8)
-	names <- format(c("slope", "unc", "p-value", "tau", "unc"), justify="right", width=8)
+	# if (is.null(x$bptest) & !is.null(x$tau)) trd <- format(signif(x$tau, 3), digits=3, scientific=FALSE, width=8)
+	names <- format(c("slope", "p-value", "tau"), justify="right", width=8)
 	
 	if (nseg > 1) bp.dates <- format(x$time[x$bp$breakpoints], justify="right", width=8)
 
@@ -149,48 +153,35 @@ print.Trend <- summary.Trend <- structure(function(
 	cat("Calculate trends and trend changes on time series", "\n")
 	cat("-------------------------------------------------", "\n")
 	cat("\n")
-	cat("list of class 'Trend' with the following components:", "\n")
-	cat(  "$series    : time series on which the trend was calculated.", "\n")
-    cat(  "$trend     : time series with the estimated trend.", "\n")
-    cat(  "$time      : a vector of time steps.", "\n")
-    cat(  "$bp        : an object of class breakpoints.", "\n")
-    cat(  "$slope     : a vector of the trend slopes for each trend segment.", "\n")
-	cat(  "$slope_unc : a vector of the uncertainty (standard deviation) of trend slopes.", "\n")
-    cat(  "$pval      : a vector of the p-values of the trend for each trend segment.", "\n")
-	cat(  "$tau       : a vector of Mann-Kendall trend test tau values.", "\n")
-	cat(  "$tau_unc   : a vector of the uncertainty (standard deviation) of Mann-Kendall trend test tau values.", "\n")
-	cat("\n")
 	cat("Time series start   : ", paste(start(x$series), sep="-"), "\n")
 	cat("Time series end     : ", paste(end(x$series), sep="-"), "\n")
 	cat("Time series length  : ", length(x$series), "\n")
 	cat("\n")
+	
+	cat("Test for structural change", "\n")
 	if (!is.null(x$bptest)) {
-		cat("OLS-based MOSUM test for structural change", "\n")
-		cat("  statistic         :", x$bptest$statistic, "\n")
-		cat("  p-value           :", x$bptest$p.value, "\n")
-		cat("\n")
+		cat("  OLS-based MOSUM test for structural change", "\n")
+		cat("    statistic       :", x$bptest$statistic, "\n")
+		cat("    p-value         :", x$bptest$p.value, "\n")
+	} else {
+		cat("  Test for structural change was not perfomed.", "\n")
 	}
+	if (!is.null(x$bptest)) {
+		if (nseg > 1) cat("  Breakpoints       :", paste(bp.dates, sep="  "), "\n")
+		if (nseg == 1) cat("  Breakpoints       : Breakpoints were not detected.", "\n")
+	}	
+	cat("\n")
+	
 	cat("Trend method        :", x$method, "\n")
-	if (x$method == "STM") {
+	if (x$method == "STM" & nseg > 1) {
 		cat("  breakpoint type   : ", x$bptype, "\n")
 	}
 	cat("\n")
 	
 	# print coefficients of piecewise linear trend
-	if (nseg > 1) cat("Trend in segments of the time series", "\n")
-	if (!is.null(x$bptest)) {
-		if (nseg > 1) cat("  breakpoints       :", paste(bp.dates, sep="  "), "\n")
-		if (nseg == 1) cat("  breakpoints       : no breakpoints were detected", "\n")
-	}
-	cat("  trend             :", "\n")
-	if (!is.null(x$bptest)) {
-		cat("    ", "              ", names, "\n")
-		for (i in 1:nseg) cat("    ", "segment", format(i, width=3, justify="right"), ":", trd[i], trd_unc[i], pval[i], tau[i], tau_unc[i], "\n")		
-	} else {
-		cat("    ", "Mann-Kendall test  ", "\n")
-		cat("    ", "  tau     :", trd, "\n")		
-		cat("    ", "  p-value :", pval, "\n")		
-	}
+	cat("Trends in segments of the time series", "\n")
+	cat("    ", "              ", names, "\n")
+	for (i in 1:nseg) cat("    ", "segment", format(i, width=3, justify="right"), ":", trd[i], pval[i], tau[i], "\n")		
 }, ex=function() {
 # load a time series of Normalized Difference Vegetation Index
 data(ndvi)

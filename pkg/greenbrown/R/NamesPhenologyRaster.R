@@ -14,13 +14,13 @@ NamesPhenologyRaster <- structure(function(
 	## \code{\link{PhenologyRaster}}
 ) {
 	if (class(x) == "RasterBrick") {
-		nyears <- nlayers(x) / 10 # 10 number of output variables
+		nyears <- nlayers(x) / 12 # 12 number of output variables
 	} else if (is.vector(x)) {
 		nyears <- x
 	}
 	if (is.null(start)) start <- 1
 	time <- seq(start[1], length=nyears, by=1)
-	names <- c(paste("SOS", time, sep="."), paste("EOS", time, sep="."), paste("LOS", time, sep="."), paste("POP", time, sep="."), paste("MGS", time, sep="."), paste("PEAK", time, sep="."), paste("MSP", time, sep="."), paste("MAU", time, sep="."), paste("RSP", time, sep="."), paste("RAU", time, sep="."))
+	names <- c(paste("SOS", time, sep="."), paste("EOS", time, sep="."), paste("LOS", time, sep="."), paste("POP", time, sep="."), paste("POT", time, sep="."), paste("MGS", time, sep="."), paste("PEAK", time, sep="."), paste("TROUGH", time, sep="."), paste("MSP", time, sep="."), paste("MAU", time, sep="."), paste("RSP", time, sep="."), paste("RAU", time, sep="."))
 	return(names)
 }, ex=function() {
 # load a multi-temporal raster dataset of Normalized Difference Vegetation Index

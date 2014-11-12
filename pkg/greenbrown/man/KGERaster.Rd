@@ -33,22 +33,22 @@
 
 \seealso{\code{\link{KGE}}, \code{\link{Trend}}}
 \examples{
-# load a map of NDVI (normalized difference vegetation index) time series
-data(ndvimap)
-plot(ndvimap)
+# # load a map of NDVI (normalized difference vegetation index) time series
+# data(ndvimap)
+# plot(ndvimap)
 
-# increase mean
-ndvimap2 <- ndvimap + 0.01
-kge1.r <- KGERaster(ndvimap2, ndvimap)
-plot(kge1.r)
+# # increase mean
+# ndvimap2 <- ndvimap + 0.01
+# kge1.r <- KGERaster(x=ndvimap2, ref=ndvimap)
+# plot(kge1.r)
 
-# increase mean and variance
-ndvimap3 <- ndvimap + 0.01 + rnorm(1000, 0, 0.05)
-kge2.r <- KGERaster(ndvimap3, ndvimap)
-plot(kge2.r)
+# # increase mean and variance
+# ndvimap3 <- ndvimap + 0.01 + rnorm(1000, 0, 0.05)
+# kge2.r <- KGERaster(ndvimap3, ndvimap)
+# plot(kge2.r)
 
-# check also effects on trend (takes more time because of trend calculations)
-kge3.r <- KGERaster(ndvimap3, ndvimap, trend=TRUE)
-plot(kge3.r)
+# # check also effects on trend (takes more time because of trend calculations)
+# kge3.r <- KGERaster(ndvimap3, ndvimap, trend=TRUE)
+# plot(kge3.r)
 	
 }

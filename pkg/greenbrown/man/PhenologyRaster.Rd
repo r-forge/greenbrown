@@ -6,9 +6,11 @@
 \item{ \code{sos} start of season }
 \item{ \code{eos} end of season }
 \item{ \code{los} length of season }
-\item{ \code{pop} position of peak value }
+\item{ \code{pop} position of peak value (maximum) }
+\item{ \code{pot} position of trough value (minimum) }
 \item{ \code{mgs} mean growing season value }
-\item{ \code{peak} peak value }
+\item{ \code{peak} peak value (maximum) }
+\item{ \code{trough} trough value (minimum) }
 \item{ \code{msp} mean spring value }
 \item{ \code{mau} mean autumn value }
 \item{ \code{rsp} rate of spring greenup (not all methods) }
@@ -29,17 +31,17 @@ The calculation of these metrics is performed in three steps and by using differ
   \item{r}{multi-layer raster object of class \code{\link[raster]{brick}}}
   \item{start}{beginning of the time series (i.e. the time of the first observation). The default is c(1982, 1), i.e. January 1982 which is the usual start date to compute trends on long-term series of satellite observations of NDVI. See \code{\link[stats]{ts}} for further examples.}
   \item{freq}{The frequency of observations. The default is 12 for monthly observations. Use 24 for bi-monthly observations, 365 for daily observations or 1 for annual observations. See \code{\link{ts}} for further examples.}
-  \item{approach}{Approach to be used to calculate phenology metrics from smoothed time series. 'White' by sclaing annual cycles between 0 and 1 (White et al. 1997); 'Trs' for simple tresholds; 'Deriv' by using the derivative of the smoothed function.}
+  \item{approach}{Approach to be used to calculate phenology metrics from smoothed time series. 'White' by sclaing annual cycles between 0 and 1 (White et al. 1997, see \code{\link{PhenoTrs}}); 'Trs' for simple tresholds (\code{\link{PhenoTrs}}); 'Deriv' by using the derivative of the smoothed function (\code{\link{PhenoDeriv}}).}
   \item{min.mean}{minimum mean annual value in order to calculate phenology metrics. Use this threshold to suppress the calculation of metrics in grid cells with low average values	}
   \item{trs}{threshold to be used to determine SOS and EOS if method 'Trs' is used. If method 'Trs' is used but trs is NULL than trs will be computed from the long-term mean of Yt.}
   \item{fpg}{Filling of permanent gaps: If NULL, permanent gaps will be not filled, else the function \code{\link{FillPermanentGaps}} will be applied.}
-  \item{tsgf}{Temporal smoothing and gap filling: Function to be used for temporal smoothing, gap filling and interpolation of the time series. If NULL, this step will be not applied. Otherwise a function needs to be specified. Exisiting functions that can be applied are \code{\link{TSGFspline}}, \code{\link{TSGFssa}}, \code{\link{TSGFdoublelog}}  }
+  \item{tsgf}{Temporal smoothing and gap filling: Function to be used for temporal smoothing, gap filling and interpolation of the time series. If NULL, this step will be not applied. Otherwise a function needs to be specified. Exisiting functions that can be applied are \code{\link{TSGFspline}}, \code{\link{TSGFlinear}}, \code{\link{TSGFssa}}, \code{\link{TSGFdoublelog}}  }
   \item{interpolate}{Should the smoothed and gap filled time series be interpolated to daily values?}
   \item{min.gapfrac}{How often has an observation to be NA to be considered as a permanent gap? (fraction of time series length) Example: If the month January is 5 times NA in a 10 year time series (= 0.5), then the month January is considered as permanent gap if min.gapfrac = 0.4.	}
   \item{lower}{For filling of permanent gaps: fill lower gaps (TRUE), upper gaps (FALSE) or lower and upper gaps (NULL)}
   \item{fillval}{For filling of permanent gaps: constant fill values for gaps. If NA the fill value will be estimated from the data using fun. }
   \item{fun}{For filling of permanent gaps: function to be used to compute fill values. By default, minimum.}
-  \item{method}{If 'tsgf' is TSGFdoublelog: Which kind of double logistic curve should be used to smooth the data? 'Elmore' (Elmore et al. 2012) or 'Beck' (Beck et al. 2006).	}
+  \item{method}{If 'tsgf' is TSGFdoublelog: Which kind of double logistic curve should be used to smooth the data? 'Elmore' (Elmore et al. 2012, see \code{\link{FitDoubleLogElmore}}) or 'Beck' (Beck et al. 2006, see \code{\link{FitDoubleLogBeck}}) .	}
   \item{backup}{Which backup algorithm should be used instead of TSGFdoublelog for temporal smoothing and gap filling if the time series has no seasonality? If a time series has no seasonal pattern, the fitting of double logistic functions is not meaningful. In this case another method can be used. Default: NULL (returns NA - no smoothing), other options: "TSGFspline", "TSGFssa", "TSGFlinear"	}
   \item{\dots}{additional arguments as for \code{\link{writeRaster}}}
 }
@@ -50,8 +52,10 @@ The calculation of these metrics is performed in three steps and by using differ
 \item{ \code{EOS.} end of season in year x }
 \item{ \code{LOS.} length of season in year x }
 \item{ \code{POP.} position of peak in year x }
+\item{ \code{POT.} position of trough in year x }
 \item{ \code{MGS.} mean growing season value in year x }
 \item{ \code{PEAK.} peak value in year x }
+\item{ \code{TROUGH.} trough value in year x }
 \item{ \code{MSP.} mean spring value in year x }
 \item{ \code{MAU.} mean autumn value in year x }
 \item{ \code{RSP.} rate of spring greenup in year x (only if approach is 'Deriv') }
@@ -79,8 +83,10 @@ plot(phenmap, grep("SOS.1982", names(phenmap))) # start of season 1982
 plot(phenmap, grep("EOS.1982", names(phenmap))) # end of season 1982
 plot(phenmap, grep("LOS.1982", names(phenmap))) # length of season 1982
 plot(phenmap, grep("POP.1982", names(phenmap))) # position of peak value 1982
+plot(phenmap, grep("POT.1982", names(phenmap))) # position of trough value 1982
 plot(phenmap, grep("MGS.1982", names(phenmap))) # mean growing season value 1982
 plot(phenmap, grep("PEAK.1982", names(phenmap))) # peak value 1982
+plot(phenmap, grep("TROUGH.1982", names(phenmap))) # trough value 1982
 plot(phenmap, grep("MSP.1982", names(phenmap))) # mean spring value 1982
 plot(phenmap, grep("MAU.1982", names(phenmap))) # mean autumn value 1982
 plot(phenmap, grep("RSP.1982", names(phenmap))) # rate of spring greenup 1982

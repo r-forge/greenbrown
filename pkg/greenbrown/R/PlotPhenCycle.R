@@ -37,12 +37,14 @@ PlotPhenCycle <- structure(function(
 	eos <- metrics[2]
 	los <- metrics[3]
 	pop <- metrics[4]
-	mgs <- metrics[5]
-	rsp <- metrics[6]
-	rau <- metrics[7]
-	peak <- metrics[8]
-	msp <- metrics[9]
-	mau <- metrics[10]
+	pot <- metrics[5]
+	mgs <- metrics[6]
+	rsp <- metrics[7]
+	rau <- metrics[8]
+	peak <- metrics[9]
+	trough <- metrics[10]
+	msp <- metrics[11]
+	mau <- metrics[12]
 
 	cols <- c("blue", "darkgreen", "orange")
 	ylim <- range(c(x, xpred), na.rm=TRUE)
@@ -61,6 +63,11 @@ PlotPhenCycle <- structure(function(
 	abline(v=pop, col=cols[3], lty=2)
 	text(x=pop, y=min(ylim)+diff(ylim)*0.1, paste("POP", "=", round(pop, 0)), col=cols[3], pos=3) 
 	text(x=pop, y=max(ylim), paste("PEAK", "=", signif(peak, 2)), pos=1)
+
+	# plot POT
+	abline(v=pot, col=cols[3], lty=2)
+	text(x=pot, y=min(ylim)+diff(ylim)*0.1, paste("POT", "=", round(pot, 0)), col=cols[3], pos=3) 
+	text(x=pot, y=trough, paste("TROUGH", "=", signif(trough, 2)), pos=3)
 	
 	# # plot treshold
 	# if (!is.null(trs)) {
@@ -75,7 +82,7 @@ PlotPhenCycle <- structure(function(
 		if (sos > eos) segments(x0=c(0, sos), y0=c(mgs, mgs), x1=c(eos, length(t)), y1=c(mgs, mgs), col=cols[3])
 	}
 	
-	# plot MASP and MAU averages
+	# plot MSP and MAU averages
 	segments(x0=c(sos-10, eos-10), y0=c(msp, mau), x1=c(sos+10, eos+10), y1=c(msp, mau), col=cols[1:2])	
 	text(x=c(sos, eos, pop), y=c(msp, mau, mgs), paste(c("MSP", "MAU", "MGS"), "=", signif(c(msp, mau, mgs), 2)), pos=3, col=cols)
 	

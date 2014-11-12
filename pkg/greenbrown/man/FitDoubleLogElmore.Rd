@@ -27,7 +27,7 @@ data(ndvi)
 plot(ndvi)
 
 # select one year of data
-x <- as.vector(window(ndvi, start=c(1998,1), end=c(1998, 12)))
+x <- as.vector(window(ndvi, start=c(1997,1), end=c(1997, 12)))
 plot(x)
 
 # fit double-logistic function to one year of data
@@ -41,6 +41,8 @@ FitDoubleLogElmore(x, return.par=TRUE, plot=TRUE)	# plot=TRUE causes plotting of
 # fit double-logistic function to one year of data, interpolate to daily time steps and calculate phenology metrics
 tout <- seq(1, 12, length=365)	# time steps for output (daily)
 fit <- FitDoubleLogElmore(x, tout=tout)
+plot(x)
+lines(tout, fit, col="blue")
 PhenoDeriv(fit, plot=TRUE)
 
 

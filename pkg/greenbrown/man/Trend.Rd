@@ -4,7 +4,8 @@
 \description{This function calculates trends and trend changes (breakpoints) in a time series. It is a common interface to the functions \code{\link{TrendAAT}}, \code{\link{TrendSTM}} and \code{\link{TrendSeasonalAdjusted}}. With \code{\link{TrendRaster}} all trend analysis functions can be applied to gridded (raster) data. A detailed description of these methods can be found in Forkel et al. (2013).}
 \usage{Trend(Yt, method = c("AAT", "STM", "SeasonalAdjusted"), mosum.pval = 0.05, 
     h = 0.15, breaks = NULL, funSeasonalCycle = MeanSeasonalCycle, 
-    funAnnual = mean)}
+    funAnnual = mean, sample.method = c("sample", "all", "none"), 
+    sample.min.length = 0.75, sample.size = 30)}
 \arguments{
   \item{Yt}{univariate time series of class \code{\link{ts}}}
   \item{method}{method to be used for trend calculation with the following options: 
@@ -22,18 +23,13 @@
 \item{ \code{\link{SSASeasonalCycle}} detects a modulated seasonal cycle based on Singular Spectrum Analysis. }
 }}
   \item{funAnnual}{function to aggregate time series to annual values if \code{AAT} is selected as method. The default function is the mean (i.e. trend calculated on mean annual time series). See \code{\link{TrendAAT}} for other examples}
+  \item{sample.method}{Sampling method for combinations of start and end dates to compute uncertainties in trends. If "sample" (default), trend statistics are computed for a sample of combinations of start and end dates according to \code{sample.size}. If "all", trend statistics are computed for all combinations of start and end dates longer than \code{sample.min.length}.  If "none", trend statistics will be only computed for the entire time series (i.e. no sampling of different start and end dates). }
+  \item{sample.min.length}{Minimum length of the time series (as a fraction of total length) that should be used to compute trend statistics. Time windows between start and end that are shorter than min.length will be not used for trend computation.}
+  \item{sample.size}{sample size (number of combinations of start and end dates) to be used if \code{method} is sample.	}
 }
 \details{This function allows to calculate trends and trend changes based on different methods: see \code{\link{TrendAAT}}, \code{\link{TrendSTM}} or \code{\link{TrendSeasonalAdjusted}} for more details on these methods.
 These methods can be applied to gridded (raster) data using the function \code{\link{TrendRaster}}.}
-\value{The function returns a list of class "Trend" with the following components:
-\itemize{ 
-\item{ \code{series} time series on which the trend was calculated. }
-\item{ \code{trend} time series with the estimated trend. }
-\item{ \code{time} a vector of time steps. }
-\item{ \code{bp} an object of class \code{"breakpoints"}. See \code{\link{breakpoints}} for details. }
-\item{ \code{slope} a vector of the trend slopes for each trend segment. }
-\item{ \code{pval} a vector of the p-values of teh trend for each trend segment. }
-}}
+\value{The function returns a list of class "Trend". }
 \references{Forkel, M., N. Carvalhais, J. Verbesselt, M. Mahecha, C. Neigh and M. Reichstein (2013): Trend Change Detection in NDVI Time Series: Effects of Inter-Annual Variability and Methodology. - Remote Sensing 5.}
 \author{Matthias Forkel <mforkel@bgc-jena.mpg.de>}
 
@@ -59,7 +55,6 @@ plot(trd)
 trd <- Trend(ndvi, method="STM")
 trd
 plot(trd)
-plot(trd, symbolic=TRUE)
 
 # calculate trend based on removal of the seasonal cycle
 trd <- Trend(ndvi, method="SeasonalAdjusted", funSeasonalCycle=SSASeasonalCycle)
@@ -73,7 +68,7 @@ lines(trd$adjusted, col="green")
 trd
 
 # calculate trend based on removal of the seasonal cycle: modify maximal number of breakpoints
-trd <- Trend(ndvi, method="SeasonalAdjusted", breaks=1, funSeasonalCycle=MeanSeasonalCycle)
+trd <- Trend(ndvi, method="SeasonalAdjusted", breaks=1, funSeasonalCycle=MeanSeasonalCycle, sample.method="sample")
 plot(trd)
 trd
 

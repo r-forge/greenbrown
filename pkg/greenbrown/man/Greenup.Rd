@@ -8,7 +8,7 @@
   \item{\dots}{further arguments (currently not used)}
 }
 
-\value{The function returns a boolean vector: TRUE (greenup) and FALSE (senescence). }}
+\value{The function returns a boolean vector: TRUE (greenup) and FALSE (senescence). }
 
 \author{Matthias Forkel <mforkel@bgc-jena.mpg.de>}
 

@@ -98,7 +98,7 @@ TrendSeasonalAdjusted <- structure(function(
 	trend_est <- (trend_est - mean(trend_est, na.rm=TRUE)) + mean(Yt, na.rm=TRUE)
 	
 	# results: estimate p-value, slope and uncertainties 
-	trd.unc <- TrendUncertainty(Yt, bp_est, sample.method = sample.method, sample.min.length=sample.min.length, sample.size=sample.size)
+	trd.unc <- TrendUncertainty(At_est, bp_est, sample.method = sample.method, sample.min.length=sample.min.length, sample.size=sample.size)
 	
 	if (!is.na(bp_est$breakpoints[1])) {
 		bp_est$breakpoints <- d$trend[bp_est$breakpoints]
@@ -111,12 +111,12 @@ TrendSeasonalAdjusted <- structure(function(
 		trend = trend_est,
 		time = time,
 		bp = bp_est,
-		slope = trd.unc$slope_est,
-		slope_unc = trd.unc$slope_unc,
-		pval = trd.unc$pval_est,
-		pval_unc = trd.unc$pval_unc,
-		tau = trd.unc$tau_est,
-		tau_unc = trd.unc$tau_unc,
+		slope = unlist(llply(trd.unc, function(x) x$slope)), 
+		slope_unc = ldply(trd.unc, function(x) x$slope_unc),
+		pval = unlist(llply(trd.unc, function(x) x$pval)),  
+		pval_unc = ldply(trd.unc, function(x) x$pval_unc),
+		tau = unlist(llply(trd.unc, function(x) x$tau)),
+		tau_unc = ldply(trd.unc, function(x) x$tau_unc),
 		bptest = test,
 		method = "SeasonalAdjusted")
 

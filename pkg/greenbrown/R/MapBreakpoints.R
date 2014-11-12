@@ -50,6 +50,7 @@ MapBreakpoints <- structure(function(
 	
 	# colors for breakpoints
 	if (is.null(col)) {
+		require(RColorBrewer)
 		.col <- colorRampPalette(brewer.pal(9, "RdPu")[4:9])
 		col <- .col(length(breaks)-1)
 	}

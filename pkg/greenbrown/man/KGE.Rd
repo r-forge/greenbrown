@@ -8,7 +8,7 @@ eTotal is the euclidean distance of the actual effects of mean, variance, correl
 eTotal = sqrt(eMean + eVar + eCor + eTrend) 
 eTotal can be between 0 (perfect fit) and infinite (worst fit). }
 \usage{KGE(x, ref, trend = FALSE, mosum.pval = 0.05, h = 0.15, breaks = 0, 
-    ...)}
+    eTrend.ifsignif = TRUE, ...)}
 \arguments{
   \item{x}{time series from model result or factorial model run}
   \item{ref}{reference time series (observation or standard model run)}
@@ -16,6 +16,7 @@ eTotal can be between 0 (perfect fit) and infinite (worst fit). }
   \item{mosum.pval}{(only used if trend=TRUE) See \code{\link{Trend}} for details.	}
   \item{h}{(only used if trend=TRUE) See \code{\link{Trend}} for details.	}
   \item{breaks}{(only used if trend=TRUE) See \code{\link{Trend}} for details.	}
+  \item{eTrend.ifsignif}{compute effect on trend only if trend in reference series is significant, if FALSE compute always effect on trend (if trend = TRUE)}
   \item{\dots}{further arguments for the function \code{\link{Trend}}}
 }
 \details{...}
@@ -45,7 +46,7 @@ plot(ndvi)
 
 # change the variance and compute effect
 x <- ndvi + rnorm(length(ndvi), 0, 0.01)
-plot(x, ndvi)
+plot(x, ndvi); abline(0,1)
 KGE(x, ndvi, trend=FALSE)
 
 # change mean and variance and compute effect

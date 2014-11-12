@@ -7,9 +7,11 @@ Phenology <- structure(function(
 	## \item{ \code{sos} start of season }
 	## \item{ \code{eos} end of season }
 	## \item{ \code{los} length of season }
-	## \item{ \code{pop} position of peak value }
+	## \item{ \code{pop} position of peak value (maximum) }
+	## \item{ \code{pot} position of trough value (minimum) }
 	## \item{ \code{mgs} mean growing season value }
-	## \item{ \code{peak} peak value }
+	## \item{ \code{peak} peak value (maximum) }
+	## \item{ \code{trough} trough value (minimum) }
 	## \item{ \code{msp} mean spring value }
 	## \item{ \code{mau} mean autumn value }
 	## \item{ \code{rsp} rate of spring greenup (not all methods) }
@@ -38,7 +40,7 @@ Phenology <- structure(function(
 	### Filling of permanent gaps: If NULL, permanent gaps will be not filled, else the function \code{\link{FillPermanentGaps}} will be applied.
 	
 	tsgf = "TSGFspline",
-	### Temporal smoothing and gap filling: Function to be used for temporal smoothing, gap filling and interpolation of the time series. If NULL, this step will be not applied. Otherwise a function needs to be specified. Exisiting functions that can be applied are \code{\link{TSGFspline}}, \code{\link{TSGFssa}}, \code{\link{TSGFdoublelog}}  
+	### Temporal smoothing and gap filling: Function to be used for temporal smoothing, gap filling and interpolation of the time series. If NULL, this step will be not applied. Otherwise a function needs to be specified. Exisiting functions that can be applied are \code{\link{TSGFspline}}, \code{\link{TSGFlinear}}, \code{\link{TSGFssa}}, \code{\link{TSGFdoublelog}}  
 	
 	interpolate = TRUE,
 	### Should the smoothed and gap filled time series be interpolated to daily values?
@@ -56,7 +58,7 @@ Phenology <- structure(function(
 	### For filling of permanent gaps: function to be used to compute fill values. By default, minimum.
 	
 	method = c("Elmore", "Beck"),
-	### If 'tsgf' is TSGFdoublelog: Which kind of double logistic curve should be used to smooth the data? 'Elmore' (Elmore et al. 2012, see \code{\link{FitDoubleLogElmore}})   or 'Beck' (Beck et al. 2006, see \code{\link{FitDoubleLogBeck}}) .	
+	### If 'tsgf' is TSGFdoublelog: Which kind of double logistic curve should be used to smooth the data? 'Elmore' (Elmore et al. 2012, see \code{\link{FitDoubleLogElmore}}) or 'Beck' (Beck et al. 2006, see \code{\link{FitDoubleLogBeck}}) .	
 	
 	backup = NULL,
 	### Which backup algorithm should be used instead of TSGFdoublelog for temporal smoothing and gap filling if the time series has no seasonality? If a time series has no seasonal pattern, the fitting of double logistic functions is not meaningful. In this case another method can be used. Default: NULL (returns NA - no smoothing), other options: "TSGFspline", "TSGFssa", "TSGFlinear"	
@@ -80,7 +82,7 @@ Phenology <- structure(function(
 	if (class(Yt) != "ts") stop("Yt should be from class 'ts'.")
 	start <- start(Yt)
 	freq <- frequency(Yt)
-	nout <- 10 # number of output variables
+	nout <- 12 # number of output variables
 	if (length(approach) > 1) approach <- approach[1]
 	
 	# time series pre-processing
@@ -112,16 +114,18 @@ Phenology <- structure(function(
 	}
 		
 	# reconstruct time series of metrics
-	sos.ts <- ts(ts.agg[seq(1, length(ts.agg), by=nout)], start=start[1], freq=1)
-	eos.ts <- ts(ts.agg[seq(2, length(ts.agg), by=nout)], start=start[1], freq=1)
-	los.ts <- ts(ts.agg[seq(3, length(ts.agg), by=nout)], start=start[1], freq=1)
-	pop.ts <- ts(ts.agg[seq(4, length(ts.agg), by=nout)], start=start[1], freq=1)
-	mgs.ts <- ts(ts.agg[seq(5, length(ts.agg), by=nout)], start=start[1], freq=1)
-	rsp.ts <- ts(ts.agg[seq(6, length(ts.agg), by=nout)], start=start[1], freq=1)
-	rau.ts <- ts(ts.agg[seq(7, length(ts.agg), by=nout)], start=start[1], freq=1)
-	peak.ts <- ts(ts.agg[seq(8, length(ts.agg), by=nout)], start=start[1], freq=1)
-	msp.ts <- ts(ts.agg[seq(9, length(ts.agg), by=nout)], start=start[1], freq=1)
-	mau.ts <- ts(ts.agg[seq(10, length(ts.agg), by=nout)], start=start[1], freq=1)
+	sos.ts <- ts(ts.agg[seq(1, length(ts.agg), by=nout)], start=start[1], frequency=1)
+	eos.ts <- ts(ts.agg[seq(2, length(ts.agg), by=nout)], start=start[1], frequency=1)
+	los.ts <- ts(ts.agg[seq(3, length(ts.agg), by=nout)], start=start[1], frequency=1)
+	pop.ts <- ts(ts.agg[seq(4, length(ts.agg), by=nout)], start=start[1], frequency=1)
+	pot.ts <- ts(ts.agg[seq(5, length(ts.agg), by=nout)], start=start[1], frequency=1)
+	mgs.ts <- ts(ts.agg[seq(6, length(ts.agg), by=nout)], start=start[1], frequency=1)
+	rsp.ts <- ts(ts.agg[seq(7, length(ts.agg), by=nout)], start=start[1], frequency=1)
+	rau.ts <- ts(ts.agg[seq(8, length(ts.agg), by=nout)], start=start[1], frequency=1)
+	peak.ts <- ts(ts.agg[seq(9, length(ts.agg), by=nout)], start=start[1], frequency=1)
+	trough.ts <- ts(ts.agg[seq(10, length(ts.agg), by=nout)], start=start[1], frequency=1)
+	msp.ts <- ts(ts.agg[seq(11, length(ts.agg), by=nout)], start=start[1], frequency=1)
+	mau.ts <- ts(ts.agg[seq(12, length(ts.agg), by=nout)], start=start[1], frequency=1)
 	
 	# correct SOS, EOS and POP if they 'jump' over end of year and exclude outliers
 	.correctDOY <- function(doy) {
@@ -145,6 +149,7 @@ Phenology <- structure(function(
 	sos.ts <- .correctDOY(sos.ts)
 	eos.ts <- .correctDOY(eos.ts)
 	pop.ts <- .correctDOY(pop.ts)
+	pot.ts <- .correctDOY(pot.ts)
 	msp.ts[is.na(sos.ts)] <- NA
 	mau.ts[is.na(eos.ts)] <- NA
 	mgs.ts[is.na(sos.ts) & is.na(eos.ts)] <- NA
@@ -159,8 +164,10 @@ Phenology <- structure(function(
 		eos=eos.ts, 
 		los=los.ts, 
 		pop=pop.ts,
+		pot=pot.ts,
 		mgs=mgs.ts,
 		peak=peak.ts,
+		trough=trough.ts,
 		msp=msp.ts,
 		mau=mau.ts,
 		rsp=rsp.ts,
@@ -169,7 +176,9 @@ Phenology <- structure(function(
 		approach = approach,
 		tsgf = tsgf
 	)
-	if (tsgf == "TSGFdoublelog") phen$method <- method[1]
+	if (!is.null(tsgf)) {
+		if (tsgf == "TSGFdoublelog") phen$method <- method[1]
+	}
 	class(phen) <- "Phenology"
 	return(phen)
 	### The function returns a "Phenology" object with the following components
@@ -179,9 +188,11 @@ Phenology <- structure(function(
 	### \item{ \code{sos} annual time series of start of season }
 	### \item{ \code{eos} annual time series of end of season }
 	### \item{ \code{los} annual time series of length of season }
-	### \item{ \code{pop} annual time series of position of peak }
+	### \item{ \code{pop} annual time series of position of peak (maximum) }
+	### \item{ \code{pot} annual time series of position of trough (minimum) }
 	### \item{ \code{mgs} annual time series of mean growing season values }
 	### \item{ \code{peak} annual time series of peak value }
+	### \item{ \code{trough} annual time series of trough value }
 	### \item{ \code{msp} annual time series of mean spring value }
 	### \item{ \code{mau} annual time series of mean autumn value }
 	### \item{ \code{rsp} annual time series of spring greenup rates (only for methods 'Deriv' and 'Logistic')}
@@ -218,6 +229,7 @@ elmore.trs <- Phenology(ndvi, tsgf="TSGFdoublelog", method="Elmore", approach="W
 elmore.deriv <- Phenology(ndvi, tsgf="TSGFdoublelog", method="Elmore", approach="Deriv") # double logistic fit + derivative
 
 # compare results: SOS and EOS
+lbrary(RColorBrewer)
 type <- c("sos", "eos")
 cols <- brewer.pal(10, "Paired")
 nms <- c("Lin+Trs", "Lin+Deriv", "Spline+Trs", "Spline+Deriv", "SSA+Trs", "SSA+Deriv", "DoubleLog1+Trs", "DoubleLog1+Deriv", "DoubleLog2+Trs", "DoubleLog2+Deriv")
@@ -250,8 +262,8 @@ plot(elmore.trs, col=cols[9], type=type, add=TRUE)
 plot(elmore.deriv, col=cols[10], type=type, add=TRUE)
 legend("bottom", nms, text.col=cols, ncol=5, bty="n")
 
-# compare results: MSP, PEAK
-type <- c("msp", "peak")
+# compare results: MSP, PEAK, TROUGH
+type <- c("msp", "peak", "trough")
 plot(lin.trs, col=cols[1], type=type, ylim=c(0.17, 0.37))
 plot(lin.deriv, col=cols[2], type=type, add=TRUE)
 plot(spl.trs, col=cols[3], type=type, add=TRUE)

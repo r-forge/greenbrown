@@ -64,7 +64,7 @@ TrendRaster <- structure(function(
 	# define function to apply on RasterBrick
 	.funForRaster <- function(x) {
 		# convert to ts
-		x <- ts(as.vector(x), start=start, freq=freq)
+		x <- ts(as.vector(x), start=start, frequency=freq)
 		
 		# length of result vector
 		if (breaks > 0) length.res <- length(c(1:(breaks+1), 1:breaks, 1:(breaks+1), 1:(breaks+1)))

@@ -7,9 +7,11 @@ PhenologyRaster <- structure(function(
 	## \item{ \code{sos} start of season }
 	## \item{ \code{eos} end of season }
 	## \item{ \code{los} length of season }
-	## \item{ \code{pop} position of peak value }
+	## \item{ \code{pop} position of peak value (maximum) }
+	## \item{ \code{pot} position of trough value (minimum) }
 	## \item{ \code{mgs} mean growing season value }
-	## \item{ \code{peak} peak value }
+	## \item{ \code{peak} peak value (maximum) }
+	## \item{ \code{trough} trough value (minimum) }
 	## \item{ \code{msp} mean spring value }
 	## \item{ \code{mau} mean autumn value }
 	## \item{ \code{rsp} rate of spring greenup (not all methods) }
@@ -32,7 +34,7 @@ PhenologyRaster <- structure(function(
 	### The frequency of observations. The default is 12 for monthly observations. Use 24 for bi-monthly observations, 365 for daily observations or 1 for annual observations. See \code{\link{ts}} for further examples.
 	
 	approach = c("White", "Trs", "Deriv"), 
-	### Approach to be used to calculate phenology metrics from smoothed time series. 'White' by sclaing annual cycles between 0 and 1 (White et al. 1997); 'Trs' for simple tresholds; 'Deriv' by using the derivative of the smoothed function.
+	### Approach to be used to calculate phenology metrics from smoothed time series. 'White' by sclaing annual cycles between 0 and 1 (White et al. 1997, see \code{\link{PhenoTrs}}); 'Trs' for simple tresholds (\code{\link{PhenoTrs}}); 'Deriv' by using the derivative of the smoothed function (\code{\link{PhenoDeriv}}).
 	
 	min.mean = 0.1,
 	### minimum mean annual value in order to calculate phenology metrics. Use this threshold to suppress the calculation of metrics in grid cells with low average values	
@@ -44,7 +46,7 @@ PhenologyRaster <- structure(function(
 	### Filling of permanent gaps: If NULL, permanent gaps will be not filled, else the function \code{\link{FillPermanentGaps}} will be applied.
 	
 	tsgf = "TSGFspline",
-	### Temporal smoothing and gap filling: Function to be used for temporal smoothing, gap filling and interpolation of the time series. If NULL, this step will be not applied. Otherwise a function needs to be specified. Exisiting functions that can be applied are \code{\link{TSGFspline}}, \code{\link{TSGFssa}}, \code{\link{TSGFdoublelog}}  
+	### Temporal smoothing and gap filling: Function to be used for temporal smoothing, gap filling and interpolation of the time series. If NULL, this step will be not applied. Otherwise a function needs to be specified. Exisiting functions that can be applied are \code{\link{TSGFspline}}, \code{\link{TSGFlinear}}, \code{\link{TSGFssa}}, \code{\link{TSGFdoublelog}}  
 	
 	interpolate = TRUE,
 	### Should the smoothed and gap filled time series be interpolated to daily values?
@@ -62,7 +64,7 @@ PhenologyRaster <- structure(function(
 	### For filling of permanent gaps: function to be used to compute fill values. By default, minimum.
 	
 	method = c("Elmore", "Beck"),
-	### If 'tsgf' is TSGFdoublelog: Which kind of double logistic curve should be used to smooth the data? 'Elmore' (Elmore et al. 2012) or 'Beck' (Beck et al. 2006).	
+	### If 'tsgf' is TSGFdoublelog: Which kind of double logistic curve should be used to smooth the data? 'Elmore' (Elmore et al. 2012, see \code{\link{FitDoubleLogElmore}}) or 'Beck' (Beck et al. 2006, see \code{\link{FitDoubleLogBeck}}) .	
 	
 	backup = NULL,
 	### Which backup algorithm should be used instead of TSGFdoublelog for temporal smoothing and gap filling if the time series has no seasonality? If a time series has no seasonal pattern, the fitting of double logistic functions is not meaningful. In this case another method can be used. Default: NULL (returns NA - no smoothing), other options: "TSGFspline", "TSGFssa", "TSGFlinear"	
@@ -82,13 +84,13 @@ PhenologyRaster <- structure(function(
 	# define function to apply on RasterBrick
 	.funForRaster <- function(x) {
 		# convert to ts
-		bac <<- x
-		x <- ts(as.vector(x), start=start, freq=freq)
+		# bac <<- x
+		x <- ts(as.vector(x), start=start, frequency=freq)
 		
 		# length of result vector
 		x.mean <- aggregate(x, FUN=mean)
 		nyears <- length(x.mean)
-		result <- rep(NA, nyears*10) # nyears * 10 output variables
+		result <- rep(NA, nyears*12) # nyears * 10 output variables
 		
 		# return NA if more than 70% of values are NA
 		if ((sum(is.na(x))/length(x) > 0.7) | AllEqual(x)) return(result)
@@ -103,7 +105,7 @@ PhenologyRaster <- structure(function(
 		})
 		
 		# combine result vector
-		if (!is.null(phen))	result <- c(phen$sos, phen$eos, phen$los, phen$pop, phen$mgs, phen$peak, phen$msp, phen$mau, phen$rsp, phen$rau)		
+		if (!is.null(phen))	result <- c(phen$sos, phen$eos, phen$los, phen$pop, phen$pot, phen$mgs, phen$peak, phen$trough, phen$msp, phen$mau, phen$rsp, phen$rau)		
 		return(result)
 	}
 	
@@ -119,8 +121,10 @@ PhenologyRaster <- structure(function(
 	### \item{ \code{EOS.} end of season in year x }
 	### \item{ \code{LOS.} length of season in year x }
 	### \item{ \code{POP.} position of peak in year x }
+	### \item{ \code{POT.} position of trough in year x }
 	### \item{ \code{MGS.} mean growing season value in year x }
 	### \item{ \code{PEAK.} peak value in year x }
+	### \item{ \code{TROUGH.} trough value in year x }
 	### \item{ \code{MSP.} mean spring value in year x }
 	### \item{ \code{MAU.} mean autumn value in year x }
 	### \item{ \code{RSP.} rate of spring greenup in year x (only if approach is 'Deriv') }
@@ -140,8 +144,10 @@ plot(phenmap, grep("SOS.1982", names(phenmap))) # start of season 1982
 plot(phenmap, grep("EOS.1982", names(phenmap))) # end of season 1982
 plot(phenmap, grep("LOS.1982", names(phenmap))) # length of season 1982
 plot(phenmap, grep("POP.1982", names(phenmap))) # position of peak value 1982
+plot(phenmap, grep("POT.1982", names(phenmap))) # position of trough value 1982
 plot(phenmap, grep("MGS.1982", names(phenmap))) # mean growing season value 1982
 plot(phenmap, grep("PEAK.1982", names(phenmap))) # peak value 1982
+plot(phenmap, grep("TROUGH.1982", names(phenmap))) # trough value 1982
 plot(phenmap, grep("MSP.1982", names(phenmap))) # mean spring value 1982
 plot(phenmap, grep("MAU.1982", names(phenmap))) # mean autumn value 1982
 plot(phenmap, grep("RSP.1982", names(phenmap))) # rate of spring greenup 1982

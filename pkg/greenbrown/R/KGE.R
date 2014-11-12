@@ -27,6 +27,9 @@ KGE <- structure(function(
 	breaks=0, 
 	### (only used if trend=TRUE) See \code{\link{Trend}} for details.	
 	
+	eTrend.ifsignif = TRUE,
+	### compute effect on trend only if trend in reference series is significant, if FALSE compute always effect on trend (if trend = TRUE)
+	
 	...
 	### further arguments for the function \code{\link{Trend}}
 	
@@ -72,7 +75,9 @@ KGE <- structure(function(
 			}	
 			
 			# check if trend of longest segment is signifcant
-			if (ref.trd.seg[3] < 0.05) {
+			calc.etrend <- eTrend.ifsignif & ref.trd.seg[3] <= 0.05
+			calc.etrend <- !eTrend.ifsignif
+			if (calc.etrend) {
 			
 				# effect on trend if at least one is signifcant
 				rTrend <- x.trd.seg[2] / ref.trd.seg[2]
@@ -89,14 +94,23 @@ KGE <- structure(function(
 		} else {
 			eTrend <- NA
 		}
-
+		
+		if (class(x) == "ts" & class(ref) == "ts") {
+			d <- ts.union(x, ref)
+			class(d) <- "matrix"
+		} else {
+			d <- cbind(x, ref)
+		}
+		d <- na.omit(d)
+		x <- d[,1]
+		ref <- d[,2]
+			
 		# effect on variance
 		rVar <- sd(x, na.rm=TRUE) / sd(ref, na.rm=TRUE)
 		eVar <- (rVar - 1)^2
 		
 		# effect on correlation
-		d <- na.omit(cbind(x, ref))
-		r <- cor(d[,1], d[,2])
+		r <- cor(x, ref)
 		eCor <- (r - 1)^2	
 		
 		# fractional effects
@@ -135,7 +149,7 @@ plot(ndvi)
 
 # change the variance and compute effect
 x <- ndvi + rnorm(length(ndvi), 0, 0.01)
-plot(x, ndvi)
+plot(x, ndvi); abline(0,1)
 KGE(x, ndvi, trend=FALSE)
 
 # change mean and variance and compute effect
@@ -148,4 +162,5 @@ KGE(x, ndvi, trend=TRUE, breaks=0)
 KGE(x, ndvi, trend=TRUE, breaks=1)
 	
 })
+
 

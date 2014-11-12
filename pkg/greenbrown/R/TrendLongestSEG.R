@@ -29,8 +29,11 @@ TrendLongestSEG <- structure(function(
 		sl <- r$slope[seg.max]	# slope of longest segment
 		pval <- r$pval[seg.max]	# p-value of longest segment
 		lngth <- seg.length.res[seg.max]	# length of longest segment
-		r2 <- c(lngth, sl, pval, seg.max)
-	
+		uncL <- unlist(r$slope_unc[seg.max, 2])
+		uncU <- unlist(r$slope_unc[seg.max, 3])
+		uncM <- unlist(r$slope_unc[seg.max, 4])
+		r2 <- c(LengthSEG=lngth, SlopeSEG=sl, PvalSEG=pval, LongestSEG=seg.max, SlopeUncLowerSEG=uncL, SlopeUncUpperSEG=uncU, SlopeUncMed=uncM)
+		names(r2) <- c("LengthSEG", "SlopeSEG", "PvalSEG", "LongestSEG", "SlopeUncLowerSEG", "SlopeUncUpperSEG", "SlopeUncMedianSEG")
 	} else {
 		# get results for longest segment if raster
 		nms <- NamesTrendRaster(r)
@@ -46,8 +49,8 @@ TrendLongestSEG <- structure(function(
 			}
 			return(result)	
 		})
+		names(r2) <- c("LengthSEG", "SlopeSEG", "PvalSEG", "LongestSEG")
 	}
-	names(r2) <- c("LengthSEG", "SlopeSEG", "PvalSEG", "LongestSEG")
 	return(r2)		
 }, ex=function() {
 # load a multi-temporal raster dataset of Normalized Difference Vegetation Index

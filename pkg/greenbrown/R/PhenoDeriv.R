@@ -24,7 +24,7 @@ PhenoDeriv <- structure(function(
 
 ) {
 
-	if (all(is.na(x))) return(c(sos=NA, eos=NA, los=NA, pop=NA, mgs=NA, rsp=NA, rau=NA, peak=NA, msp=NA, mau=NA))
+	if (all(is.na(x))) return(c(sos=NA, eos=NA, los=NA, pop=NA, pot=NA, mgs=NA, rsp=NA, rau=NA, peak=NA, trough=NA, msp=NA, mau=NA))
 
 	# get statistical values
 	n <- length(x)
@@ -32,18 +32,19 @@ PhenoDeriv <- structure(function(
 	x2 <- na.omit(x)
 	avg2 <- mean(x2[x2 > min.mean], na.rm=TRUE)
 	peak <- max(x, na.rm=TRUE)
-	mn <- min(x, na.rm=TRUE)
-	ampl <- peak - mn
+	trough <- min(x, na.rm=TRUE)
+	ampl <- peak - trough
 	
-	# get peak of season position
+	# get position of seasonal peak and trough
 	pop <- median(which(x == max(x, na.rm=TRUE)))
+	pot <- median(which(x == min(x, na.rm=TRUE)))
 		
 	# return NA if amplitude is too low or time series has too many NA values
 	if (!calc.pheno) {
 		if (avg < min.mean) { # return for all metrics NA if mean is too low
-			return(c(sos=NA, eos=NA, los=NA, pop=NA, mgs=NA, rsp=NA, rau=NA, peak=NA, msp=NA, mau=NA))
-		} else { # return at least annual average if annual mean > min.mean
-			return(c(sos=NA, eos=NA, los=NA, pop=pop, mgs=avg2, rsp=NA, rau=NA, peak=peak, msp=NA, mau=NA))
+			return(c(sos=NA, eos=NA, los=NA, pop=NA, pot=NA, mgs=NA, rsp=NA, rau=NA, peak=NA, trough=NA, msp=NA, mau=NA))
+		} else { # return at least annual average and peak if annual mean > min.mean
+			return(c(sos=NA, eos=NA, los=NA, pop=pop, pot=pot, mgs=avg2, rsp=NA, rau=NA, peak=peak, trough=NA, msp=NA, mau=NA))
 		}
 	}
 		
@@ -78,14 +79,14 @@ PhenoDeriv <- structure(function(
 		id <- id[(id > 0) & (id < n)]
 		mau <- mean(x[id], na.rm=TRUE)
 	}
-	metrics <- c(sos=sos, eos=eos, los=los, pop=pop, mgs=mgs, rsp=rsp, rau=rau, peak=peak, msp=msp, mau=mau)
+	metrics <- c(sos=sos, eos=eos, los=los, pop=pop, pot=pot, mgs=mgs, rsp=rsp, rau=rau, peak=peak, trough=trough, msp=msp, mau=mau)
 	
 	if (plot) {
 		PlotPhenCycle(x, metrics=metrics, ...)
 	}
 		
 	return(metrics)
-	### The function returns a vector with SOS, EOS, LOS, POP, MGS, RSP, RAU, PEAK, MSP and MAU. }
+	### The function returns a vector with SOS, EOS, LOS, POP, MGS, RSP, RAU, PEAK, MSP and MAU. 
 }, ex=function() {
 
 

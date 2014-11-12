@@ -76,6 +76,14 @@ FitDoubleLogElmore <- structure(function(
 		return(sse)
 	}
 	
+	# .error <- function(par, x, t) {
+		# if (any(is.infinite(par))) return(99999)
+		# xpred <- .doubleLog(par, t=t)
+		# kge <- KGE(xpred, x) # compute Kling-Gupta efficiency with associated metrics
+		# ed <- kge[2] # use the euclidean distance as cost function because we are minimizing
+		# return(ed)
+	# }
+	
 	# inital parameters to fit double-logistic function
 	doy <- quantile(t, c(0.25, 0.75), na.rm=TRUE)
 	prior <- rbind(
@@ -89,6 +97,22 @@ FitDoubleLogElmore <- structure(function(
 	
 	# estimate parameters for double-logistic function starting at different priors
 	opt.l <- apply(prior, 1, optim, .error, x=x, t=t, method="BFGS", control=list(maxit=100))	# fit from different prior values
+	
+# ####	
+
+	# scalars <- prior / matrix(prior[1,], ncol=ncol(prior), nrow=nrow(prior), byrow=TRUE)
+	# .scale <- function(scalars, priors, x, t) {
+		# par <- scalars * priors
+		# cost <- .error(par, x=x, t=t)
+		# return(cost)
+	# }
+	# opt.l <- apply(scalars, 1, optim, .scale, priors=prior[1,], x=x, t=t, method="BFGS", control=list(maxit=100))
+	# opt.l <- llply(opt.l, function(opt) {
+		# opt$par <- opt$par * prior[1,]
+		# return(opt)
+	# })
+# ###
+	
 	opt.df <- cbind(cost=unlist(llply(opt.l, function(opt) opt$value)), convergence=unlist(llply(opt.l, function(opt) opt$convergence)), ldply(opt.l, function(opt) opt$par))
 	best <- which.min(opt.df$cost) 
 	
@@ -136,7 +160,7 @@ data(ndvi)
 plot(ndvi)
 
 # select one year of data
-x <- as.vector(window(ndvi, start=c(1998,1), end=c(1998, 12)))
+x <- as.vector(window(ndvi, start=c(1997,1), end=c(1997, 12)))
 plot(x)
 
 # fit double-logistic function to one year of data
@@ -150,6 +174,8 @@ FitDoubleLogElmore(x, return.par=TRUE, plot=TRUE)	# plot=TRUE causes plotting of
 # fit double-logistic function to one year of data, interpolate to daily time steps and calculate phenology metrics
 tout <- seq(1, 12, length=365)	# time steps for output (daily)
 fit <- FitDoubleLogElmore(x, tout=tout)
+plot(x)
+lines(tout, fit, col="blue")
 PhenoDeriv(fit, plot=TRUE)
 
 

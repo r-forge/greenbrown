@@ -13,9 +13,8 @@ SSASeasonalCycle <- structure(function(
 	##seealso<<
 	## \code{\link{TrendSeasonalAdjusted}}, \code{\link[Rssa]{ssa}}, \code{\link[Rssa]{reconstruct}}
 ) {
-
-	if (class(ts) != "ts") stop("ts should be of class ts.")
 	require("Rssa")
+	if (class(ts) != "ts") stop("ts should be of class ts.")
 	
 	# check if all values are equal -> no Seasonality return 0
 	if (AllEqual(ts)) return(ts(rep(0, length(ts)), start=start(ts), freq=frequency(ts)))

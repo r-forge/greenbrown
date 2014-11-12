@@ -15,10 +15,14 @@ print.Phenology <- summary.Phenology <- structure(function(
 	cat("------------------------------------------", "\n")
 	cat("\n")
 	cat("Method", "\n")
-	cat(" - smoothing and gap filling : ", x$tsgf, "\n")
-	if (x$tsgf == "TSGFdoublelog") {
-		cat(" - logistic function method  : ", x$method, "\n")
-	}	
+	if (is.null(x$tsgf)) {
+		cat(" no smoothing and gap filling.", "\n")
+	} else {
+		cat(" - smoothing and gap filling : ", x$tsgf, "\n")	
+		if (x$tsgf == "TSGFdoublelog") {
+			cat(" - logistic function method  : ", x$method, "\n")
+		}	
+	}
 	cat(" - summary approach          : ", x$approach, "\n")
 	cat("\n")
 	cat("Mean and standard deviation of annual metrics:", "\n")
@@ -27,17 +31,19 @@ print.Phenology <- summary.Phenology <- structure(function(
 		cat("Seasonality was not detected by all methods:", "\n")
 		cat(paste(names(x$seasonal), ": ", x$seasonal, ", ", sep=""), "\n")
 	} else {
-		cat("SOS  : ", signif(mean(x$sos, na.rm=TRUE), 2), "+-", signif(sd(x$sos, na.rm=TRUE), 2), "\n")
-		cat("EOS  : ", signif(mean(x$eos, na.rm=TRUE), 2), "+-", signif(sd(x$eos, na.rm=TRUE), 2), "\n")
-		cat("LOS  : ", signif(mean(x$los, na.rm=TRUE), 2), "+-", signif(sd(x$los, na.rm=TRUE), 2), "\n")
-		cat("MSP  : ", signif(mean(x$msp, na.rm=TRUE), 2), "+-", signif(sd(x$msp, na.rm=TRUE), 2), "\n")
-		cat("MAU  : ", signif(mean(x$mau, na.rm=TRUE), 2), "+-", signif(sd(x$mau, na.rm=TRUE), 2), "\n")
-		cat("RSP  : ", signif(mean(x$rsp, na.rm=TRUE), 2), "+-", signif(sd(x$rsp, na.rm=TRUE), 2), "\n")
-		cat("RAU  : ", signif(mean(x$rau, na.rm=TRUE), 2), "+-", signif(sd(x$rau, na.rm=TRUE), 2), "\n")
+		cat("SOS    : ", signif(mean(x$sos, na.rm=TRUE), 2), "+-", signif(sd(x$sos, na.rm=TRUE), 2), "\n")
+		cat("EOS    : ", signif(mean(x$eos, na.rm=TRUE), 2), "+-", signif(sd(x$eos, na.rm=TRUE), 2), "\n")
+		cat("LOS    : ", signif(mean(x$los, na.rm=TRUE), 2), "+-", signif(sd(x$los, na.rm=TRUE), 2), "\n")
+		cat("MSP    : ", signif(mean(x$msp, na.rm=TRUE), 2), "+-", signif(sd(x$msp, na.rm=TRUE), 2), "\n")
+		cat("MAU    : ", signif(mean(x$mau, na.rm=TRUE), 2), "+-", signif(sd(x$mau, na.rm=TRUE), 2), "\n")
+		cat("RSP    : ", signif(mean(x$rsp, na.rm=TRUE), 2), "+-", signif(sd(x$rsp, na.rm=TRUE), 2), "\n")
+		cat("RAU    : ", signif(mean(x$rau, na.rm=TRUE), 2), "+-", signif(sd(x$rau, na.rm=TRUE), 2), "\n")
 	}
-	cat("POP  : ", signif(mean(x$pop, na.rm=TRUE), 2), "+-", signif(sd(x$pop, na.rm=TRUE), 2), "\n")
-	cat("MGS  : ", signif(mean(x$mgs, na.rm=TRUE), 2), "+-", signif(sd(x$mgs, na.rm=TRUE), 2), "\n")
-	cat("PEAK : ", signif(mean(x$peak, na.rm=TRUE), 2), "+-", signif(sd(x$peak, na.rm=TRUE), 2), "\n")
+	cat("POP    : ", signif(mean(x$pop, na.rm=TRUE), 2), "+-", signif(sd(x$pop, na.rm=TRUE), 2), "\n")
+	cat("POT    : ", signif(mean(x$pot, na.rm=TRUE), 2), "+-", signif(sd(x$pot, na.rm=TRUE), 2), "\n")
+	cat("MGS    : ", signif(mean(x$mgs, na.rm=TRUE), 2), "+-", signif(sd(x$mgs, na.rm=TRUE), 2), "\n")
+	cat("PEAK   : ", signif(mean(x$peak, na.rm=TRUE), 2), "+-", signif(sd(x$peak, na.rm=TRUE), 2), "\n")
+	cat("TROUGH : ", signif(mean(x$trough, na.rm=TRUE), 2), "+-", signif(sd(x$trough, na.rm=TRUE), 2), "\n")
 	
 }, ex=function() {
 # load a time series of NDVI (normalized difference vegetation index)
@@ -99,7 +105,7 @@ plot.Phenology <- structure(function(
 		a <- x[match(nms, names(x))]
 		if (!AllEqual(unlist(a))) ylim <- range(a, na.rm=TRUE)
 	}
-	if (any(grepl("sos", type)) | any(grepl("eos", type)) | any(grepl("pop", type))) {
+	if (any(grepl("sos", type)) | any(grepl("eos", type)) | any(grepl("pop", type)) | any(grepl("pot", type))) {
 		if (is.null(ylab)) ylab <- "DOY"
 		if (is.null(ylim)) ylim <- c(1, 365)
 	} else if (any(grepl("rsp", type)) | any(grepl("rau", type))) {

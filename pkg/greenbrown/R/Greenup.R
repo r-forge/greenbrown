@@ -21,7 +21,7 @@ Greenup <- structure(function(
 	greenup[ratio.deriv < 0] <- FALSE
 			
 	return(greenup)
-	### The function returns a boolean vector: TRUE (greenup) and FALSE (senescence). }
+	### The function returns a boolean vector: TRUE (greenup) and FALSE (senescence). 
 })
 
 

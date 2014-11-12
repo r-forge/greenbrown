@@ -7,9 +7,11 @@ PhenologyNCDF <- structure(function(
 	## \item{ \code{sos} start of season }
 	## \item{ \code{eos} end of season }
 	## \item{ \code{los} length of season }
-	## \item{ \code{pop} position of peak value }
+	## \item{ \code{pop} position of peak value (maximum) }
+	## \item{ \code{pot} position of trough value (minimum) }
 	## \item{ \code{mgs} mean growing season value }
-	## \item{ \code{peak} peak value }
+	## \item{ \code{peak} peak value (maximum) }
+	## \item{ \code{trough} trough value (minimum) }
 	## \item{ \code{msp} mean spring value }
 	## \item{ \code{mau} mean autumn value }
 	## \item{ \code{rsp} rate of spring greenup (not all methods) }
@@ -36,7 +38,7 @@ PhenologyNCDF <- structure(function(
 	### The frequency of observations. The default is 12 for monthly observations. Use 24 for bi-monthly observations, 365 for daily observations or 1 for annual observations. See \code{\link{ts}} for further examples.
 	
 	approach = c("White", "Trs", "Deriv"), 
-	### Approach to be used to calculate phenology metrics from smoothed time series. 'White' by sclaing annual cycles between 0 and 1 (White et al. 1997); 'Trs' for simple tresholds; 'Deriv' by using the derivative of the smoothed function.
+	### Approach to be used to calculate phenology metrics from smoothed time series. 'White' by sclaing annual cycles between 0 and 1 (White et al. 1997, see \code{\link{PhenoTrs}}); 'Trs' for simple tresholds (\code{\link{PhenoTrs}}); 'Deriv' by using the derivative of the smoothed function (\code{\link{PhenoDeriv}}).
 	
 	min.mean = 0.1,
 	### minimum mean annual value in order to calculate phenology metrics. Use this threshold to suppress the calculation of metrics in grid cells with low average values	
@@ -48,7 +50,7 @@ PhenologyNCDF <- structure(function(
 	### Filling of permanent gaps: If NULL, permanent gaps will be not filled, else the function \code{\link{FillPermanentGaps}} will be applied.
 	
 	tsgf = "TSGFspline",
-	### Temporal smoothing and gap filling: Function to be used for temporal smoothing, gap filling and interpolation of the time series. If NULL, this step will be not applied. Otherwise a function needs to be specified. Exisiting functions that can be applied are \code{\link{TSGFspline}}, \code{\link{TSGFssa}}, \code{\link{TSGFdoublelog}}  
+	### Temporal smoothing and gap filling: Function to be used for temporal smoothing, gap filling and interpolation of the time series. If NULL, this step will be not applied. Otherwise a function needs to be specified. Exisiting functions that can be applied are \code{\link{TSGFspline}}, \code{\link{TSGFlinear}}, \code{\link{TSGFssa}}, \code{\link{TSGFdoublelog}}  
 	
 	interpolate = TRUE,
 	### Should the smoothed and gap filled time series be interpolated to daily values?
@@ -66,7 +68,7 @@ PhenologyNCDF <- structure(function(
 	### For filling of permanent gaps: function to be used to compute fill values. By default, minimum.
 	
 	method = c("Elmore", "Beck"),
-	### If 'tsgf' is TSGFdoublelog: Which kind of double logistic curve should be used to smooth the data? 'Elmore' (Elmore et al. 2012) or 'Beck' (Beck et al. 2006).	
+	### If 'tsgf' is TSGFdoublelog: Which kind of double logistic curve should be used to smooth the data? 'Elmore' (Elmore et al. 2012, see \code{\link{FitDoubleLogElmore}}) or 'Beck' (Beck et al. 2006, see \code{\link{FitDoubleLogBeck}}) .	
 	
 	backup = NULL,
 	### Which backup algorithm should be used instead of TSGFdoublelog for temporal smoothing and gap filling if the time series has no seasonality? If a time series has no seasonal pattern, the fitting of double logistic functions is not meaningful. In this case another method can be used. Default: NULL (returns NA - no smoothing), other options: "TSGFspline", "TSGFssa", "TSGFlinear"	
@@ -135,8 +137,8 @@ PhenologyNCDF <- structure(function(
 	if (nodes > 1) parallel <- TRUE
 	
 	# define output variables
-	vars <- c("SOS", "EOS", "LOS", "POP", "MGS", "PEAK", "MSP", "MAU", "RSP", "RAU")
-	vars.longname <- c("start of season", "end of season", "length of season", "position of peak", "mean growing season value", "peak value", "mean spring value", "mean autumn value", "spring greenup rate", "autumn senescence rate")
+	vars <- c("SOS", "EOS", "LOS", "POP", "POT", "MGS", "PEAK", "TROUGH", "MSP", "MAU", "RSP", "RAU")
+	vars.longname <- c("start of season", "end of season", "length of season", "position of peak", "position of trough", "mean growing season value", "peak value", "trough value", "mean spring value", "mean autumn value", "spring greenup rate", "autumn senescence rate")
 	
 	# prepare for parallel processing
 	if (parallel) {
@@ -188,7 +190,7 @@ PhenologyNCDF <- structure(function(
 					
 				# write output variables
 				nyears <- nlayers(phen.rb) / length(vars)
-				time.out <- as.Date(ts(1:nyears, start=start, freq=1))
+				time.out <- as.Date(ts(1:nyears, start=start, frequency=1))
 				for (i in 1:length(vars)) {
 					file.out <- gsub(filesuffix, paste(".", vars[i], ".Tile", id, filesuffix, sep=""), filename)
 					var.rb <- subset(phen.rb, grep(vars[i], names(phen.rb)))
@@ -208,7 +210,7 @@ PhenologyNCDF <- structure(function(
 				
 		# write output variables
 		nyears <- nlayers(phen.rb) / length(vars)
-		time.out <- as.Date(ts(1:nyears, start=start, freq=1))
+		time.out <- as.Date(ts(1:nyears, start=start, frequency=1))
 		files.out <- NULL
 		for (i in 1:length(vars)) {
 			file.out <- gsub(filesuffix, paste(".", vars[i], filesuffix, sep=""), filename)
@@ -245,7 +247,7 @@ PhenologyNCDF <- structure(function(
 			var.rb <- do.call(merge, x)
 			
 			# write result
-			time.out <- as.Date(ts(1:nlayers(var.rb), start=start, freq=1))
+			time.out <- as.Date(ts(1:nlayers(var.rb), start=start, frequency=1))
 			WriteNCDF(var.rb, var.name=vars[i], var.unit="-", var.longname=vars.longname[i], time=time.out, file=file.out, overwrite=TRUE)
 			
 			# delete tile files 
@@ -274,7 +276,7 @@ PhenologyNCDF <- structure(function(
 	### \itemize{ 
 	### \item{ \code{file.SOS.nc} file with annual layers of the start of season }
 	### \item{ \code{file.EOS.nc} file with annual layers of the end of season  }
-	### \item{ and so on for "LOS", "POP", "MGS", "PEAK", "MSP", "MAU", "RSP", "RAU"  }
+	### \item{ and so on for "LOS", "POP", "POT", "MGS", "PEAK", "TROUGH", "MSP", "MAU", "RSP", "RAU"  }
 	### }
 })
 

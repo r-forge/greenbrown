@@ -43,7 +43,7 @@ Decompose <-  structure(function(
 	
 	# calculate annual time series
 	if (has.cycle) {
-		annual.oneval.ts <- ts(aggregate(as.vector(Yt), by=list(years), FUN="mean", na.rm=TRUE)$x, start=start, freq=1) 	
+		annual.oneval.ts <- ts(aggregate(as.vector(Yt), by=list(years), FUN="mean", na.rm=TRUE)$x, start=start, frequency=1) 	
 		annual.ts <- annual.oneval.ts[rep(1:nyears, obs.per.year)]
 	} else {
 		annual.ts <- annual.oneval.ts <- Yt
@@ -54,12 +54,12 @@ Decompose <-  structure(function(
 	
 	# calculate trend and annual anomalies (trend adjusted)
 	trend.trd <- Trend(annual.oneval.ts, breaks=breaks, method="AAT", h=0.15, mosum.pval=mosum.pval)
-	trend.ts <- ts(trend.trd$trend[rep(1:nyears, obs.per.year)], start=start, freq=freq) 
+	trend.ts <- ts(trend.trd$trend[rep(1:nyears, obs.per.year)], start=start, frequency=freq) 
 	if (any(trend.trd$pval <= 0.05)) {
 		annual.anomaly.ts <- annual.ts - trend.ts
 		trend.ts <- trend.ts - annual.mean.ts
 	} else {
-		trend.ts <- ts(rep(0, n), start=start, freq=freq)
+		trend.ts <- ts(rep(0, n), start=start, frequency=freq)
 		annual.anomaly.ts <- annual.ts - annual.mean.ts
 	}	
 	
@@ -69,8 +69,8 @@ Decompose <-  structure(function(
 		mean.seasonal.ts <- MeanSeasonalCycle(seasonal.ts)
 		seasonal.anomaly.ts <- Yt - annual.mean.ts - trend.ts - annual.anomaly.ts - mean.seasonal.ts
 	} else {
-		mean.seasonal.ts <- ts(rep(0, n), start=start, freq=freq)
-		seasonal.anomaly.ts <- ts(rep(0, n), start=start, freq=freq)
+		mean.seasonal.ts <- ts(rep(0, n), start=start, frequency=freq)
+		seasonal.anomaly.ts <- ts(rep(0, n), start=start, frequency=freq)
 	}	
 	
 	components.ts <- cbind(Mean=annual.mean.ts, Trend=trend.ts, IAV=annual.anomaly.ts, 

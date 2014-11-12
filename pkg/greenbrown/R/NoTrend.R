@@ -14,11 +14,11 @@ NoTrend <- structure(function(
 		time = time(Yt),
 		bp = NoBP(),
 		slope = NA,
-		slope_unc = NA,
+		slope_unc = matrix(NA, nrow=1, ncol=5),
 		pval = NA,
-		pval_unc = NA,
+		pval_unc = matrix(NA, nrow=1, ncol=5),
 		tau = NA,
-		tau_unc = NA,
+		tau_unc = matrix(NA, nrow=1, ncol=5),
 		bptest = bptest,
 		method = "AAT")
 	class(result) <- "Trend"

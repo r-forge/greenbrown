@@ -59,7 +59,7 @@ WriteNCDF <- structure(function(
 	### overwrite existing file?
 ) {
 	
-	require(ncdf)
+	library(ncdf)
 
 	# check parameters
 	if (is.null(data)) stop("Provide a Raster* object")
