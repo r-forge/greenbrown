@@ -1,7 +1,7 @@
 \name{IsPermanentGap}
 \alias{IsPermanentGap}
 \title{Identify if a gap is a permanent gap that occurs every year}
-
+\description{The function identifies obervations in time series as permanent gaps if the gap occurs during the same period in several years.}
 \usage{IsPermanentGap(Yt, min.gapfrac = 0.2, lower = TRUE, ...)}
 \arguments{
   \item{Yt}{univariate time series of class \code{\link{ts}}}

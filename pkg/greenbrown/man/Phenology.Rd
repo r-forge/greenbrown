@@ -99,7 +99,7 @@ elmore.trs <- Phenology(ndvi, tsgf="TSGFdoublelog", method="Elmore", approach="W
 elmore.deriv <- Phenology(ndvi, tsgf="TSGFdoublelog", method="Elmore", approach="Deriv") # double logistic fit + derivative
 
 # compare results: SOS and EOS
-lbrary(RColorBrewer)
+library(RColorBrewer)
 type <- c("sos", "eos")
 cols <- brewer.pal(10, "Paired")
 nms <- c("Lin+Trs", "Lin+Deriv", "Spline+Trs", "Spline+Deriv", "SSA+Trs", "SSA+Deriv", "DoubleLog1+Trs", "DoubleLog1+Deriv", "DoubleLog2+Trs", "DoubleLog2+Deriv")

@@ -228,16 +228,16 @@ SimTs <- structure(function(
 	Mt <- ts(rep(M, n), start=start, frequency=freq)
 
 	# seasonal
-	St <- SimSeas(Srange, n=n, start=start, frequency=freq)
+	St <- SimSeas(Srange, n=n, start=start, freq=freq)
 	
 	# IAV
-	It <- SimIAV(Isd, Irange, nyears, start=start, frequency=freq)
+	It <- SimIAV(Isd, Irange, nyears, start=start, freq=freq)
 	
 	# remainder
-	Rt <- SimRem(Rsd, Rrange, n=n, start=start, frequency=freq)
+	Rt <- SimRem(Rsd, Rrange, n=n, start=start, freq=freq)
 	
 	# create trend (per segment)
-	Tt <- SimTrend(Tslope, breaks, abrupt=abrupt, n=n, start=start, frequency=freq)
+	Tt <- SimTrend(Tslope, breaks, abrupt=abrupt, n=n, start=start, freq=freq)
 	
 	# plot(Tt)
 	

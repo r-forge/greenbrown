@@ -48,7 +48,7 @@ pp.beck <- TsPP(gaps, tsgf=TSGFdoublelog, method="Beck")	# double-logistic fit u
 pp.elmore <- TsPP(gaps, tsgf=TSGFdoublelog, method="Elmore")	# double-logistic fit using the approach of Elmore et al. (2012)
 
 plot(gaps)
-cols <- tim.colors(5)
+cols <- rainbow(5)
 lines(pp.lin, col=cols[1])
 lines(pp.spl, col=cols[2])
 lines(pp.ssa, col=cols[3])
