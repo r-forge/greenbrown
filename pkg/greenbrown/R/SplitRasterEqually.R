@@ -40,7 +40,7 @@ SplitRasterEqually <- structure(function(
 	return(tiles.l)
 	### the function returns a list of raster layers
 }, ex=function(){
-data(ndvimap)
-tiles.l <- SplitRasterEqually(ndvimap, n=4)
-tiles.l
+# data(ndvimap)
+# tiles.l <- SplitRasterEqually(ndvimap, n=4)
+# tiles.l
 })
