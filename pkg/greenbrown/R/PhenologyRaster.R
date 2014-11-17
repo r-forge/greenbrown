@@ -68,6 +68,9 @@ PhenologyRaster <- structure(function(
 	
 	backup = NULL,
 	### Which backup algorithm should be used instead of TSGFdoublelog for temporal smoothing and gap filling if the time series has no seasonality? If a time series has no seasonal pattern, the fitting of double logistic functions is not meaningful. In this case another method can be used. Default: NULL (returns NA - no smoothing), other options: "TSGFspline", "TSGFssa", "TSGFlinear"	
+
+	check.seasonality = 1:3,
+	### Which methods in \code{\link{Seasonality}} should indicate TRUE (i.e. time series has seasonality) in order to calculate phenology metrics? 1:3 = all methods should indicate seasonality, Set to NULL in order to not perform seasonality checks.
 	
 	...
 	### additional arguments as for \code{\link{writeRaster}}
@@ -97,7 +100,7 @@ PhenologyRaster <- structure(function(
 
 		# apply the function for trend analysis 
 		phen <- tryCatch({
-			do.call(Phenology, list(x, approach=approach, min.mean=min.mean, trs=trs, fpg=fpg, tsgf=tsgf, interpolate=interpolate, min.gapfrac=min.gapfrac, lower=lower, fillval=fillval, fun=fun, method=method, backup = backup))
+			do.call(Phenology, list(x, approach=approach, min.mean=min.mean, trs=trs, fpg=fpg, tsgf=tsgf, interpolate=interpolate, min.gapfrac=min.gapfrac, lower=lower, fillval=fillval, fun=fun, method=method, backup = backup, check.seasonality = check.seasonality))
 		}, error = function(e) {
 			NULL
 		}, finally = function(x) {

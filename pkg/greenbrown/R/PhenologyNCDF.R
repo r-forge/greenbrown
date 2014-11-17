@@ -73,6 +73,9 @@ PhenologyNCDF <- structure(function(
 	backup = NULL,
 	### Which backup algorithm should be used instead of TSGFdoublelog for temporal smoothing and gap filling if the time series has no seasonality? If a time series has no seasonal pattern, the fitting of double logistic functions is not meaningful. In this case another method can be used. Default: NULL (returns NA - no smoothing), other options: "TSGFspline", "TSGFssa", "TSGFlinear"	
 	
+	check.seasonality = 1:3,
+	### Which methods in \code{\link{Seasonality}} should indicate TRUE (i.e. time series has seasonality) in order to calculate phenology metrics? 1:3 = all methods should indicate seasonality, Set to NULL in order to not perform seasonality checks.
+	
 	trend = FALSE,
 	### Compute trends on the results of phenology analysis? If TRUE, trends will be using \code{\link{TrendAAT}}.
 	
@@ -162,7 +165,7 @@ PhenologyNCDF <- structure(function(
 		})
 			
 		# export required objects to cluster nodes
-		clusterExport(cluster, c("data.rb.l", "start", "freq", "approach", "min.mean", "trs", "fpg", "tsgf", "interpolate", "min.gapfrac", "lower", "fillval", "fun", "method", "filesuffix", "filename", "path.out2", "vars", "vars.longname", "parallel", "restart",
+		clusterExport(cluster, c("data.rb.l", "start", "freq", "approach", "min.mean", "trs", "fpg", "tsgf", "interpolate", "min.gapfrac", "lower", "fillval", "fun", "method", "filesuffix", "filename", "path.out2", "vars", "vars.longname", "parallel", "restart", "check.seasonality",
 		### TODO: exclude the following after greenbrown is compiled:
 		"PhenologyRaster", "Phenology", "NamesPhenologyRaster", "TsPP", "PhenoTrs", "PhenoDeriv", "IsPermanentGap", "FillPermanentGaps", "TSGFspline", "TSGFssa", "TSGFdoublelog", "TSGFlinear", "FitDoubleLogElmore", "FitDoubleLogBeck", "Greenup", "Seasonality", "WriteNCDF"), envir=environment())
 		message(paste("PhenologyNCDF: Finished preparing cluster nodes for parallel computing.", Sys.time()))	
@@ -186,7 +189,7 @@ PhenologyNCDF <- structure(function(
 				}
 			} else {
 			# calculate phenology
-				phen.rb <- PhenologyRaster(tile.rb, start=start, freq=freq, approach = approach, min.mean = min.mean, trs = trs, fpg = fpg, tsgf = tsgf, interpolate = interpolate, min.gapfrac = min.gapfrac, lower = lower, fillval = fillval, fun = fun, method = method, backup = backup)	
+				phen.rb <- PhenologyRaster(tile.rb, start=start, freq=freq, approach = approach, min.mean = min.mean, trs = trs, fpg = fpg, tsgf = tsgf, interpolate = interpolate, min.gapfrac = min.gapfrac, lower = lower, fillval = fillval, fun = fun, method = method, backup = backup, check.seasonality = check.seasonality)	
 					
 				# write output variables
 				nyears <- nlayers(phen.rb) / length(vars)
@@ -206,7 +209,7 @@ PhenologyNCDF <- structure(function(
 	# no parallel processing
 		
 		# calculate phenology
-		phen.rb <- PhenologyRaster(data.rb, start=start, freq=freq, approach = approach, min.mean = min.mean, trs = trs, fpg = fpg, tsgf = tsgf, interpolate = interpolate, min.gapfrac = min.gapfrac, lower = lower, fillval = fillval, fun = fun, method = method)	
+		phen.rb <- PhenologyRaster(data.rb, start=start, freq=freq, approach = approach, min.mean = min.mean, trs = trs, fpg = fpg, tsgf = tsgf, interpolate = interpolate, min.gapfrac = min.gapfrac, lower = lower, fillval = fillval, fun = fun, method = method, check.seasonality = check.seasonality)	
 				
 		# write output variables
 		nyears <- nlayers(phen.rb) / length(vars)
