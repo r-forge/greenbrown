@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Fill permanent gaps in time series</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for FillPermanentGaps {greenbrown}"><tr><td>FillPermanentGaps {greenbrown}</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Fill permanent gaps in time series</h2>
+
+<h3>Description</h3>
+
+<p>Satellite time series are often affected by permanent gaps like missing observations during winter periods. Often time series methods can not deal with missing observations and require gap-free data. This function fills winter gaps with a constant fill value or according to the approach described in Beck et al. (2006).</p>
+
+
+<h3>Usage</h3>
+
+<pre>FillPermanentGaps(Yt, min.gapfrac = 0.2, lower = TRUE, fillval = NA, 
+    fun = min, ...)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>Yt</code></td>
+<td>
+<p>univariate time series of class <code><a href="../../stats/html/ts.html">ts</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>min.gapfrac</code></td>
+<td>
+<p>How often has an observation to be NA to be considered as a permanent gap? (fraction of time series length) Example: If the month January is 5 times NA in a 10 year time series (= 0.5), then the month January is considered as permanent gap if min.gapfrac = 0.4.</p>
+</td></tr>
+<tr valign="top"><td><code>lower</code></td>
+<td>
+<p>fill lower gaps (TRUE), upper gaps (FALSE) or lower and upper gaps (NULL)</p>
+</td></tr>
+<tr valign="top"><td><code>fillval</code></td>
+<td>
+<p>constant fill values for gaps. If NA the fill value will be estimated from the data using fun. </p>
+</td></tr>
+<tr valign="top"><td><code>fun</code></td>
+<td>
+<p>function to be used to compute fill values. By default, minimum.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments (currently not used)</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The function returns a time series with filled permanent gaps.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt;</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="TsPP.html">TsPP</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+# load NDVI data
+data(ndvi)
+plot(ndvi)
+
+# sample some winter months to be set as gaps
+winter &lt;- (1:length(ndvi))[cycle(ndvi) == 1 | cycle(ndvi) == 2 | cycle(ndvi) == 12]
+gaps &lt;- sample(winter, length(winter)*0.3)
+
+# introduce systematic winter gaps in time series
+ndvi2 &lt;- ndvi
+ndvi2[gaps] &lt;- NA
+plot(ndvi2)
+IsPermanentGap(ndvi2)
+
+# fill winter with observed minimum
+fill &lt;- FillPermanentGaps(ndvi2)	
+plot(fill, col="red"); lines(ndvi)
+
+# fill winter with mean
+fill &lt;- FillPermanentGaps(ndvi2, fun=mean)	
+plot(fill, col="red"); lines(ndvi)
+
+# fill winter with 0
+fill &lt;- FillPermanentGaps(ndvi2, fillval=0)	
+plot(fill, col="red"); lines(ndvi)
+
+</pre>
+
+<hr><div align="center">[Package <em>greenbrown</em> version 2.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Extract slope and p-value for the longest time series segment...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for TrendLongestSEG {greenbrown}"><tr><td>TrendLongestSEG {greenbrown}</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Extract slope and p-value for the longest time series segment from a TrendRaster raster brick </h2>
+
+<h3>Description</h3>
+
+<p>This function extracts the slope and p-value of a trend for the longest time series segment from a raster brick that was created with <code><a href="TrendRaster.html">TrendRaster</a></code></p>
+
+
+<h3>Usage</h3>
+
+<pre>TrendLongestSEG(r)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>r</code></td>
+<td>
+<p><code>RasterBrick</code> as created with <code><a href="TrendRaster.html">TrendRaster</a></code> or object of class 'Trend' as returned by <code><a href="Trend.html">Trend</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt;</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="TrendRaster.html">TrendRaster</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# load a multi-temporal raster dataset of Normalized Difference Vegetation Index
+data(ndvimap)
+plot(ndvimap, 8)
+
+# calculate trend 
+trendmap &lt;- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="AAT", breaks=1)
+plot(trendmap)
+
+# select trend and p-value only for the longest time series segment
+trendmap.longestseg &lt;- TrendLongestSEG(trendmap)
+plot(trendmap.longestseg)
+
+</pre>
+
+<hr><div align="center">[Package <em>greenbrown</em> version 2.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

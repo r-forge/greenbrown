@@ -1,6 +1,6 @@
 Seasonality <- structure(function(
 	##title<< 
-	## Checks a time series for seasonality
+	## Check a time series for seasonality
 	##description<<
 	## This function checks a time series for seasonality using three different approaches: 
 	## \itemize{ 

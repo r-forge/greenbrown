@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Get the layer names for a PhenologyRaster raster brick</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for NamesPhenologyRaster {greenbrown}"><tr><td>NamesPhenologyRaster {greenbrown}</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Get the layer names for a PhenologyRaster raster brick</h2>
+
+<h3>Description</h3>
+
+<p>This function returns the layer names of a raster brick that was created using <code><a href="PhenologyRaster.html">PhenologyRaster</a></code></p>
+
+
+<h3>Usage</h3>
+
+<pre>NamesPhenologyRaster(x, start = NULL)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p><code>RasterBrick</code> as created with <code><a href="PhenologyRaster.html">PhenologyRaster</a></code> or <code>integer</code> as the number of years of the input data when the function <code><a href="PhenologyRaster.html">PhenologyRaster</a></code> was called.</p>
+</td></tr>
+<tr valign="top"><td><code>start</code></td>
+<td>
+<p>beginning of the time series.	</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt;</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="PhenologyRaster.html">PhenologyRaster</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# load a multi-temporal raster dataset of Normalized Difference Vegetation Index
+data(ndvimap)
+plot(ndvimap, 8)
+
+# calculate phenology
+phenmap &lt;- PhenologyRaster(ndvimap, start=c(1982, 1), freq=12)
+plot(phenmap)
+plot(phenmap)
+
+# layer names of the result
+NamesPhenologyRaster(30)
+NamesPhenologyRaster(phenmap)
+NamesPhenologyRaster(phenmap, start=1982)
+names(phenmap)
+
+
+</pre>
+
+<hr><div align="center">[Package <em>greenbrown</em> version 2.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

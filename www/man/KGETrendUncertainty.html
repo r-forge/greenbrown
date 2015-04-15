@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Compute uncertainty of Kling-Gupta efficiency based on...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for KGETrendUncertainty {greenbrown}"><tr><td>KGETrendUncertainty {greenbrown}</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Compute uncertainty of Kling-Gupta efficiency based on beginning and end of time series </h2>
+
+<h3>Description</h3>
+
+<p>This function samples time series for different combinations of start and end years and computes for each combination the KGE (see <code><a href="KGE.html">KGE</a></code>).</p>
+
+
+<h3>Usage</h3>
+
+<pre>KGETrendUncertainty(x, ref, trend = TRUE, eTrend.ifsignif = FALSE, 
+    sample.method = c("sample", "all", "none"), sample.min.length = 0.75, 
+    sample.size = 30, ...)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>time series from model result or factorial model run</p>
+</td></tr>
+<tr valign="top"><td><code>ref</code></td>
+<td>
+<p>reference time series (observation or standard model run)</p>
+</td></tr>
+<tr valign="top"><td><code>trend</code></td>
+<td>
+<p>Include the effect of trend in the calculation? </p>
+</td></tr>
+<tr valign="top"><td><code>eTrend.ifsignif</code></td>
+<td>
+<p>compute effect on trend only if trend in reference series is significant, if FALSE compute always effect on trend (if trend = TRUE)</p>
+</td></tr>
+<tr valign="top"><td><code>sample.method</code></td>
+<td>
+<p>Sampling method for combinations of start and end dates to compute uncertainties in trends. If &quot;sample&quot; (default), trend statistics are computed for a sample of combinations of start and end dates according to <code>sample.size</code>. If &quot;all&quot;, trend statistics are computed for all combinations of start and end dates longer than <code>sample.min.length</code>.  If &quot;none&quot;, trend statistics will be only computed for the entire time series (i.e. no sampling of different start and end dates). </p>
+</td></tr>
+<tr valign="top"><td><code>sample.min.length</code></td>
+<td>
+<p>Minimum length of the time series (as a fraction of total length) that should be used to compute trend statistics. Time windows between start and end that are shorter than min.length will be not used for trend computation.</p>
+</td></tr>
+<tr valign="top"><td><code>sample.size</code></td>
+<td>
+<p>sample size (number of combinations of start and end dates) to be used if <code>method</code> is sample.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments for the function <code><a href="Trend.html">Trend</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>...</p>
+
+
+<h3>Value</h3>
+
+<p>The function returns a data.frame with the following components:
+</p>
+ 
+<ul>
+<li> <p><code>start</code> start of the time series 
+</p>
+</li>
+<li> <p><code>end</code> end of the time series 
+</p>
+</li>
+<li> <p><code>length</code> length of the time series 
+</p>
+</li>
+<li> <p><code>KGE</code> Kling-Gupta effciency = 1 - eTotal 
+</p>
+</li>
+<li> <p><code>eTotal</code> total effect, i.e. euclidean distance 
+</p>
+</li>
+<li> <p><code>fMean</code> fraction of mean to the total effect
+</p>
+</li>
+<li> <p><code>fVar</code> fraction of variance to the total effect 
+</p>
+</li>
+<li> <p><code>fCor</code> fraction of correlation to the total effect 
+</p>
+</li>
+<li> <p><code>fTrend</code> fraction of trend to the total effect (only if trend=TRUE)
+</p>
+</li>
+<li> <p><code>eMean</code> effect of mean
+</p>
+</li>
+<li> <p><code>eVar</code> effect of variance 
+</p>
+</li>
+<li> <p><code>eCor</code> effect of correlation  
+</p>
+</li>
+<li> <p><code>eTrend</code> effect of trend (only if trend=TRUE)	
+</p>
+</li></ul>
+
+
+<h3>Author(s)</h3>
+
+<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt;</p>
+
+
+<h3>References</h3>
+
+<p>Gupta, H. V., H. Kling, K. K. Yilmaz, G. F. Martinez (2009):  Decomposition of the mean squared error and NSE performance criteria: Implications for improving hydrological modelling. Journal of Hydrology 377, 80-91.</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="Trend.html">Trend</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# load a time series of NDVI (normalized difference vegetation index)
+data(ndvi)
+plot(ndvi)
+
+# change the variance and compute effect
+x &lt;- ndvi + rnorm(length(ndvi), 0, 0.01)
+plot(x, ndvi); abline(0,1)
+unc &lt;- KGETrendUncertainty(x, ndvi)
+hist(unc$KGE)
+	
+</pre>
+
+<hr><div align="center">[Package <em>greenbrown</em> version 2.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

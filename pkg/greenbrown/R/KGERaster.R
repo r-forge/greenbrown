@@ -1,6 +1,6 @@
 KGERaster <- structure(function(
 	##title<< 
-	## Compare two time series in gridded (raster) data:  calculate relative effects on mean, variance, correlation and trend (optional) based on Kling-Gupta efficiency
+	## Compute Kling-Gupta efficiency and related metrics of two multi-layer raster data sets
 	##description<<
 	## This function can be used to apply the function \code{\link{KGE}} on raster data. See \code{\link{KGE}} for details.
 	

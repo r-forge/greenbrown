@@ -1,9 +1,9 @@
 AccuracyAssessment <- structure(function(
 	##title<< 
-	## Calculate an accuracy assessment from a contingency table
+	## Accuracy assessment from a contingency table
 	
 	##description<<
-	## This function takes a contingency table as calculated with \code{\link{table}} or \code{\link[raster]{crosstab}} and computes the total accuracy, the user accuracy and the producer accuracy.
+	## This function takes a contingency table as calculated with \code{\link{table}} or \code{\link[raster]{crosstab}} and computes an accuracy assessment, including the total accuracy, the user accuracy and the producer accuracy.
 	
 	tab
 	### contingency table as calculated with \code{\link{table}} or \code{\link{crosstab}}

@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Check a time series for seasonality</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for Seasonality {greenbrown}"><tr><td>Seasonality {greenbrown}</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Check a time series for seasonality</h2>
+
+<h3>Description</h3>
+
+<p>This function checks a time series for seasonality using three different approaches: 
+</p>
+ 
+<ul>
+<li> <p><code>'pgram'</code> computes a periodogram using fast fourier transformation (<code><a href="../../stats/html/spec.pgram.html">spec.pgram</a></code>) and checks at which frequency the periodogram has a maximum. A maximum at a frequency of 1 indicates seasonality and the function returns TRUE. 
+</p>
+</li>
+<li> <p><code>'acf'</code> computes the auto-correlation function of the de-trended time series using <code><a href="../../stats/html/acf.html">acf</a></code>. A minimum acf value at a lag of 0.5 indicates seasonality and the function returns TRUE. 
+</p>
+</li>
+<li> <p><code>'lm'</code> fits two linear models to the time series. The first model includes the trend and the seasonal cycle as factorial variable. The second model includes only the trend. Based on the <code><a href="../../stats/html/AIC.html">BIC</a></code> the better model is selected and the function returns TRUE if the first model (including a seasonal term) is better. 
+</p>
+</li></ul>
+
+
+<h3>Usage</h3>
+
+<pre>Seasonality(Yt, return.freq = FALSE, plot = FALSE, ...)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>Yt</code></td>
+<td>
+<p>univariate time series of class <code><a href="../../stats/html/ts.html">ts</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>return.freq</code></td>
+<td>
+<p>if return.freq is TRUE the function returns the frequency at the maximum of the periodogram.</p>
+</td></tr>
+<tr valign="top"><td><code>plot</code></td>
+<td>
+<p>plot periodogram and acf? (see <code><a href="../../stats/html/spec.pgram.html">spec.pgram</a></code> and <code><a href="../../stats/html/acf.html">acf</a></code>)</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments (currently not used)</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The function returns a boolean vector of length 3 including TRUE if a method detected seasonality or FALSE if a method did not detect seasonality. </p>
+
+
+<h3>Author(s)</h3>
+
+<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt;</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/spec.pgram.html">spec.pgram</a></code>, <code><a href="../../stats/html/acf.html">acf</a></code>, <code><a href="../../stats/html/lm.html">lm</a></code>, <code><a href="../../stats/html/AIC.html">BIC</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# load a time series of NDVI (normalized difference vegetation index)
+
+# time series with strong Seasonality:
+Yt &lt;- SimTs(Srange = 0.2, Tslope=c(0.0004, 0))[,1]
+plot(Yt)
+Seasonality(Yt)
+
+# time series with Seasonality and some noise
+Yt &lt;- SimTs(Srange = 0.1, Tslope=c(0.0004, 0), Rsd=0.18, Rrange=0.25)[,1]
+plot(Yt)
+Seasonality(Yt)
+
+# time series with Seasonality but many noise
+Yt &lt;- SimTs(Srange = 0.1, Tslope=c(0.0004, 0), Rsd=0.22, Rrange=0.4)[,1]
+plot(Yt)
+Seasonality(Yt)
+
+# time series without Seasonality 
+Yt &lt;- SimTs(Srange = 0.01, Tslope=c(0.0004, 0), Rsd=0.2, Rrange=0.4)[,1]
+plot(Yt)
+Seasonality(Yt)
+
+# plot results for each seasonality method
+Yt &lt;- SimTs(Srange = 0.1, Tslope=c(0.0004, 0), Rsd=0.18, Rrange=0.25)[,1]
+Seasonality(Yt, plot=TRUE)
+
+
+</pre>
+
+<hr><div align="center">[Package <em>greenbrown</em> version 2.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Calculate a modulated seasonal cycle of a time series based...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for SSASeasonalCycle {greenbrown}"><tr><td>SSASeasonalCycle {greenbrown}</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Calculate a modulated seasonal cycle of a time series based on singular spectrum analysis (SSA)</h2>
+
+<h3>Description</h3>
+
+<p>The function calculates a seasonal cycle based on 1-D singular spectrum analysis (Golyandina et al. 2001) as implemented in the Rssa package. See <code><a href="../../Rssa/html/ssa.html">ssa</a></code> for details. </p>
+
+
+<h3>Usage</h3>
+
+<pre>SSASeasonalCycle(ts)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>ts</code></td>
+<td>
+<p>univariate time series of class <code><a href="../../stats/html/ts.html">ts</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt;</p>
+
+
+<h3>References</h3>
+
+<p>Golyandina, N., Nekrutkin, V. and Zhigljavsky, A. (2001): Analysis of Time Series Structure: SSA and related techniques. Chapman and Hall/CRC. ISBN 1584881941 </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="TrendSeasonalAdjusted.html">TrendSeasonalAdjusted</a></code>, <code><a href="../../Rssa/html/ssa.html">ssa</a></code>, <code><a href="../../Rssa/html/reconstruct.html">reconstruct</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# load a time series of Normalized Difference Vegetation Index
+data(ndvi)
+plot(ndvi)
+
+# estimate the seasonal cycle using SSA
+ndvi.cycle &lt;- SSASeasonalCycle(ndvi)
+plot(ndvi.cycle)
+
+# the mean seasonal cycle is centered to 0 - add the mean of the time series if you want to overlay it with the original data:
+plot(ndvi)
+lines(ndvi.cycle + mean(ndvi, na.rm=TRUE), col="blue")
+	
+</pre>
+
+<hr><div align="center">[Package <em>greenbrown</em> version 2.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

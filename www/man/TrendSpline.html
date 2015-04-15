@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Trend estimation based on a smoothing splines</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for TrendSpline {greenbrown}"><tr><td>TrendSpline {greenbrown}</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Trend estimation based on a smoothing splines</h2>
+
+<h3>Description</h3>
+
+<p>The function computes a non-linear trend based on <code><a href="../../stats/html/smooth.spline.html">smooth.spline</a></code>. </p>
+
+
+<h3>Usage</h3>
+
+<pre>TrendSpline(Yt, ...)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>Yt</code></td>
+<td>
+<p>univariate time series of class <code><a href="../../stats/html/ts.html">ts</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments (currently not used)</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The function returns a list of class &quot;Trend&quot;. </p>
+
+
+<h3>Author(s)</h3>
+
+<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt;</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/stl.html">stl</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# load a time series of NDVI (normalized difference vegetation index)
+data(ndvi)
+plot(ndvi)
+	
+# calculate trend on mean annual NDVI values
+trd &lt;- TrendSpline(ndvi)
+trd
+plot(trd)
+
+</pre>
+
+<hr><div align="center">[Package <em>greenbrown</em> version 2.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

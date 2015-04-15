@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Plot a polygon by accounting for NA values (breaks in...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for PolygonNA {greenbrown}"><tr><td>PolygonNA {greenbrown}</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Plot a polygon by accounting for NA values (breaks in polygon)</h2>
+
+<h3>Description</h3>
+
+<p>This function is an improved version of <code><a href="../../graphics/html/polygon.html">polygon</a></code> that considers NA values in plotting.</p>
+
+
+<h3>Usage</h3>
+
+<pre>PolygonNA(x, lower, upper, col = "grey")</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>vector of x-values</p>
+</td></tr>
+<tr valign="top"><td><code>lower</code></td>
+<td>
+<p>vector of lower polygon range</p>
+</td></tr>
+<tr valign="top"><td><code>upper</code></td>
+<td>
+<p>vector of upper polygon range</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>color of the polygon</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt;</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+x &lt;- 1:10
+med &lt;- rnorm(length(x))
+lower &lt;- med - 2
+upper &lt;- med + 2
+
+# example 1: no NA values
+plot(x, med, type="l", ylim=range(c(lower, upper), na.rm=TRUE))
+PolygonNA(x, lower, upper)
+lines(x, med)
+
+# example 2: with some NA values 
+lower1 &lt;- lower
+upper1 &lt;- upper
+lower1[c(1, 6, 10)] &lt;- NA
+upper1[c(1:2, 6)] &lt;- NA
+plot(x, med, type="l", ylim=range(c(lower, upper), na.rm=TRUE))
+PolygonNA(x, lower1, upper1)
+lines(x, med)
+
+
+</pre>
+
+<hr><div align="center">[Package <em>greenbrown</em> version 2.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

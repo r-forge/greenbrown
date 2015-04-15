@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Read and pre-process GIMMS VI3g binary files</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for ReadVI3g {greenbrown}"><tr><td>ReadVI3g {greenbrown}</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Read and pre-process GIMMS VI3g binary files</h2>
+
+<h3>Description</h3>
+
+<p>This function reads GIMMS VI3g binary files, pre-processes the values (exclusion of flagged values, subset for area of interest) and returns the result as a raster layer. The function can be used to read the original GIMMS NDVI3g data files to R.</p>
+
+
+<h3>Usage</h3>
+
+<pre>ReadVI3g(file, flag = 2:7, ext = c(-180, 180, -90, 90))</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>GIMMS VI3g file name</p>
+</td></tr>
+<tr valign="top"><td><code>flag</code></td>
+<td>
+<p>vector of quality flags that should be excluded. Default: 2:7 (all values with reduced quality excluded). If you want to keep all values set <code>flag=NA</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>ext</code></td>
+<td>
+<p>extent (xmin, xmax, ymin, ymax) for which to extract the data</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The GIMMS NDVI3g dataset comes with the following quality flags:	
+</p>
+ 
+<ul>
+<li><p> FLAG = 1 (Good value) 
+</p>
+</li>
+<li><p> FLAG = 2 (Good value, possibly snow) 
+</p>
+</li>
+<li><p> FLAG = 3 (NDVI retrieved from spline interpolation) 
+</p>
+</li>
+<li><p> FLAG = 4 (NDVI retrieved from spline interpolation, possibly snow) 
+</p>
+</li>
+<li><p> FLAG = 5 (NDVI retrieved from average seasonal profile)
+</p>
+</li>
+<li><p> FLAG = 6 (NDVI retrieved from average seasonal profile, possibly snow) 
+</p>
+</li>
+<li><p> FLAG = 7 (missing data) 
+</p>
+</li></ul>
+	
+
+<h3>Value</h3>
+
+<p>raster layer </p>
+
+
+<h3>Author(s)</h3>
+
+<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt;</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+#	data &lt;- ReadVI3g("geo00oct15a.n14-VI3g")
+#	plot(data)
+</pre>
+
+<hr><div align="center">[Package <em>greenbrown</em> version 2.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

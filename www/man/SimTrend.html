@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Simulate trend and breakpoints of a surrogate time series</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for SimTrend {greenbrown}"><tr><td>SimTrend {greenbrown}</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Simulate trend and breakpoints of a surrogate time series</h2>
+
+<h3>Description</h3>
+
+<p>The function simulates the trend component with breakpoints of a time series.</p>
+
+
+<h3>Usage</h3>
+
+<pre>SimTrend(slope = c(0.002, -0.004), breaks = 165, abrupt = TRUE, 
+    n = 360, start = c(1982, 1), freq = 12)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>slope</code></td>
+<td>
+<p>slope of the trend in each time series segment. <code>slope</code> should be a numeric vector. The length of this vector determines the number of segments.</p>
+</td></tr>
+<tr valign="top"><td><code>breaks</code></td>
+<td>
+<p>position of the breakpoints in the time series. You should specify one more slope than breakpoint.</p>
+</td></tr>
+<tr valign="top"><td><code>abrupt</code></td>
+<td>
+<p>Should the trend at the breakpoints change abrupt (<code>TRUE</code>) or gradual (<code>FALSE</code>)?</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>length of the time series</p>
+</td></tr>
+<tr valign="top"><td><code>start</code></td>
+<td>
+<p>beginning of the time series (i.e. the time of the first observation). The default is c(1982, 1), i.e. January 1982 which is the usual start date to compute trends on long-term series of satellite observations of NDVI. See <code><a href="../../stats/html/ts.html">ts</a></code> for further examples.</p>
+</td></tr>
+<tr valign="top"><td><code>freq</code></td>
+<td>
+<p>The frequency of observations. The default is 12 for monthly observations. Use 24 for bi-monthly observations, 365 for daily observations or 1 for annual observations. See <code><a href="../../stats/html/ts.html">ts</a></code> for further examples.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>time series of class <code><a href="../../stats/html/ts.html">ts</a></code></p>
+
+
+<h3>Author(s)</h3>
+
+<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt;</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="SimTs.html">SimTs</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+Tt &lt;- SimTrend(slope=c(0.003, -0.001), breaks=150)
+plot(Tt)
+</pre>
+
+<hr><div align="center">[Package <em>greenbrown</em> version 2.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

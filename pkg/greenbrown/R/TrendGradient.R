@@ -52,8 +52,11 @@ TrendGradient <- structure(function(
 	### \item{ \code{\link{SSASeasonalCycle}} detects a modulated seasonal cycle based on Singular Spectrum Analysis. }
 	### }
 	
-	funAnnual=mean
+	funAnnual=mean,
 	### function to aggregate time series to annual values if \code{AAT} is selected as method. The default function is the mean (i.e. trend calculated on mean annual time series). See \code{\link{TrendAAT}} for other examples
+	
+	percent=FALSE
+	### return trend as percentage change
         
 	##details<<
 	## The function returns a list of class 'TrendGradient' 
@@ -136,33 +139,12 @@ plot(gradient, type="yx") # the gradient can be also plotted in reversed order
 gradient <- TrendGradient(ndvimap, start=c(1982, 1), freq=12, gradient.brks=seq(66, 69, length=5))
 plot(gradient) 
 
-
 # example for a longitudinal gradient:
 gradient.r <- raster(ndvimap, 1) # create a raster layer with longitudes:
 gradient.r[] <- xFromCell(gradient.r, 1:ncell(gradient.r)) 
 plot(gradient.r)
 gradient <- TrendGradient(ndvimap, start=c(1982, 1), freq=12, gradient.r=gradient.r)
 plot(gradient, xlab="Longitude (°E)") 
-
-
-# compute gradients with different trend methods
-gradient.mac <- TrendGradient(ndvimap, start=c(1982, 1), freq=12, method="SeasonalAdjusted", funSeasonalCycle=MeanSeasonalCycle)
-gradient.stm <- TrendGradient(ndvimap, start=c(1982, 1), freq=12, method="STM", breaks=0) # for method STM is currently no uncertainty estimate implemented
-
-# compare the 3 methods:
-plot(gradient.mac, col="blue", ylab="NDVI trend (month-1)")
-plot(gradient.stm, col="red", add=TRUE)
-gradient$Slope <- gradient$Slope / 12 # method AAT uses annual time steps, convert years -> months
-gradient$SlopeUncLower <- gradient$SlopeUncLower / 12
-gradient$SlopeUncUpper <- gradient$SlopeUncUpper / 12
-gradient$SlopeUncMedian <- gradient$SlopeUncMedian / 12
-plot(gradient, col="green", add=TRUE)
-
-# gradients with breakpoints
-# in case of breakpoints always the trend of the longest segment is returned
-gradient <- TrendGradient(ndvimap, start=c(1982, 1), freq=12, breaks=1) 
-plot(gradient)
-
 
 })
 

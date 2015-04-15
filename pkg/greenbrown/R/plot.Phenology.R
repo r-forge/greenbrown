@@ -63,7 +63,7 @@ plot(phen)
 
 plot.Phenology <- structure(function(
 	##title<< 
-	## Create time series plots with phenology metrics
+	## Plot time series of phenology metrics
 	
 	##description<<
 	## This is the standard plot function for results of the \code{\link{Phenology}} function. See \code{\link{plot.default}} for further specifications of basic plots.

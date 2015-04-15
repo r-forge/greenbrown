@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Classify a raster in greening and browning trends</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for TrendClassification {greenbrown}"><tr><td>TrendClassification {greenbrown}</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Classify a raster in greening and browning trends</h2>
+
+<h3>Description</h3>
+
+<p>This function classifies a RasterBrick with trend estimates as computed with <code><a href="TrendRaster.html">TrendRaster</a></code> into positive, negative and no trend per each time series segment.</p>
+
+
+<h3>Usage</h3>
+
+<pre>TrendClassification(r, min.length = 0, max.pval = 0.05, ...)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>r</code></td>
+<td>
+<p>multi-layer raster object of class <code><a href="../../raster/html/brick.html">brick</a></code> as computed with <code><a href="TrendRaster.html">TrendRaster</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>min.length</code></td>
+<td>
+<p>Minimum duration of a trend in time steps of the input raster (see Details).</p>
+</td></tr>
+<tr valign="top"><td><code>max.pval</code></td>
+<td>
+<p>Maximum p-value to classify a trend as being significant.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments as for <code><a href="../../raster/html/writeRaster.html">writeRaster</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function expects a RasterBrick as created with <code><a href="TrendRaster.html">TrendRaster</a></code> as input and classifies for each pixel and each time series segment if a trend is significant positive, significant negative or not significant (no trend). Per default a p-value of 0.05 is used to classify trends as significant. Additionally, the minimum duration of a trend can be specified with min.length: For example, if only time series segments longer than 10 years should be considered as trend, set min.length=11 in case of annual data. In case of monthly data set it to 132 (12 observations per year * 11 years). The function <code><a href="CompareClassification.html">CompareClassification</a></code> can be used to compare classified trends from different methods or data sets. </p>
+
+
+<h3>Value</h3>
+
+<p>The function returns a RasterLayer in case of one time series segment or a RasterBrick in case of multiple time series segments. Pixels with a significant positive trend have the value 1; pixels with significant negative trends -1 and non-significant trends 0.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt;</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="TrendRaster.html">TrendRaster</a></code>, <code><a href="CompareClassification.html">CompareClassification</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# load a multi-temporal raster dataset of Normalized Difference Vegetation Index
+data(ndvimap)
+ndvimap
+plot(ndvimap, 8)
+
+# calculate trends on the raster
+trendmap &lt;- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="AAT", breaks=2)
+plot(trendmap)
+
+# classify the trends in greening and browning
+greenbrownmap &lt;- TrendClassification(trendmap, min.length=10, max.pval=0.05)
+plot(greenbrownmap, col=brgr.colors(3))
+
+</pre>
+
+<hr><div align="center">[Package <em>greenbrown</em> version 2.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

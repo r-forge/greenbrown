@@ -1,0 +1,8 @@
+	body { width:800px; margin-left:100px; border-left: 3px solid #3030DD; padding:10px }
+	hr, h1, h2, h3, h4, b, blockquote { color:#3030DD }
+	b { font-family:Courier New; font-weight:normal; font-size:0.8em;  }
+	blockquote { font-family:Courier New; font-weight:normal; font-size:0.8em; font-size:0.8em; margin:20px; }
+	h1, h2, h3, h4, p, li , ul  { font-family:Arial; font-weight:normal; line-height:150%; margin-bottom:5px }
+	h1, h2, h3, h4 { margin-top:40px; font-weight:bold; }
+	h3 { border-bottom: 1px solid #3030DD; }
+	

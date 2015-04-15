@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Pre-processing of time series</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for TsPP {greenbrown}"><tr><td>TsPP {greenbrown}</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Pre-processing of time series</h2>
+
+<h3>Description</h3>
+
+<p>This function can be used for pre-processing of time series before the analyzing phenology or trends. The pre-processing involves the following steps: 
+</p>
+ 
+<ul>
+<li><p> Step 1. Filling of permanent gaps. Values that are missing in each year will be filled using the function <code><a href="FillPermanentGaps.html">FillPermanentGaps</a></code>.  
+</p>
+</li>
+<li><p> Step 2. Temporal smoothing, gap filling and interpolation. The time series will be smoothed and remaining gaps will be filled. Optionally, time series will be interpolated to daily values. 
+</p>
+</li></ul>
+
+
+<h3>Usage</h3>
+
+<pre>TsPP(Yt, fpg = FillPermanentGaps, tsgf = TSGFspline, interpolate = FALSE, 
+    min.gapfrac = 0.2, lower = TRUE, fillval = NA, fun = min, 
+    backup = NULL, ...)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>Yt</code></td>
+<td>
+<p>univariate time series of class <code><a href="../../stats/html/ts.html">ts</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>fpg</code></td>
+<td>
+<p>Filling of permanent gaps: If NULL, permanent gaps will be not filled, else the function <code><a href="FillPermanentGaps.html">FillPermanentGaps</a></code> will be applied.</p>
+</td></tr>
+<tr valign="top"><td><code>tsgf</code></td>
+<td>
+<p>Temporal smoothing and gap filling: Function to be used for temporal smoothing, gap filling and interpolation of the time series. If NULL, this step will be not applied. Otherwise a function needs to be specified. Exisiting functions that can be applied are <code><a href="TSGFspline.html">TSGFspline</a></code>, <code><a href="TSGFssa.html">TSGFssa</a></code>, <code><a href="TSGFdoublelog.html">TSGFdoublelog</a></code>  </p>
+</td></tr>
+<tr valign="top"><td><code>interpolate</code></td>
+<td>
+<p>Should the smoothed and gap filled time series be interpolated to daily values?</p>
+</td></tr>
+<tr valign="top"><td><code>min.gapfrac</code></td>
+<td>
+<p>How often has an observation to be NA to be considered as a permanent gap? (fraction of time series length) Example: If the month January is 5 times NA in a 10 year time series (= 0.5), then the month January is considered as permanent gap if min.gapfrac = 0.4.	</p>
+</td></tr>
+<tr valign="top"><td><code>lower</code></td>
+<td>
+<p>For filling of permanent gaps: fill lower gaps (TRUE), upper gaps (FALSE) or lower and upper gaps (NULL)</p>
+</td></tr>
+<tr valign="top"><td><code>fillval</code></td>
+<td>
+<p>For filling of permanent gaps: constant fill values for gaps. If NA the fill value will be estimated from the data using fun. </p>
+</td></tr>
+<tr valign="top"><td><code>fun</code></td>
+<td>
+<p>For filling of permanent gaps: function to be used to compute fill values. By default, minimum.</p>
+</td></tr>
+<tr valign="top"><td><code>backup</code></td>
+<td>
+<p>Which backup algorithm should be used instead of TSGFdoublelog for temporal smoothing and gap filling if the time series has no seasonality? If a time series has no seasonal pattern, the fitting of double logistic functions is not meaningful. In this case another method can be used. Default: NULL (returns NA - no smoothing), other options: &quot;TSGFspline&quot;, &quot;TSGFssa&quot;, &quot;TSGFlinear&quot;	</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments (currently not used)</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>pre-processed time series</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt;</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="FillPermanentGaps.html">FillPermanentGaps</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# load a time series of NDVI (normalized difference vegetation index)
+data(ndvi)
+plot(ndvi)
+
+# introduce systematic gaps in winter and random gaps
+gaps &lt;- ndvi
+gaps[runif(50, 1, length(ndvi))] &lt;- NA
+gaps[cycle(ndvi) == 1 | cycle(ndvi) == 2 | cycle(ndvi) == 12] &lt;- NA
+plot(gaps)
+
+# perform pre-processing of time series using different methods 
+pp.lin &lt;- TsPP(gaps, tsgf=TSGFlinear)	# linear interpolation + running median
+pp.spl &lt;- TsPP(gaps, tsgf=TSGFspline)	# smoothing splines
+pp.ssa &lt;- TsPP(gaps, tsgf=TSGFssa)	# singluar spectrum analysis
+pp.beck &lt;- TsPP(gaps, tsgf=TSGFdoublelog, method="Beck")	# double-logistic fit using the approach of Beck et al. (2006)
+pp.elmore &lt;- TsPP(gaps, tsgf=TSGFdoublelog, method="Elmore")	# double-logistic fit using the approach of Elmore et al. (2012)
+
+plot(gaps)
+cols &lt;- rainbow(5)
+lines(pp.lin, col=cols[1])
+lines(pp.spl, col=cols[2])
+lines(pp.ssa, col=cols[3])
+lines(pp.beck, col=cols[4])
+lines(pp.elmore, col=cols[5])
+
+data.df &lt;- ts.union(time(gaps), orig=ndvi, pp.lin, pp.spl, pp.ssa, pp.beck, pp.elmore)
+plot(data.df)
+cor(na.omit(data.df[is.na(gaps),]))
+
+</pre>
+
+<hr><div align="center">[Package <em>greenbrown</em> version 2.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

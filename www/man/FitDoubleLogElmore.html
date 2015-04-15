@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Fit a double logisitic function to a vector according to...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for FitDoubleLogElmore {greenbrown}"><tr><td>FitDoubleLogElmore {greenbrown}</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Fit a double logisitic function to a vector according to Elmore et al. (2012)</h2>
+
+<h3>Description</h3>
+
+<p>This function fits a double logistic curve to observed values using the function as described in Elmore et al. (2012) (equation 4).</p>
+
+
+<h3>Usage</h3>
+
+<pre>FitDoubleLogElmore(x, t = 1:length(x), tout = t, return.par = FALSE, 
+    plot = FALSE, ...)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>vector or time series to fit</p>
+</td></tr>
+<tr valign="top"><td><code>t</code></td>
+<td>
+<p>time steps</p>
+</td></tr>
+<tr valign="top"><td><code>tout</code></td>
+<td>
+<p>time steps of output (can be used for interpolation)</p>
+</td></tr>
+<tr valign="top"><td><code>return.par</code></td>
+<td>
+<p>if TRUE the function returns parameters of the double logisitic fit, if FALSE it returns the fitted curve</p>
+</td></tr>
+<tr valign="top"><td><code>plot</code></td>
+<td>
+<p>plot iterations for logistic fit?</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments (currently not used)</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The function returns a vector with fitted values if return.par is FALSE and it returns parameters of the logisitic modle of return.par is TRUE</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt;</p>
+
+
+<h3>References</h3>
+
+<p>Elmore, A.J., S.M. Guinn, B.J. Minsley and A.D. Richardson (2012): Landscape controls on the timing of spring, autumn, and growing season length in mid-Atlantic forests. - Global Change Biology 18, 656-674.</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="TSGFdoublelog.html">TSGFdoublelog</a></code>, <code><a href="Phenology.html">Phenology</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+# load NDVI data
+data(ndvi)
+plot(ndvi)
+
+# select one year of data
+x &lt;- as.vector(window(ndvi, start=c(1997,1), end=c(1997, 12)))
+plot(x)
+
+# fit double-logistic function to one year of data
+fit &lt;- FitDoubleLogElmore(x)
+plot(x)
+lines(fit, col="blue")
+
+# return parameters of fit
+FitDoubleLogElmore(x, return.par=TRUE, plot=TRUE)	# plot=TRUE causes plotting of different double logisitic
+
+# fit double-logistic function to one year of data, interpolate to daily time steps and calculate phenology metrics
+tout &lt;- seq(1, 12, length=365)	# time steps for output (daily)
+fit &lt;- FitDoubleLogElmore(x, tout=tout)
+plot(x)
+lines(tout, fit, col="blue")
+PhenoDeriv(fit, plot=TRUE)
+
+
+</pre>
+
+<hr><div align="center">[Package <em>greenbrown</em> version 2.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

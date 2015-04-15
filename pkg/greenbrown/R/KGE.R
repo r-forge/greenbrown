@@ -1,6 +1,6 @@
 KGE <- structure(function(
 	##title<< 
-	## Compare two time series and calculate relative effects on mean, variance, correlation and trend (optional) based on Kling-Gupta efficiency
+	## Compute Kling-Gupta efficiency and related metrics of two time series
 	##description<<
 	## This function is an implementation of the Kling-Gupta efficiency (KGE) (Gupta et al. 2009) for model evaluation. It was originally developed to compare modelled and observed time series. The KGE is a model evluation criterion that can be decomposed in the contribution of mean, variance and correlation on model performance. 
 	## In this implemenation, the Kling-Gupta effciency is defined as following:
@@ -32,10 +32,7 @@ KGE <- structure(function(
 	
 	...
 	### further arguments for the function \code{\link{Trend}}
-	
-	##details<<
-	## ...
-	
+		
 	##references<< 
 	## Gupta, H. V., H. Kling, K. K. Yilmaz, G. F. Martinez (2009):  Decomposition of the mean squared error and NSE performance criteria: Implications for improving hydrological modelling. Journal of Hydrology 377, 80-91.
 	

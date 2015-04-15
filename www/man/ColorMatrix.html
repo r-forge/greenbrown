@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Create a square matrix of colors</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for ColorMatrix {greenbrown}"><tr><td>ColorMatrix {greenbrown}</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Create a square matrix of colors</h2>
+
+<h3>Description</h3>
+
+<p>This function creates a square matrix with two diagonal crossing color ramps. It can be used to plot contingency maps of two classifications.</p>
+
+
+<h3>Usage</h3>
+
+<pre>ColorMatrix(dim = 3, ul = "burlywood4", lr = "darkgreen", ll = "khaki1", 
+    ur = "royalblue1", ctr = "gray87")</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>dim</code></td>
+<td>
+<p>number of rows and number of columns of the matrix (only square matrix are possible, i.e. number of rows = number columns)</p>
+</td></tr>
+<tr valign="top"><td><code>ul</code></td>
+<td>
+<p>starting color in the upper left corner of the matrix</p>
+</td></tr>
+<tr valign="top"><td><code>lr</code></td>
+<td>
+<p>ending color in the lower right corner of the matrix	</p>
+</td></tr>
+<tr valign="top"><td><code>ll</code></td>
+<td>
+<p>starting color in the lower left corner of the matrix</p>
+</td></tr>
+<tr valign="top"><td><code>ur</code></td>
+<td>
+<p>ending color in the upper right corner of the matrix	</p>
+</td></tr>
+<tr valign="top"><td><code>ctr</code></td>
+<td>
+<p>color in the center of the matrix</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The function returns a square matrix of color names. </p>
+
+
+<h3>Author(s)</h3>
+
+<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt;</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+col.m &lt;- ColorMatrix()
+plot.new()
+legend("topleft", as.vector(col.m), fill=col.m, ncol=3)
+
+col.m &lt;- ColorMatrix(dim=5, ul="red", ll="navy", ctr="purple")
+plot.new()
+legend("topleft", as.vector(col.m), fill=col.m, ncol=5)
+</pre>
+
+<hr><div align="center">[Package <em>greenbrown</em> version 2.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

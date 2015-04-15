@@ -19,10 +19,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title><?php echo $group_name; ?></title>
 	<link href="http://<?php echo $themeroot; ?>styles/estilo1.css" rel="stylesheet" type="text/css" />
-	<style type="text/css">
-	b { font-family:Courier New; font-weight:normal; color:#0000DD; padding:4px }
-	h1, h2, h3, p, li { font-family:Arial; font-weight:normal; }
-	</style>
+	<link rel="stylesheet" href="styles.css" type="text/css">
   </head>
 
 <body>
@@ -33,158 +30,61 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 <a href="http://r-forge.r-project.org/"><img src="http://<?php echo $themeroot; ?>/imagesrf/logo.png" border="0" alt="R-Forge Logo" /> </a> </td> </tr>
 </table>
 
+<h1>greenbrown - land surface phenology and trend analysis</h1>
 
-<!-- get project title  -->
-<!-- own website starts here, the following may be changed as you like -->
+<p>The R package greenbrown is a collection of functions to analyse trends, trend changes and phenology events in gridded time series like from satellite observations or climate model simulations.</p>
 
-<?php if ($handle=fopen('http://'.$domain.'/export/projtitl.php?group_name='.$group_name,'r')){
-$contents = '';
-while (!feof($handle)) {
-	$contents .= fread($handle, 8192);
-}
-fclose($handle);
-echo $contents; } ?>
-
-<!-- end of project description -->
-
-<p>'Greening' describes in the earth observation community positive trends in vegetation greenness. Vegetation greenness can be expressed as Normalized Difference Vegetation Index (NDVI) that is related to the coverage of green vegetation, photosynthetic activity and green biomass. Greening trends were observed worldwide based on satellite observations of the last 30 years (1980-2012). On the other hand, some regions have negative trends in vegetation greenness ('browning'). The package 'greenbrown' provides access to different methods to analyze such greening and browning trends and trend changes in raster datasets like from satellite observations. A description, comparison and application of these methods for trend and trend change analysis can be found in Forkel et al. (2013).</p>
-
+<!-- menu -->
 <hr>
-
-<h3>Installation and loading</h3>
-<p>The package greenbrown was developed and tested under the R version 2.15.3. To install the package directly from Rforge you need the most recent R version.</p>
-<p>To install the most recent version of greenbrown type directly within R: <br><b>install.packages("greenbrown", repos="http://R-Forge.R-project.org")</b></p>
-<p>If you want to use greenbrown, you have to load the package at the beginning of each R session with: <br><b>library(greenbrown)</b></p> 
-
-<p>Alternatively, you can receive all greenbrown source code files by using an anonymous SVN checout: <br><b>
-svn checkout svn://r-forge.r-project.org/svnroot/greenbrown/</b></p>
-
-<hr>
-
-<h3>Using the greenbrown package</h3>
-
-<p>The main function to calculate trends and breakpoints on single time series is <b>Trend</b>. Type <b>?Trend</b> for the help page with a description of the parameters and examples. The function <b>Trend</b> offers a common access to different methods for trend analysis. Currently, the following methods are implemented in the greenbrown package:</p>
+<h2>Contents</h2>
 <ul>
-<li><b>TrendAAT</b> computes trends on annual aggregated time series.</li> 
-<li><b>TrendSTM</b> computes trends based on a season-trend model (similar to the time series analysis approach used in <a href="http://cran.r-project.org/web/packages/bfast/index.html" target="_blank">bfast</a>).</li>
-<li><b>TrendSeasonalAdjusted</b> removes first the seasonal cycle from a time series and computes then the trend on the seasonal-adjusted time series.</li>
+	<li><a href="index.php">greenbrown: Introduction</a></li> 
+	<li><a href="install.php">Installation and loading</a></li> 
+	<li>Using greenbrown - applications and examples:</li>
+	<ul>
+		<li><a href="trends.php">Trends and breakpoints</a></li>
+		<li><a href="phenology.php">Phenology analysis</a></li>
+	</ul>
+	<li><a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/">Developer summary page</a> </li>
+</ul>
+<hr>
+<!-- end of menu -->
+
+
+<h4>Introduction</h4>
+
+<p>Satellite observations are used to monitor temporal changes of the terrestrial vegetation. Therefore time series of vegetation indices such as Normalized Difference Vegetation Index (NDVI) are derived from satellite measurements. Vegetation index time series are indicative of the coverage of green vegetation, photosynthetic activity and green biomass. However, the analysis of vegetation index time series is often dependent on the used analysis methods. The package provides access to different methods for 1) trend and breakpoint analysis, 2) time series smoothing and interpolation, and 3) analysis of land surface phenology. </p>
+
+<p>The package has been developed at the Max Planck Institute for Biogeochemistry, Jena, Germany in order to distribute the code of the following publications: </p>
+
+<ul>
+<li>Forkel M, Carvalhais N, Verbesselt J, Mahecha M, Neigh C, Reichstein M (2013) <a href="http://www.mdpi.com/2072-4292/5/5/2113">Trend Change Detection in NDVI Time Series: Effects of Inter-Annual Variability and Methodology.</a> Remote Sensing, 5, 2113-2144.</li> 
+<li>Forkel M, Migliavacca M, Thonicke K, Reichstein M, Schaphoff S, Weber U, Carvalhais N (2014) Co-dominant water control on global inter-annual variability and trends in land surface phenology and greenness. Global Change Biology, accepted.</li>
 </ul>
 
-<p>With the function <b>TrendRaster</b> these trend estimation methods can be applied on gridded spatial raster datasets like from earth observation data or climate model simulations. This function applies the function <b>Trend</b> on multilayer raster stacks (called RasterBricks in R). Type <b>?TrendRaster</b> for examples how to use trend analysis on raster data.</p>
 
-<p>To read, write and process your raster datasets in R, please see the <a href="http://cran.r-project.org/web/packages/raster/" target="_blank">raster</a> package for more information. To read a multilayer raster dataset from a file, you will have to use the function <b>brick</b> (see <b>?brick</b> for help).</p> 
+<h4>Usage and citation</h4>
 
-<p>To estimate statistical properties of time series in a raster dataset (like trend slope, Seasonality, inter-annual and short-term variability), use the function <b>GetTsStatisticsRaster</b> (see <b>?GetTsStatisticsRaster</b> for help).</p> 
+<p>The greenbrown package is published under the GPL-2 license (GNU Public License) which guarantees users the freedoms to use, study, share (copy), and modify the software. In case you are using the software or parts of it within scientific publications, we recommend to cite Forkel et al. (2013) in the context of trend analysis and/or Forkel et al. (2015) in the context of phenology analyses. To cite the R package or this website please use:</p>
 
-<p>The package provides further functions to simulate artifical (or surrogate) time series. Based on observed statistical properties of time series, artifical time series can be created in order to test different trend methods if they are able to re-detect the prescribed trend of the artifical time series. To create an artificial time series, use <b>SimTs</b>.</p> 
+<ul>
+<li>Forkel M, Wutzler T (2015) greenbrown - land surface phenology and trend analysis. A package for the R software. Version 2.2, 2015-04-15, <a href="http://greenbrown.r-forge.r-project.org/">http://greenbrown.r-forge.r-project.org/</a>.</li>
+</ul>
 
-<p>An example how to use this package is given at lower section of this website.</p>
 
-<hr>
+<h4>Developers and contact</h4>
 
-<h3>References</h3>
-<p>Forkel, M., N. Carvalhais, J. Verbesselt, M. Mahecha, C. Neigh and M. Reichstein (2013): <a href="http://www.mdpi.com/2072-4292/5/5/2113" target="_blank">Trend Change Detection in NDVI Time Series: Effects of Inter-Annual Variability and Methodology.</a> - Remote Sensing 5, 2113-2144.</p>
+<p>The package has been developed by Matthias Forkel with technical support by Thomas Wutzler. Nuno Carvalhais, Miguel Mahecha, Mirco Migliavacca and Jan Verbesselt gave advice or provided code snippets to some of the functions. </p>
 
-<hr>
-
-<h3>Contact</h3>
-<p>Matthias Forkel, mforkel [at] bgc-jena.mpg.de, Max Planck Institute for Biogeochemistry Jena, Germany </p>
-
-<hr>
-
-<h3>Example</h3>
-
-<p>The following code provides an example how you can use the main functions of the greenbrown package. But please consult also the help pages of each function (e.g. type <b>?Trend</b> within R) for further informations on methods and parameters.</p>
-
-<b>
-# load the package<br>
-library(greenbrown)<br>
-<br>
-<br>
-# 1. calculate trends on single time series<br>
-<br>
-# load a time series of NDVI (normalized difference vegetation index)<br>
-data(ndvi) # load the time series<br>
-plot(ndvi) # plot the time series<br>
-?ndvi # some information about the data<br>
-<br>
-# open the help page for the main function Trend<br>
-?Trend<br>
-<br>
-# calculate trend (default method: trend calculated based on mean annual data)<br>
-trd <- Trend(ndvi)<br>
-trd<br>
-plot(trd)<br>
-<br>
-# calculate trend (default method but detect breakpoints)<br>
-trd <- Trend(ndvi, mosum.pval=1)<br>
-trd<br>
-plot(trd) # this line will produce figure 1:<br>
-</b>
-
-<p><img src="figure1.png"><br>
-Fig. 1: Trend in mean annual NDVI from an example grid cell in central Alaska.</p>
-
-<b>
-# 2. calculate trends on raster data sets<br>
-<br>
-# load a multi-temporal raster dataset of Normalized Difference Vegetation Index<br>
-data(ndvimap) # load the data<br>
-ndvimap # some information about the data<br>
-?ndvimap # some more information about the data<br>
-plot(ndvimap, 8, col=brgr.colors(50))<br>
-<br>
-# Note: you can load your own raster data with the function 'brick' - see ?brick for help<br>
-<br>
-# see the help page for further information about how to apply Trend methods on raster data:<br>
-?TrendRaster <br>
-<br>
-# calculate trend on the raster dataset using annual maximum NDVI<br>
-trendmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="AAT", breaks=2, funAnnual=max)<br>
-plot(trendmap, col=brgr.colors(20), legend.width=2) # this line will produce figure 2:<br>
-</b>
-
-<p><img src="figure2.png"><br>
-Fig. 2: Trends on annual maximum NDVI with detected breakpoints (BP, year of breakpoint), length of the time series segments (LengthSEG, in years), slope of the trend in each segment (SlopeSEG) and p-value of the trend in each segment (Pval).</p>
-
-<b>
-# Now you can classify the trend analysis result into significant positive and significant negative trends:<br>
-trendclassmap <- TrendClassification(trendmap, min.length=8, max.pval=0.05)<br>
-plot(trendclassmap, col=brgr.colors(3), legend.width=2) # this line produces figure 3:<br>
-</b>
-
-<p><img src="figure3.png"><br>
-Fig. 3: Significant greening and browning trends on annual maximum NDVI in each time series segment.</p>
-
-<b>
-# 3. compare trend maps<br>
-<br>
-# Trend estimates from different methods or from different datasets can be compared regarding their significant trend directions. For example, trends from two different methods can be compared ...<br>
-<br>
-data(ndvimap)<br>
-<br>
-# calculate trends with two different methods<br>
-AATmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="AAT", breaks=0)<br>
-STMmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="STM", breaks=0)<br>
-<br>
-# classify the trend estimates from the two methods into significant positive, negative and no trend<br>
-AATmap.cl <- TrendClassification(AATmap)<br>
-STMmap.cl <- TrendClassification(STMmap)<br>
-<br>
-# now the two classifcations of trends can be compared<br>
-compare <- CompareClassification(AATmap.cl, STMmap.cl, names=list('AAT'=c("Br", "No", "Gr"), 'STM'=c("Br", "No", "Gr")))<br>
-compare # this line gives a contingency table of the two trend classifications<br>
-<br>
-# plot the comparison<br>
-plot(compare) # this line produces figure 4:
-</b>
-<p><img src="figure4.png"><br>
-Fig. 4: Comparsion of greening and browning trends on annual mean NDVI from two different methods.</p>
+<p>Matthias Forkel, mforkel [at] bgc-jena.mpg.de <br>
+Thomas Wutzler, twutz [at] bgc-jena.mpg.de<br>
+Max Planck Institute for Biogeochemistry Jena, Germany<br>
+Hans-Knoell-Str. 10<br>
+07745 Jena, Germany</p>
 
 <br>
 <hr>
-
-<p> The <strong>greenbrown developper summary page</strong> you can find <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/"><strong>here</strong></a>. </p>
+<p><a href="index.php">greenbrown</a>, Matthias Forkel, mforkel [at] bgc-jena.mpg.de, 2015-04-15</p>
 
 </body>
 </html>

@@ -1,6 +1,6 @@
 IsPermanentGap <- structure(function(
 	##title<< 
-	## Identify if a gap is a permanent gap that occurs every year
+	## Identify if a gap in a time series occurs permanently
 	##description<<
 	## The function identifies obervations in time series as permanent gaps if the gap occurs during the same period in several years.
 	
@@ -43,8 +43,9 @@ IsPermanentGap <- structure(function(
 		
 		# split each year in two halfs
 		if (!AllEqual(Ytf)) {
-			dc <- Decompose(Yt)
-			Tt <- dc[, grep("Trend", colnames(dc))] + dc[, grep("IAV", colnames(dc))] + dc[, grep("Mean", colnames(dc))]
+			dc <- stl(Ytf, s.window="periodic")
+			Tt <- dc$time.series[,2]
+			# Tt <- dc[, grep("Trend", colnames(dc))] + dc[, grep("IAV", colnames(dc))] + dc[, grep("Mean", colnames(dc))]
 			
 			# identifiy if gap is lower or upper gap
 			if (lower) {
@@ -106,9 +107,9 @@ IsPermanentGap <- structure(function(
 
 FillPermanentGaps <- structure(function(
 	##title<< 
-	## Fills permanent winter gaps
+	## Fill permanent gaps in time series
 	##description<<
-	## Satellite time series are often affected by permanent gaps like missing observations during winter periods. Often time series methods can not deal with missing observations and require gap-free data. This function fills winter gaps with a constant fillval or according to the approach described in Beck et al. (2006).
+	## Satellite time series are often affected by permanent gaps like missing observations during winter periods. Often time series methods can not deal with missing observations and require gap-free data. This function fills winter gaps with a constant fill value or according to the approach described in Beck et al. (2006).
 	
 	Yt, 
 	### univariate time series of class \code{\link{ts}}
@@ -120,7 +121,7 @@ FillPermanentGaps <- structure(function(
 	### fill lower gaps (TRUE), upper gaps (FALSE) or lower and upper gaps (NULL)
 	
 	fillval = NA,
-	### constant fill values for gaps. If NA the fill value will be estimated from the data using FUN. 
+	### constant fill values for gaps. If NA the fill value will be estimated from the data using fun. 
 	
 	fun = min,
 	### function to be used to compute fill values. By default, minimum.

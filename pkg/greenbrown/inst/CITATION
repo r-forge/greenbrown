@@ -17,3 +17,19 @@ citEntry(entry = "Article",
 	       ""),
 )
 
+citEntry(entry = "Article",
+    title = "Co-dominant water control on global inter-annual variability and trends in land surface phenology and greenness",
+    author = personList(as.person("Matthias Forkel"), as.person("Mirco Migliavacca"), as.person("Kirsten Thonicke"), as.person("Markus Reichstein"), as.person("Sibyll Schaphoff"), as.person("Ulrich Weber"), as.person("Nuno Carvalhais")),
+    journal      = "Global Change Biology",
+    year         = "2015",
+	volume       = "accepted",
+	number       = "",
+	pages        = "",
+	doi          = "",
+         
+    textVersion = 
+         paste("Matthias Forkel, Mirco Migliavacca, Kirsten Thonicke, Markus Reichstein, Sibyll Schaphoff, Ulrich Weber and Nuno Carvalhais (2015).", "Co-dominant water control on global inter-annual variability and trends in land surface phenology and greenness.", "Global Change Biology, accepted.", ""),
+)
+
+
+

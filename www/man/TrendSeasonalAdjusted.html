@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Trend estimation based on seasonal-adjusted time series</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for TrendSeasonalAdjusted {greenbrown}"><tr><td>TrendSeasonalAdjusted {greenbrown}</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Trend estimation based on seasonal-adjusted time series</h2>
+
+<h3>Description</h3>
+
+<p>The function computes and substracts the seasonal cycle from a time series. Then a trend is estimated on the seasonal-adjusted time series. The function can be applied to gridded (raster) data using the function <code><a href="TrendRaster.html">TrendRaster</a></code>. A detailed description of this method can be found in Forkel et al. (2013).</p>
+
+
+<h3>Usage</h3>
+
+<pre>TrendSeasonalAdjusted(Yt, mosum.pval = 0.05, h = 0.15, breaks = NULL, 
+    funSeasonalCycle = MeanSeasonalCycle, sample.method = c("sample", 
+        "all", "none"), sample.min.length = 0.75, sample.size = 30)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>Yt</code></td>
+<td>
+<p>univariate time series of class <code><a href="../../stats/html/ts.html">ts</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>mosum.pval</code></td>
+<td>
+<p>Maximum p-value for the OLS-MOSUM test in order to search for breakpoints. If p = 0.05, breakpoints will be only searched in the time series trend component if the OLS-MOSUM test indicates a significant structural change in the time series. If p = 1 breakpoints will be always searched regardless if there is a significant structural change in the time series or not. See <code><a href="../../strucchange/html/sctest.html">sctest</a></code> for details.	</p>
+</td></tr>
+<tr valign="top"><td><code>h</code></td>
+<td>
+<p>minimal segment size either given as fraction relative to the sample size or as an integer giving the minimal number of observations in each segment. See <code><a href="../../strucchange/html/breakpoints.html">breakpoints</a></code> for details.</p>
+</td></tr>
+<tr valign="top"><td><code>breaks</code></td>
+<td>
+<p>maximal number of breaks to be calculated (integer number). By default the maximal number allowed by h is used. See <code><a href="../../strucchange/html/breakpoints.html">breakpoints</a></code> for details.</p>
+</td></tr>
+<tr valign="top"><td><code>funSeasonalCycle</code></td>
+<td>
+<p>a function to estimate the seasonal cycle of the time series. A own function can be defined to estimate the seasonal cycle which has to return the seasonal cycle as a time series of class &quot;ts&quot;. Currently two approaches are part of this package:
+</p>
+ 
+<ul>
+<li> <p><code><a href="MeanSeasonalCycle.html">MeanSeasonalCycle</a></code> is the default which computes the average seasonal cycle from all years. 
+</p>
+</li>
+<li> <p><code><a href="SSASeasonalCycle.html">SSASeasonalCycle</a></code> can be used which detects a modulated seasonal cycle based on Singular Spectrum Analysis. 
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>sample.method</code></td>
+<td>
+<p>Sampling method for combinations of start and end dates to compute uncertainties in trends. If &quot;sample&quot; (default), trend statistics are computed for a sample of combinations of start and end dates according to <code>sample.size</code>. If &quot;all&quot;, trend statistics are computed for all combinations of start and end dates longer than <code>sample.min.length</code>.  If &quot;none&quot;, trend statistics will be only computed for the entire time series (i.e. no sampling of different start and end dates). </p>
+</td></tr>
+<tr valign="top"><td><code>sample.min.length</code></td>
+<td>
+<p>Minimum length of the time series (as a fraction of total length) that should be used to compute trend statistics. Time windows between start and end that are shorter than min.length will be not used for trend computation.</p>
+</td></tr>
+<tr valign="top"><td><code>sample.size</code></td>
+<td>
+<p>sample size (number of combinations of start and end dates) to be used if <code>method</code> is sample.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The function returns a list of class &quot;Trend&quot;. </p>
+
+
+<h3>Author(s)</h3>
+
+<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt;</p>
+
+
+<h3>References</h3>
+
+<p>Forkel, M., N. Carvalhais, J. Verbesselt, M. Mahecha, C. Neigh and M. Reichstein (2013): Trend Change Detection in NDVI Time Series: Effects of Inter-Annual Variability and Methodology. - Remote Sensing 5.</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="Trend.html">Trend</a></code>, <code><a href="TrendRaster.html">TrendRaster</a></code>, <code><a href="MeanSeasonalCycle.html">MeanSeasonalCycle</a></code>, <code><a href="SSASeasonalCycle.html">SSASeasonalCycle</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# load a time series of NDVI (normalized difference vegetation index)
+data(ndvi)
+plot(ndvi)
+	
+# calculate trend on time series with removed mean seasonal cycle
+MACtrend &lt;- TrendSeasonalAdjusted(ndvi, funSeasonalCycle=MeanSeasonalCycle)
+MACtrend
+plot(MACtrend)
+
+# plot the seasonal-adjusted time series
+plot(ndvi)
+lines(MACtrend$adjusted, col="orange")
+
+# calculate trend on time series with removed mean seasonal cycle but with limited number of breakpoints
+MACtrend &lt;- TrendSeasonalAdjusted(ndvi, breaks=1, funSeasonalCycle=MeanSeasonalCycle)
+plot(MACtrend)
+
+# calculate trend on time series with removed seasonal cycle but seasonal cycle computed based on singular spectrum analysis
+SSAtrend &lt;- TrendSeasonalAdjusted(ndvi, funSeasonalCycle=SSASeasonalCycle)
+SSAtrend 
+plot(SSAtrend)
+lines(SSAtrend$adjusted, col="orange")
+
+
+</pre>
+
+<hr><div align="center">[Package <em>greenbrown</em> version 2.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

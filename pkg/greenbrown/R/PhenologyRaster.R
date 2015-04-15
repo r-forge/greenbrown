@@ -188,6 +188,5 @@ plot(lostrend.cl, col=brgr.colors(3), breaks=c(-1.5, -0.5, 0.5, 1.5))	# only a f
 # m <- na.omit(values(phenmulti.rb))
 # cor(m)
 
-citation("greenbrown")
 })
 

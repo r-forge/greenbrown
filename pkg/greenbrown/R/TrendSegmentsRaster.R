@@ -1,8 +1,8 @@
 TrendSegmentsRaster <- structure(function(
 	##title<<
-	## Create a multi-temporal raster brick that indicates for each time step the number of the trend segment
+	## Identify for each multi-temporal raster layer the number of the trend segment
 	
-	##description<< Imagine you have a multi-temporal raster brick with 30 years of data. Now you compute trends using the function \code{\link{TrendRaster}}, which will return the timing of breakpoints as well as the slopes and p-values in each trend segment. But now you want to know for each pixel and each time step if it belongs to the first, second or nth trend segment. For this you can use this function!
+	##description<< Imagine you have a multi-temporal raster brick with 30 years of data. Now you compute trends using the function \code{\link{TrendRaster}}, which will return the timing of breakpoints as well as the slopes and p-values in each trend segment. But now you want to know for each pixel and each time step if it belongs to the first, second or Nth trend segment. For this you can use this function!
 
 	trend.rb, 
 	### multi-layer raster object of class \code{\link[raster]{brick}} as computed with \code{\link{TrendRaster}}

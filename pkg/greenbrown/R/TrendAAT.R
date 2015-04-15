@@ -102,7 +102,7 @@ TrendAAT <- structure(function(
 	if (!is.na(bp_est$breakpoints[1])) {
 		bp_est$breakpoints <- d$trend[bp_est$breakpoints]
 	}
-
+	
 	# return results
 	result <- list(
 		series = Yt,
@@ -115,6 +115,8 @@ TrendAAT <- structure(function(
 		pval_unc = ldply(trd.unc, function(x) x$pval_unc),
 		tau = unlist(llply(trd.unc, function(x) x$tau)),
 		tau_unc = ldply(trd.unc, function(x) x$tau_unc),
+		percentage = unlist(llply(trd.unc, function(x) x$percentage)),
+		percentage_unc = ldply(trd.unc, function(x) x$percentage_unc),		
 		bptest = test,
 		method = "AAT")
 	class(result) <- "Trend"

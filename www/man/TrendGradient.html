@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Calculate temporal trends along a spatial gradient</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for TrendGradient {greenbrown}"><tr><td>TrendGradient {greenbrown}</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Calculate temporal trends along a spatial gradient</h2>
+
+<h3>Description</h3>
+
+<p>This function extracts along a spatial gradient (e.g. along latitude) time series from a raster brick and computes for each position a temporal trend.</p>
+
+
+<h3>Usage</h3>
+
+<pre>TrendGradient(r, start = c(1982, 1), freq = 12, gradient.r = NULL, 
+    gradient.brks = NULL, funSpatial = "mean", cor.area = FALSE, 
+    scalar = 1, method = c("AAT", "STM", "SeasonalAdjusted"), 
+    mosum.pval = 0.05, h = 0.15, breaks = 0, funSeasonalCycle = MeanSeasonalCycle, 
+    funAnnual = mean, percent = FALSE)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>r</code></td>
+<td>
+<p>multi-layer raster object of class <code><a href="../../raster/html/brick.html">brick</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>start</code></td>
+<td>
+<p>beginning of the time series (i.e. the time of the first observation). The default is c(1982, 1), i.e. January 1982 which is the usual start date to compute trends on long-term series of satellite observations of NDVI. See <code><a href="../../stats/html/ts.html">ts</a></code> for further examples.</p>
+</td></tr>
+<tr valign="top"><td><code>freq</code></td>
+<td>
+<p>The frequency of observations. The default is 12 for monthly observations. Use 24 for bi-monthly observations, 365 for daily observations or 1 for annual observations. See <code><a href="../../stats/html/ts.html">ts</a></code> for further examples.</p>
+</td></tr>
+<tr valign="top"><td><code>gradient.r</code></td>
+<td>
+<p>raster layer with the variable that has a spatial gradient. If NULL (default) a gradient along latitude will be used. Alternatively, one could provide here for example a raster layer with a gradient along longitude for longitudinal gradients of trends or a raster layer with mean annual temperatures to compute trends along a temperature gradient. </p>
+</td></tr>
+<tr valign="top"><td><code>gradient.brks</code></td>
+<td>
+<p>breaks for the gradient. These breaks define the class intervals for which time series will be extracted and trends computed. If NULL (default) 15 class breaks between the minimum and maximum values of the gradient will be used.</p>
+</td></tr>
+<tr valign="top"><td><code>funSpatial</code></td>
+<td>
+<p>function that should be used for spatial aggregation of grid cells that belong to the same interval. </p>
+</td></tr>
+<tr valign="top"><td><code>cor.area</code></td>
+<td>
+<p>If TRUE grid cell values are multiplied by grid cell area to correct for area.</p>
+</td></tr>
+<tr valign="top"><td><code>scalar</code></td>
+<td>
+<p>Multiplier to be applied to time series (e.g. for unit conversions).</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>method to be used for trend calculation with the following options: 
+</p>
+
+<ul>
+<li> <p><code>AAT</code> (default) calculates trends on annual aggregated time series (see <code><a href="TrendAAT.html">TrendAAT</a></code> for details). This method will be automatically choosen if the time series has a frequency of 1 (e.g. in case of annual time steps). If the time series has a frequency &gt; 1, the time series will be aggregated to annual time steps using the mean. 
+</p>
+</li>
+<li> <p><code>STM</code> fits harmonics to the seasonal time series to model the seasonal cycle and to calculate trends based on a multiple linear regression (see <code><a href="TrendSTM.html">TrendSTM</a></code> for details). 
+</p>
+</li>
+<li> <p><code>SeasonalAdjusted</code> removes first the seasonal cycle from the time series and calculates the trend on the reaminder series (see <code><a href="TrendSeasonalAdjusted.html">TrendSeasonalAdjusted</a></code> for details). 
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>mosum.pval</code></td>
+<td>
+<p>Maximum p-value for the OLS-MOSUM test in order to search for breakpoints. If p = 0.05, breakpoints will be only searched in the time series trend component if the OLS-MOSUM test indicates a significant structural change in the time series. If p = 1 breakpoints will be always searched regardless if there is a significant structural change in the time series or not. See <code><a href="../../strucchange/html/sctest.html">sctest</a></code> for details.	</p>
+</td></tr>
+<tr valign="top"><td><code>h</code></td>
+<td>
+<p>minimal segment size either given as fraction relative to the sample size or as an integer giving the minimal number of observations in each segment. See <code><a href="../../strucchange/html/breakpoints.html">breakpoints</a></code> for details.</p>
+</td></tr>
+<tr valign="top"><td><code>breaks</code></td>
+<td>
+<p>maximal number of breaks to be calculated (integer number). By default the maximal number allowed by h is used. See <code><a href="../../strucchange/html/breakpoints.html">breakpoints</a></code> for details.</p>
+</td></tr>
+<tr valign="top"><td><code>funSeasonalCycle</code></td>
+<td>
+<p>a function to estimate the seasonal cycle of the time series if <code>SeasonalAdjusted</code> is selected as method. A own function can be defined to estimate the seasonal cycle which has to return the seasonal cycle as a time series of class <code><a href="../../stats/html/ts.html">ts</a></code>. Currently two approaches are part of this package:
+</p>
+ 
+<ul>
+<li> <p><code><a href="MeanSeasonalCycle.html">MeanSeasonalCycle</a></code> is the default which computes the mean seasonal cycle. 
+</p>
+</li>
+<li> <p><code><a href="SSASeasonalCycle.html">SSASeasonalCycle</a></code> detects a modulated seasonal cycle based on Singular Spectrum Analysis. 
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>funAnnual</code></td>
+<td>
+<p>function to aggregate time series to annual values if <code>AAT</code> is selected as method. The default function is the mean (i.e. trend calculated on mean annual time series). See <code><a href="TrendAAT.html">TrendAAT</a></code> for other examples</p>
+</td></tr>
+<tr valign="top"><td><code>percent</code></td>
+<td>
+<p>return trend as percentage change</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function returns a list of class 'TrendGradient' </p>
+
+
+<h3>Value</h3>
+
+<p>The function returns a data.frame of class 'TrendGradient'.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt;</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="Trend.html">Trend</a></code>, <code><a href="TrendRaster.html">TrendRaster</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# load a multi-temporal raster dataset of Normalized Difference Vegetation Index
+data(ndvimap)
+plot(ndvimap, 8)
+
+# compute a latitudinal gradient of trends (by default the method 'AAT' is used):
+gradient &lt;- TrendGradient(ndvimap, start=c(1982, 1), freq=12)
+gradient
+plot(gradient) 
+# shown is the trend at each latitudinal band, the area represents the 95% confidence interval of the trend (computed with function TrendUncertainty), symbols indicate the p-value of the trend at each latitude
+
+plot(gradient, type="yx") # the gradient can be also plotted in reversed order
+
+# latitudinal gradient with different number of intervals:
+gradient &lt;- TrendGradient(ndvimap, start=c(1982, 1), freq=12, gradient.brks=seq(66, 69, length=5))
+plot(gradient) 
+
+# example for a longitudinal gradient:
+gradient.r &lt;- raster(ndvimap, 1) # create a raster layer with longitudes:
+gradient.r[] &lt;- xFromCell(gradient.r, 1:ncell(gradient.r)) 
+plot(gradient.r)
+gradient &lt;- TrendGradient(ndvimap, start=c(1982, 1), freq=12, gradient.r=gradient.r)
+plot(gradient, xlab="Longitude (°E)") 
+
+</pre>
+
+<hr><div align="center">[Package <em>greenbrown</em> version 2.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

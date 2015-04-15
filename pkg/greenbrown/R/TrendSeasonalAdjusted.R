@@ -117,6 +117,8 @@ TrendSeasonalAdjusted <- structure(function(
 		pval_unc = ldply(trd.unc, function(x) x$pval_unc),
 		tau = unlist(llply(trd.unc, function(x) x$tau)),
 		tau_unc = ldply(trd.unc, function(x) x$tau_unc),
+		percentage = unlist(llply(trd.unc, function(x) x$percentage)),
+		percentage_unc = ldply(trd.unc, function(x) x$percentage_unc),		
 		bptest = test,
 		method = "SeasonalAdjusted")
 

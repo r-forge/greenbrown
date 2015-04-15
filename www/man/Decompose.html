@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Simple decomposition of time series</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for Decompose {greenbrown}"><tr><td>Decompose {greenbrown}</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Simple decomposition of time series</h2>
+
+<h3>Description</h3>
+
+<p>This function decomposes time series in different components using a simple step-wise approach.</p>
+
+
+<h3>Usage</h3>
+
+<pre>Decompose(Yt, breaks = 0, mosum.pval = 0.05)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>Yt</code></td>
+<td>
+<p>univariate time series of class <code><a href="../../stats/html/ts.html">ts</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>breaks</code></td>
+<td>
+<p>maximal number of breaks in the trend component to be calculated (integer number). </p>
+</td></tr>
+<tr valign="top"><td><code>mosum.pval</code></td>
+<td>
+<p>Maximum p-value for the OLS-MOSUM test in order to search for breakpoints. If p = 0.05, breakpoints will be only searched in the time series trend component if the OLS-MOSUM test indicates a significant structural change in the time series. If p = 1 breakpoints will be always searched regardless if there is a significant structural change in the time series or not.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The decomposition of the time series is based on a simple step-wise approach:
+</p>
+
+<ul>
+<li><p> The mean of the NDVI time series is calculated. 
+</p>
+</li>
+<li><p> In the second step, monthly values are aggregated per year by using the average value and the trend is calculated based on annual aggregated values using <code> <a href="TrendAAT.html">TrendAAT</a></code>. 
+</p>
+</li>
+<li><p> The mean of the time series and the derived trend component from step (2) are subtracted from the annual values to derive the trend-removed and mean-centred annual values (annual anomalies). If the trend slope is not significant (p &gt; 0.05), only the mean is subtracted. 
+</p>
+</li>
+<li><p> In the next step, the mean, the trend component and the annual anomalies are subtracted from the original time series to calculate a detrended, mean-centered and for annual anomalies adjusted time series. From this time series the seasonal cycle is estimated as the mean seasonal cycle. 
+</p>
+</li>
+<li><p> In the last step, the short-term anomalies are computed. For this, the mean, the trend component, the annual anomalies and the mean seasonal cycle are subtracted from the original time series.  </p>
+</li></ul>
+
+
+<h3>Value</h3>
+
+<p>The function returns a multi-variate object of class ts including the time series components.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt;</p>
+
+
+<h3>References</h3>
+
+<p>Forkel, M., N. Carvalhais, J. Verbesselt, M. Mahecha, C. Neigh and M. Reichstein (2013): Trend Change Detection in NDVI Time Series: Effects of Inter-Annual Variability and Methodology. - Remote Sensing 5.</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="GetTsStatisticsRaster.html">GetTsStatisticsRaster</a></code> 	</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# load a time series of Normalized Difference Vegetation Index
+data(ndvi)
+plot(ndvi)
+
+# decompose this time series
+ndvi.dc &lt;- Decompose(ndvi)
+plot(ndvi.dc)
+	
+ndvi.dc2 &lt;- Decompose(ndvi, breaks=2, mosum.pval=1)
+plot(ndvi.dc2)
+
+</pre>
+
+<hr><div align="center">[Package <em>greenbrown</em> version 2.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

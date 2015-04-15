@@ -1,8 +1,8 @@
 PlotPhenCycle <- structure(function(
 	##title<< 
-	## plot a single seasonal cycle with phenology metrics
+	## Plot a easonal cycle with phenology metrics
 	##description<<
-	## This function plots a seasonal cycle with phenology metrics
+	## This function plots a seasonal cycle with phenology metrics.
 	
 	x, 
 	### values of one year

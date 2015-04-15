@@ -8,7 +8,7 @@ CropNA <- structure(function(
 	### Raster* object
 	
 	...
-	#### other arguments. see writeRaster.
+	### other arguments, see writeRaster.
 	
 	##values<<
 	## a Raster* object with smaller extent.

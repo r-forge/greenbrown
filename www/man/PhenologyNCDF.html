@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Calculate phenology metrics on time series in gridded...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for PhenologyNCDF {greenbrown}"><tr><td>PhenologyNCDF {greenbrown}</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Calculate phenology metrics on time series in gridded (raster) data stored in NetCDF files</h2>
+
+<h3>Description</h3>
+
+<p>This function calculates metrics of vegetation phenology on multi-temporal raster data. See <code><a href="Phenology.html">Phenology</a></code>.
+</p>
+ 
+<ul>
+<li> <p><code>sos</code> start of season 
+</p>
+</li>
+<li> <p><code>eos</code> end of season 
+</p>
+</li>
+<li> <p><code>los</code> length of season 
+</p>
+</li>
+<li> <p><code>pop</code> position of peak value (maximum) 
+</p>
+</li>
+<li> <p><code>pot</code> position of trough value (minimum) 
+</p>
+</li>
+<li> <p><code>mgs</code> mean growing season value 
+</p>
+</li>
+<li> <p><code>peak</code> peak value (maximum) 
+</p>
+</li>
+<li> <p><code>trough</code> trough value (minimum) 
+</p>
+</li>
+<li> <p><code>msp</code> mean spring value 
+</p>
+</li>
+<li> <p><code>mau</code> mean autumn value 
+</p>
+</li>
+<li> <p><code>rsp</code> rate of spring greenup (not all methods) 
+</p>
+</li>
+<li> <p><code>rau</code> rate of autumn senescence rates (not all methods) 
+</p>
+</li></ul>
+
+<p>The calculation of these metrics is performed in three steps and by using different methods:
+</p>
+ 
+<ul>
+<li><p> Step 1: Filling of permanent (winter) gaps. See <code><a href="FillPermanentGaps.html">FillPermanentGaps</a></code>
+</p>
+</li>
+<li><p> Step 2: Time series smoothing and interpolation. See <code><a href="TsPP.html">TsPP</a></code> 	
+</p>
+</li>
+<li><p> Step 3: Detection of phenology metrics. Phenology metrics are estimated from the gap filled, smoothed and interpolated time series. This can be done by treshold methods (<code><a href="PhenoTrs.html">PhenoTrs</a></code>) or by using the derivative of the time series (<code><a href="PhenoDeriv.html">PhenoDeriv</a></code>). 
+</p>
+</li></ul>
+
+<p>Tiles of large raster datasets can be processed in parallel by setting the number of nodes.</p>
+
+
+<h3>Usage</h3>
+
+<pre>PhenologyNCDF(file, path.out = getwd(), start = c(1982, 1), freq = 12, 
+    approach = c("White", "Trs", "Deriv"), min.mean = 0.1, trs = NULL, 
+    fpg = FillPermanentGaps, tsgf = "TSGFspline", interpolate = TRUE, 
+    min.gapfrac = 0.2, lower = TRUE, fillval = NA, fun = min, 
+    method = c("Elmore", "Beck"), backup = NULL, check.seasonality = 1:3, 
+    trend = FALSE, nodes = 1, restart = FALSE, ...)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>multi-layer raster file </p>
+</td></tr>
+<tr valign="top"><td><code>path.out</code></td>
+<td>
+<p>directory for results</p>
+</td></tr>
+<tr valign="top"><td><code>start</code></td>
+<td>
+<p>beginning of the time series (i.e. the time of the first observation). The default is c(1982, 1), i.e. January 1982 which is the usual start date to compute trends on long-term series of satellite observations of NDVI. See <code><a href="../../stats/html/ts.html">ts</a></code> for further examples.</p>
+</td></tr>
+<tr valign="top"><td><code>freq</code></td>
+<td>
+<p>The frequency of observations. The default is 12 for monthly observations. Use 24 for bi-monthly observations, 365 for daily observations or 1 for annual observations. See <code><a href="../../stats/html/ts.html">ts</a></code> for further examples.</p>
+</td></tr>
+<tr valign="top"><td><code>approach</code></td>
+<td>
+<p>Approach to be used to calculate phenology metrics from smoothed time series. 'White' by sclaing annual cycles between 0 and 1 (White et al. 1997, see <code><a href="PhenoTrs.html">PhenoTrs</a></code>); 'Trs' for simple tresholds (<code><a href="PhenoTrs.html">PhenoTrs</a></code>); 'Deriv' by using the derivative of the smoothed function (<code><a href="PhenoDeriv.html">PhenoDeriv</a></code>).</p>
+</td></tr>
+<tr valign="top"><td><code>min.mean</code></td>
+<td>
+<p>minimum mean annual value in order to calculate phenology metrics. Use this threshold to suppress the calculation of metrics in grid cells with low average values	</p>
+</td></tr>
+<tr valign="top"><td><code>trs</code></td>
+<td>
+<p>threshold to be used to determine SOS and EOS if method 'Trs' is used. If method 'Trs' is used but trs is NULL than trs will be computed from the long-term mean of Yt.</p>
+</td></tr>
+<tr valign="top"><td><code>fpg</code></td>
+<td>
+<p>Filling of permanent gaps: If NULL, permanent gaps will be not filled, else the function <code><a href="FillPermanentGaps.html">FillPermanentGaps</a></code> will be applied.</p>
+</td></tr>
+<tr valign="top"><td><code>tsgf</code></td>
+<td>
+<p>Temporal smoothing and gap filling: Function to be used for temporal smoothing, gap filling and interpolation of the time series. If NULL, this step will be not applied. Otherwise a function needs to be specified. Exisiting functions that can be applied are <code><a href="TSGFspline.html">TSGFspline</a></code>, <code><a href="TSGFlinear.html">TSGFlinear</a></code>, <code><a href="TSGFssa.html">TSGFssa</a></code>, <code><a href="TSGFdoublelog.html">TSGFdoublelog</a></code>  </p>
+</td></tr>
+<tr valign="top"><td><code>interpolate</code></td>
+<td>
+<p>Should the smoothed and gap filled time series be interpolated to daily values?</p>
+</td></tr>
+<tr valign="top"><td><code>min.gapfrac</code></td>
+<td>
+<p>How often has an observation to be NA to be considered as a permanent gap? (fraction of time series length) Example: If the month January is 5 times NA in a 10 year time series (= 0.5), then the month January is considered as permanent gap if min.gapfrac = 0.4.	</p>
+</td></tr>
+<tr valign="top"><td><code>lower</code></td>
+<td>
+<p>For filling of permanent gaps: fill lower gaps (TRUE), upper gaps (FALSE) or lower and upper gaps (NULL)</p>
+</td></tr>
+<tr valign="top"><td><code>fillval</code></td>
+<td>
+<p>For filling of permanent gaps: constant fill values for gaps. If NA the fill value will be estimated from the data using fun. </p>
+</td></tr>
+<tr valign="top"><td><code>fun</code></td>
+<td>
+<p>For filling of permanent gaps: function to be used to compute fill values. By default, minimum.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>If 'tsgf' is TSGFdoublelog: Which kind of double logistic curve should be used to smooth the data? 'Elmore' (Elmore et al. 2012, see <code><a href="FitDoubleLogElmore.html">FitDoubleLogElmore</a></code>) or 'Beck' (Beck et al. 2006, see <code><a href="FitDoubleLogBeck.html">FitDoubleLogBeck</a></code>) .	</p>
+</td></tr>
+<tr valign="top"><td><code>backup</code></td>
+<td>
+<p>Which backup algorithm should be used instead of TSGFdoublelog for temporal smoothing and gap filling if the time series has no seasonality? If a time series has no seasonal pattern, the fitting of double logistic functions is not meaningful. In this case another method can be used. Default: NULL (returns NA - no smoothing), other options: &quot;TSGFspline&quot;, &quot;TSGFssa&quot;, &quot;TSGFlinear&quot;	</p>
+</td></tr>
+<tr valign="top"><td><code>check.seasonality</code></td>
+<td>
+<p>Which methods in <code><a href="Seasonality.html">Seasonality</a></code> should indicate TRUE (i.e. time series has seasonality) in order to calculate phenology metrics? 1:3 = all methods should indicate seasonality, Set to NULL in order to not perform seasonality checks.</p>
+</td></tr>
+<tr valign="top"><td><code>trend</code></td>
+<td>
+<p>Compute trends on the results of phenology analysis? If TRUE, trends will be using <code><a href="TrendAAT.html">TrendAAT</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>nodes</code></td>
+<td>
+<p>How many cluster nodes should be used for parallel computing? <code><a href="../../parallel/html/makeCluster.html">makeCluster</a></code> and <code><a href="../../parallel/html/clusterApply.html">clusterApply</a></code> from the snow package are used for parallel computing. If nodes = 1, parallel computing is not used.</p>
+</td></tr>
+<tr valign="top"><td><code>restart</code></td>
+<td>
+<p>load results from files of previously calculated tiles and stack results?</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments as for <code><a href="TrendNCDF.html">TrendNCDF</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The function saves several NetCDF files in a directory on disc. The files are created based on the filename of the input <code>file</code>:
+</p>
+ 
+<ul>
+<li> <p><code>file.SOS.nc</code> file with annual layers of the start of season 
+</p>
+</li>
+<li> <p><code>file.EOS.nc</code> file with annual layers of the end of season  
+</p>
+</li>
+<li><p> and so on for &quot;LOS&quot;, &quot;POP&quot;, &quot;POT&quot;, &quot;MGS&quot;, &quot;PEAK&quot;, &quot;TROUGH&quot;, &quot;MSP&quot;, &quot;MAU&quot;, &quot;RSP&quot;, &quot;RAU&quot;  
+</p>
+</li></ul>
+
+
+<h3>Author(s)</h3>
+
+<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt;</p>
+
+
+<h3>References</h3>
+
+<p>Beck, P.S.A., C. Atzberger, K.A. Hodga, B. Johansen, A. Skidmore (2006): Improved monitoring of vegetation dynamics at very high latitudes: A new method using MODIS NDVI. - Remote Sensing of Environment 100:321-334. <br>
+Elmore, A.J., S.M. Guinn, B.J. Minsley and A.D. Richardson (2012): Landscape controls on the timing of spring, autumn, and growing season length in mid-Atlantic forests. - Global Change Biology 18, 656-674. <br>	
+White M.A., P.E. Thornton and S.W. Running (1997): A continental phenology model for monitoring vegetation responses to interannual climatic variability. - Global Biogeochemical Cycles 11:217–234. </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="PhenologyRaster.html">PhenologyRaster</a></code>, <code><a href="Phenology.html">Phenology</a></code>, <code><a href="PhenologyNCDF.html">PhenologyNCDF</a></code>, <code><a href="NamesPhenologyRaster.html">NamesPhenologyRaster</a></code> </p>
+
+<hr><div align="center">[Package <em>greenbrown</em> version 2.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

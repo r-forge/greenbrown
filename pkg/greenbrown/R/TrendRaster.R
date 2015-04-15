@@ -126,45 +126,24 @@ data(ndvimap)
 ndvimap
 plot(ndvimap, 8)
 
-# attention: the following examples can take some time!
-
 # calculate trend: annual aggregation method
-AATmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="AAT", breaks=2)
+AATmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="AAT", breaks=1)
 plot(AATmap)
-
-# calculate trend: seasonal-trend model
-STMmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="STM", breaks=2)
-plot(STMmap)
-
-# compare trend estimates
-brks.slope <- seq(-0.004, 0.004, by=0.001) # define class breaks and colors for the results
-cols.slope <- brgr.colors(length(brks.slope)-1)
-brks.bp <- seq(1980, 2010, 5)
-cols.bp <- brgr.colors(length(brks.bp)-1)
-par(mfrow=c(2,3)) # set the tiles of the plot
-plot(AATmap, 4, col=cols.bp, breaks=brks.bp)
-plot(AATmap, 6, col=cols.slope, breaks=brks.slope)
-plot(AATmap, 7, col=cols.slope, breaks=brks.slope)
-plot(STMmap, 4, col=cols.bp, breaks=brks.bp)
-plot(STMmap, 6, col=cols.slope, breaks=brks.slope)
-plot(STMmap, 7, col=cols.slope, breaks=brks.slope)
-par(mfrow=c(1,1))
 
 # calculate trend: seasonal adjusted time series based on mean annual cycle, no breakpoints
 MACmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="SeasonalAdjusted", breaks=0, funSeasonalCycle=MeanSeasonalCycle)
 plot(MACmap)
 
 # calculate trend: seasonal adjusted time series based on singular spectrum analysis, no breakpoints
-SSAmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="SeasonalAdjusted", breaks=0, funSeasonalCycle=SSASeasonalCycle)
-plot(SSAmap)
+STMmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="STM", breaks=0)
+plot(STMmap)
 
 # classify the results in greening/browning/no trend
 MACmap.cl <- TrendClassification(MACmap, min.length=(8*12))
-SSAmap.cl <- TrendClassification(SSAmap, min.length=(8*12))
+STMmap.cl <- TrendClassification(STMmap, min.length=(8*12))
 par(mfrow=c(1,2)) # set the tiles of the plot
-plot(MACmap.cl, col=brgr.colors(3))
-plot(SSAmap.cl, col=brgr.colors(3))
+plot(MACmap.cl, col=brgr.colors(3), main="Method MAC")
+plot(STMmap.cl, col=brgr.colors(3), main="Method STM")
 
-citation("greenbrown")
 })
 

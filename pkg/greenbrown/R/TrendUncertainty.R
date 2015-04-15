@@ -45,15 +45,17 @@ TrendUncertainty <- structure(function(
 	
 	# get trend uncertainty from trend ensemble
 	result <- by(Yt, list(seg), function(x) {
-		trd.stats <- TrendSample(x, sample.method=sample.method)
-		pval_est <- trd.stats$pvalue[1]
-		pval_unc <- do.call(fun.unc, list(x=trd.stats$pvalue))
-		slope_est <- trd.stats$slope[1]
-		slope_unc <- do.call(fun.unc, list(x=trd.stats$slope))
-		tau_est <- trd.stats$tau[1]
-		tau_unc <- do.call(fun.unc, list(x=trd.stats$tau))
-		result <- list(pval_est, pval_unc, slope_est, slope_unc, tau_est, tau_unc)
-		names(result) <- c("pval", "pval_unc", "slope", "slope_unc", "tau", "tau_unc")
+			trd.stats <- TrendSample(x, sample.method=sample.method)
+			pval_est <- trd.stats$pvalue[1]
+			pval_unc <- do.call(fun.unc, list(x=trd.stats$pvalue))
+			slope_est <- trd.stats$slope[1]
+			slope_unc <- do.call(fun.unc, list(x=trd.stats$slope))
+			tau_est <- trd.stats$tau[1]
+			tau_unc <- do.call(fun.unc, list(x=trd.stats$tau))
+			perc_est <- trd.stats$perc[1]
+			perc_unc <- do.call(fun.unc, list(x=trd.stats$perc))
+			result <- list(pval_est, pval_unc, slope_est, slope_unc, tau_est, tau_unc, perc_est, perc_unc)
+		names(result) <- c("pval", "pval_unc", "slope", "slope_unc", "tau", "tau_unc", "percentage", "percentage_unc")
 		return(result)
 	})
 	

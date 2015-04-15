@@ -28,6 +28,12 @@ TrendSample <- structure(function(
 	nyears <- length(years)
 	sample.method <- sample.method[1]
 	
+	if (sum(!is.na(Yt)) < 5 | length(Yt) < 3) {
+		stats <- data.frame(start=NA, end=NA, length=NA, tau=NA, pvalue=NA, slope=NA, intercept=NA, perc=NA)
+		class(stats) <- "TrendSample"
+		return(stats)
+	}
+	
 	# minimum length 
 	min.length <- nyears * sample.min.length
 	if (min.length * frequency(Yt) < 4) sample.method <- "none"
@@ -50,7 +56,7 @@ TrendSample <- structure(function(
 		if (sample.size < nrow(samples)) samples <- rbind(samples0, samples[sample(1:nrow(samples), sample.size-1), ])
 	}
 	
-	# compute trend statistics for each sampe
+	# compute trend statistics for each sample
 	stats <- ldply(as.list(1:nrow(samples)), function(i) {
 		x <- unlist(samples[i ,])
 		if (frequency(Yt) > 1) {
@@ -60,20 +66,25 @@ TrendSample <- structure(function(
 		}
 			
 		if (length(Yt.sample) < 3) {
-			result <- data.frame(start=x[1], end=x[2], length=x[3], tau=NA, pvalue=NA, slope=NA, intercept=NA)
+			result <- data.frame(start=x[1], end=x[2], length=x[3], tau=NA, pvalue=NA, slope=NA, intercept=NA, perc=NA)
 		} else {
 			time.sample <- time(Yt.sample)
 			mk <- MannKendall(Yt.sample)
 			m <- lm(Yt.sample ~ time.sample)
-			result <- data.frame(start=x[1], end=x[2], length=x[3], tau=mk$tau, pvalue=mk$sl, slope=coef(m)[2], intercept=coef(m)[1])
+			perc <- coef(m)[2] / fitted(m)[1] * 100 # trend as percentage change
+			result <- data.frame(start=x[1], end=x[2], length=x[3], tau=mk$tau, pvalue=mk$sl, slope=coef(m)[2], intercept=coef(m)[1], perc=perc)
 		}
 		return(result)
 	})
 	stats <- stats[order(stats$length, decreasing=TRUE), ]
 	rownames(stats) <- 1:nrow(stats)
 	class(stats) <- "TrendSample"
+	
+	stats$tau.test <- wilcox.test(stats$tau)
+	stats$slope.test <- wilcox.test(stats$slope)
+	
 	return(stats)
-	### The function returns a data.frame with the start date, end date and length of the sample from the time series and the correspondig Mann-Kendall tau, p-value and the slope and intercept of a linear trend.
+	### The function returns a data.frame with the start date, end date and length of the sample from the time series and the correspondig Mann-Kendall tau, p-value, slope, intercept, and percentage slope of a linear trend.
 }, ex=function(){
 # load a time series of NDVI (normalized difference vegetation index)
 data(ndvi)

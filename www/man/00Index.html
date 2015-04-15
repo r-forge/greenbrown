@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: greenbrown - land surface phenology and trend analysis</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+<h1> greenbrown - land surface phenology and trend analysis
+<img class="toplogo" src="../../../doc/html/logo.jpg" alt="[R logo]">
+</h1>
+<hr>
+<div align="center">
+<a href="../../../doc/html/packages.html"><img src="../../../doc/html/left.jpg" alt="[Up]" width="30" height="30" border="0"></a>
+<a href="../../../doc/html/index.html"><img src="../../../doc/html/up.jpg" alt="[Top]" width="30" height="30" border="0"></a>
+</div><h2>Documentation for package &lsquo;greenbrown&rsquo; version 2.1</h2>
+
+<ul><li><a href="../DESCRIPTION">DESCRIPTION file</a>.</li>
+</ul>
+
+<h2>Help Pages</h2>
+
+
+<table width="100%">
+<tr><td width="25%"><a href="greenbrown-package.html">greenbrown-package</a></td>
+<td>greenbrown - land surface phenology and trend analysis</td></tr>
+<tr><td width="25%"><a href="AccuracyAssessment.html">AccuracyAssessment</a></td>
+<td>Accuracy assessment from a contingency table</td></tr>
+<tr><td width="25%"><a href="AllEqual.html">AllEqual</a></td>
+<td>Check if all values in a vector are the same</td></tr>
+<tr><td width="25%"><a href="brgr.colors.html">brgr.colors</a></td>
+<td>Brown-to-green color palette for NDVI trend maps</td></tr>
+<tr><td width="25%"><a href="ColorMatrix.html">ColorMatrix</a></td>
+<td>Create a square matrix of colors</td></tr>
+<tr><td width="25%"><a href="CompareClassification.html">CompareClassification</a></td>
+<td>Compare two classification maps</td></tr>
+<tr><td width="25%"><a href="CropNA.html">CropNA</a></td>
+<td>Crop outer NA values from a raster</td></tr>
+<tr><td width="25%"><a href="Decompose.html">Decompose</a></td>
+<td>Simple decomposition of time series</td></tr>
+<tr><td width="25%"><a href="FillPermanentGaps.html">FillPermanentGaps</a></td>
+<td>Fill permanent gaps in time series</td></tr>
+<tr><td width="25%"><a href="FitDoubleLogBeck.html">FitDoubleLogBeck</a></td>
+<td>Fit a double logisitic function to a vector according to Beck et al. (2006)</td></tr>
+<tr><td width="25%"><a href="FitDoubleLogElmore.html">FitDoubleLogElmore</a></td>
+<td>Fit a double logisitic function to a vector according to Elmore et al. (2012)</td></tr>
+<tr><td width="25%"><a href="GetInfoVI3g.html">GetInfoVI3g</a></td>
+<td>Get meta-information from GIMMS VI3g binary file names</td></tr>
+<tr><td width="25%"><a href="GetTsStatisticsRaster.html">GetTsStatisticsRaster</a></td>
+<td>Estimate statistical properties of time series in a multi-temporal raster dataset</td></tr>
+<tr><td width="25%"><a href="Greenup.html">Greenup</a></td>
+<td>Identify greenup and senescence periods in time series</td></tr>
+<tr><td width="25%"><a href="InterpolateMatrix.html">InterpolateMatrix</a></td>
+<td>Interpolate NA values in a matrix using a moving mean</td></tr>
+<tr><td width="25%"><a href="IsPermanentGap.html">IsPermanentGap</a></td>
+<td>Identify if a gap in a time series occurs permanently</td></tr>
+<tr><td width="25%"><a href="Kappa.html">Kappa</a></td>
+<td>Calculate the Kappa coefficient of two classifications</td></tr>
+<tr><td width="25%"><a href="KGE.html">KGE</a></td>
+<td>Compute Kling-Gupta efficiency and related metrics of two time series</td></tr>
+<tr><td width="25%"><a href="KGERaster.html">KGERaster</a></td>
+<td>Compute Kling-Gupta efficiency and related metrics of two multi-layer raster data sets</td></tr>
+<tr><td width="25%"><a href="KGETrendUncertainty.html">KGETrendUncertainty</a></td>
+<td>Compute uncertainty of Kling-Gupta efficiency based on beginning and end of time series</td></tr>
+<tr><td width="25%"><a href="MapBreakpoints.html">MapBreakpoints</a></td>
+<td>Plot map of breakpoints</td></tr>
+<tr><td width="25%"><a href="MeanSeasonalCycle.html">MeanSeasonalCycle</a></td>
+<td>Calculate the mean seasonal cycle of a time series</td></tr>
+<tr><td width="25%"><a href="NamesPhenologyRaster.html">NamesPhenologyRaster</a></td>
+<td>Get the layer names for a PhenologyRaster raster brick</td></tr>
+<tr><td width="25%"><a href="NamesTrendRaster.html">NamesTrendRaster</a></td>
+<td>Get the layer names for a TrendRaster raster brick</td></tr>
+<tr><td width="25%"><a href="ndvi.html">ndvi</a></td>
+<td>Time series of Normalized Difference Vegetation Index</td></tr>
+<tr><td width="25%"><a href="ndvimap.html">ndvimap</a></td>
+<td>Map of Normalized Difference Vegetation Index</td></tr>
+<tr><td width="25%"><a href="NoBP.html">NoBP</a></td>
+<td>Initialize an empty list with breakpoints</td></tr>
+<tr><td width="25%"><a href="NoTrend.html">NoTrend</a></td>
+<td>Initialize an empty object of class "Trend"</td></tr>
+<tr><td width="25%"><a href="PhenoDeriv.html">PhenoDeriv</a></td>
+<td>Method 'Deriv' to calculate phenology metrics</td></tr>
+<tr><td width="25%"><a href="Phenology.html">Phenology</a></td>
+<td>Calculate phenology metrics in time series</td></tr>
+<tr><td width="25%"><a href="PhenologyNCDF.html">PhenologyNCDF</a></td>
+<td>Calculate phenology metrics on time series in gridded (raster) data stored in NetCDF files</td></tr>
+<tr><td width="25%"><a href="PhenologyRaster.html">PhenologyRaster</a></td>
+<td>Calculate phenology metrics on time series in gridded (raster) data</td></tr>
+<tr><td width="25%"><a href="PhenoTrs.html">PhenoTrs</a></td>
+<td>Method 'Trs' to calculate phenology metrics</td></tr>
+<tr><td width="25%"><a href="plot.CompareClassification.html">plot.CompareClassification</a></td>
+<td>plot a comparison of two classification rasters</td></tr>
+<tr><td width="25%"><a href="plot.Phenology.html">plot.Phenology</a></td>
+<td>Plot time series of phenology metrics</td></tr>
+<tr><td width="25%"><a href="plot.Trend.html">plot.Trend</a></td>
+<td>Plot trend and breakpoint results</td></tr>
+<tr><td width="25%"><a href="plot.TrendGradient.html">plot.TrendGradient</a></td>
+<td>Plotting function for objects of class TrendGradient</td></tr>
+<tr><td width="25%"><a href="plot.TrendSample.html">plot.TrendSample</a></td>
+<td>Plot uncertainty of estimated trend dependent on start and end dates of time series</td></tr>
+<tr><td width="25%"><a href="PlotPhenCycle.html">PlotPhenCycle</a></td>
+<td>Plot a easonal cycle with phenology metrics</td></tr>
+<tr><td width="25%"><a href="PolygonNA.html">PolygonNA</a></td>
+<td>Plot a polygon by accounting for NA values (breaks in polygon)</td></tr>
+<tr><td width="25%"><a href="print.Phenology.html">print.Phenology</a></td>
+<td>Print a summary of phenology metrics</td></tr>
+<tr><td width="25%"><a href="print.Trend.html">print.Trend</a></td>
+<td>Print a summary of calculated trends</td></tr>
+<tr><td width="25%"><a href="ReadVI3g.html">ReadVI3g</a></td>
+<td>Read and pre-process GIMMS VI3g binary files</td></tr>
+<tr><td width="25%"><a href="Seasonality.html">Seasonality</a></td>
+<td>Check a time series for seasonality</td></tr>
+<tr><td width="25%"><a href="SimIAV.html">SimIAV</a></td>
+<td>Simulate the inter-annual variability component of a surrogate time series</td></tr>
+<tr><td width="25%"><a href="SimRem.html">SimRem</a></td>
+<td>Simulate the short-term variability component of a surrogate time series</td></tr>
+<tr><td width="25%"><a href="SimSeas.html">SimSeas</a></td>
+<td>Simulate the seasonal component of a surrogate time series</td></tr>
+<tr><td width="25%"><a href="SimTrend.html">SimTrend</a></td>
+<td>Simulate trend and breakpoints of a surrogate time series</td></tr>
+<tr><td width="25%"><a href="SimTs.html">SimTs</a></td>
+<td>Simulate surrogate time series</td></tr>
+<tr><td width="25%"><a href="SplitRasterEqually.html">SplitRasterEqually</a></td>
+<td>Splits a raster in equal-area parts</td></tr>
+<tr><td width="25%"><a href="SSASeasonalCycle.html">SSASeasonalCycle</a></td>
+<td>Calculate a modulated seasonal cycle of a time series based on singular spectrum analysis (SSA)</td></tr>
+<tr><td width="25%"><a href="summary.Phenology.html">summary.Phenology</a></td>
+<td>Print a summary of phenology metrics</td></tr>
+<tr><td width="25%"><a href="summary.Trend.html">summary.Trend</a></td>
+<td>Print a summary of calculated trends</td></tr>
+<tr><td width="25%"><a href="Trend.html">Trend</a></td>
+<td>Calculate trends and trend changes in time series</td></tr>
+<tr><td width="25%"><a href="TrendAAT.html">TrendAAT</a></td>
+<td>Trend estimation based on annual aggregated time series</td></tr>
+<tr><td width="25%"><a href="TrendClassification.html">TrendClassification</a></td>
+<td>Classify a raster in greening and browning trends</td></tr>
+<tr><td width="25%"><a href="TrendGradient.html">TrendGradient</a></td>
+<td>Calculate temporal trends along a spatial gradient</td></tr>
+<tr><td width="25%"><a href="TrendLongestSEG.html">TrendLongestSEG</a></td>
+<td>Extract slope and p-value for the longest time series segment from a TrendRaster raster brick</td></tr>
+<tr><td width="25%"><a href="TrendNCDF.html">TrendNCDF</a></td>
+<td>Calculate trends and trend statistics on time series in gridded (raster) data stored in a NetCDF file</td></tr>
+<tr><td width="25%"><a href="TrendPoly.html">TrendPoly</a></td>
+<td>Trend estimation based on a 4th order polynomial</td></tr>
+<tr><td width="25%"><a href="TrendRaster.html">TrendRaster</a></td>
+<td>Calculate trends on time series in gridded (raster) data</td></tr>
+<tr><td width="25%"><a href="TrendRunmed.html">TrendRunmed</a></td>
+<td>Trend estimation based on a running median</td></tr>
+<tr><td width="25%"><a href="TrendSample.html">TrendSample</a></td>
+<td>Compute trend statistics by sampling a time series according to different start and end dates</td></tr>
+<tr><td width="25%"><a href="TrendSeasonalAdjusted.html">TrendSeasonalAdjusted</a></td>
+<td>Trend estimation based on seasonal-adjusted time series</td></tr>
+<tr><td width="25%"><a href="TrendSegmentsRaster.html">TrendSegmentsRaster</a></td>
+<td>Identify for each multi-temporal raster layer the number of the trend segment</td></tr>
+<tr><td width="25%"><a href="TrendSpline.html">TrendSpline</a></td>
+<td>Trend estimation based on a smoothing splines</td></tr>
+<tr><td width="25%"><a href="TrendSSA.html">TrendSSA</a></td>
+<td>Trend estimation based on SSA (singluar spectrum analysis)</td></tr>
+<tr><td width="25%"><a href="TrendSTL.html">TrendSTL</a></td>
+<td>Trend estimation based on STL (Seasonal Decomposition of Time Series by Loess)</td></tr>
+<tr><td width="25%"><a href="TrendSTM.html">TrendSTM</a></td>
+<td>Trend estimation based on a season-trend model</td></tr>
+<tr><td width="25%"><a href="TrendUncertainty.html">TrendUncertainty</a></td>
+<td>Compute uncertainties in trend statistics according to different start and end dates</td></tr>
+<tr><td width="25%"><a href="TSGFdoublelog.html">TSGFdoublelog</a></td>
+<td>Temporal smoothing and gap filling using double logisitic functions</td></tr>
+<tr><td width="25%"><a href="TSGFlinear.html">TSGFlinear</a></td>
+<td>Temporal smoothing and gap filling using linear interpolation</td></tr>
+<tr><td width="25%"><a href="TSGFspline.html">TSGFspline</a></td>
+<td>Temporal smoothing and gap filling using splines</td></tr>
+<tr><td width="25%"><a href="TSGFssa.html">TSGFssa</a></td>
+<td>Temporal smoothing and gap filling using singular spectrum analysis</td></tr>
+<tr><td width="25%"><a href="TsPP.html">TsPP</a></td>
+<td>Pre-processing of time series</td></tr>
+<tr><td width="25%"><a href="WriteNCDF.html">WriteNCDF</a></td>
+<td>Write raster objects to NetCDF files</td></tr>
+</table>
+</body></html>

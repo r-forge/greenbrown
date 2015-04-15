@@ -24,10 +24,12 @@ plot.TrendSample <- structure(function(
 	if (response != "slope" & response != "tau") response <- "slope"
 	if (response == "slope") {
 		sl <- trd.ens$slope
+		test <- trd.ens$slope.test
 		xlab <- "Trend slope"
 	}
 	if (response == "tau") {
 		sl <- trd.ens$tau
+		test <- trd.ens$tau.test
 		xlab <- "Mann-Kendall tau"
 	}
 
@@ -58,6 +60,13 @@ plot.TrendSample <- structure(function(
 		points(y=1, x=sl[1], pch=pch[1], col=cols[1], cex=1)
 		abline(v=0, lty=2, lwd=0.04, col="darkgrey")
 		box()
+		
+		# plot significance of distribution
+		sig <- symnum(test$p.value, corr = FALSE, na = FALSE, cutpoints = c(0, 0.001, 0.01, 0.05, 0.1, 1), symbols = c("***", "**", "*", ".", " "))
+		col <- "blue"
+		if (median(sl) >= 0) col <- "red"	
+		text(x=median(sl, na.rm=TRUE), y=0.6, sig, pos=3, adj=0.5, col=col)
+		
 	}
 	# quantile(trd.ens$slope, c(0.05, 0.25, 0.5, 0.75, 0.95))
 }, ex=function(){

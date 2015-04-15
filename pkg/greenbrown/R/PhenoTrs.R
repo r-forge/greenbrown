@@ -107,7 +107,7 @@ PhenoTrs <- structure(function(
 	}
 		
 	return(metrics)
-	### The function returns a vector with SOS, EOS, LOS, POP, MGS, rsp, rau, PEAK, MSP and MAU. }
+	### The function returns a vector with SOS, EOS, LOS, POP, MGS, rsp, rau, PEAK, MSP and MAU. 
 }, ex=function() {
 
 data(ndvi)

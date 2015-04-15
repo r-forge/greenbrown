@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Compute Kling-Gupta efficiency and related metrics of two...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for KGERaster {greenbrown}"><tr><td>KGERaster {greenbrown}</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Compute Kling-Gupta efficiency and related metrics of two multi-layer raster data sets</h2>
+
+<h3>Description</h3>
+
+<p>This function can be used to apply the function <code><a href="KGE.html">KGE</a></code> on raster data. See <code><a href="KGE.html">KGE</a></code> for details.</p>
+
+
+<h3>Usage</h3>
+
+<pre>KGERaster(x, ref, trend = FALSE, start = c(1982, 1), freq = 12, 
+    ...)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>multi-layer raster object of class <code><a href="../../raster/html/brick.html">brick</a></code> including modelled time series</p>
+</td></tr>
+<tr valign="top"><td><code>ref</code></td>
+<td>
+<p>multi-layer raster object of class <code><a href="../../raster/html/brick.html">brick</a></code> including reference (observed or standard model run) time series</p>
+</td></tr>
+<tr valign="top"><td><code>trend</code></td>
+<td>
+<p>Include the effect of trend in the calculation? (default: FALSE). The calculation of breakpoints is currently not implemented for the function KGERaster.</p>
+</td></tr>
+<tr valign="top"><td><code>start</code></td>
+<td>
+<p>beginning of the time series (i.e. the time of the first observation). The default is c(1982, 1), i.e. January 1982 which is the usual start date to compute trends on long-term series of satellite observations of NDVI. See <code><a href="../../stats/html/ts.html">ts</a></code> for further examples.</p>
+</td></tr>
+<tr valign="top"><td><code>freq</code></td>
+<td>
+<p>The frequency of observations. The default is 12 for monthly observations. Use 24 for bi-monthly observations, 365 for daily observations or 1 for annual observations. See <code><a href="../../stats/html/ts.html">ts</a></code> for further examples.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments for the function <code><a href="../../raster/html/calc.html">calc</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>See <code><a href="KGE.html">KGE</a></code> for details.</p>
+
+
+<h3>Value</h3>
+
+<p>The function returns a raster brick with the following layers:
+</p>
+ 
+<ul>
+<li> <p><code>KGE</code> Kling-Gupta effciency = 1 - eTotal 
+</p>
+</li>
+<li> <p><code>eTotal</code> total effect, i.e. euclidean distance 
+</p>
+</li>
+<li> <p><code>fMean</code> fraction of mean to the total effect
+</p>
+</li>
+<li> <p><code>fVar</code> fraction of variance to the total effect 
+</p>
+</li>
+<li> <p><code>fCor</code> fraction of correlation to the total effect 
+</p>
+</li>
+<li> <p><code>fTrend</code> fraction of trend to the total effect (only if trend=TRUE)
+</p>
+</li>
+<li> <p><code>eMean</code> effect of mean
+</p>
+</li>
+<li> <p><code>eVar</code> effect of variance 
+</p>
+</li>
+<li> <p><code>eCor</code> effect of correlation  
+</p>
+</li>
+<li> <p><code>eTrend</code> effect of trend (only if trend=TRUE)	
+</p>
+</li></ul>
+
+
+<h3>Author(s)</h3>
+
+<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt;</p>
+
+
+<h3>References</h3>
+
+<p>Gupta, H. V., H. Kling, K. K. Yilmaz, G. F. Martinez (2009):  Decomposition of the mean squared error and NSE performance criteria: Implications for improving hydrological modelling. Journal of Hydrology 377, 80-91.</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="KGE.html">KGE</a></code>, <code><a href="Trend.html">Trend</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# # load a map of NDVI (normalized difference vegetation index) time series
+# data(ndvimap)
+# plot(ndvimap)
+
+# # increase mean
+# ndvimap2 &lt;- ndvimap + 0.01
+# kge1.r &lt;- KGERaster(x=ndvimap2, ref=ndvimap)
+# plot(kge1.r)
+
+# # increase mean and variance
+# ndvimap3 &lt;- ndvimap + 0.01 + rnorm(1000, 0, 0.05)
+# kge2.r &lt;- KGERaster(ndvimap3, ndvimap)
+# plot(kge2.r)
+
+# # check also effects on trend (takes more time because of trend calculations)
+# kge3.r &lt;- KGERaster(ndvimap3, ndvimap, trend=TRUE)
+# plot(kge3.r)
+	
+</pre>
+
+<hr><div align="center">[Package <em>greenbrown</em> version 2.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

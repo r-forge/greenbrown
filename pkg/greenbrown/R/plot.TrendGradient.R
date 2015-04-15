@@ -43,6 +43,10 @@ plot.TrendGradient <- structure(function(
 ) {	
 
 	# get variables from trend gradient object
+	x.df <- data.frame(x$zone, x$Slope, x$Pval, x$SlopeUncLower, x$SlopeUncUpper, x$SlopeUncMedian, x$LongestSEG, x$LengthSEG)
+	# x.df <- na.omit(x.df)
+	colnames(x.df) <- names(x)
+	x <- x.df
 	grad <- x$zone
 	sl <- x$Slope
 	sl.med <- x$SlopeUncMed

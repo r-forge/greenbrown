@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: plot a comparison of two classification rasters</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for plot.CompareClassification {greenbrown}"><tr><td>plot.CompareClassification {greenbrown}</td><td align="right">R Documentation</td></tr></table>
+
+<h2>plot a comparison of two classification rasters</h2>
+
+<h3>Description</h3>
+
+<p>This function takes an object of class <code><a href="CompareClassification.html">CompareClassification</a></code> as input and plots a map of the class agreement of two classifications.</p>
+
+
+<h3>Usage</h3>
+
+<pre>## S3 method for class 'CompareClassification'
+plot(x,
+ xlab = "", ylab = "", main = "Classification agreement", 
+    names = NULL, ul = "burlywood4", lr = "darkgreen", ll = "khaki1", 
+    ur = "royalblue1", ctr = "gray87", mar = NULL, ...)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Object of class 'CompareClassification' as returned from function <code><a href="CompareClassification.html">CompareClassification</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+<p>A title for the x axis</p>
+</td></tr>
+<tr valign="top"><td><code>ylab</code></td>
+<td>
+<p>A title for the y axis</p>
+</td></tr>
+<tr valign="top"><td><code>main</code></td>
+<td>
+<p>A title for the plot</p>
+</td></tr>
+<tr valign="top"><td><code>names</code></td>
+<td>
+<p>a list with names of the two classifications and class names. See example section for details.</p>
+</td></tr>
+<tr valign="top"><td><code>ul</code></td>
+<td>
+<p>starting color in the upper left corner of the <code><a href="ColorMatrix.html">ColorMatrix</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>lr</code></td>
+<td>
+<p>ending color in the lower right corner of the <code><a href="ColorMatrix.html">ColorMatrix</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>ll</code></td>
+<td>
+<p>starting color in the lower left corner of the <code><a href="ColorMatrix.html">ColorMatrix</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>ur</code></td>
+<td>
+<p>ending color in the upper right corner of the <code><a href="ColorMatrix.html">ColorMatrix</a></code>	</p>
+</td></tr>
+<tr valign="top"><td><code>ctr</code></td>
+<td>
+<p>color in the center of the <code><a href="ColorMatrix.html">ColorMatrix</a></code>	</p>
+</td></tr>
+<tr valign="top"><td><code>mar</code></td>
+<td>
+<p>plot margins</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Further arguments that can be passed <code><a href="../../graphics/html/plot.default.html">plot.default</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt;</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="CompareClassification.html">CompareClassification</a></code>, <code><a href="AccuracyAssessment.html">AccuracyAssessment</a></code>, <code><a href="TrendClassification.html">TrendClassification</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# Example: calculate NDVI trends from two methods and compare the significant trends
+
+# load a multi-temporal raster dataset of Normalized Difference Vegetation Index
+data(ndvimap)
+
+# calculate trends with two different methods
+AATmap &lt;- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="AAT", breaks=0)
+plot(AATmap)
+STMmap &lt;- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="STM", breaks=0)
+plot(STMmap)
+
+# classify the trend estimates from the two methods into significant positive, negative and no trend
+AATmap.cl &lt;- TrendClassification(AATmap)
+plot(AATmap.cl, col=brgr.colors(3))
+STMmap.cl &lt;- TrendClassification(STMmap)
+plot(STMmap.cl, col=brgr.colors(3))
+
+# compare the two classifications
+compare &lt;- CompareClassification(x=AATmap.cl, y=STMmap.cl, names=list('AAT'=c("Br", "No", "Gr"), 'STM'=c("Br", "No", "Gr")))
+compare
+
+# plot the comparison
+plot(compare)
+
+</pre>
+
+<hr><div align="center">[Package <em>greenbrown</em> version 2.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

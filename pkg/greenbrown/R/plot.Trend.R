@@ -1,6 +1,6 @@
 plot.Trend <- structure(function(
 	##title<< 
-	## Create time series plots with trend lines
+	## Plot trend and breakpoint results
 	
 	##description<<
 	## This is the standard plot function for results of the \code{\link{Trend}} function. See \code{\link{plot.default}} for further specifications of basic plots.
@@ -24,10 +24,16 @@ plot.Trend <- structure(function(
 	## line width
 	
 	symbolic=TRUE,
-	### add significance as symbols (TRUE) or as legend text (FALSE). If TRUE the p-value of a trend slope is added as symbol as following: *** (p <= 0.001), ** (p <= 0.01), * (p <= 0.05), . (p <= 0.1) and no symbol if p > 0.1. 
+	### add significance as symbols (TRUE). If TRUE the p-value of a trend slope is added as symbol as following: *** (p <= 0.001), ** (p <= 0.01), * (p <= 0.05), . (p <= 0.1) and no symbol if p > 0.1. 
+	
+	legend=FALSE,
+	### add slope and p-value as legend
 	
 	uncertainty=TRUE,
 	### plot uncertainty in trend slopes? (only possible if the x 'Trend' object includes uncertainty estimates)
+	
+	axes=TRUE,
+	### plot axes?
 	
 	...
 	### Further arguments that can be passed \code{\link{plot.default}}
@@ -40,8 +46,10 @@ plot.Trend <- structure(function(
 
 	# plot time series
 	if (!add) {
+		yaxt <- "s"
+		if (!axes) yaxt <- "n"
 		plot(x$series, type="l", xaxt="n", xlab="", col=col[1], lty=lty[1], ylab=ylab, lwd=lwd, ...)
-		axis(1, pretty(x$time), pretty(x$time))
+		if (axes) axis(1, pretty(x$time), pretty(x$time))
 	}
 	if (add) lines(x$series, col=col[1], lty=lty[1], lwd=lwd)
 	lines(x$trend, col=col[2], lty=lty[2], lwd=lwd*2, ...)
@@ -100,7 +108,8 @@ plot.Trend <- structure(function(
 	 
 	if (symbolic) {	
 		text(xpos, ypos, pval.symbol, col=col[2], font=2, cex=2)				
-	} else {
+	} 
+	if (legend) {
 		legend("bottomleft", paste("Slope = ", signif(x$slope, 2), " (p-value = ", signif(x$pval, 2), ")", sep=""), bty="n", text.col="blue")	
 	}
 }, ex=function() {
@@ -144,7 +153,12 @@ print.Trend <- summary.Trend <- structure(function(
 	tau <- format(signif(x$tau, 3), digits=3, scientific=FALSE, width=8)
 	pval <- format(signif(x$pval, 3), digits=3, width=8)
 	# if (is.null(x$bptest) & !is.null(x$tau)) trd <- format(signif(x$tau, 3), digits=3, scientific=FALSE, width=8)
-	names <- format(c("slope", "p-value", "tau"), justify="right", width=8)
+	if (!is.null(x$percentage)) {
+		perc <- format(signif(x$percentage, 3), digits=3, width=8)
+		names <- format(c("slope", "%", "p-value", "tau"), justify="right", width=8)
+	} else {	
+		names <- format(c("slope", "p-value", "tau"), justify="right", width=8)
+	}
 	
 	if (nseg > 1) bp.dates <- format(x$time[x$bp$breakpoints], justify="right", width=8)
 
@@ -181,7 +195,11 @@ print.Trend <- summary.Trend <- structure(function(
 	# print coefficients of piecewise linear trend
 	cat("Trends in segments of the time series", "\n")
 	cat("    ", "              ", names, "\n")
-	for (i in 1:nseg) cat("    ", "segment", format(i, width=3, justify="right"), ":", trd[i], pval[i], tau[i], "\n")		
+	if (!is.null(x$percentage)) {
+		for (i in 1:nseg) cat("    ", "segment", format(i, width=3, justify="right"), ":", trd[i], perc[i], pval[i], tau[i], "\n")	
+	} else {
+		for (i in 1:nseg) cat("    ", "segment", format(i, width=3, justify="right"), ":", trd[i], pval[i], tau[i], "\n")	
+	}
 }, ex=function() {
 # load a time series of Normalized Difference Vegetation Index
 data(ndvi)

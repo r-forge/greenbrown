@@ -125,9 +125,9 @@ TrendNCDF <- structure(function(
 	### \item{ \code{file.Trend.nc} NetCDF file with result of trend and breakpoints detection (from \code{\link{TrendRaster}}) }
 	### \item{ \code{file.Trend.Classif.nc} NetCDF file with classified trends in each time series segment (from \code{\link{TrendClassification}}) }
 	### \item{ \code{file.Trend.BP.nc} NetCDF file with time of breakpoints  }
-	### \item{ \code{file.Trend.LongestSEG.nc} NetCDF file with slope and p-values of the longest time series segment (from \code{\link{TrendLongestSEG}) }
-	### \item{ \code{file.Trend.SlopeLongestSEG.nc} NetCDF file with slope of the longest time series segment (from \code{\link{TrendLongestSEG}) }	
-	### \item{ \code{file.Trend.PvalLongestSEG.nc} NetCDF file with p-value of the longest time series segment (from \code{\link{TrendLongestSEG}) }
-	### \item{ \code{file.Trend.LongestSEGClassif.nc} NetCDF file with classified trend of the longest time series segment (i.e.  \code{\link{TrendClassification}} applied on \code{\link{TrendLongestSEG} }) }
+	### \item{ \code{file.Trend.LongestSEG.nc} NetCDF file with slope and p-values of the longest time series segment (from \code{\link{TrendLongestSEG}}) }
+	### \item{ \code{file.Trend.SlopeLongestSEG.nc} NetCDF file with slope of the longest time series segment (from \code{\link{TrendLongestSEG}}) }	
+	### \item{ \code{file.Trend.PvalLongestSEG.nc} NetCDF file with p-value of the longest time series segment (from \code{\link{TrendLongestSEG}}) }
+	### \item{ \code{file.Trend.LongestSEGClassif.nc} NetCDF file with classified trend of the longest time series segment (i.e.  \code{\link{TrendClassification}} applied on \code{\link{TrendLongestSEG}}) }
 	### }
 })

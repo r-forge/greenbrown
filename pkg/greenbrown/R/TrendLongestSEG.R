@@ -57,9 +57,8 @@ TrendLongestSEG <- structure(function(
 data(ndvimap)
 plot(ndvimap, 8)
 
-# calculate trend with maximum 2 breakpoints
-breaks <- 2
-trendmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="AAT", breaks=breaks)
+# calculate trend 
+trendmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="AAT", breaks=1)
 plot(trendmap)
 
 # select trend and p-value only for the longest time series segment

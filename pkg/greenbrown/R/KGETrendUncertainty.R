@@ -2,7 +2,7 @@ KGETrendUncertainty <- structure(function(
 	##title<< 
 	## Compute uncertainty of Kling-Gupta efficiency based on beginning and end of time series 
 	##description<<
-	## This function smaples time series for different combinations of start and end years and computes for each combination the KGE (see \code{\link{KGE}}.
+	## This function samples time series for different combinations of start and end years and computes for each combination the KGE (see \code{\link{KGE}}).
 	
 	x, 
 	### time series from model result or factorial model run

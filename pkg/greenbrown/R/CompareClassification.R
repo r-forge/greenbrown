@@ -1,6 +1,6 @@
 CompareClassification <- structure(function(
 	##title<< 
-	## Compare two raster layers with classified values
+	## Compare two classification maps
 	
 	##description<<
 	## This function computes an agreement map of two classifications (RasterLayers with classified values). Additionally, it computes a frequency table with user, producer and total accuracies as well as the Kappa coefficient. 

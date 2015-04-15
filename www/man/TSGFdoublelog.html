@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Temporal smoothing and gap filling using double logisitic...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for TSGFdoublelog {greenbrown}"><tr><td>TSGFdoublelog {greenbrown}</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Temporal smoothing and gap filling using double logisitic functions</h2>
+
+<h3>Description</h3>
+
+<p>This function fills gaps and smoothes a time series by fitting for each year a double logisitic function. Two definitions for the shape of the double logistic function are available: 'Elmore' fits a function according to Elmore et al. (2012) and 'Beck' fits a according to Beck et al. (2006). If the time series has no Seasonality, double logistic fitting will not be performed but smoothing and interpolation will be done according to the selected <code>backup</code> algorithm.</p>
+
+
+<h3>Usage</h3>
+
+<pre>TSGFdoublelog(Yt, interpolate = FALSE, method = c("Elmore", "Beck"), 
+    backup = NULL, ...)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>Yt</code></td>
+<td>
+<p>univariate time series of class <code><a href="../../stats/html/ts.html">ts</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>interpolate</code></td>
+<td>
+<p>Should the smoothed and gap filled time series be interpolated to daily values by using the logistic fit function?</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>Which kind of double logistic curve should be used? 'Elmore' (Elmore et al. 2012) or 'Beck' (Beck et al. 2006).</p>
+</td></tr>
+<tr valign="top"><td><code>backup</code></td>
+<td>
+<p>Which backup algorithm should be used for temporal smoothing and gap filling if the time series has no seasonality? If a time series has no seasonal pattern, the fitting of double logistic functions is not meaningful. In this case another method can be used. Default: NULL (returns NA - no smoothing), other options: &quot;TSGFspline&quot;, &quot;TSGFssa&quot;, &quot;TSGFlinear&quot;</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments (currently not used)</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The function returns a gap-filled and smoothed version of the time series.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt;</p>
+
+
+<h3>References</h3>
+
+<p>Beck, P.S.A., C. Atzberger, K.A. Hodga, B. Johansen, A. Skidmore (2006): Improved monitoring of vegetation dynamics at very high latitudes: A new method using MODIS NDVI. - Remote Sensing of Environment 100:321-334. <br>
+Elmore, A.J., S.M. Guinn, B.J. Minsley and A.D. Richardson (2012): Landscape controls on the timing of spring, autumn, and growing season length in mid-Atlantic forests. - Global Change Biology 18, 656-674. </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="FitDoubleLogBeck.html">FitDoubleLogBeck</a></code>, <code><a href="FitDoubleLogElmore.html">FitDoubleLogElmore</a></code>, <code><a href="TsPP.html">TsPP</a></code>, <code><a href="Phenology.html">Phenology</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# load a time series of NDVI (normalized difference vegetation index)
+data(ndvi)
+plot(ndvi)
+
+# introduce random gaps 
+gaps &lt;- ndvi
+gaps[runif(100, 1, length(ndvi))] &lt;- NA
+plot(gaps)
+
+# do smoothing and gap filling
+tsgf1 &lt;- TSGFdoublelog(gaps, method="Elmore")
+tsgf2 &lt;- TSGFdoublelog(gaps, method="Beck")
+plot(gaps)
+lines(tsgf1, col="red")
+lines(tsgf2, col="blue")
+
+# compare original data with gap-filled data
+all &lt;- ts.union(ndvi, tsgf1, tsgf2)
+all[!is.na(gaps),] &lt;- NA
+plot(all[,1], all[,2], col="red", xlab="original", ylab="gap filled")
+points(all[,1], all[,3], col="blue")
+abline(0,1)
+r &lt;- c(cor(all[,1], all[,2], use="pairwise.complete.obs"), cor(all[,1], all[,3],, use="pairwise.complete.obs"))
+legend("topleft", paste(c("Elmore Cor =", "Beck Cor ="), round(r, 3)), text.col=c("red", "blue"))
+
+</pre>
+
+<hr><div align="center">[Package <em>greenbrown</em> version 2.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

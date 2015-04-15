@@ -2,10 +2,10 @@ MapBreakpoints <- structure(function(
 	##title<< 
 	## Plot map of breakpoints 
 	##description<<
-	## This function can be used to add breakpoints as points and/or text to map of trends.
+	## This function plots a map of breakpoints or adds breakpoints as points and text to map of trends.
 	
 	bp.r, 
-	### raster layer with breakpoints (computed with \code{\link{TrendRaster}}).
+	### raster layer with breakpoints as computed with \code{\link{TrendRaster}}.
 	
 	add=TRUE, 
 	### add breakpoint map to actual map (default TRUE)
@@ -31,17 +31,22 @@ MapBreakpoints <- structure(function(
 	pch=1, 
 	### type of point symbol 
 	
-	format.text="%y"
-	### format of the text of add.text=TRUE (default '%y', i.e. 1982=82, 2001=01 etc.)
+	format.text,
+	### format of the text if add.text=TRUE, default: %y
+	
+	...
+	### further arguments for \code{\link{plot}}
 	
 	##seealso<<
 	## \code{\link{TrendRaster}}, \code{\link{TrendSegmentsRaster}}
 	
 ) {
-	# convert breakpoints to point layer
+
 	bp.sp <- rasterToPoints(bp.r)
 	proj <- CRS(projection(bp.r))
 	bp.sp0 <- SpatialPointsDataFrame(bp.sp[,1:2], data.frame(bp.sp[,3]), proj4string = proj)
+	
+	if (!hasArg(format.text)) format.text <- "%y"
 	
 	# compute class breaks for breakpoints
 	if (is.null(breaks)) {
@@ -71,8 +76,8 @@ MapBreakpoints <- structure(function(
 	
 
 	# add breakpoints as points
-	if (!add) plot(bp.sp0, col=cols, cex=cex, lwd=lwd, pch=pch)
-	if (add) plot(bp.sp0, col=cols, add=TRUE, cex=cex, lwd=lwd, pch=pch)
+	if (!add) plot(bp.sp0, col=cols, cex=cex, lwd=lwd, pch=pch, ...)
+	if (add) plot(bp.sp0, col=cols, add=TRUE, cex=cex, lwd=lwd, pch=pch, ...)
 	
 	# add breakpoints as text for regional clusters of breakpoints
 	if (add.text) {
@@ -98,7 +103,6 @@ MapBreakpoints(bp.r)
 
 plot(AATmap, grep("SlopeSEG1", names(AATmap)), col=brgr.colors(15))
 lgd <- MapBreakpoints(bp.r, format.text="%Y", ntext=10, cex=0.8)
-
 
 
 })
