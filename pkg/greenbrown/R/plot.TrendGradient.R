@@ -61,7 +61,7 @@ plot.TrendGradient <- structure(function(
 		y2 <- sl.unc1
 		y3 <- sl.unc2
 		y4 <- sl.med
-		if (is.null(xlab)) xlab <- "Latitude (°N)"
+		if (is.null(xlab)) xlab <- "Latitude (N)"
 		if (is.null(ylab)) ylab <- "NDVI trend (yr-1)"
 	} 
 	if (type == "yx") {
@@ -71,7 +71,7 @@ plot.TrendGradient <- structure(function(
 		x4 <- sl.med
 		y1 <- y2 <- y3 <- y4 <- grad
 		if (is.null(xlab)) xlab <- "NDVI trend (yr-1)"
-		if (is.null(ylab)) ylab <- "Latitude (°N)"
+		if (is.null(ylab)) ylab <- "Latitude (N)"
 	} 	
 	
 	# calculate limits
