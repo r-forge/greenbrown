@@ -1,4 +1,4 @@
-PhenologyNCDF <- structure(function(
+ï»¿PhenologyNCDF <- structure(function(
 	##title<< 
 	## Calculate phenology metrics on time series in gridded (raster) data stored in NetCDF files
 	##description<<
@@ -91,7 +91,7 @@ PhenologyNCDF <- structure(function(
 	##references<< 
 	## Beck, P.S.A., C. Atzberger, K.A. Hodga, B. Johansen, A. Skidmore (2006): Improved monitoring of vegetation dynamics at very high latitudes: A new method using MODIS NDVI. - Remote Sensing of Environment 100:321-334. \cr
 	## Elmore, A.J., S.M. Guinn, B.J. Minsley and A.D. Richardson (2012): Landscape controls on the timing of spring, autumn, and growing season length in mid-Atlantic forests. - Global Change Biology 18, 656-674. \cr	
-	## White M.A., P.E. Thornton and S.W. Running (1997): A continental phenology model for monitoring vegetation responses to interannual climatic variability. - Global Biogeochemical Cycles 11:217–234. 
+	## White M.A., P.E. Thornton and S.W. Running (1997): A continental phenology model for monitoring vegetation responses to interannual climatic variability. - Global Biogeochemical Cycles 11, 217-234. 
 	
 	##seealso<<
 	## \code{\link{PhenologyRaster}}, \code{\link{Phenology}}, \code{\link{PhenologyNCDF}}, \code{\link{NamesPhenologyRaster}} 

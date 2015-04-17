@@ -1,4 +1,4 @@
-PhenoTrs <- structure(function(
+ï»¿PhenoTrs <- structure(function(
 	##title<< 
 	## Method 'Trs' to calculate phenology metrics
 	##description<<
@@ -26,7 +26,7 @@ PhenoTrs <- structure(function(
 	### further arguments (currently not used)
 	
 	##references<< 
-	## White MA, Thornton PE, Running SW (1997) A continental phenology model for monitoring vegetation responses to interannual climatic variability. Global Biogeochem Cycles 11:217–234.
+	## White MA, Thornton PE, Running SW (1997) A continental phenology model for monitoring vegetation responses to interannual climatic variability. Global Biogeochem Cycles 11, 217-234.
 		
 	##seealso<<
 	## \code{\link{Phenology}}

@@ -1,4 +1,4 @@
-AccuracyAssessment <- structure(function(
+ï»¿AccuracyAssessment <- structure(function(
 	##title<< 
 	## Accuracy assessment from a contingency table
 	
@@ -8,7 +8,7 @@ AccuracyAssessment <- structure(function(
 	tab
 	### contingency table as calculated with \code{\link{table}} or \code{\link{crosstab}}
 	
-	##references<< Congalton, R.G. (1991): A review of assessing the accuracy of classifications of remotely sensed data. - Remote Sensing of Environment 1991, 37, 35–46.
+	##references<< Congalton, R.G. (1991): A review of assessing the accuracy of classifications of remotely sensed data. - Remote Sensing of Environment 1991, 37, 35-46.
 
 	##seealso<<
 	## \code{\link{CompareClassification}}, \code{\link{Kappa}}, \code{\link{TrendClassification}}	
