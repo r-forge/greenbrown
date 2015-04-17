@@ -1,4 +1,4 @@
-﻿Phenology <- structure(function(
+Phenology <- structure(function(
 	##title<< 
 	## Calculate phenology metrics in time series
 	##description<<

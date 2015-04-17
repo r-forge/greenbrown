@@ -1,4 +1,4 @@
-﻿PhenologyRaster <- structure(function(
+PhenologyRaster <- structure(function(
 	##title<< 
 	## Calculate phenology metrics on time series in gridded (raster) data
 	##description<<

@@ -1,4 +1,4 @@
-﻿PhenoTrs <- structure(function(
+PhenoTrs <- structure(function(
 	##title<< 
 	## Method 'Trs' to calculate phenology metrics
 	##description<<

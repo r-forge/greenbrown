@@ -1,4 +1,4 @@
-﻿Kappa <- structure(function(
+Kappa <- structure(function(
 	##title<< 
 	## Calculate the Kappa coefficient of two classifications
 	

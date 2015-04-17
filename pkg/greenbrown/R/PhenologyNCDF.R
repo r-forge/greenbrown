@@ -1,4 +1,4 @@
-﻿PhenologyNCDF <- structure(function(
+PhenologyNCDF <- structure(function(
 	##title<< 
 	## Calculate phenology metrics on time series in gridded (raster) data stored in NetCDF files
 	##description<<

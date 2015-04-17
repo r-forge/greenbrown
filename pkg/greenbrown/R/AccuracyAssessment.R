@@ -1,4 +1,4 @@
-﻿AccuracyAssessment <- structure(function(
+AccuracyAssessment <- structure(function(
 	##title<< 
 	## Accuracy assessment from a contingency table
 	
