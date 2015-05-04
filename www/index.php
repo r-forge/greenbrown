@@ -59,7 +59,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 
 <ul>
 <li>Forkel M, Carvalhais N, Verbesselt J, Mahecha M, Neigh C, Reichstein M (2013) <a href="http://www.mdpi.com/2072-4292/5/5/2113">Trend Change Detection in NDVI Time Series: Effects of Inter-Annual Variability and Methodology.</a> Remote Sensing, 5, 2113-2144.</li> 
-<li>Forkel M, Migliavacca M, Thonicke K, Reichstein M, Schaphoff S, Weber U, Carvalhais N (2015) Co-dominant water control on global inter-annual variability and trends in land surface phenology and greenness. Global Change Biology, accepted.</li>
+<li>Forkel M, Migliavacca M, Thonicke K, Reichstein M, Schaphoff S, Weber U, Carvalhais N (2015) <a href="http://onlinelibrary.wiley.com/doi/10.1111/gcb.12950/abstract">Co-dominant water control on global inter-annual variability and trends in land surface phenology and greenness.</a> Global Change Biology, accepted.</li>
 </ul>
 
 
