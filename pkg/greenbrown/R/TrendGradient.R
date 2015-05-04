@@ -144,7 +144,7 @@ gradient.r <- raster(ndvimap, 1) # create a raster layer with longitudes:
 gradient.r[] <- xFromCell(gradient.r, 1:ncell(gradient.r)) 
 plot(gradient.r)
 gradient <- TrendGradient(ndvimap, start=c(1982, 1), freq=12, gradient.r=gradient.r)
-plot(gradient, xlab="Longitude (°E)") 
+plot(gradient, xlab="Longitude (E)") 
 
 })
 
