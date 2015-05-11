@@ -169,9 +169,10 @@ plot(x)
 lines(fit, col="blue")
 
 # return parameters of fit
-FitDoubleLogElmore(x, return.par=TRUE, plot=TRUE)	# plot=TRUE causes plotting of different double logisitic
+FitDoubleLogElmore(x, return.par=TRUE, plot=TRUE)	
 
-# fit double-logistic function to one year of data, interpolate to daily time steps and calculate phenology metrics
+# fit double-logistic function to one year of data, 
+# interpolate to daily time steps and calculate phenology metrics
 tout <- seq(1, 12, length=365)	# time steps for output (daily)
 fit <- FitDoubleLogElmore(x, tout=tout)
 plot(x)

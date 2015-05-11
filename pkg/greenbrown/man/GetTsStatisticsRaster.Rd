@@ -10,7 +10,7 @@
 
 \value{The function returns a RasterBrick with 7 layers: mean, trend slope, range of inter-annual variabililty, standard deviation of inter-annual variabililty, range of seasonal cycle, range and standard deviation of short-term variabililty. }
 
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de>}
+\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
 
 
 

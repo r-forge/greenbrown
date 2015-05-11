@@ -9,7 +9,7 @@
 
 \value{the function returns a list of raster layers}
 
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de>}
+\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
 
 
 

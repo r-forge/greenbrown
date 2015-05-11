@@ -40,7 +40,7 @@ All methods work with missing observations (for example missing NDVI observation
 \item{ \code{file.Trend.LongestSEGClassif.nc} NetCDF file with classified trend of the longest time series segment (i.e.  \code{\link{TrendClassification}} applied on \code{\link{TrendLongestSEG}}) }
 }}
 \references{Forkel, M., N. Carvalhais, J. Verbesselt, M. Mahecha, C. Neigh and M. Reichstein (2013): Trend Change Detection in NDVI Time Series: Effects of Inter-Annual Variability and Methodology. - Remote Sensing 5.	}
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de>}
+\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
 
 
 

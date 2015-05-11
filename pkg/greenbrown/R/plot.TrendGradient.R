@@ -116,12 +116,15 @@ plot(ndvimap, 8)
 gradient <- TrendGradient(ndvimap, start=c(1982, 1), freq=12)
 gradient
 plot(gradient) 
-# shown is the trend at each latitudinal band, the area represents the 95% confidence interval of the trend (computed with function TrendUncertainty), symbols indicate the p-value of the trend at each latitude
+# shown is the trend at each latitudinal band, the area represents the 95% confidence 
+# interval of the trend (computed with function TrendUncertainty), symbols indicate 
+# the p-value of the trend at each latitude
 
 plot(gradient, type="yx") # the gradient can be also plotted in reversed order
 
 # compute gradients with different trend methods
-gradient.mac <- TrendGradient(ndvimap, start=c(1982, 1), freq=12, method="SeasonalAdjusted", funSeasonalCycle=MeanSeasonalCycle)
+gradient.mac <- TrendGradient(ndvimap, start=c(1982, 1), freq=12, method="SeasonalAdjusted", 
+	funSeasonalCycle=MeanSeasonalCycle)
 plot(gradient.mac, col="blue", ylab="NDVI trend (month-1)")
 gradient$Slope <- gradient$Slope / 12 # method AAT uses annual time steps, convert years -> months
 gradient$SlopeUncLower <- gradient$SlopeUncLower / 12

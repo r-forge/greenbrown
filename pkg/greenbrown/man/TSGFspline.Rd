@@ -10,7 +10,7 @@
 
 \value{The function returns a gap-filled and smoothed version of the time series.}
 
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de>}
+\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
 
 
 

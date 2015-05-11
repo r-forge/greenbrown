@@ -26,7 +26,7 @@
 \item{ \code{eTrend} effect of trend (only if trend=TRUE)}	
 }}
 \references{Gupta, H. V., H. Kling, K. K. Yilmaz, G. F. Martinez (2009):  Decomposition of the mean squared error and NSE performance criteria: Implications for improving hydrological modelling. Journal of Hydrology 377, 80-91.}
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de>}
+\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
 
 
 

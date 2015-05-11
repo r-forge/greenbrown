@@ -90,7 +90,8 @@ STMmap.cl <- TrendClassification(STMmap)
 plot(STMmap.cl, col=brgr.colors(3))
 
 # compare the two classifications
-compare <- CompareClassification(x=AATmap.cl, y=STMmap.cl, names=list('AAT'=c("Br", "No", "Gr"), 'STM'=c("Br", "No", "Gr")))
+compare <- CompareClassification(x=AATmap.cl, y=STMmap.cl, names=list('AAT'=c("Br", "No", "Gr"), 
+	'STM'=c("Br", "No", "Gr")))
 compare
 
 # plot the comparison

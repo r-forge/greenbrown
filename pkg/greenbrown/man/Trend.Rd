@@ -30,7 +30,7 @@
 These methods can be applied to gridded (raster) data using the function \code{\link{TrendRaster}}.}
 \value{The function returns a list of class "Trend". }
 \references{Forkel, M., N. Carvalhais, J. Verbesselt, M. Mahecha, C. Neigh and M. Reichstein (2013): Trend Change Detection in NDVI Time Series: Effects of Inter-Annual Variability and Methodology. - Remote Sensing 5.}
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de>}
+\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
 
 
 
@@ -45,7 +45,9 @@ trd <- Trend(ndvi)
 trd
 plot(trd)
 
-# an important parameter is mosum.pval, if the p-value is changed to 1 breakpoints can be detected in the time series regardless if there is significant structural change
+# an important parameter is mosum.pval: if the p-value is changed to 1, 
+# breakpoints can be detected in the time series regardless if 
+# there is significant structural change
 trd <- Trend(ndvi, mosum.pval=1)
 trd
 plot(trd)
@@ -67,11 +69,13 @@ lines(trd$adjusted, col="green")
 trd
 
 # calculate trend based on removal of the seasonal cycle: modify maximal number of breakpoints
-trd <- Trend(ndvi, method="SeasonalAdjusted", breaks=1, funSeasonalCycle=MeanSeasonalCycle, sample.method="sample")
+trd <- Trend(ndvi, method="SeasonalAdjusted", breaks=1, 
+	funSeasonalCycle=MeanSeasonalCycle, sample.method="sample")
 plot(trd)
 trd
 
-# calculate trend based on removal of the seasonal cycle: modify minimum segment size, e.g. set the minimum length of segments to 8 years
+# calculate trend based on removal of the seasonal cycle, 
+# modify minimum segment size, e.g. set the minimum length of segments to 8 years
 trd <- Trend(ndvi, method="SeasonalAdjusted", h=(8*12)/length(ndvi))
 plot(trd)
 trd

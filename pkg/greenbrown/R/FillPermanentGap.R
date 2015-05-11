@@ -70,7 +70,7 @@ IsPermanentGap <- structure(function(
 	# identifiy how often an observation is NA (%) --> fraction of gaps
 	Na.agg <- aggregate(as.vector(Na), list(as.vector(cycle(Na))), "sum", na.rm=TRUE)$x
 	Gf <- Na.agg / nyears
-	Gf <- ts(Gf[as.vector(cycle(Na))], start=start, freq=freq)
+	Gf <- ts(Gf[as.vector(cycle(Na))], start=start, frequency=freq)
 		
 	# identify permanent (lower or upper) gaps
 	Pg <- Gf > min.gapfrac & Pt
@@ -78,7 +78,7 @@ IsPermanentGap <- structure(function(
 	# fraction of permanent gaps
 	Pg.agg <- aggregate(as.vector(Pg), list(as.vector(cycle(Pg))), "sum", na.rm=TRUE)$x
 	Pgf <- Pg.agg / nyears
-	Pgf <- ts(Pgf[as.vector(cycle(Pg))], start=start, freq=freq)
+	Pgf <- ts(Pgf[as.vector(cycle(Pg))], start=start, frequency=freq)
 	
 	Pg <- (Pgf > 0.5)
 	return(Pg)

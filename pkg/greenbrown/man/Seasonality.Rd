@@ -16,7 +16,7 @@
 
 \value{The function returns a boolean vector of length 3 including TRUE if a method detected seasonality or FALSE if a method did not detect seasonality. }
 
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de>}
+\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
 
 
 

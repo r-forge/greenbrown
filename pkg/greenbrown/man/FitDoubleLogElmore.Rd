@@ -14,7 +14,7 @@
 
 \value{The function returns a vector with fitted values if return.par is FALSE and it returns parameters of the logisitic modle of return.par is TRUE}
 \references{Elmore, A.J., S.M. Guinn, B.J. Minsley and A.D. Richardson (2012): Landscape controls on the timing of spring, autumn, and growing season length in mid-Atlantic forests. - Global Change Biology 18, 656-674.}
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de>}
+\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
 
 
 
@@ -35,9 +35,10 @@ plot(x)
 lines(fit, col="blue")
 
 # return parameters of fit
-FitDoubleLogElmore(x, return.par=TRUE, plot=TRUE)	# plot=TRUE causes plotting of different double logisitic
+FitDoubleLogElmore(x, return.par=TRUE, plot=TRUE)	
 
-# fit double-logistic function to one year of data, interpolate to daily time steps and calculate phenology metrics
+# fit double-logistic function to one year of data, 
+# interpolate to daily time steps and calculate phenology metrics
 tout <- seq(1, 12, length=365)	# time steps for output (daily)
 fit <- FitDoubleLogElmore(x, tout=tout)
 plot(x)

@@ -8,7 +8,7 @@
 
 \value{Mean seasonal cycle of time series ts with the same length as ts, i.e. the mean seasonal cycle is repeated for each year. The mean seasonal cycle is centered to 0.}
 
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de>}
+\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
 
 
 
@@ -20,7 +20,8 @@ plot(ndvi)
 ndvi.cycle <- MeanSeasonalCycle(ndvi)
 plot(ndvi.cycle)
 
-# the mean seasonal cycle is centered to 0 - add the mean of the time series if you want to overlay it with the original data:
+# the mean seasonal cycle is centered to 0, 
+# add the mean of the time series if you want to overlay it with the original data:
 plot(ndvi)
 lines(ndvi.cycle + mean(ndvi, na.rm=TRUE), col="blue")
 }

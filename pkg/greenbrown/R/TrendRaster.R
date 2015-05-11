@@ -131,10 +131,11 @@ AATmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="AAT", breaks=1
 plot(AATmap)
 
 # calculate trend: seasonal adjusted time series based on mean annual cycle, no breakpoints
-MACmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="SeasonalAdjusted", breaks=0, funSeasonalCycle=MeanSeasonalCycle)
+MACmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="SeasonalAdjusted", 
+	breaks=0, funSeasonalCycle=MeanSeasonalCycle)
 plot(MACmap)
 
-# calculate trend: seasonal adjusted time series based on singular spectrum analysis, no breakpoints
+# calculate trend: seasonal adjusted time series based on singular spectrum analysis
 STMmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="STM", breaks=0)
 plot(STMmap)
 

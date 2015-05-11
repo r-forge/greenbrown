@@ -33,7 +33,7 @@ eTotal can be between 0 (perfect fit) and infinite (worst fit). }
 \item{ \code{eTrend} effect of trend (only if trend=TRUE)}	
 }}
 \references{Gupta, H. V., H. Kling, K. K. Yilmaz, G. F. Martinez (2009):  Decomposition of the mean squared error and NSE performance criteria: Implications for improving hydrological modelling. Journal of Hydrology 377, 80-91.}
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de>}
+\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
 
 
 
@@ -53,7 +53,8 @@ x <- ndvi + rnorm(length(ndvi), 0.02, 0.01)
 plot(x, ndvi); abline(0,1)
 KGE(x, ndvi, trend=FALSE)
 
-# be careful when using trends and breakpoints (using trends is not part of the original implementation of the Kling-Gupta efficiency):
+# be careful when using trends and breakpoints 
+# (using trends is not part of the original implementation of the Kling-Gupta efficiency):
 KGE(x, ndvi, trend=TRUE, breaks=0)
 KGE(x, ndvi, trend=TRUE, breaks=1)
 	

@@ -14,7 +14,7 @@
 \value{The function returns a gap-filled and smoothed version of the time series.}
 \references{Beck, P.S.A., C. Atzberger, K.A. Hodga, B. Johansen, A. Skidmore (2006): Improved monitoring of vegetation dynamics at very high latitudes: A new method using MODIS NDVI. - Remote Sensing of Environment 100:321-334. \cr
 Elmore, A.J., S.M. Guinn, B.J. Minsley and A.D. Richardson (2012): Landscape controls on the timing of spring, autumn, and growing season length in mid-Atlantic forests. - Global Change Biology 18, 656-674. }
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de>}
+\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
 
 
 
@@ -42,7 +42,8 @@ all[!is.na(gaps),] <- NA
 plot(all[,1], all[,2], col="red", xlab="original", ylab="gap filled")
 points(all[,1], all[,3], col="blue")
 abline(0,1)
-r <- c(cor(all[,1], all[,2], use="pairwise.complete.obs"), cor(all[,1], all[,3],, use="pairwise.complete.obs"))
+r <- c(cor(all[,1], all[,2], use="pairwise.complete.obs"), 
+	cor(all[,1], all[,3], use="pairwise.complete.obs"))
 legend("topleft", paste(c("Elmore Cor =", "Beck Cor ="), round(r, 3)), text.col=c("red", "blue"))
 
 }

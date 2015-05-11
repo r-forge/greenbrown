@@ -15,7 +15,7 @@
 \details{This function expects a RasterBrick as created with \code{\link{TrendRaster}} as input and assigns for each pixel and each time step the number of the trend segment. If a trend is not significant too short the time step will be flagged with NA. Per default a p-value of 0.05 is used to classify trends as significant. Additionally, the minimum duration of a trend can be specified with min.length: For example, if only time series segments longer than 10 years should be considered as trend, set min.length=11 in case of annual data. In case of monthly data set it to 132 (12 observations per year * 11 years)	}
 \value{The function returns a RasterBrick. }
 
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de>}
+\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
 
 
 
@@ -31,8 +31,13 @@ trendmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="AAT", breaks
 plot(trendmap)
 
 # indicate for each time step the trend segment number
-trendsegmentsmap <- TrendSegmentsRaster(trendmap, min.length=5, max.pval=0.05, start=c(1982, 1), end=c(2011, 1), freq=1)
-plot(trendsegmentsmap, 1:2, col=c("blue", "red")) # first 2 years: everthing belongs to time series segment 1 
-plot(trendsegmentsmap, 29:30, col=c("blue", "red")) # last 2 years: most pixel belong still to first time series segment (i.e. no breakpoints were detected), but some pixels are in the second time series segment (i.e. after the first breakpoint) 
+trendsegmentsmap <- TrendSegmentsRaster(trendmap, min.length=5, max.pval=0.05, 
+	start=c(1982, 1), end=c(2011, 1), freq=1)
+plot(trendsegmentsmap, 1:2, col=c("blue", "red")) 
+# first 2 years: everthing belongs to time series segment 1 
+plot(trendsegmentsmap, 29:30, col=c("blue", "red")) 
+# last 2 years: most pixel belong still to first time series segment 
+# (i.e. no breakpoints were detected), but some pixels are in the second 
+# time series segment (i.e. after the first breakpoint) 
 
 }

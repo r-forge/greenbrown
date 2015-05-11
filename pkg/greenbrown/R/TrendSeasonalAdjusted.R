@@ -139,11 +139,13 @@ plot(MACtrend)
 plot(ndvi)
 lines(MACtrend$adjusted, col="orange")
 
-# calculate trend on time series with removed mean seasonal cycle but with limited number of breakpoints
+# calculate trend on time series with removed mean seasonal cycle 
+# but with limited number of breakpoints
 MACtrend <- TrendSeasonalAdjusted(ndvi, breaks=1, funSeasonalCycle=MeanSeasonalCycle)
 plot(MACtrend)
 
-# calculate trend on time series with removed seasonal cycle but seasonal cycle computed based on singular spectrum analysis
+# calculate trend on time series with removed seasonal cycle but seasonal cycle computed based 
+# on singular spectrum analysis
 SSAtrend <- TrendSeasonalAdjusted(ndvi, funSeasonalCycle=SSASeasonalCycle)
 SSAtrend 
 plot(SSAtrend)

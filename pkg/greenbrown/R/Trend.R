@@ -85,7 +85,9 @@ trd <- Trend(ndvi)
 trd
 plot(trd)
 
-# an important parameter is mosum.pval, if the p-value is changed to 1 breakpoints can be detected in the time series regardless if there is significant structural change
+# an important parameter is mosum.pval: if the p-value is changed to 1, 
+# breakpoints can be detected in the time series regardless if 
+# there is significant structural change
 trd <- Trend(ndvi, mosum.pval=1)
 trd
 plot(trd)
@@ -107,11 +109,13 @@ lines(trd$adjusted, col="green")
 trd
 
 # calculate trend based on removal of the seasonal cycle: modify maximal number of breakpoints
-trd <- Trend(ndvi, method="SeasonalAdjusted", breaks=1, funSeasonalCycle=MeanSeasonalCycle, sample.method="sample")
+trd <- Trend(ndvi, method="SeasonalAdjusted", breaks=1, 
+	funSeasonalCycle=MeanSeasonalCycle, sample.method="sample")
 plot(trd)
 trd
 
-# calculate trend based on removal of the seasonal cycle: modify minimum segment size, e.g. set the minimum length of segments to 8 years
+# calculate trend based on removal of the seasonal cycle, 
+# modify minimum segment size, e.g. set the minimum length of segments to 8 years
 trd <- Trend(ndvi, method="SeasonalAdjusted", h=(8*12)/length(ndvi))
 plot(trd)
 trd

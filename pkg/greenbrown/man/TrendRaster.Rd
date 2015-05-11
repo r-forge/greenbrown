@@ -38,7 +38,7 @@ All methods work with missing observations (for example missing NDVI observation
 }
 The choosen number of \code{breaks} will define the number of raster layers of the result.  }
 \references{Forkel, M., N. Carvalhais, J. Verbesselt, M. Mahecha, C. Neigh and M. Reichstein (2013): Trend Change Detection in NDVI Time Series: Effects of Inter-Annual Variability and Methodology. - Remote Sensing 5.}
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de>}
+\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
 
 
 
@@ -54,10 +54,11 @@ AATmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="AAT", breaks=1
 plot(AATmap)
 
 # calculate trend: seasonal adjusted time series based on mean annual cycle, no breakpoints
-MACmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="SeasonalAdjusted", breaks=0, funSeasonalCycle=MeanSeasonalCycle)
+MACmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="SeasonalAdjusted", 
+	breaks=0, funSeasonalCycle=MeanSeasonalCycle)
 plot(MACmap)
 
-# calculate trend: seasonal adjusted time series based on singular spectrum analysis, no breakpoints
+# calculate trend: seasonal adjusted time series based on singular spectrum analysis
 STMmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="STM", breaks=0)
 plot(STMmap)
 

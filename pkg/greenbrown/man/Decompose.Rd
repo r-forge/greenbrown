@@ -16,7 +16,7 @@
 \item{ In the last step, the short-term anomalies are computed. For this, the mean, the trend component, the annual anomalies and the mean seasonal cycle are subtracted from the original time series. } }}
 \value{The function returns a multi-variate object of class ts including the time series components.}
 \references{Forkel, M., N. Carvalhais, J. Verbesselt, M. Mahecha, C. Neigh and M. Reichstein (2013): Trend Change Detection in NDVI Time Series: Effects of Inter-Annual Variability and Methodology. - Remote Sensing 5.}
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de>}
+\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
 
 
 

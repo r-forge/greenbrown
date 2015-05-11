@@ -60,7 +60,8 @@ plot(ndvi)
 ndvi.cycle <- SSASeasonalCycle(ndvi)
 plot(ndvi.cycle)
 
-# the mean seasonal cycle is centered to 0 - add the mean of the time series if you want to overlay it with the original data:
+# the mean seasonal cycle is centered to 0,
+# add the mean of the time series if you want to overlay it with the original data
 plot(ndvi)
 lines(ndvi.cycle + mean(ndvi, na.rm=TRUE), col="blue")
 	

@@ -250,13 +250,16 @@ SimTs <- structure(function(
 	### The function returns multiple time series of class \code{\link[stats]{ts}} with the following components: total time series, mean, trend component, inter-annual variability component, seasonal component, short-term component.
 }, ex=function(){
 # simulate artificial time series
-x <- SimTs(M=0.4, Tslope=0.0008, Isd=0.015, Irange=0.03, Srange=0.5, Rsd=0.05, Rrange=0.1, breaks=NULL, abrupt=TRUE, n=360, start=c(1982, 1), freq=12)
+x <- SimTs(M=0.4, Tslope=0.0008, Isd=0.015, Irange=0.03, Srange=0.5, Rsd=0.05, 
+	Rrange=0.1, breaks=NULL, abrupt=TRUE, n=360, start=c(1982, 1), freq=12)
 plot(x)
 
-x <- SimTs(M=0.35, Tslope=c(0.002, -0.0015), Isd=0.015, Irange=0.03, Srange=0.5, Rsd=0.05, Rrange=0.1, breaks=120, abrupt=TRUE, n=360, start=c(1982, 1), freq=12)
+x <- SimTs(M=0.35, Tslope=c(0.002, -0.0015), Isd=0.015, Irange=0.03, Srange=0.5, Rsd=0.05, 
+	Rrange=0.1, breaks=120, abrupt=TRUE, n=360, start=c(1982, 1), freq=12)
 plot(x)
 
-x <- SimTs(M=0.4, Tslope=c(0.003, -0.001, 0), Isd=0.03, Irange=0.08, Srange=0.3, Rsd=0.06, Rrange=0.2, breaks=c(100, 210), abrupt=FALSE, n=360, start=c(1982, 1), freq=12)
+x <- SimTs(M=0.4, Tslope=c(0.003, -0.001, 0), Isd=0.03, Irange=0.08, Srange=0.3, Rsd=0.06, 
+	Rrange=0.2, breaks=c(100, 210), abrupt=FALSE, n=360, start=c(1982, 1), freq=12)
 plot(x)
 
 })

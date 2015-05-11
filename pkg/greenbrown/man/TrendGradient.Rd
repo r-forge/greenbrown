@@ -35,7 +35,7 @@
 \details{The function returns a list of class 'TrendGradient' }
 \value{The function returns a data.frame of class 'TrendGradient'.}
 
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de>}
+\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
 
 
 
@@ -49,7 +49,9 @@ plot(ndvimap, 8)
 gradient <- TrendGradient(ndvimap, start=c(1982, 1), freq=12)
 gradient
 plot(gradient) 
-# shown is the trend at each latitudinal band, the area represents the 95\% confidence interval of the trend (computed with function TrendUncertainty), symbols indicate the p-value of the trend at each latitude
+# shown is the trend at each latitudinal band, # the area represents the 95\% confidence interval
+# of the trend (computed with function TrendUncertainty), symbols indicate the p-value of the 
+# trend at each latitude
 
 plot(gradient, type="yx") # the gradient can be also plotted in reversed order
 

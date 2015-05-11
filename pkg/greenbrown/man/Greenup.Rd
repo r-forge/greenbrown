@@ -9,7 +9,7 @@
 
 \value{The function returns a boolean vector: TRUE (greenup) and FALSE (senescence). }
 
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de>}
+\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
 
 
 

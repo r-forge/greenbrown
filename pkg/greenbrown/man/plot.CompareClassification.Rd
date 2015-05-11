@@ -22,7 +22,7 @@
 
 
 
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de>}
+\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
 
 
 
@@ -39,14 +39,15 @@ plot(AATmap)
 STMmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="STM", breaks=0)
 plot(STMmap)
 
-# classify the trend estimates from the two methods into significant positive, negative and no trend
+# classify the trend estimates from the two methods into positive, negative and no trend
 AATmap.cl <- TrendClassification(AATmap)
 plot(AATmap.cl, col=brgr.colors(3))
 STMmap.cl <- TrendClassification(STMmap)
 plot(STMmap.cl, col=brgr.colors(3))
 
 # compare the two classifications
-compare <- CompareClassification(x=AATmap.cl, y=STMmap.cl, names=list('AAT'=c("Br", "No", "Gr"), 'STM'=c("Br", "No", "Gr")))
+compare <- CompareClassification(x=AATmap.cl, y=STMmap.cl, 
+	names=list('AAT'=c("Br", "No", "Gr"), 'STM'=c("Br", "No", "Gr")))
 compare
 
 # plot the comparison

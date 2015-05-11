@@ -65,7 +65,7 @@ The number of years in the input raster will define the number of layers in the 
 \references{Beck, P.S.A., C. Atzberger, K.A. Hodga, B. Johansen, A. Skidmore (2006): Improved monitoring of vegetation dynamics at very high latitudes: A new method using MODIS NDVI. - Remote Sensing of Environment 100:321-334. \cr
 Elmore, A.J., S.M. Guinn, B.J. Minsley and A.D. Richardson (2012): Landscape controls on the timing of spring, autumn, and growing season length in mid-Atlantic forests. - Global Change Biology 18, 656-674. \cr	
 White M.A., P.E. Thornton and S.W. Running (1997): A continental phenology model for monitoring vegetation responses to interannual climatic variability. - Global Biogeochemical Cycles 11, 217-234. }
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de>}
+\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
 
 
 
@@ -75,9 +75,13 @@ White M.A., P.E. Thornton and S.W. Running (1997): A continental phenology model
 data(ndvimap)
 plot(ndvimap, 8)
 
-# calculate phenology metrics: (this can take some time!)
-phenmap <- PhenologyRaster(ndvimap, start=c(1982, 1), freq=12, tsgf="TSGFspline", approach="Deriv") 
-# Select method by defining 'tsgf' (temporal smoothing and gap filling) and by 'approach' (method to summarize phenology metrics). See \code{\link{Phenology}} for examples and a comparison of methods.
+# calculate phenology metrics (this can take some time!)
+phenmap <- PhenologyRaster(ndvimap, start=c(1982, 1), freq=12, 
+	tsgf="TSGFspline", approach="Deriv") 
+# Select method by defining 'tsgf' (temporal smoothing and gap filling) and 
+# by 'approach' (method to summarize phenology metrics). 
+# See \code{\link{Phenology}} for examples and a comparison of methods.
+
 plot(phenmap)
 plot(phenmap, grep("SOS.1982", names(phenmap))) # start of season 1982
 plot(phenmap, grep("EOS.1982", names(phenmap))) # end of season 1982
@@ -100,28 +104,8 @@ plot(lostrend)
 
 # classify trends in length of season
 lostrend.cl <- TrendClassification(lostrend)
-plot(lostrend.cl, col=brgr.colors(3), breaks=c(-1.5, -0.5, 0.5, 1.5))	# only a few pixels have a positive trend in the length of growing season
+plot(lostrend.cl, col=brgr.colors(3), breaks=c(-1.5, -0.5, 0.5, 1.5))	
+# only a few pixels have a positive trend in the length of growing season
 
-# # compare different methods
-# # section is uncommented because examples take some long time:
-# lin.trs <- PhenologyRaster(ndvimap, start=c(1982, 1), freq=12, tsgf="TSGFlinear", approach="White") 
-# lin.deriv <- PhenologyRaster(ndvimap, start=c(1982, 1), freq=12, tsgf="TSGFlinear", approach="Deriv") 
-# spl.trs <- PhenologyRaster(ndvimap, start=c(1982, 1), freq=12, tsgf="TSGFspline", approach="White") 
-# spl.deriv <- PhenologyRaster(ndvimap, start=c(1982, 1), freq=12, tsgf="TSGFspline", approach="Deriv") 
-# ssa.trs <- PhenologyRaster(ndvimap, start=c(1982, 1), freq=12, tsgf="TSGFssa", approach="White") 
-# ssa.deriv <- PhenologyRaster(ndvimap, start=c(1982, 1), freq=12, tsgf="TSGFssa", approach="Deriv") 
-# beck.trs <- PhenologyRaster(ndvimap, start=c(1982, 1), freq=12, tsgf="TSGFdoublelog", approach="White", method="Beck") 
-# beck.deriv <- PhenologyRaster(ndvimap, start=c(1982, 1), freq=12, tsgf="TSGFdoublelog", approach="Deriv", method="Beck") 
-# elmore.trs <- PhenologyRaster(ndvimap, start=c(1982, 1), freq=12, tsgf="TSGFdoublelog", approach="White", method="Elmore") 
-# elmore.deriv <- PhenologyRaster(ndvimap, start=c(1982, 1), freq=12, tsgf="TSGFdoublelog", approach="Deriv", method="Elmore") 
-
-# # compare patterns of SOS
-# phenvar <- "SOS.1982"
-# phenmulti.rb <- brick(stack(raster(lin.trs, grep(phenvar, names(lin.trs))),	raster(lin.deriv, grep(phenvar, names(lin.trs))), raster(spl.trs, grep(phenvar, names(lin.trs))), raster(spl.deriv, grep(phenvar, names(lin.trs))), raster(ssa.trs, grep(phenvar, names(lin.trs))), raster(ssa.deriv, grep(phenvar, names(lin.trs))), raster(beck.trs, grep(phenvar, names(lin.trs))), raster(beck.deriv, grep(phenvar, names(lin.trs))), raster(elmore.trs, grep(phenvar, names(lin.trs))), raster(elmore.deriv, grep(phenvar, names(lin.trs)))))	
-# names(phenmulti.rb) <- c("lin.trs", "lin.deriv", "spl.trs", "spl.deriv", "ssa.trs", "ssa.deriv", "beck.trs", "beck.deriv", "elmore.trs", "elmore.deriv")
-# plot(phenmulti.rb, zlim=range(values(phenmulti.rb), na.rm=TRUE), col=tim.colors(20))
-
-# m <- na.omit(values(phenmulti.rb))
-# cor(m)
 
 }

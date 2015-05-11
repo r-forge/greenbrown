@@ -154,7 +154,8 @@ x <- ndvi + rnorm(length(ndvi), 0.02, 0.01)
 plot(x, ndvi); abline(0,1)
 KGE(x, ndvi, trend=FALSE)
 
-# be careful when using trends and breakpoints (using trends is not part of the original implementation of the Kling-Gupta efficiency):
+# be careful when using trends and breakpoints 
+# (using trends is not part of the original implementation of the Kling-Gupta efficiency):
 KGE(x, ndvi, trend=TRUE, breaks=0)
 KGE(x, ndvi, trend=TRUE, breaks=1)
 	

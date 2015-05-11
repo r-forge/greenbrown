@@ -21,14 +21,14 @@ Phenology <- structure(function(
 	## \itemize{ 
 	## \item{ Step 1: Filling of permanent (winter) gaps. See \code{\link{FillPermanentGaps}}}
 	## \item{ Step 2: Time series smoothing and interpolation. See \code{\link{TsPP}} }	
-	## \item{ Step 3: Detection of phenology metrics. Phenology metrics are estimated from the gap filled, smoothed and interpolated time series. This can be done by treshold methods (\code{\link{PhenoTrs}}) or by using the derivative of the time series (\code{\link{PhenoDeriv}}). }
+	## \item{ Step 3: Detection of phenology metrics. Phenology metrics are estimated from the gap filled, smoothed and interpolated time series. This can be done by threshold methods (\code{\link{PhenoTrs}}) or by using the derivative of the time series (\code{\link{PhenoDeriv}}). }
 	## }
 	
 	Yt, 
 	### univariate time series of class \code{\link{ts}}
 	
 	approach = c("White", "Trs", "Deriv"), 
-	### Approach to be used to calculate phenology metrics from smoothed time series. 'White' by sclaing annual cycles between 0 and 1 (White et al. 1997, see \code{\link{PhenoTrs}}); 'Trs' for simple tresholds (\code{\link{PhenoTrs}}); 'Deriv' by using the derivative of the smoothed function (\code{\link{PhenoDeriv}}).
+	### Approach to be used to calculate phenology metrics from smoothed time series. 'White' by sclaing annual cycles between 0 and 1 (White et al. 1997, see \code{\link{PhenoTrs}}); 'Trs' for simple thresholds (\code{\link{PhenoTrs}}); 'Deriv' by using the derivative of the smoothed function (\code{\link{PhenoDeriv}}).
 	
 	min.mean = 0.1,
 	### minimum mean annual value in order to calculate phenology metrics. Use this threshold to suppress the calculation of metrics in grid cells with low average values	
@@ -105,7 +105,7 @@ Phenology <- structure(function(
 	
 	# estimation of phenology metrics
 	if (approach == "Trs") {	
-		# treshold method based on mean treshold
+		# threshold method based on mean threshold
 		if (is.null(trs)) trs <- mean(Yt1, na.rm=TRUE)
 		ts.agg <- aggregate(Yt1, FUN=PhenoTrs, approach="Trs", trs=trs, min.mean=min.mean, calc.pheno=calc.pheno)	
 		
@@ -220,26 +220,53 @@ spl.trs <- Phenology(ndvi, tsgf="TSGFspline", approach="White")
 spl.trs
 plot(spl.trs)	# default plot: start of season, end of season, position of peak
 plot(spl.trs, type=c("los")) # length of season
-plot(spl.trs, type=c("msp", "mgs", "mau", "peak")) # plot mean spring, growing season, autumn and peak values
-plot(spl.trs$series, col="red"); lines(ndvi) # gap-filled and smoothed time series that was used to estimate phenology metrics
+
+# plot mean spring, growing season, autumn and peak values
+plot(spl.trs, type=c("msp", "mgs", "mau", "peak")) 
+
+# gap-filled and smoothed time series that was used to estimate phenology metrics
+plot(spl.trs$series, col="red"); lines(ndvi) 
+
 
 # calculate phenology metrics using different smoothing methods and approaches
-lin.trs <- Phenology(ndvi, tsgf="TSGFlinear", approach="White") # linear interpolation/running median + treshold
-lin.deriv <- Phenology(ndvi, tsgf="TSGFlinear", approach="Deriv") # linear interpolation/running median + derivativw
-spl.trs <- Phenology(ndvi, tsgf="TSGFspline", approach="White") # spline + treshold
-spl.deriv <- Phenology(ndvi, tsgf="TSGFspline", approach="Deriv") # spline + derivative
-ssa.trs <- Phenology(ndvi, tsgf="TSGFssa", approach="White") # singular spectrum analysis + treshold
-ssa.deriv <- Phenology(ndvi, tsgf="TSGFssa", approach="Deriv") # singular spectrum analysis + derivativw
-beck.trs <- Phenology(ndvi, tsgf="TSGFdoublelog", method="Beck", approach="White") # double logistic fit + treshold
-beck.deriv <- Phenology(ndvi, tsgf="TSGFdoublelog", method="Beck", approach="Deriv") # double logistic fit + derivative
-elmore.trs <- Phenology(ndvi, tsgf="TSGFdoublelog", method="Elmore", approach="White") # double logistic fit + treshold
-elmore.deriv <- Phenology(ndvi, tsgf="TSGFdoublelog", method="Elmore", approach="Deriv") # double logistic fit + derivative
+#-----------------------------------------------------------------------------
+
+# linear interpolation/running median + threshold
+lin.trs <- Phenology(ndvi, tsgf="TSGFlinear", approach="White") 
+
+# linear interpolation/running median + derivative
+lin.deriv <- Phenology(ndvi, tsgf="TSGFlinear", approach="Deriv") 
+
+# spline + threshold
+spl.trs <- Phenology(ndvi, tsgf="TSGFspline", approach="White") 
+
+# spline + derivative
+spl.deriv <- Phenology(ndvi, tsgf="TSGFspline", approach="Deriv") 
+
+# singular spectrum analysis + threshold
+ssa.trs <- Phenology(ndvi, tsgf="TSGFssa", approach="White") 
+
+# singular spectrum analysis + derivative
+ssa.deriv <- Phenology(ndvi, tsgf="TSGFssa", approach="Deriv") 
+
+# double logistic fit + threshold
+beck.trs <- Phenology(ndvi, tsgf="TSGFdoublelog", method="Beck", approach="White") 
+
+# double logistic fit + derivative
+beck.deriv <- Phenology(ndvi, tsgf="TSGFdoublelog", method="Beck", approach="Deriv") 
+
+# double logistic fit + threshold
+elmore.trs <- Phenology(ndvi, tsgf="TSGFdoublelog", method="Elmore", approach="White") 
+
+# double logistic fit + derivative
+elmore.deriv <- Phenology(ndvi, tsgf="TSGFdoublelog", method="Elmore", approach="Deriv") 
 
 # compare results: SOS and EOS
 library(RColorBrewer)
 type <- c("sos", "eos")
 cols <- brewer.pal(10, "Paired")
-nms <- c("Lin+Trs", "Lin+Deriv", "Spline+Trs", "Spline+Deriv", "SSA+Trs", "SSA+Deriv", "DoubleLog1+Trs", "DoubleLog1+Deriv", "DoubleLog2+Trs", "DoubleLog2+Deriv")
+nms <- c("Lin+Trs", "Lin+Deriv", "Spline+Trs", "Spline+Deriv", "SSA+Trs", "SSA+Deriv", 
+	"DoubleLog1+Trs", "DoubleLog1+Deriv", "DoubleLog2+Trs", "DoubleLog2+Deriv")
 plot(lin.trs, col=cols[1], type=type, ylim=c(1, 365))
 plot(lin.deriv, col=cols[2], type=type, add=TRUE)
 plot(spl.trs, col=cols[3], type=type, add=TRUE)
@@ -252,8 +279,10 @@ plot(elmore.trs, col=cols[9], type=type, add=TRUE)
 plot(elmore.deriv, col=cols[10], type=type, add=TRUE)
 legend("center", nms, text.col=cols, ncol=3, bty="n")
 
-cor(cbind(lin.trs$sos, lin.deriv$sos, spl.trs$sos, spl.deriv$sos, ssa.trs$sos, ssa.deriv$sos, beck.trs$sos, beck.deriv$sos, elmore.trs$sos, elmore.deriv$sos), use="pairwise.complete.obs")
-cor(cbind(lin.trs$eos, lin.deriv$eos, spl.trs$eos, spl.deriv$eos, ssa.trs$eos, ssa.deriv$eos, beck.trs$eos, beck.deriv$eos, elmore.trs$eos, elmore.deriv$eos), use="pairwise.complete.obs")
+cor(cbind(lin.trs$sos, lin.deriv$sos, spl.trs$sos, spl.deriv$sos, ssa.trs$sos, ssa.deriv$sos, 
+	beck.trs$sos, beck.deriv$sos, elmore.trs$sos, elmore.deriv$sos), use="pairwise.complete.obs")
+cor(cbind(lin.trs$eos, lin.deriv$eos, spl.trs$eos, spl.deriv$eos, ssa.trs$eos, ssa.deriv$eos, 
+	beck.trs$eos, beck.deriv$eos, elmore.trs$eos, elmore.deriv$eos), use="pairwise.complete.obs")
 
 # compare results: LOS
 type <- c("los")

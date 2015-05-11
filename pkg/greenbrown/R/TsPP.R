@@ -89,11 +89,11 @@ gaps[cycle(ndvi) == 1 | cycle(ndvi) == 2 | cycle(ndvi) == 12] <- NA
 plot(gaps)
 
 # perform pre-processing of time series using different methods 
-pp.lin <- TsPP(gaps, tsgf=TSGFlinear)	# linear interpolation + running median
-pp.spl <- TsPP(gaps, tsgf=TSGFspline)	# smoothing splines
-pp.ssa <- TsPP(gaps, tsgf=TSGFssa)	# singluar spectrum analysis
-pp.beck <- TsPP(gaps, tsgf=TSGFdoublelog, method="Beck")	# double-logistic fit using the approach of Beck et al. (2006)
-pp.elmore <- TsPP(gaps, tsgf=TSGFdoublelog, method="Elmore")	# double-logistic fit using the approach of Elmore et al. (2012)
+pp.lin <- TsPP(gaps, tsgf=TSGFlinear) # linear interpolation + running median
+pp.spl <- TsPP(gaps, tsgf=TSGFspline) # smoothing splines
+pp.ssa <- TsPP(gaps, tsgf=TSGFssa) # singluar spectrum analysis
+pp.beck <- TsPP(gaps, tsgf=TSGFdoublelog, method="Beck") # double-logistic, Beck et al. (2006)
+pp.elmore <- TsPP(gaps, tsgf=TSGFdoublelog, method="Elmore") # double-logistic, Elmore et al. (2012)
 
 plot(gaps)
 cols <- rainbow(5)

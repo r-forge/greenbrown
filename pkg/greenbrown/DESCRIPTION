@@ -2,10 +2,11 @@ Package: greenbrown
 Title: greenbrown - land surface phenology and trend analysis
 Version: 2.2
 Date: 2015-04-15
-Author: Matthias Forkel <mforkel@bgc-jena.mpg.de>
+Author: Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]
 Maintainer: Matthias Forkel <mforkel@bgc-jena.mpg.de>, Thomas Wutzler <twutz@bgc-jena.mpg.de>
 Description: greenbrown is a collection of functions to analyse trends, trend changes and phenology events in gridded time series like from satellite observations or climate model simulations. The package provides access to different methods for 1) trend and breakpoint analysis, 2) time series smoothing and interpolation, and 3) analysis of land surface phenology. 
 Depends: R (>= 2.15.3), strucchange, raster, Kendall, plyr, bfast, zoo
 Suggests: Rssa, fields, snow, ncdf, RColorBrewer, Hmisc
 License: GPL-2
+URL: http://greenbrown.r-forge.r-project.org/
 LazyLoad: yes

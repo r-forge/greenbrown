@@ -21,7 +21,7 @@
 
 \value{The function returns a list of class "Trend". }
 \references{Forkel, M., N. Carvalhais, J. Verbesselt, M. Mahecha, C. Neigh and M. Reichstein (2013): Trend Change Detection in NDVI Time Series: Effects of Inter-Annual Variability and Methodology. - Remote Sensing 5.}
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de>}
+\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
 
 
 
@@ -40,11 +40,13 @@ plot(MACtrend)
 plot(ndvi)
 lines(MACtrend$adjusted, col="orange")
 
-# calculate trend on time series with removed mean seasonal cycle but with limited number of breakpoints
+# calculate trend on time series with removed mean seasonal cycle 
+# but with limited number of breakpoints
 MACtrend <- TrendSeasonalAdjusted(ndvi, breaks=1, funSeasonalCycle=MeanSeasonalCycle)
 plot(MACtrend)
 
-# calculate trend on time series with removed seasonal cycle but seasonal cycle computed based on singular spectrum analysis
+# calculate trend on time series with removed seasonal cycle but seasonal cycle computed based 
+# on singular spectrum analysis
 SSAtrend <- TrendSeasonalAdjusted(ndvi, funSeasonalCycle=SSASeasonalCycle)
 SSAtrend 
 plot(SSAtrend)

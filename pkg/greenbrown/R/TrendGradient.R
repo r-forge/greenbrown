@@ -99,7 +99,7 @@ TrendGradient <- structure(function(
 	gradient.l <- ldply(as.list(1:nrow(vals.m)), function(id) {
 
 		# time series for actual zone
-		Yt <- ts(vals.m[id, 2:ncol(vals.m)], start=start, freq=freq)
+		Yt <- ts(vals.m[id, 2:ncol(vals.m)], start=start, frequency=freq)
 
 		# calculate trend
 		trd <- Trend(Yt, method=method[1], funAnnual=funAnnual, h=h, breaks=breaks, funSeasonalCycle=funSeasonalCycle, mosum.pval=mosum.pval)	
@@ -131,7 +131,9 @@ plot(ndvimap, 8)
 gradient <- TrendGradient(ndvimap, start=c(1982, 1), freq=12)
 gradient
 plot(gradient) 
-# shown is the trend at each latitudinal band, the area represents the 95% confidence interval of the trend (computed with function TrendUncertainty), symbols indicate the p-value of the trend at each latitude
+# shown is the trend at each latitudinal band, # the area represents the 95% confidence interval
+# of the trend (computed with function TrendUncertainty), symbols indicate the p-value of the 
+# trend at each latitude
 
 plot(gradient, type="yx") # the gradient can be also plotted in reversed order
 

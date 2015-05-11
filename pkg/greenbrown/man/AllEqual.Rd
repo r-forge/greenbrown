@@ -8,7 +8,7 @@
 
 \value{The function returns TRUE if all values are equal and FALSE if it contains different values.}
 
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de>}
+\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
 
 
 

@@ -15,7 +15,7 @@
 
 \value{The function returns a vector with fitted values if return.par is FALSE and it returns parameters of the logisitic modle of return.par is TRUE }
 \references{Beck, P.S.A., C. Atzberger, K.A. Hodga, B. Johansen, A. Skidmore (2006): Improved monitoring of vegetation dynamics at very high latitudes: A new method using MODIS NDVI. - Remote Sensing of Environment 100:321-334.}
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de>}
+\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
 
 
 
@@ -36,9 +36,10 @@ plot(x)
 lines(fit, col="blue")
 
 # return parameters of fit and plot iterations
-FitDoubleLogBeck(x, return.par=TRUE, plot=TRUE)	# plot=TRUE causes plotting of different double logisitic
+FitDoubleLogBeck(x, return.par=TRUE, plot=TRUE)	
 
-# fit double-logistic function to one year of data, interpolate to daily time steps and calculate phenology metrics
+# fit double-logistic function to one year of data, 
+# interpolate to daily time steps and calculate phenology metrics
 tout <- seq(1, 12, length=365)	# time steps for output (daily)
 fit <- FitDoubleLogBeck(x, tout=tout)
 PhenoDeriv(fit, plot=TRUE)
