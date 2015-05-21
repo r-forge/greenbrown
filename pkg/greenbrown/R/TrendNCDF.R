@@ -88,7 +88,7 @@ TrendNCDF <- structure(function(
 	
 	if (breaks > 0) {
 		# breakpoints
-		bp.r <- subset(trend.rb, grep("BP", names(trend.rb)))
+		bp.r <- raster::subset(trend.rb, grep("BP", names(trend.rb)))
 		file.bp <- gsub(".nc", ".Trend.BP.nc", file)
 		WriteNCDF(bp.r, var.name="Trend.BP", var.unit="-", var.longname="Trend.BP", layernames=names(bp.r), file=file.bp, overwrite=TRUE)
 	
