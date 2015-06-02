@@ -69,13 +69,20 @@ package 'greenbrown' is not available (for R version X.Y.Z) </b></p>
 
 <p><b>svn checkout svn://r-forge.r-project.org/svnroot/greenbrown/</b></p>
 
-<p>In the next step you can just source the files directly within R:</p>
+<p>In the next step you can just source the files directly within R and load the additional packages:</p>
 
 <p>
 <b>setwd("yourdirectory/greenbrown/R/")<br>
 files <- list.files(pattern=".R")<br>
-for (i in 1:length(files)) source(files[i])</b>
-
+for (i in 1:length(files)) source(files[i])
+<br><br>
+library(strucchange)<br>
+library(raster)<br>
+library(Kendall)<br>
+library(plyr)<br>
+library(bfast)<br>
+library(zoo)<br>
+</b>
 
 <br>
 <hr>
