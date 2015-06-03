@@ -119,7 +119,7 @@ All methods work with missing observations (for example missing NDVI observation
 
 <h3>Author(s)</h3>
 
-<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt;</p>
+<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt; [aut, cre]</p>
 
 
 <h3>References</h3>
@@ -145,10 +145,11 @@ AATmap &lt;- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="AAT", break
 plot(AATmap)
 
 # calculate trend: seasonal adjusted time series based on mean annual cycle, no breakpoints
-MACmap &lt;- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="SeasonalAdjusted", breaks=0, funSeasonalCycle=MeanSeasonalCycle)
+MACmap &lt;- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="SeasonalAdjusted", 
+	breaks=0, funSeasonalCycle=MeanSeasonalCycle)
 plot(MACmap)
 
-# calculate trend: seasonal adjusted time series based on singular spectrum analysis, no breakpoints
+# calculate trend: seasonal adjusted time series based on singular spectrum analysis
 STMmap &lt;- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="STM", breaks=0)
 plot(STMmap)
 

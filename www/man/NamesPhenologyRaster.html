@@ -34,7 +34,7 @@
 
 <h3>Author(s)</h3>
 
-<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt;</p>
+<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt; [aut, cre]</p>
 
 
 <h3>See Also</h3>
@@ -45,20 +45,20 @@
 <h3>Examples</h3>
 
 <pre>
-# load a multi-temporal raster dataset of Normalized Difference Vegetation Index
-data(ndvimap)
-plot(ndvimap, 8)
+# # load a multi-temporal raster dataset of Normalized Difference Vegetation Index
+# data(ndvimap)
+# plot(ndvimap, 8)
 
-# calculate phenology
-phenmap &lt;- PhenologyRaster(ndvimap, start=c(1982, 1), freq=12)
-plot(phenmap)
-plot(phenmap)
+# # calculate phenology
+# phenmap &lt;- PhenologyRaster(ndvimap, start=c(1982, 1), freq=12)
+# plot(phenmap)
+# plot(phenmap)
 
-# layer names of the result
-NamesPhenologyRaster(30)
-NamesPhenologyRaster(phenmap)
-NamesPhenologyRaster(phenmap, start=1982)
-names(phenmap)
+# # layer names of the result
+# NamesPhenologyRaster(30)
+# NamesPhenologyRaster(phenmap)
+# NamesPhenologyRaster(phenmap, start=1982)
+# names(phenmap)
 
 
 </pre>

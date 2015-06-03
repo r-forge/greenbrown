@@ -121,7 +121,7 @@
 
 <h3>Author(s)</h3>
 
-<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt;</p>
+<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt; [aut, cre]</p>
 
 
 <h3>See Also</h3>
@@ -140,7 +140,9 @@ plot(ndvimap, 8)
 gradient &lt;- TrendGradient(ndvimap, start=c(1982, 1), freq=12)
 gradient
 plot(gradient) 
-# shown is the trend at each latitudinal band, the area represents the 95% confidence interval of the trend (computed with function TrendUncertainty), symbols indicate the p-value of the trend at each latitude
+# shown is the trend at each latitudinal band, # the area represents the 95% confidence interval
+# of the trend (computed with function TrendUncertainty), symbols indicate the p-value of the 
+# trend at each latitude
 
 plot(gradient, type="yx") # the gradient can be also plotted in reversed order
 
@@ -153,7 +155,7 @@ gradient.r &lt;- raster(ndvimap, 1) # create a raster layer with longitudes:
 gradient.r[] &lt;- xFromCell(gradient.r, 1:ncell(gradient.r)) 
 plot(gradient.r)
 gradient &lt;- TrendGradient(ndvimap, start=c(1982, 1), freq=12, gradient.r=gradient.r)
-plot(gradient, xlab="Longitude (°E)") 
+plot(gradient, xlab="Longitude (E)") 
 
 </pre>
 

@@ -73,7 +73,7 @@ plot(x, type = "xy", ylab = NULL, xlab = NULL,
 
 <h3>Author(s)</h3>
 
-<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt;</p>
+<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt; [aut, cre]</p>
 
 
 <h3>See Also</h3>
@@ -92,12 +92,15 @@ plot(ndvimap, 8)
 gradient &lt;- TrendGradient(ndvimap, start=c(1982, 1), freq=12)
 gradient
 plot(gradient) 
-# shown is the trend at each latitudinal band, the area represents the 95% confidence interval of the trend (computed with function TrendUncertainty), symbols indicate the p-value of the trend at each latitude
+# shown is the trend at each latitudinal band, the area represents the 95% confidence 
+# interval of the trend (computed with function TrendUncertainty), symbols indicate 
+# the p-value of the trend at each latitude
 
 plot(gradient, type="yx") # the gradient can be also plotted in reversed order
 
 # compute gradients with different trend methods
-gradient.mac &lt;- TrendGradient(ndvimap, start=c(1982, 1), freq=12, method="SeasonalAdjusted", funSeasonalCycle=MeanSeasonalCycle)
+gradient.mac &lt;- TrendGradient(ndvimap, start=c(1982, 1), freq=12, method="SeasonalAdjusted", 
+	funSeasonalCycle=MeanSeasonalCycle)
 plot(gradient.mac, col="blue", ylab="NDVI trend (month-1)")
 gradient$Slope &lt;- gradient$Slope / 12 # method AAT uses annual time steps, convert years -&gt; months
 gradient$SlopeUncLower &lt;- gradient$SlopeUncLower / 12

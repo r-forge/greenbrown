@@ -16,7 +16,7 @@
 <h3>Usage</h3>
 
 <pre>TSGFdoublelog(Yt, interpolate = FALSE, method = c("Elmore", "Beck"), 
-    backup = NULL, ...)</pre>
+    backup = NULL, check.seasonality = 1:3, ...)</pre>
 
 
 <h3>Arguments</h3>
@@ -38,6 +38,10 @@
 <td>
 <p>Which backup algorithm should be used for temporal smoothing and gap filling if the time series has no seasonality? If a time series has no seasonal pattern, the fitting of double logistic functions is not meaningful. In this case another method can be used. Default: NULL (returns NA - no smoothing), other options: &quot;TSGFspline&quot;, &quot;TSGFssa&quot;, &quot;TSGFlinear&quot;</p>
 </td></tr>
+<tr valign="top"><td><code>check.seasonality</code></td>
+<td>
+<p>Which methods in <code><a href="Seasonality.html">Seasonality</a></code> should indicate TRUE (i.e. time series has seasonality) in order to calculate phenology metrics? 1:3 = all methods should indicate seasonality, Set to NULL in order to not perform seasonality checks.</p>
+</td></tr>
 <tr valign="top"><td><code>...</code></td>
 <td>
 <p>further arguments (currently not used)</p>
@@ -52,7 +56,7 @@
 
 <h3>Author(s)</h3>
 
-<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt;</p>
+<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt; [aut, cre]</p>
 
 
 <h3>References</h3>
@@ -91,7 +95,8 @@ all[!is.na(gaps),] &lt;- NA
 plot(all[,1], all[,2], col="red", xlab="original", ylab="gap filled")
 points(all[,1], all[,3], col="blue")
 abline(0,1)
-r &lt;- c(cor(all[,1], all[,2], use="pairwise.complete.obs"), cor(all[,1], all[,3],, use="pairwise.complete.obs"))
+r &lt;- c(cor(all[,1], all[,2], use="pairwise.complete.obs"), 
+	cor(all[,1], all[,3], use="pairwise.complete.obs"))
 legend("topleft", paste(c("Elmore Cor =", "Beck Cor ="), round(r, 3)), text.col=c("red", "blue"))
 
 </pre>

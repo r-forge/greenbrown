@@ -102,7 +102,7 @@ eTotal can be between 0 (perfect fit) and infinite (worst fit). </p>
 
 <h3>Author(s)</h3>
 
-<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt;</p>
+<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt; [aut, cre]</p>
 
 
 <h3>References</h3>
@@ -132,7 +132,8 @@ x &lt;- ndvi + rnorm(length(ndvi), 0.02, 0.01)
 plot(x, ndvi); abline(0,1)
 KGE(x, ndvi, trend=FALSE)
 
-# be careful when using trends and breakpoints (using trends is not part of the original implementation of the Kling-Gupta efficiency):
+# be careful when using trends and breakpoints 
+# (using trends is not part of the original implementation of the Kling-Gupta efficiency):
 KGE(x, ndvi, trend=TRUE, breaks=0)
 KGE(x, ndvi, trend=TRUE, breaks=1)
 	
