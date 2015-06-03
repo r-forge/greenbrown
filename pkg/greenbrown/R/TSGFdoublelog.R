@@ -16,6 +16,9 @@ TSGFdoublelog <- structure(function(
 	backup = NULL,
 	### Which backup algorithm should be used for temporal smoothing and gap filling if the time series has no seasonality? If a time series has no seasonal pattern, the fitting of double logistic functions is not meaningful. In this case another method can be used. Default: NULL (returns NA - no smoothing), other options: "TSGFspline", "TSGFssa", "TSGFlinear"
 	
+	check.seasonality = 1:3,
+	### Which methods in \code{\link{Seasonality}} should indicate TRUE (i.e. time series has seasonality) in order to calculate phenology metrics? 1:3 = all methods should indicate seasonality, Set to NULL in order to not perform seasonality checks.
+	
 	...
 	### further arguments (currently not used)
 	
@@ -45,8 +48,20 @@ TSGFdoublelog <- structure(function(
 		tout <- seq(1, freq, length=freq)
 		freq.out <- freq
 	}	
-		
-	if (sum(Seasonality(Yt)) < 3) {	# decide for no seasonality if less than 3 methods say seasonality
+	
+	# check if the time series has Seasonality
+	calc.pheno <- FALSE
+	seasonal <- rep(FALSE, 3)
+	if (!AllEqual(Yt)) {
+		if (is.null(check.seasonality)) {
+			calc.pheno <- TRUE
+		} else {
+			seasonal <- Seasonality(Yt)
+			if (all(seasonal[check.seasonality])) calc.pheno <- TRUE # calculate phenology metrics only if 3 methods indicate seasonality
+		}
+	}
+	
+	if (!calc.pheno) {	# decide for no seasonality if less than 3 methods say seasonality
 		# run backup method if time series has no seasonality
 		if (is.null(backup)) {
 			Yt1 <- ts(NA, start=start, end=c(end[1], freq.out), frequency=freq.out)

@@ -89,7 +89,7 @@ Phenology <- structure(function(
 	if (length(approach) > 1) approach <- approach[1]
 	
 	# time series pre-processing
-	Yt1 <- TsPP(Yt, fpg=fpg, tsgf=tsgf, interpolate=interpolate, min.gapfrac=min.gapfrac, lower=lower, fillval=fillval, fun=fun, method=method, backup=backup)
+	Yt1 <- TsPP(Yt, fpg=fpg, tsgf=tsgf, interpolate=interpolate, min.gapfrac=min.gapfrac, lower=lower, fillval=fillval, fun=fun, method=method, backup=backup, check.seasonality=check.seasonality)
 	
 	# check if the time series has Seasonality
 	calc.pheno <- FALSE
