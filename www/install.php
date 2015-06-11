@@ -69,7 +69,14 @@ package 'greenbrown' is not available (for R version X.Y.Z) </b></p>
 
 <p><b>svn checkout svn://r-forge.r-project.org/svnroot/greenbrown/</b></p>
 
-<p>In the next step you can just source the files directly within R and load the additional packages:</p>
+<p>Afterwards you can install the package within R:</p>
+
+<p><b>path <- "yourdirectory/greenbrown/pkg/"<br>
+setwd(path)<br>
+cmd <- "R CMD INSTALL --html greenbrown --resave-data"<br>
+tryCatch(system(cmd), finally=setwd(path))</b></p>
+
+<p>If this installation does not work, you could alternatively just source the files within R and load the additional packages:</p>
 
 <p>
 <b>setwd("yourdirectory/greenbrown/R/")<br>
