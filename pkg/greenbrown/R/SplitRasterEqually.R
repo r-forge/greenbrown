@@ -24,10 +24,10 @@ SplitRasterEqually <- structure(function(
 	}
 
 	# compute optimal splitting based on weighted quantile
-	sp <- as(mean.r, "SpatialPointsDataFrame")
-	df <- data.frame(lon=coordinates(sp)[,1], val=sp@data)
-	require(Hmisc)	
-	x.best <- wtd.quantile(df$lon, weights=df$val, seq(0, 1, length=n+1), na.rm=TRUE)
+	xy <- coordinates(mean.r)
+	df <- data.frame(lon=xy[,1], val=extract(mean.r, xy))
+	df <- na.omit(df)
+	x.best <- quantile(df$lon, seq(0, 1, length=n+1), na.rm=TRUE)
 	
 	# split raster according to optimal splitting
 	tiles.l <- llply(as.list(1:(length(x.best)-1)), function(i) {

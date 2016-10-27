@@ -22,7 +22,7 @@ TrendSTM <- structure(function(
 	## Verbesselt, J.; Zeileis, A.; Herold, M., Near real-time disturbance detection using satellite image time series. Remote Sensing of Environment 2012, 123, 98-108.
  
 	##seealso<<
-	## \code{\link{Trend}}, \code{\link{TrendRaster}}
+	## \code{\link{Trend}}, \code{\link{TrendRaster}}, \code{\link{TSGFstm}}, 
 ) {
 
 	require(strucchange)
@@ -65,7 +65,7 @@ TrendSTM <- structure(function(
 	
 	# calculate models with breakpoints
 	if (!is.na(bp_est$breakpoints[1])) {
-		d$seg <- breakfactor(bp_est)
+		d$seg <- as.integer(breakfactor(bp_est))
 		
 		# calculate regression with breakpoints affecting ...
 		m1 <- lm(response ~ seg/trend, data = d)	# ... trend
@@ -109,7 +109,19 @@ TrendSTM <- structure(function(
 		bptype <- ""
 	}
 	m.sum <- summary(m)
-
+	
+	# get total fit
+	Yt_est <- rep(NA, length(Yt))
+	d2 <- bfastpp(Yt, order = 2, na.action=na.pass)
+	if (!is.na(bp_est$breakpoints[1])) {
+	   d2$seg <- NA
+	   d2$seg[match(d$time, d2$time)] <- as.integer(breakfactor(bp_est))
+	   d2$seg <- na.locf(d2$seg, na.rm=FALSE)
+	   d2$seg[is.na(d2$seg)] <- 1
+	}
+	Yt_est <- predict(m, d2) 
+	Yt_est <- ts(Yt_est, start=start(Yt), frequency=frequency(Yt)) 
+	
 	# get trend fit line
 	d$harmon <- d$harmon * 0
 	trend_est <- rep(NA, length(Yt))
@@ -117,7 +129,7 @@ TrendSTM <- structure(function(
 	trend_est <- approx((1:length(Yt)), trend_est, xout=1:length(Yt), method="linear", rule=c(1,1))$y
 	trend_est <- ts(trend_est, start=start(Yt), frequency=frequency(Yt))
 	trend_est <- (trend_est - mean(trend_est, na.rm=TRUE)) + mean(Yt, na.rm=TRUE)
-
+	
 	# results: trend and pvalue as significance from regression coefficient
 	pval_est <- m.sum$coefficients[grep("trend", rownames(m.sum$coefficients)),4]
 	slope_est <- m.sum$coefficients[grep("trend", rownames(m.sum$coefficients)),1]	
@@ -146,6 +158,8 @@ TrendSTM <- structure(function(
 		bptype = bptype,
 		bptrend = bptrend,
 		bpseasonal = bpseasonal,
+		lm = m,
+		fit = Yt_est,
 		method = "STM")
 	class(result) <- "Trend"
 	return(result)
@@ -159,6 +173,10 @@ plot(ndvi)
 trd <- TrendSTM(ndvi)
 trd
 plot(trd)
+
+# plot the fitted season-trend model
+plot(ndvi)
+lines(trd$fit, col="red")
 
 
 })

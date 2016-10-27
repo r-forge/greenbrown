@@ -114,6 +114,10 @@ TrendGradient <- structure(function(
 			SlopeUncMedian = trd[grep("SlopeUncMedianSEG", names(trd))],
 			LongestSEG = trd[grep("LongestSEG", names(trd))],
 			LengthSEG = trd[grep("LengthSEG", names(trd))]
+			# Percentage = trd[grep("SlopeSEG", names(trd))] / median(Yt[1:3], na.rm=TRUE),
+			# PercentageUncLower = trd[grep("SlopeUncLowerSEG", names(trd))] / median(Yt[1:3], na.rm=TRUE),
+			# PercentageUncUpper = trd[grep("SlopeUncUpperSEG", names(trd))] / median(Yt[1:3], na.rm=TRUE),
+			# PercentageUncMedian = trd[grep("SlopeUncMedianSEG", names(trd))] / median(Yt[1:3], na.rm=TRUE)			
 		)
 		return(df)	
 	})

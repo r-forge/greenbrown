@@ -22,6 +22,7 @@ Phenology <- structure(function(
 	## \item{ Step 1: Filling of permanent (winter) gaps. See \code{\link{FillPermanentGaps}}}
 	## \item{ Step 2: Time series smoothing and interpolation. See \code{\link{TsPP}} }	
 	## \item{ Step 3: Detection of phenology metrics. Phenology metrics are estimated from the gap filled, smoothed and interpolated time series. This can be done by threshold methods (\code{\link{PhenoTrs}}) or by using the derivative of the time series (\code{\link{PhenoDeriv}}). }
+	## \item{ Step 4: Correction of annual DOY (day of year) time series. sos, eos, pop, and pot time series are corrected to not jump between years and ouliers are removed. See (\code{\link{CorrectDOY}}). }
 	## }
 	
 	Yt, 
@@ -40,7 +41,7 @@ Phenology <- structure(function(
 	### Filling of permanent gaps: If NULL, permanent gaps will be not filled, else the function \code{\link{FillPermanentGaps}} will be applied.
 	
 	tsgf = "TSGFspline",
-	### Temporal smoothing and gap filling: Function to be used for temporal smoothing, gap filling and interpolation of the time series. If NULL, this step will be not applied. Otherwise a function needs to be specified. Exisiting functions that can be applied are \code{\link{TSGFspline}}, \code{\link{TSGFlinear}}, \code{\link{TSGFssa}}, \code{\link{TSGFdoublelog}}  
+	### Temporal smoothing and gap filling: Function to be used for temporal smoothing, gap filling and interpolation of the time series. If NULL, this step will be not applied. Otherwise a function needs to be specified. Exisiting functions that can be applied are \code{\link{TSGFspline}}, \code{\link{TSGFlinear}}, \code{\link{TSGFssa}}, \code{\link{TSGFdoublelog}}, \code{\link{TSGFphenopix}}  
 	
 	interpolate = TRUE,
 	### Should the smoothed and gap filled time series be interpolated to daily values?
@@ -134,29 +135,11 @@ Phenology <- structure(function(
 	msp.ts <- ts(ts.agg[seq(11, length(ts.agg), by=nout)], start=start[1], frequency=1)
 	mau.ts <- ts(ts.agg[seq(12, length(ts.agg), by=nout)], start=start[1], frequency=1)
 	
-	# correct SOS, EOS and POP if they 'jump' over end of year and exclude outliers
-	.correctDOY <- function(doy) {
-		id <- 1:length(doy)
-		atstart <- na.omit(id[doy <= 60]) # check if DOY is within first two monthy
-		atend <- na.omit(id[doy >= 305]) # check if DOY is within last two months
-		if (length(atstart) > 0 & length(atend) > 0) { # correct if some DOYs are at the end and some at the start of the year
-			if (length(atstart) >= length(atend)) {
-				doy[atend] <- doy[atend] - 365
-			} else {
-				doy[atstart] <- doy[atstart] + 365
-			}
-		}
-		
-		# exclude outliers if more than 60 days before or after median DOY
-		med <- median(doy, na.rm=TRUE)
-		rge <- IQR(doy, na.rm=TRUE) * 2
-		doy[doy < (med - rge) | doy > (med + rge)] <- NA
-		return(doy)
-	}
-	sos.ts <- .correctDOY(sos.ts)
-	eos.ts <- .correctDOY(eos.ts)
-	pop.ts <- .correctDOY(pop.ts)
-	pot.ts <- .correctDOY(pot.ts)
+   # check DOYs and remove outliers
+	sos.ts <- CorrectDOY(sos.ts)
+	eos.ts <- CorrectDOY(eos.ts)
+	pop.ts <- CorrectDOY(pop.ts)
+	pot.ts <- CorrectDOY(pot.ts)
 	msp.ts[is.na(sos.ts)] <- NA
 	mau.ts[is.na(eos.ts)] <- NA
 	mgs.ts[is.na(sos.ts) & is.na(eos.ts)] <- NA

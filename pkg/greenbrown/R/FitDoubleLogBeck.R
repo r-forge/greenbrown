@@ -39,13 +39,6 @@ FitDoubleLogBeck <- structure(function(
 		if (!return.par) return(rep(x[1], length(tout)))
 	}
 	
-	# get statistical values
-	n <- length(x)
-	avg <- mean(x, na.rm=TRUE)
-	mx <- max(x, na.rm=TRUE)
-	mn <- min(x, na.rm=TRUE)
-	ampl <- mx - mn
-		
 	# double logistic function
 	.doubleLog <- function(par, t) {
 		mn <- par[1]
@@ -64,7 +57,7 @@ FitDoubleLogBeck <- structure(function(
 	.error <- function(par, x, weights) {
 		if (any(is.infinite(par))) return(99999)
 		if (par[1] > par[2]) return(99999)
-		xpred <- .doubleLog(par, t=t)
+		xpred <- .doubleLog(par * par.prior, t=t)
 		sse <- sum((xpred - x)^2 * weights, na.rm=TRUE)
 		return(sse)
 	}
@@ -89,7 +82,7 @@ FitDoubleLogBeck <- structure(function(
 	if (plot) plot(t, x)
 	for (i in iter) {
 		# estimate parameters for double-logistic function starting at different priors
-		opt.l <- apply(prior, 1, optim, .error, x=x, weights=weights, method="BFGS")	# fit from different prior values
+		opt.l <- apply(prior, 1, optim, .error, x=x, weights=weights, method="Nelder-Mead")	# fit from different prior values
 		opt.df <- cbind(cost=unlist(llply(opt.l, function(opt) opt$value)), convergence=unlist(llply(opt.l, function(opt) opt$convergence)), ldply(opt.l, function(opt) opt$par))
 		best <- which.min(opt.df$cost)
 		
@@ -97,7 +90,7 @@ FitDoubleLogBeck <- structure(function(
 		if (opt.df$convergence[best] == 1) { # if maximum iterations where reached - restart from best with more iterations
 			opt <- opt.l[[best]]
 			# repeat with more maximum iterations if it did not converge
-			opt <- optim(opt.l[[best]]$par, .error, x=x, weights=weights, method="BFGS", control=list(maxit=500))
+			opt <- optim(opt.l[[best]]$par, .error, x=x, weights=weights, method="Nelder-Mead", control=list(maxit=500))
 			prior <- rbind(prior, opt$par)
 			xpred <- .doubleLog(opt$par, 1:length(x))			
 		} else if (opt.df$convergence[best] == 0) {

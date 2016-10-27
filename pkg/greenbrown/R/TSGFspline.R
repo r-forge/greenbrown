@@ -47,8 +47,8 @@ TSGFspline <- structure(function(
 	}
 		
 	# remove outliers
-	Yt3[Yt3 < mn] <- mn
-	Yt3[Yt3 > mx] <- mx
+	Yt3[Yt3 < mn] <- NA
+	Yt3[Yt3 > mx] <- NA
 		
 	return(Yt3)
 	### The function returns a gap-filled and smoothed version of the time series.

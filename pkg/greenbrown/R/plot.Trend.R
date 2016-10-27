@@ -58,13 +58,15 @@ plot.Trend <- structure(function(
 	if (!is.na(x$bp$breakpoints[1])) {
 		if (symbolic) points(x=x$time[x$bp$breakpoints], y=x$trend[x$bp$breakpoints], col=col[3], pch=3, cex=1.2)
 		if (!symbolic) abline(v=x$time[x$bp$breakpoints], col=col[3], lty=lty[3])
-		ci <- confint(x$bp)$confint
-		for (i in 1:length(ci)) {
-			ti <- ci[i]
-			ti[ti == 0] <- 1
-			ci[i] <- x$time[ti]
-		} 
-		for (i in 1:nrow(ci)) lines(x=ci[i,], y=rep(x$trend[x$bp$breakpoints[i]], 3), col=col[3])
+		ci <- try(confint(x$bp)$confint, silent=TRUE)
+		if (class(ci) != "try-error") {
+		   for (i in 1:length(ci)) {
+			   ti <- ci[i]
+			   ti[ti == 0] <- 1
+			   ci[i] <- x$time[ti]
+		   } 
+		   for (i in 1:nrow(ci)) lines(x=ci[i,], y=rep(x$trend[x$bp$breakpoints[i]], 3), col=col[3])
+		}
 	}	
 	
 	# add legend or symbolic representation of significance
@@ -80,11 +82,10 @@ plot.Trend <- structure(function(
 	for (i in 1:length(unique(seg))) {
 		
 		# calculate position of symbols
-		d <- x$time[seg == unique(seg)[i]]
-		d <- d[!is.na(d)]
+		b <- is.na(x$series)
+		d <- (x$time[!b])[seg == unique(seg)[i]]
 		xpos <- c(xpos, mean(d, na.rm=TRUE)[1])
-		d <- x$trend[seg == unique(seg)[i]]
-		d <- d[!is.na(d)]
+		d <- (x$trend[!b])[seg == unique(seg)[i]]
 		ypos <- c(ypos, quantile(d, prob=0.6, na.rm=TRUE)[1])
 		
 		# add trend slope uncertainty
