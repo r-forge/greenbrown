@@ -3,7 +3,8 @@
 \title{Plot a easonal cycle with phenology metrics}
 \description{This function plots a seasonal cycle with phenology metrics.}
 \usage{PlotPhenCycle(x, xpred = NULL, metrics, xlab = "DOY", ylab = "NDVI", 
-    trs = NULL, main = "", ...)}\arguments{
+    trs = NULL, main = "", ...)}
+\arguments{
   \item{x}{values of one year}
   \item{xpred}{smoothed/predicted values }
   \item{metrics}{vector of pheology metrics}
@@ -16,7 +17,7 @@
 
 
 
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
 
 
 

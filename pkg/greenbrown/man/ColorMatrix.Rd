@@ -3,7 +3,8 @@
 \title{Create a square matrix of colors}
 \description{This function creates a square matrix with two diagonal crossing color ramps. It can be used to plot contingency maps of two classifications.}
 \usage{ColorMatrix(dim = 3, ul = "burlywood4", lr = "darkgreen", ll = "khaki1", 
-    ur = "royalblue1", ctr = "gray87")}\arguments{
+    ur = "royalblue1", ctr = "gray87")}
+\arguments{
   \item{dim}{number of rows and number of columns of the matrix (only square matrix are possible, i.e. number of rows = number columns)}
   \item{ul}{starting color in the upper left corner of the matrix}
   \item{lr}{ending color in the lower right corner of the matrix	}
@@ -14,7 +15,7 @@
 
 \value{The function returns a square matrix of color names. }
 
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
 
 
 

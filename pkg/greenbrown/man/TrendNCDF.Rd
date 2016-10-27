@@ -4,7 +4,8 @@
 \description{This function computes temporal trend and trend breakpoints on multi-temporal raster data that is stored in a NetCDF file. To calculate trends on the values of each grid cell the function \code{\link{Trend}} is used. Before using these methods on satellite time series (especially NDVI time series) the descriptions and recommendations in Forkel et al. (2013) should be considered. The function applies the function \code{\link{TrendRaster}} on a NetCDF file and saves the results as NetCDF files. Additionally, several summary raster layers are saved as NetCDF files too. Thus, it can potentially simplify the workflow.}
 \usage{TrendNCDF(file, start = c(1982, 1), freq = 12, method = "AAT", 
     mosum.pval = 0.05, h = 0.15, breaks = 1, funSeasonalCycle = MeanSeasonalCycle, 
-    funAnnual = mean, ...)}\arguments{
+    funAnnual = mean, ...)}
+\arguments{
   \item{file}{NetCDF file with file extention *.nc }
   \item{start}{beginning of the time series (i.e. the time of the first observation). The default is c(1982, 1), i.e. January 1982 which is the usual start date to compute trends on long-term series of satellite observations of NDVI. See \code{\link[stats]{ts}} for further examples.}
   \item{freq}{The frequency of observations. The default is 12 for monthly observations. Use 24 for bi-monthly observations, 365 for daily observations or 1 for annual observations. See \code{\link{ts}} for further examples.	}
@@ -40,7 +41,7 @@ All methods work with missing observations (for example missing NDVI observation
 \item{ \code{file.Trend.LongestSEGClassif.nc} NetCDF file with classified trend of the longest time series segment (i.e.  \code{\link{TrendClassification}} applied on \code{\link{TrendLongestSEG}}) }
 }}
 \references{Forkel, M., N. Carvalhais, J. Verbesselt, M. Mahecha, C. Neigh and M. Reichstein (2013): Trend Change Detection in NDVI Time Series: Effects of Inter-Annual Variability and Methodology. - Remote Sensing 5.	}
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
 
 
 

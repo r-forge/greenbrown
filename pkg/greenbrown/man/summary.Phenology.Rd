@@ -2,13 +2,14 @@
 \alias{summary.Phenology}
 \title{Print a summary of phenology metrics}
 \description{The function prints a summary the results from \code{\link{Phenology}}.}
-\usage{\method{summary}{Phenology}(x)}\arguments{
+\usage{\method{summary}{Phenology}(x)}
+\arguments{
   \item{x}{Object of class 'Phenology' as returned from function \code{\link{Phenology}}}
 }
 
 
 
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
 
 
 

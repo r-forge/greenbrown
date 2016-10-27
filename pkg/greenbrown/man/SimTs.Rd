@@ -4,7 +4,8 @@
 \description{The function simulates a surrogate (artificial) time series based on the defined properties. See Forkel et al. 2013 for a description how time series are simulated with this function.}
 \usage{SimTs(M = 0.35, Tslope = c(0.002, -0.004), Isd = 0.015, Irange = 0.03, 
     Srange = 0.5, Rsd = 0.05, Rrange = 0.1, breaks = 120, abrupt = TRUE, 
-    n = 360, start = c(1982, 1), freq = 12)}\arguments{
+    n = 360, start = c(1982, 1), freq = 12)}
+\arguments{
   \item{M}{mean of the time series}
   \item{Tslope}{slope of the trend in each time series segment. \code{slope} should be a numeric vector. The length of this vector determines the number of segements.}
   \item{Isd}{standard deviation of the annual mean values (inter-annual variability)}
@@ -21,7 +22,7 @@
 
 \value{The function returns multiple time series of class \code{\link[stats]{ts}} with the following components: total time series, mean, trend component, inter-annual variability component, seasonal component, short-term component.}
 \references{Forkel, M., N. Carvalhais, J. Verbesselt, M. Mahecha, C. Neigh and M. Reichstein (2013): Trend Change Detection in NDVI Time Series: Effects of Inter-Annual Variability and Methodology. - Remote Sensing 5.}
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
 
 
 

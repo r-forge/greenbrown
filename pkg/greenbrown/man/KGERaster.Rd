@@ -3,7 +3,8 @@
 \title{Compute Kling-Gupta efficiency and related metrics of two multi-layer raster data sets}
 \description{This function can be used to apply the function \code{\link{KGE}} on raster data. See \code{\link{KGE}} for details.}
 \usage{KGERaster(x, ref, trend = FALSE, start = c(1982, 1), freq = 12, 
-    ...)}\arguments{
+    ...)}
+\arguments{
   \item{x}{multi-layer raster object of class \code{\link[raster]{brick}} including modelled time series}
   \item{ref}{multi-layer raster object of class \code{\link[raster]{brick}} including reference (observed or standard model run) time series}
   \item{trend}{Include the effect of trend in the calculation? (default: FALSE). The calculation of breakpoints is currently not implemented for the function KGERaster.}
@@ -26,7 +27,7 @@
 \item{ \code{eTrend} effect of trend (only if trend=TRUE)}	
 }}
 \references{Gupta, H. V., H. Kling, K. K. Yilmaz, G. F. Martinez (2009):  Decomposition of the mean squared error and NSE performance criteria: Implications for improving hydrological modelling. Journal of Hydrology 377, 80-91.}
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
 
 
 

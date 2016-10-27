@@ -2,7 +2,8 @@
 \alias{CompareClassification}
 \title{Compare two classification maps}
 \description{This function computes an agreement map of two classifications (RasterLayers with classified values). Additionally, it computes a frequency table with user, producer and total accuracies as well as the Kappa coefficient. }
-\usage{CompareClassification(x, y, names = NULL, samplefrac = 1)}\arguments{
+\usage{CompareClassification(x, y, names = NULL, samplefrac = 1)}
+\arguments{
   \item{x}{First raster layer with classification.}
   \item{y}{Second raster layer with classification.}
   \item{names}{a list with names of the two classifications and class names. See example section for details.}
@@ -16,7 +17,7 @@
 \item{ \code{kappa} Kappa coefficient. }
 }}
 
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
 
 
 

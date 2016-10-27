@@ -4,7 +4,8 @@
 \description{This is the standard plot function for results of the \code{\link{Trend}} function. See \code{\link{plot.default}} for further specifications of basic plots.}
 \usage{\method{plot}{Trend}(x, ylab = "NDVI", add = FALSE, col = c("black", "blue", 
     "red", "blue"), lty = c(2, 1, 2, 3), lwd = 1, symbolic = TRUE, 
-    legend = FALSE, uncertainty = TRUE, axes = TRUE, ...)}\arguments{
+    legend = FALSE, uncertainty = TRUE, axes = TRUE, ...)}
+\arguments{
   \item{x}{Object of class 'Trend' as returned from function \code{\link{Trend}}}
   \item{ylab}{A title for the y axis}
   \item{add}{add to exisiting plot}
@@ -21,7 +22,7 @@
 
 
 
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
 
 
 

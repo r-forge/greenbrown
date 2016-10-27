@@ -2,13 +2,14 @@
 \alias{MeanSeasonalCycle}
 \title{Calculate the mean seasonal cycle of a time series}
 \description{The function calculates the mean seasonal cycle of a time series. }
-\usage{MeanSeasonalCycle(ts)}\arguments{
+\usage{MeanSeasonalCycle(ts)}
+\arguments{
   \item{ts}{univariate time series of class \code{\link{ts}}}
 }
 
 \value{Mean seasonal cycle of time series ts with the same length as ts, i.e. the mean seasonal cycle is repeated for each year. The mean seasonal cycle is centered to 0.}
 
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
 
 
 

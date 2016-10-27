@@ -3,7 +3,8 @@
 \title{Simulate the short-term variability component of a surrogate time series}
 \description{The function simulates the short-term variability component (remainder component) of a time series (remainder component) based on normal-distributed random values.}
 \usage{SimRem(sd = 0.05, range = sd * 3, n = 360, start = c(1982, 1), 
-    freq = 12)}\arguments{
+    freq = 12)}
+\arguments{
   \item{sd}{standard deviation of short-term anomalies}
   \item{range}{range of short-term anomalies}
   \item{n}{length of the time series}
@@ -13,7 +14,7 @@
 
 \value{time series of class \code{\link[stats]{ts}}}
 
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
 
 
 

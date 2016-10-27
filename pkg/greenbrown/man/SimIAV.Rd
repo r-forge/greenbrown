@@ -3,7 +3,8 @@
 \title{Simulate the inter-annual variability component of a surrogate time series}
 \description{The function simulates the inter-annual variability component of a time series based on normal-distributed random values.}
 \usage{SimIAV(sd = 0.015, range = sd * 2, nyears = 30, start = c(1982, 
-    1), freq = 12)}\arguments{
+    1), freq = 12)}
+\arguments{
   \item{sd}{standard deviation of the annual mean values}
   \item{range}{range of the annual mean values}
   \item{nyears}{number of years}
@@ -13,7 +14,7 @@
 
 \value{time series of class \code{\link[stats]{ts}}}
 
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
 
 
 

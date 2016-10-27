@@ -5,7 +5,8 @@
 \usage{Trend(Yt, method = c("AAT", "STM", "SeasonalAdjusted"), mosum.pval = 0.05, 
     h = 0.15, breaks = NULL, funSeasonalCycle = MeanSeasonalCycle, 
     funAnnual = mean, sample.method = c("sample", "all", "none"), 
-    sample.min.length = 0.75, sample.size = 30)}\arguments{
+    sample.min.length = 0.75, sample.size = 30)}
+\arguments{
   \item{Yt}{univariate time series of class \code{\link{ts}}}
   \item{method}{method to be used for trend calculation with the following options: 
 \itemize{
@@ -30,7 +31,7 @@
 These methods can be applied to gridded (raster) data using the function \code{\link{TrendRaster}}.}
 \value{The function returns a list of class "Trend". }
 \references{Forkel, M., N. Carvalhais, J. Verbesselt, M. Mahecha, C. Neigh and M. Reichstein (2013): Trend Change Detection in NDVI Time Series: Effects of Inter-Annual Variability and Methodology. - Remote Sensing 5.}
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
 
 
 

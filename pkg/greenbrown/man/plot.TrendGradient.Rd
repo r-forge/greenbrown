@@ -4,7 +4,8 @@
 \description{This function plots a gradient of trend slopes (e.g. latitudinal gradient). }
 \usage{\method{plot}{TrendGradient}(x, type = "xy", ylab = NULL, xlab = NULL, 
     col = "black", ylim = NULL, xlim = NULL, add = FALSE, symbolic = TRUE, 
-    symbols = "standard", ...)}\arguments{
+    symbols = "standard", ...)}
+\arguments{
   \item{x}{Object of class 'TrendGradient' as returned from function \code{\link{TrendGradient}}}
   \item{type}{plotting type: 'xy' = gradient at x axis and slope at y axis, 'yx' = gradient at y axis and slope at x axis.}
   \item{ylab}{A title for the y axis}
@@ -20,7 +21,7 @@
 
 
 
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
 
 
 

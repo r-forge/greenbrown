@@ -5,7 +5,8 @@
 \usage{TrendRaster(r, start = c(1982, 1), freq = 12, method = c("AAT", 
     "STM", "SeasonalAdjusted"), mosum.pval = 0.05, h = 0.15, 
     breaks = 0, funSeasonalCycle = MeanSeasonalCycle, funAnnual = mean, 
-    ...)}\arguments{
+    ...)}
+\arguments{
   \item{r}{multi-layer raster object of class \code{\link[raster]{brick}}}
   \item{start}{beginning of the time series (i.e. the time of the first observation). The default is c(1982, 1), i.e. January 1982 which is the usual start date to compute trends on long-term series of satellite observations of NDVI. See \code{\link[stats]{ts}} for further examples.}
   \item{freq}{The frequency of observations. The default is 12 for monthly observations. Use 24 for bi-monthly observations, 365 for daily observations or 1 for annual observations. See \code{\link{ts}} for further examples.}
@@ -38,7 +39,7 @@ All methods work with missing observations (for example missing NDVI observation
 }
 The choosen number of \code{breaks} will define the number of raster layers of the result.  }
 \references{Forkel, M., N. Carvalhais, J. Verbesselt, M. Mahecha, C. Neigh and M. Reichstein (2013): Trend Change Detection in NDVI Time Series: Effects of Inter-Annual Variability and Methodology. - Remote Sensing 5.}
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
 
 
 

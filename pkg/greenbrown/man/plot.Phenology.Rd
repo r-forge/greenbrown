@@ -4,7 +4,8 @@
 \description{This is the standard plot function for results of the \code{\link{Phenology}} function. See \code{\link{plot.default}} for further specifications of basic plots.}
 \usage{\method{plot}{Phenology}(x, type = c("sos", "eos", "pop"), ylab = NULL, 
     ylim = NULL, add = FALSE, col = "black", add.trend = TRUE, 
-    ...)}\arguments{
+    ...)}
+\arguments{
   \item{x}{Object of class 'Phenology' as returned from function \code{\link{Phenology}}}
   \item{type}{varaible names that should be plotted from the \code{\link{Phenology}} object}
   \item{ylab}{a title for the y axis}
@@ -17,7 +18,7 @@
 
 
 
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
 
 
 

@@ -2,13 +2,14 @@
 \alias{AccuracyAssessment}
 \title{Accuracy assessment from a contingency table}
 \description{This function takes a contingency table as calculated with \code{\link{table}} or \code{\link[raster]{crosstab}} and computes an accuracy assessment, including the total accuracy, the user accuracy and the producer accuracy.}
-\usage{AccuracyAssessment(tab)}\arguments{
+\usage{AccuracyAssessment(tab)}
+\arguments{
   \item{tab}{contingency table as calculated with \code{\link{table}} or \code{\link{crosstab}}}
 }
 
 \value{The function returns the same frequency table as the input but with added row and column totals and total accuracy, user accuracy and producer accuracy.}
 \references{Congalton, R.G. (1991): A review of assessing the accuracy of classifications of remotely sensed data. - Remote Sensing of Environment 1991, 37, 35-46.}
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
 
 
 

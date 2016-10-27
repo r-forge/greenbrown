@@ -8,7 +8,8 @@ eTotal is the euclidean distance of the actual effects of mean, variance, correl
 eTotal = sqrt(eMean + eVar + eCor + eTrend) 
 eTotal can be between 0 (perfect fit) and infinite (worst fit). }
 \usage{KGE(x, ref, trend = FALSE, mosum.pval = 0.05, h = 0.15, breaks = 0, 
-    eTrend.ifsignif = TRUE, ...)}\arguments{
+    eTrend.ifsignif = TRUE, ...)}
+\arguments{
   \item{x}{time series from model result or factorial model run}
   \item{ref}{reference time series (observation or standard model run)}
   \item{trend}{Include the effect of trend in the calculation? (default: FALSE)}
@@ -33,7 +34,7 @@ eTotal can be between 0 (perfect fit) and infinite (worst fit). }
 \item{ \code{eTrend} effect of trend (only if trend=TRUE)}	
 }}
 \references{Gupta, H. V., H. Kling, K. K. Yilmaz, G. F. Martinez (2009):  Decomposition of the mean squared error and NSE performance criteria: Implications for improving hydrological modelling. Journal of Hydrology 377, 80-91.}
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
 
 
 

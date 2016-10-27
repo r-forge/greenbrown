@@ -2,10 +2,10 @@
 \alias{plot.CompareClassification}
 \title{plot a comparison of two classification rasters}
 \description{This function takes an object of class \code{\link{CompareClassification}} as input and plots a map of the class agreement of two classifications.}
-\usage{\method{plot}{CompareClassification}(x,
- xlab = "", ylab = "", main = "Classification agreement", 
+\usage{\method{plot}{CompareClassification}(x, xlab = "", ylab = "", main = "Classification agreement", 
     names = NULL, ul = "burlywood4", lr = "darkgreen", ll = "khaki1", 
-    ur = "royalblue1", ctr = "gray87", mar = NULL, ...)}\arguments{
+    ur = "royalblue1", ctr = "gray87", mar = NULL, ...)}
+\arguments{
   \item{x}{Object of class 'CompareClassification' as returned from function \code{\link{CompareClassification}}.}
   \item{xlab}{A title for the x axis}
   \item{ylab}{A title for the y axis}
@@ -22,7 +22,7 @@
 
 
 
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
 
 
 

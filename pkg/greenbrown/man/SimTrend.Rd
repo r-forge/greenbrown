@@ -3,7 +3,8 @@
 \title{Simulate trend and breakpoints of a surrogate time series}
 \description{The function simulates the trend component with breakpoints of a time series.}
 \usage{SimTrend(slope = c(0.002, -0.004), breaks = 165, abrupt = TRUE, 
-    n = 360, start = c(1982, 1), freq = 12)}\arguments{
+    n = 360, start = c(1982, 1), freq = 12)}
+\arguments{
   \item{slope}{slope of the trend in each time series segment. \code{slope} should be a numeric vector. The length of this vector determines the number of segments.}
   \item{breaks}{position of the breakpoints in the time series. You should specify one more slope than breakpoint.}
   \item{abrupt}{Should the trend at the breakpoints change abrupt (\code{TRUE}) or gradual (\code{FALSE})?}
@@ -14,7 +15,7 @@
 
 \value{time series of class \code{\link[stats]{ts}}}
 
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
 
 
 

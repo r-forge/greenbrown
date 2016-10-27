@@ -2,13 +2,14 @@
 \alias{TrendLongestSEG}
 \title{Extract slope and p-value for the longest time series segment from a TrendRaster raster brick }
 \description{This function extracts the slope and p-value of a trend for the longest time series segment from a raster brick that was created with \code{\link{TrendRaster}}}
-\usage{TrendLongestSEG(r)}\arguments{
+\usage{TrendLongestSEG(r)}
+\arguments{
   \item{r}{\code{RasterBrick} as created with \code{\link{TrendRaster}} or object of class 'Trend' as returned by \code{\link{Trend}}}
 }
 
 
 
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
 
 
 

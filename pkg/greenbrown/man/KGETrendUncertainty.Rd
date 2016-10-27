@@ -4,7 +4,8 @@
 \description{This function samples time series for different combinations of start and end years and computes for each combination the KGE (see \code{\link{KGE}}).}
 \usage{KGETrendUncertainty(x, ref, trend = TRUE, eTrend.ifsignif = FALSE, 
     sample.method = c("sample", "all", "none"), sample.min.length = 0.75, 
-    sample.size = 30, ...)}\arguments{
+    sample.size = 30, ...)}
+\arguments{
   \item{x}{time series from model result or factorial model run}
   \item{ref}{reference time series (observation or standard model run)}
   \item{trend}{Include the effect of trend in the calculation? }
@@ -32,7 +33,7 @@
 \item{ \code{eTrend} effect of trend (only if trend=TRUE)}	
 }}
 \references{Gupta, H. V., H. Kling, K. K. Yilmaz, G. F. Martinez (2009):  Decomposition of the mean squared error and NSE performance criteria: Implications for improving hydrological modelling. Journal of Hydrology 377, 80-91.}
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
 
 
 

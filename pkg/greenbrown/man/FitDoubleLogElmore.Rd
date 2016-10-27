@@ -3,7 +3,8 @@
 \title{Fit a double logisitic function to a vector according to Elmore et al. (2012)}
 \description{This function fits a double logistic curve to observed values using the function as described in Elmore et al. (2012) (equation 4).}
 \usage{FitDoubleLogElmore(x, t = 1:length(x), tout = t, return.par = FALSE, 
-    plot = FALSE, ...)}\arguments{
+    plot = FALSE, ...)}
+\arguments{
   \item{x}{vector or time series to fit}
   \item{t}{time steps}
   \item{tout}{time steps of output (can be used for interpolation)}
@@ -14,7 +15,7 @@
 
 \value{The function returns a vector with fitted values if return.par is FALSE and it returns parameters of the logisitic modle of return.par is TRUE}
 \references{Elmore, A.J., S.M. Guinn, B.J. Minsley and A.D. Richardson (2012): Landscape controls on the timing of spring, autumn, and growing season length in mid-Atlantic forests. - Global Change Biology 18, 656-674.}
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
 
 
 

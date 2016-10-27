@@ -26,7 +26,8 @@ The calculation of these metrics is performed in three steps and by using differ
     "Trs", "Deriv"), min.mean = 0.1, trs = NULL, fpg = FillPermanentGaps, 
     tsgf = "TSGFspline", interpolate = TRUE, min.gapfrac = 0.2, 
     lower = TRUE, fillval = NA, fun = min, method = c("Elmore", 
-        "Beck"), backup = NULL, check.seasonality = 1:3, ...)}\arguments{
+        "Beck"), backup = NULL, check.seasonality = 1:3, ...)}
+\arguments{
   \item{r}{multi-layer raster object of class \code{\link[raster]{brick}}}
   \item{start}{beginning of the time series (i.e. the time of the first observation). The default is c(1982, 1), i.e. January 1982 which is the usual start date to compute trends on long-term series of satellite observations of NDVI. See \code{\link[stats]{ts}} for further examples.}
   \item{freq}{The frequency of observations. The default is 12 for monthly observations. Use 24 for bi-monthly observations, 365 for daily observations or 1 for annual observations. See \code{\link{ts}} for further examples.}
@@ -65,7 +66,7 @@ The number of years in the input raster will define the number of layers in the 
 \references{Beck, P.S.A., C. Atzberger, K.A. Hodga, B. Johansen, A. Skidmore (2006): Improved monitoring of vegetation dynamics at very high latitudes: A new method using MODIS NDVI. - Remote Sensing of Environment 100:321-334. \cr
 Elmore, A.J., S.M. Guinn, B.J. Minsley and A.D. Richardson (2012): Landscape controls on the timing of spring, autumn, and growing season length in mid-Atlantic forests. - Global Change Biology 18, 656-674. \cr	
 White M.A., P.E. Thornton and S.W. Running (1997): A continental phenology model for monitoring vegetation responses to interannual climatic variability. - Global Biogeochemical Cycles 11, 217-234. }
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
 
 
 

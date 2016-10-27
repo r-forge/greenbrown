@@ -3,7 +3,8 @@
 \title{Fit a double logisitic function to a vector according to Beck et al. (2006)}
 \description{This function fits a double logistic curve to observed values using the function as described in Beck et al. (2006) (equation 3).}
 \usage{FitDoubleLogBeck(x, t = 1:length(x), tout = t, weighting = TRUE, 
-    return.par = FALSE, plot = FALSE, ...)}\arguments{
+    return.par = FALSE, plot = FALSE, ...)}
+\arguments{
   \item{x}{vector or time series to fit}
   \item{t}{time steps}
   \item{tout}{time steps of output (can be used for interpolation)}
@@ -15,7 +16,7 @@
 
 \value{The function returns a vector with fitted values if return.par is FALSE and it returns parameters of the logisitic modle of return.par is TRUE }
 \references{Beck, P.S.A., C. Atzberger, K.A. Hodga, B. Johansen, A. Skidmore (2006): Improved monitoring of vegetation dynamics at very high latitudes: A new method using MODIS NDVI. - Remote Sensing of Environment 100:321-334.}
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
 
 
 

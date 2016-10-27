@@ -6,7 +6,8 @@
     file = NULL, time = NULL, layernames = NULL, data.name = NA, 
     region.name = NA, file.title = var.longname, file.description = NULL, 
     reference = "", provider = "", creator = "greenbrown R package", 
-    naflag = -9999, scale = 1, offset = 0, overwrite = FALSE)}\arguments{
+    naflag = -9999, scale = 1, offset = 0, overwrite = FALSE)}
+\arguments{
   \item{data}{raster layer or raster brick}
   \item{var.name}{variable name}
   \item{var.unit}{variable unit}
@@ -29,7 +30,7 @@
 
 
 
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
 
 
 

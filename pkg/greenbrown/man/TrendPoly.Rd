@@ -2,14 +2,15 @@
 \alias{TrendPoly}
 \title{Trend estimation based on a 4th order polynomial}
 \description{The function computes a trend based on a 4th order polynomial function.}
-\usage{TrendPoly(Yt, ...)}\arguments{
+\usage{TrendPoly(Yt, ...)}
+\arguments{
   \item{Yt}{univariate time series of class \code{\link{ts}}}
   \item{\dots}{additional arguments (currently not used)}
 }
 
 \value{The function returns a list of class "Trend". }
 
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
 
 
 

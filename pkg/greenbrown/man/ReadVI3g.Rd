@@ -2,7 +2,8 @@
 \alias{ReadVI3g}
 \title{Read and pre-process GIMMS VI3g binary files}
 \description{This function reads GIMMS VI3g binary files, pre-processes the values (exclusion of flagged values, subset for area of interest) and returns the result as a raster layer. The function can be used to read the original GIMMS NDVI3g data files to R.}
-\usage{ReadVI3g(file, flag = 2:7, ext = c(-180, 180, -90, 90))}\arguments{
+\usage{ReadVI3g(file, flag = 2:7, ext = c(-180, 180, -90, 90))}
+\arguments{
   \item{file}{GIMMS VI3g file name}
   \item{flag}{vector of quality flags that should be excluded. Default: 2:7 (all values with reduced quality excluded). If you want to keep all values set \code{flag=NA}.}
   \item{ext}{extent (xmin, xmax, ymin, ymax) for which to extract the data}
@@ -19,7 +20,7 @@
 }	}
 \value{raster layer }
 
-\author{Matthias Forkel <mforkel@bgc-jena.mpg.de> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
 
 
 
