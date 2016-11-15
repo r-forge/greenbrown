@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Objective functions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for ObjFct {ModelDataComp}"><tr><td>ObjFct {ModelDataComp}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Objective functions</h2>
+
+<h3>Description</h3>
+
+<p>Calculate model performance measures: correlation coefficient, coefficient of determination, average error, 
+normalized average error, fractional mean bias, variance ratio, Pbias, sum squared error, mean squared error,
+root mean squared error, normalized root mean squared error, index of agreement, mean absolute error, 
+normalized mean absolute error, maximum absolute error, median absolute error, upper quartile absolute error,
+ratio of scatter, Modelling efficiency, Kling-Gupta efficiency</p>
+
+
+<h3>Usage</h3>
+
+<pre>ObjFct(sim, obs, groups = NULL)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>sim</code></td>
+<td>
+<p>simulated/predicted/modeled values</p>
+</td></tr>
+<tr valign="top"><td><code>obs</code></td>
+<td>
+<p>observed/reference values</p>
+</td></tr>
+<tr valign="top"><td><code>groups</code></td>
+<td>
+<p>vector of groups to compute objective functions for subsets of sim/obs</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>An object of class &quot;ObjFct&quot; which is actually a list.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Matthias Forkel &lt;matthias.forkel@geo.tuwien.ac.at&gt; [aut, cre]</p>
+
+
+<h3>References</h3>
+
+<p>Gupta, H. V., H. Kling, K. K. Yilmaz, and G. F. Martinez (2009), Decomposition of the mean squared error and NSE performance criteria: Implications for improving hydrological modelling, Journal of Hydrology, 377(1-2), 80–91, doi:10.1016/j.jhydrol.2009.08.003. <br />
+Janssen, P. H. M., and P. S. C. Heuberger (1995), Calibration of process-oriented models, Ecological Modelling, (83), 55-66. <br />
+Krause, P., D. P. Boyle, and F. Bäse (2005), Comparison of different efficiency criteria for hydrological model assessment, Adv. Geosci., 5, 89-97, doi:10.5194/adgeo-5-89-2005. <br />
+Legates, D. R., and G. J. McCabe (1999), Evaluating the use of “goodness-of-fit” Measures in hydrologic and hydroclimatic model validation, Water Resour. Res., 35(1), 233-241, doi:10.1029/1998WR900018.</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="plot.ObjFct.html">plot.ObjFct</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+obs &lt;- 1:100 # 'observations'
+
+# simulated and observed values agree
+sim &lt;- obs 
+ObjFct(sim, obs)
+
+# simulation has a bias
+sim &lt;- obs - 50
+ObjFct(sim, obs)
+
+# negative correlation
+sim &lt;- 100:1 
+ObjFct(sim, obs)
+
+# same mean, same correlation but smaller variance
+sim &lt;- 0.5 * obs + 25.25
+ObjFct(sim, obs)
+
+# small scatter around observations
+sim &lt;- obs * rnorm(100, 1, 0.1) 
+ObjFct(sim, obs)
+
+# larger scatter around observations
+sim &lt;- obs * rnorm(100, 1, 0.8) 
+ObjFct(sim, obs)
+
+# bias and larger scatter around observations
+sim &lt;- obs * rnorm(100, 2, 0.8) 
+ObjFct(sim, obs)
+
+# simulation is independent from observations
+sim &lt;- rnorm(100, 0, 1) 
+ObjFct(sim, obs)
+
+# split by groups
+sim &lt;- obs * c(rnorm(40, 1, 0.2), rnorm(60, 1, 2))
+groups &lt;- c(rep("subset 1", 40), rep("subset 2", 60))
+of &lt;- ObjFct(sim, obs, groups=groups)
+of
+
+# convert objective functions to text
+text(of)
+text(of, which="KGE")
+text(of, which=c("R2", "MEF", "KGE"), sep=" ")
+
+# plot scatterplot of two metrics
+plot(of)
+plot(of, which=c("MEF", "RMSE"))
+
+
+# analyze relations between objective functions
+#----------------------------------------------
+
+# Some objective function metrics are closely related to others. 
+# This simple example demonstrates the relations bewteen metrics.
+# Therefore, several experiments are performed. In each experiment,
+# simulation with different biases, correlations, and variance in
+# comparison with the observations are created.
+# Objective functions are then computed for all experiments.
+
+# the 'observations'
+obs &lt;- 1:100
+
+# experiments: create 'simulations' with different biases, correlations, and variances
+n &lt;- 500 # how many experiments?
+data &lt;- data.frame(obs=NA, sim=NA, exp=NA)
+for (i in 1:n) {
+   fbias &lt;- runif(1, 0.01, 2) # factor to create the bais
+   fcor &lt;- runif(1, -2.5, 2.5) # factor to create a different correlation
+   fsd &lt;- runif(1, 0.1, 2) # factor to create variability
+   sim &lt;- fbias * obs^(fcor) # create simulations
+   sim &lt;- sim + rnorm(length(sim), 0, fsd*abs(mean(sim, na.rm=TRUE)))
+   data &lt;- rbind(data, data.frame(obs=obs, sim=sim, exp=i))
+}
+data &lt;- na.omit(data)
+
+# plot the first 5 experiments:
+plot(sim ~ obs, data=data[1:500,], col=data$exp[1:500], pch=16)
+
+# compute objective function metrics for each experiment (experiments as groups)
+of &lt;- ObjFct(data$sim, data$obs, groups=data$exp)
+hist(of$Cor) # distribution of correlation across all experiments
+
+# check relations between metrics
+plot(of, c("Cor", "Spearman"))
+plot(of, c("Cor", "R2"))
+plot(of, c("Cor", "IoA"))
+plot(of, c("RMSE", "AE"))
+plot(of, c("RMSE", "MEF"))
+plot(of, c("KS", "MEF"))
+
+# check the correlation of metrics:
+df &lt;- t(laply(of, function(l) l)) # create a data.frame
+colnames(df) &lt;- attr(of, "names")
+r &lt;- cor(df) # compute correlation between metrics
+
+# plot the correlation matrix
+# red = positive correlation, blue = negative correlation
+par(las=2)
+brks &lt;- seq(-1, 1, 0.05)
+.fun &lt;- colorRampPalette(c("blue", "white", "red"))
+cols &lt;- .fun(length(brks)-1)
+image(r, axes=FALSE, breaks=brks, col=cols) 
+box()
+x &lt;- seq(0, 1, length=nrow(r))
+axis(1, at=x, rownames(r))
+axis(2, at=x, rownames(r))
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>ModelDataComp</em> version 1.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -68,15 +68,15 @@ TSGFdoublelog <- structure(function(
 			message("TSGFdoublelog: Time series has no seasonality. No smoothing performed because no backup algorithm choosen.")	
 		} else {
 			Yt1 <- do.call(backup, list(Yt=Yt, interpolate=interpolate, ...))
-			message("TSGFdoublelog: Time series has no seasonality. Using", backup, "as smoothing, gap filling and interpolation backup algorithm instead of double logistic fit.")			
+			message("TSGFdoublelog: Time series has no seasonality. Using", backup, "as backup algorithm instead of double logistic fit.")			
 		}
 
 	} else {
 		# fit double logistic curve for each year
 		method <- method[1]
-		if (method == "Elmore") .fun <- FitDoubleLogElmore
-		if (method == "Beck") .fun <- FitDoubleLogBeck
-		Yt1 <- aggregate(Yt, FUN=.fun, weighting=TRUE, return.par=FALSE, tout=tout)	
+		if (method == "Elmore") .fun <- function(x, ...) FitDoubleLogElmore(x, ...)$predicted
+		if (method == "Beck") .fun <- function(x, ...) FitDoubleLogBeck(x, ...)$predicted
+		Yt1 <- aggregate(Yt, FUN=.fun, weighting=TRUE, tout=tout)	
 		Yt1 <- ts(Yt1, start=start, end=c(end[1], freq.out), frequency=freq.out)
 
 		# remove outliers

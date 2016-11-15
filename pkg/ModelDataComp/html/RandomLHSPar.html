@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Latin-hypercube sampling of parameters</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for RandomLHSPar {ModelDataComp}"><tr><td>RandomLHSPar {ModelDataComp}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Latin-hypercube sampling of parameters</h2>
+
+<h3>Description</h3>
+
+<p>RandomLHSPar samples parameters based on random Latin-Hypercube sampling within given parameter ranges</p>
+
+
+<h3>Usage</h3>
+
+<pre>RandomLHSPar(nexp, lower, upper, fixed = rep(FALSE, length(lower)))</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>nexp</code></td>
+<td>
+<p>number of samples</p>
+</td></tr>
+<tr valign="top"><td><code>lower</code></td>
+<td>
+<p>numeric vector of lower boundary values for each parameter</p>
+</td></tr>
+<tr valign="top"><td><code>upper</code></td>
+<td>
+<p>numeric vector of upper borundary values for each parameter</p>
+</td></tr>
+<tr valign="top"><td><code>fixed</code></td>
+<td>
+<p>boolean vector: should a parameter kept fixed (TRUE) or should all parameters be sampled (FALSE). If TRUE than the parameter value from the vector lower will be returned.	</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The function returns a data.frame with sampled parameters.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Matthias Forkel &lt;matthias.forkel@geo.tuwien.ac.at&gt; [aut, cre]</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+lower &lt;- c(0, 100, -50, 1000)
+names(lower) &lt;- letters[1:4]
+upper &lt;- c(10, 500, 50, 10000)
+RandomLHSPar(10, lower, upper)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>ModelDataComp</em> version 1.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

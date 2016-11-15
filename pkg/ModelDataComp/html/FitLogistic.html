@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Fit logistic functions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for FitLogistic {ModelDataComp}"><tr><td>FitLogistic {ModelDataComp}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Fit logistic functions </h2>
+
+<h3>Description</h3>
+
+<p>Fit additive or multiplicative logistic functions to a response variable.</p>
+
+
+<h3>Usage</h3>
+
+<pre>FitLogistic(x, y, additive = FALSE, method = c("genoud"), ntry = 50, 
+    ...)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>predictor variables</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>response variables</p>
+</td></tr>
+<tr valign="top"><td><code>additive</code></td>
+<td>
+<p>additive or multiplicative (default) fit?</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>Method to be used for optimization of fit parameters. &quot;genoud&quot; uses genetic optimization (see <code><a href="../../rgenoud/html/genoud.html">genoud</a></code>). Can be also one of &quot;Nelder-Mead&quot;, &quot;BFGS&quot;, &quot;CG&quot;, &quot;L-BFGS-B&quot;, &quot;SANN&quot;, &quot;Brent&quot; (see <code><a href="../../stats/html/optim.html">optim</a></code>). If two methods are provided, the second method is applied on the best result of the first method.</p>
+</td></tr>
+<tr valign="top"><td><code>ntry</code></td>
+<td>
+<p>number of inital trials for strating parameter sets in the optimization of fit parameters. A higher number of trials yields usually more robust results but takes longer.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments for <code><a href="../../rgenoud/html/genoud.html">genoud</a></code> or <code><a href="../../stats/html/optim.html">optim</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>No details.</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class 'FitLogistic' which is actually a list.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Matthias Forkel &lt;matthias.forkel@geo.tuwien.ac.at&gt; [aut, cre]</p>
+
+
+<h3>References</h3>
+
+<p>No reference.	</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="Logistic.html">Logistic</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+# 1D example
+x &lt;- 1:1000
+y &lt;- Logistic(c(1, 0.01, 500), x) + rnorm(1000, 0, 0.01)
+plot(x, y)
+fit &lt;- FitLogistic(x, y)
+lines(x, fit$predicted, col="red")
+fit$par # fitted parameter
+
+# performance of fit
+of &lt;- ObjFct(fit$predicted, y)
+of
+plot(of)
+
+## 2D example
+#n &lt;- 1000
+#x1 &lt;- runif(n, 0, 100)
+#x2 &lt;- runif(n, 0, 100)
+#f1 &lt;- Logistic(c(1, 0.1, 50), x1)
+#f2 &lt;- Logistic(c(1, -1, 20), x2)
+#plot(x1, f1)
+#plot(x2, f2)
+#y &lt;- f1 * f2 * rnorm(n, 1, 0.1)
+#plot(x1, y) 
+#plot(x2, y)
+#fit &lt;- FitLogistic(x=cbind(x1, x2), y)
+#plot(y, fit$predicted)
+#fit$par # fitted parameter
+
+## plot fit as a surface:
+#surf &lt;- expand.grid(x1=0:100, x2=0:100)
+#surf &lt;- data.frame(surf, y=predict(fit, surf))
+#require(rgl)
+#with(data.frame(x1, x2, y), plot3d(x1, x2, y))
+#with(surf, surface3d(unique(x1), unique(x2), y, alpha=0.2, col="blue"))
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>ModelDataComp</em> version 1.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

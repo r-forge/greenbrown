@@ -2,18 +2,19 @@
 \alias{FitDoubleLogElmore}
 \title{Fit a double logisitic function to a vector according to Elmore et al. (2012)}
 \description{This function fits a double logistic curve to observed values using the function as described in Elmore et al. (2012) (equation 4).}
-\usage{FitDoubleLogElmore(x, t = 1:length(x), tout = t, return.par = FALSE, 
-    plot = FALSE, ...)}
+\usage{FitDoubleLogElmore(x, t = 1:length(x), tout = t, hessian = FALSE, 
+    plot = FALSE, ninit = 100, ...)}
 \arguments{
   \item{x}{vector or time series to fit}
   \item{t}{time steps}
   \item{tout}{time steps of output (can be used for interpolation)}
-  \item{return.par}{if TRUE the function returns parameters of the double logisitic fit, if FALSE it returns the fitted curve}
+  \item{hessian}{compute standard errors of parameters based on the Hessian?}
   \item{plot}{plot iterations for logistic fit?}
+  \item{ninit}{number of inital parameter sets from which to start optimization}
   \item{\dots}{further arguments (currently not used)}
 }
 
-\value{The function returns a vector with fitted values if return.par is FALSE and it returns parameters of the logisitic modle of return.par is TRUE}
+\value{The function returns a list with fitted values, parameters, fitting formula and standard errors if hessian is TRUE}
 \references{Elmore, A.J., S.M. Guinn, B.J. Minsley and A.D. Richardson (2012): Landscape controls on the timing of spring, autumn, and growing season length in mid-Atlantic forests. - Global Change Biology 18, 656-674.}
 \author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
 
@@ -22,29 +23,27 @@
 \seealso{\code{\link{TSGFdoublelog}}, \code{\link{Phenology}} }
 \examples{
 
-# load NDVI data
+# select one year of NDVi data
 data(ndvi)
-plot(ndvi)
-
-# select one year of data
-x <- as.vector(window(ndvi, start=c(1997,1), end=c(1997, 12)))
+x <- as.vector(window(ndvi, start=c(1991,1), end=c(1991, 12)))
 plot(x)
 
 # fit double-logistic function to one year of data
 fit <- FitDoubleLogElmore(x)
+fit
 plot(x)
-lines(fit, col="blue")
+lines(fit$predicted, col="blue")
 
-# return parameters of fit
-FitDoubleLogElmore(x, return.par=TRUE, plot=TRUE)	
+# do more inital trials, plot iterations and compute parameter uncertainties
+FitDoubleLogElmore(x, hessian=TRUE, plot=TRUE, ninit=1000)	
 
 # fit double-logistic function to one year of data, 
 # interpolate to daily time steps and calculate phenology metrics
 tout <- seq(1, 12, length=365)	# time steps for output (daily)
 fit <- FitDoubleLogElmore(x, tout=tout)
 plot(x)
-lines(tout, fit, col="blue")
-PhenoDeriv(fit, plot=TRUE)
+lines(tout, fit$predicted, col="blue")
+PhenoDeriv(fit$predicted, plot=TRUE)
 
 
 }

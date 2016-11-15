@@ -1,6 +1,6 @@
 Package: greenbrown
 Title: Land Surface Phenology and Trend Analysis
-Version: 2.4
+Version: 2.4.2
 Date: 2016-10-27
 Author: Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]
 Maintainer: Matthias Forkel <matthias.forkel@geo.tuwien.ac.at>, Thomas Wutzler <twutz@bgc-jena.mpg.de>

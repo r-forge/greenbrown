@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compare means, distributions, and correlations of different...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for WollMilchSauPlot {ModelDataComp}"><tr><td>WollMilchSauPlot {ModelDataComp}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compare means, distributions, and correlations of different datasets </h2>
+
+<h3>Description</h3>
+
+<p>Plot a comparison of means, distributions, and correlations (or any other objective function metric) between different datasets. Thus this plot is almost an &quot;eier-legende Wollmichsau&quot; (german, animal that produces eggs, wool, milk and meet) for model-data comparison. The plot is based on the function <code><a href="../../yarrr/html/pirateplot.html">pirateplot</a></code></p>
+
+
+<h3>Usage</h3>
+
+<pre>WollMilchSauPlot(x, ref = 1, objfct.col = "Cor", cols = tim.colors(10), 
+    brks = NULL, names = NULL, main = NULL, xlab = NULL, ylab = NULL, 
+    xlim = NULL, ylim = NULL, legend = TRUE, legend.only = FALSE, 
+    point.pch = NA, bar.o = 1, bean.o = 1, inf.o = 0, bean.lwd = 1, 
+    line.lwd = 1, cut.min = NULL, cut.max = NULL, ...)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a data.frame with at least two columns</p>
+</td></tr>
+<tr valign="top"><td><code>ref</code></td>
+<td>
+<p>which column in x is the reference dataset?</p>
+</td></tr>
+<tr valign="top"><td><code>objfct.col</code></td>
+<td>
+<p>Which objective function metricc should be used to create the colour palette? (see <code><a href="ObjFct.html">ObjFct</a></code>)</p>
+</td></tr>
+<tr valign="top"><td><code>cols</code></td>
+<td>
+<p>vector of colors from which the color palette should be interpolated</p>
+</td></tr>
+<tr valign="top"><td><code>brks</code></td>
+<td>
+<p>break for colour scale</p>
+</td></tr>
+<tr valign="top"><td><code>names</code></td>
+<td>
+<p>names of the datasets</p>
+</td></tr>
+<tr valign="top"><td><code>main</code></td>
+<td>
+<p>title of the plot</p>
+</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+<p>label for x-axis</p>
+</td></tr>
+<tr valign="top"><td><code>ylab</code></td>
+<td>
+<p>label for y-axis</p>
+</td></tr>
+<tr valign="top"><td><code>xlim</code></td>
+<td>
+<p>limits for x-axis</p>
+</td></tr>
+<tr valign="top"><td><code>ylim</code></td>
+<td>
+<p>limits for y-axis</p>
+</td></tr>
+<tr valign="top"><td><code>legend</code></td>
+<td>
+<p>plot a legend?</p>
+</td></tr>
+<tr valign="top"><td><code>legend.only</code></td>
+<td>
+<p>plot only a legend?</p>
+</td></tr>
+<tr valign="top"><td><code>point.pch</code></td>
+<td>
+<p>point types, default: no points</p>
+</td></tr>
+<tr valign="top"><td><code>bar.o</code></td>
+<td>
+<p>opacity of bars</p>
+</td></tr>
+<tr valign="top"><td><code>bean.o</code></td>
+<td>
+<p>opacity of beans</p>
+</td></tr>
+<tr valign="top"><td><code>inf.o</code></td>
+<td>
+<p>inference bands</p>
+</td></tr>
+<tr valign="top"><td><code>bean.lwd</code></td>
+<td>
+<p>line width of beans</p>
+</td></tr>
+<tr valign="top"><td><code>line.lwd</code></td>
+<td>
+<p>line width of lines</p>
+</td></tr>
+<tr valign="top"><td><code>cut.min</code></td>
+<td>
+<p>Optional minimum value of the beans.</p>
+</td></tr>
+<tr valign="top"><td><code>cut.max</code></td>
+<td>
+<p>Optional maximum value of the beans.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments to <code><a href="../../yarrr/html/pirateplot.html">pirateplot</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>No details.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Matthias Forkel &lt;matthias.forkel@geo.tuwien.ac.at&gt; [aut, cre]</p>
+
+
+<h3>References</h3>
+
+<p>No reference.	</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="ObjFct.html">ObjFct</a></code>, <code><a href="../../yarrr/html/pirateplot.html">pirateplot</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+# create some data
+obs &lt;- rlnorm(500, 1, 1)
+sim1 &lt;- obs * rnorm(500, 1, 0.5) # similar to obs
+sim2 &lt;- obs * rnorm(500, 1, 2) # less similar to obs
+sim3 &lt;- obs * rnorm(500, 1, 4) # less similar to obs
+sim4 &lt;- rlnorm(500, 1, 1) # same distribution but no correlation
+sim5 &lt;- rnorm(500, 4.4, 2) # similar mean but different distribution and no correlation
+x &lt;- data.frame(obs, sim1, sim2, sim3, sim4, sim5)
+x[x &lt; 0] &lt;- 0
+
+# default plot
+WollMilchSauPlot(x)
+
+# with different objective function as colour
+WollMilchSauPlot(x, objfct.col="IoA")
+WollMilchSauPlot(x, objfct.col="Pbias")
+WollMilchSauPlot(x, objfct.col="FV")
+
+# some other settings, e.g. with plotting points
+WollMilchSauPlot(x, ylab="Area (km²)", xlab="Groups", point.pch=16, bar.o=0.5, point.o=0.4, main="Comparison")
+
+# different color palettes
+WollMilchSauPlot(x, cols=c("blue", "red"))
+WollMilchSauPlot(x, cols=rainbow(10))
+WollMilchSauPlot(x, cols=heat.colors(5))
+
+# without legend (but using an objective function to colour)
+WollMilchSauPlot(x, legend=FALSE)
+
+# only legend
+WollMilchSauPlot(x, legend.only=TRUE)
+
+# without using an objective function 
+WollMilchSauPlot(x, objfct.col=NULL)
+
+# different example data
+obs &lt;- rnorm(500, 5, 1)
+sim1 &lt;- obs * rnorm(500, 1, 0.2) # similar to obs
+sim2 &lt;- obs * rnorm(500, 2, 1) # bias
+sim3 &lt;- obs * rlnorm(500, 1, 0.1) # less similar to obs but highly correlated
+x &lt;- data.frame(obs, sim1, sim2, sim3)
+WollMilchSauPlot(x)
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>ModelDataComp</em> version 1.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

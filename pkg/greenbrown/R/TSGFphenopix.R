@@ -2,7 +2,7 @@ TSGFphenopix <- structure(function(
 	##title<< 
 	## Temporal smoothing and gap filling using phenopix
 	##description<<
-	## Time series smoothing and gap filling using fit methods as provided in the \code{\link{greenProcess}} function of \code{phenopix} package. Function fits are performed for each year separately for which \code{\link{PhenopixMY}} is used. 
+	## Time series smoothing and gap filling using fitting methods as provided in the \code{\link{greenProcess}} function of the \code{phenopix} package. Function fits are performed for each year separately for which \code{\link{PhenopixMY}} is used. 
 	
 	Yt, 
 	### univariate time series of class \code{\link{ts}}.
@@ -92,7 +92,7 @@ abline(0,1)
 r <- cor(cbind(ndvi[is.na(gaps)], tsgf[is.na(gaps)], spl[is.na(gaps)]))
 legend("topleft", paste(c("TSGFphenopix.spline", "TSGFspline"), "Cor =", round(r[1,2:3], 3)), text.col=c("red", "blue"))
 
-# However the other fits wihtin phenopix might be usefull but are rather compuational expensive:
+# Other fits wihtin phenopix might be usefull but are rather computationally expensive:
 tsgf <- TSGFphenopix(gaps, fit="klosterman")
 plot(gaps)
 lines(tsgf, col="red")

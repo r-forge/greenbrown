@@ -44,7 +44,6 @@ plot(gaps)
 # perform pre-processing of time series using different methods 
 pp.lin <- TsPP(gaps, tsgf=TSGFlinear) # linear interpolation + running median
 pp.spl <- TsPP(gaps, tsgf=TSGFspline) # smoothing splines
-pp.ssa <- TsPP(gaps, tsgf=TSGFssa) # singluar spectrum analysis
 pp.beck <- TsPP(gaps, tsgf=TSGFdoublelog, method="Beck") # double-logistic, Beck et al. (2006)
 pp.elmore <- TsPP(gaps, tsgf=TSGFdoublelog, method="Elmore") # double-logistic, Elmore et al. (2012)
 
@@ -52,11 +51,10 @@ plot(gaps)
 cols <- rainbow(5)
 lines(pp.lin, col=cols[1])
 lines(pp.spl, col=cols[2])
-lines(pp.ssa, col=cols[3])
-lines(pp.beck, col=cols[4])
-lines(pp.elmore, col=cols[5])
+lines(pp.beck, col=cols[3])
+lines(pp.elmore, col=cols[4])
 
-data.df <- ts.union(time(gaps), orig=ndvi, pp.lin, pp.spl, pp.ssa, pp.beck, pp.elmore)
+data.df <- ts.union(time(gaps), orig=ndvi, pp.lin, pp.spl, pp.beck, pp.elmore)
 plot(data.df)
 cor(na.omit(data.df[is.na(gaps),]))
 
