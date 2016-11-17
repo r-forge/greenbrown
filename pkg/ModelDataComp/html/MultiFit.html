@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Multiple fits</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for MultiFit {ModelDataComp}"><tr><td>MultiFit {ModelDataComp}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Multiple fits</h2>
+
+<h3>Description</h3>
+
+<p>Fits bivariate or multivariate regressions between a response variable and one or several predictor variables based on multiple fitting methods. </p>
+
+
+<h3>Usage</h3>
+
+<pre>MultiFit(x, y, fits = c("lm", "quantreg", "poly2", "poly3", "spline", 
+    "gam"), xout = NULL, excl.quantile = c(0, 1), fit.quantile = NULL, 
+    ...)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>predictor variables: a vector for bivariate fits, or a matrix or data.frame for multivariate fits</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>vector of a response variable</p>
+</td></tr>
+<tr valign="top"><td><code>fits</code></td>
+<td>
+<p>One or several fitting methods that should be used, possible options are: lm, quantreg, poly2, poly3, spline, gam, rf, logistic</p>
+</td></tr>
+<tr valign="top"><td><code>xout</code></td>
+<td>
+<p>vector or data.frame of predictor variables for which fits should be returned. If NULL, fits are returned along a sequence of x values. This allows the plotting of 2D surfaces in case of two predictor variables (see examples). In case of xout=x, fits are returned for the same x values that were used for fitting.</p>
+</td></tr>
+<tr valign="top"><td><code>excl.quantile</code></td>
+<td>
+<p>lower and upper quantiles for which x and y values should be excluded to compute fits. For example, if excl.quantile=c(0, 0.9) all x and y values above the quantile 0.9 will be excluded from fitting.</p>
+</td></tr>
+<tr valign="top"><td><code>fit.quantile</code></td>
+<td>
+<p>Perform a fitting to a certain quantile of x? Setting this argument to an value between 0 and 1 allows quantile regression. Therfore <code><a href="SelectQuantiles.html">SelectQuantiles</a></code> is first used to select along a range of x only the values that are around the specified quantile.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments (not used)</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The following fitting methods are implemented:
+</p>
+ 
+<ul>
+<li><p> &quot;lm&quot;: (multiple) linear regression based on <code><a href="../../stats/html/lm.html">lm</a></code>: lm(y ~ x) 
+</p>
+</li>
+<li><p> &quot;quantreg&quot;: quantile regression to the median based on <code><a href="../../quantreg/html/rq.html">rq</a></code>: rq(y ~ x, tau=0.5) 
+</p>
+</li>
+<li><p> &quot;poly2&quot;: 2nd-order polynomial regression based on <code><a href="../../stats/html/lm.html">lm</a></code>: lm(y ~ poly(x, degree=2)) 
+</p>
+</li>
+<li><p> &quot;poly3&quot;: 3rd-order polynomial regression based on <code><a href="../../stats/html/lm.html">lm</a></code>: lm(y ~ poly(x, degre=3)) 
+</p>
+</li>
+<li><p> &quot;spline&quot;: smoothing spline based on <code><a href="../../stats/html/smooth.spline.html">smooth.spline</a></code>: smooth.spline(x, y). This method only works for bivariate fits. 
+</p>
+</li>
+<li><p> &quot;gam&quot;: generalized additive models using spline smoothing based on <code><a href="../../mgcv/html/gam.html">gam</a></code>: gam(y ~ s(x)) 
+</p>
+</li>
+<li><p> &quot;rf&quot;: random forest based on <code><a href="../../randomForest/html/randomForest.html">randomForest</a></code>: randomForest(y ~ x). This method is not computed by default because it can be computationally expensive. 
+</p>
+</li>
+<li><p> &quot;logistic&quot;: multiplicative logistic functions based on <code><a href="FitLogistic.html">FitLogistic</a></code>: FitLogistic(x, y). This method is not computed by default because it can be computationally expensive. 
+</p>
+</li></ul>
+ 
+<p>Furthermore, ensemble statistics like the mean, median, standard deviation and percentiles are computed from the results of the choosen fitting methods. </p>
+
+
+<h3>Author(s)</h3>
+
+<p>Matthias Forkel &lt;matthias.forkel@geo.tuwien.ac.at&gt; [aut, cre]</p>
+
+
+<h3>References</h3>
+
+<p>No reference.	</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="FitLogistic.html">FitLogistic</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+# bivariate example
+x &lt;- runif(1000, -3, 3) # predictor variable
+y &lt;- 0.5 * x + 1 / exp(-0.4 * x) * rnorm(1000, 1, 1) # response variable
+plot(x, y, cex=0.5)
+fit &lt;- MultiFit(x, y, fits=c("lm", "quantreg", "poly2", "poly3", 
+   "spline", "gam", "rf", "logistic"))
+summary(fit)
+cols &lt;- piratepal("basel")
+matplot(fit$x, fit[,2:11], type="l", add=TRUE, lty=1, col=cols, lwd=2)
+legend("topleft", colnames(fit)[2:11], lty=1, col=cols, lwd=2)
+
+# same example but exclude very high values (&gt; quantile 0.9) from fitting
+fit1 &lt;- MultiFit(x, y, excl.quantile=c(0, 0.9))
+lines(fit1$x, fit1$ensMean, type="l",lty=1, col="purple", lwd=3)
+
+# to compare fitted with original values compute 
+# fits at original predictor variables (xout=x)
+fit &lt;- MultiFit(x, y, fits=c("lm", "gam"), xout=x) 
+of &lt;- ObjFct(fit$lm, y)
+of
+ScatterPlot(fit$lm, y, objfct=TRUE)
+TaylorPlot(fit$lm, y)
+
+# bivariate example with fit to a certain quantile
+plot(x, y)
+fit &lt;- MultiFit(x, y, fit.quantile=0.9, fits=c("spline", "gam", "poly3", "rf"))
+matplot(fit$x, fit[,2:5], type="l", add=TRUE, lty=1, col=cols, lwd=2)
+legend("topleft", colnames(fit)[2:5], lty=1, col=cols, lwd=2)
+
+# example with two predictor variables
+a &lt;- runif(1000, -3, 3) # 1st predictor variable
+b &lt;- runif(1000, 0, 2) # 2nd predictor variable
+y &lt;- 1.2 * b + 1 / exp(-0.4 * a) * rnorm(1000, 1, 0.2) # response variable
+plot(a, y)
+plot(b, y)
+fit &lt;- MultiFit(x=data.frame(a, b), y, xout=NULL) 
+image(x=unique(fit$a), y=unique(fit$b), 
+   z=matrix(fit$lm, sqrt(nrow(fit))), main="ensMean")
+
+## as 3D plot:
+#require(rgl)
+#with(data.frame(a, b), plot3d(a, b, y))
+#with(fit, surface3d(unique(a), unique(b), ensMean, alpha=0.2, col="red"))
+
+# example with three predictor variables
+a &lt;- runif(1000, -3, 3) # 1st predictor variable
+b &lt;- runif(1000, 0, 2) # 2nd predictor variable
+c &lt;- rnorm(1000, 1, 1) # 3rd predictor variable
+y &lt;- 1.2 * b + 1 / exp(-0.4 * a) * c # response variable
+x &lt;- data.frame(a, b, c)
+fit &lt;- MultiFit(x, y, fits=c("poly2", "rf"), xout=x)
+ObjFct(fit$rf, y)
+ObjFct(fit$poly2, y)
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>ModelDataComp</em> version 1.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

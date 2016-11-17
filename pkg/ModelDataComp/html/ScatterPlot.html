@@ -1,0 +1,229 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Enhanced scatterplot with fitting lines</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for ScatterPlot {ModelDataComp}"><tr><td>ScatterPlot {ModelDataComp}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Enhanced scatterplot with fitting lines</h2>
+
+<h3>Description</h3>
+
+<p>This function creates a scatterplot with fitting lines. Points and fitting lines can be also computed by groups.</p>
+
+
+<h3>Usage</h3>
+
+<pre>ScatterPlot(x, y, groups = NULL, plot.type = NULL, objfct = FALSE, 
+    which.objfct = c("Cor", "Pbias", "RMSE"), add = FALSE, density.levels = 50, 
+    density.labels = FALSE, image.nbrks = 300, fits = c("spline"), 
+    fit.quantile = NULL, fit.minnobs = 10, fit.groups = TRUE, 
+    fit.global = TRUE, col.points = "black", col.image = NULL, 
+    col.density = NULL, col.fit = col.points, col.global = NULL, 
+    xlab = "", ylab = "", main = "", xlim = NULL, ylim = NULL, 
+    lwd = 2, lty = 1, quantile.x = c(0.01, 0.99), quantile.y = c(0.01, 
+        0.99), plot = TRUE, cex = NULL, pch = 21, alpha = NULL, 
+    ...)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>vector of x values</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>vector of y values</p>
+</td></tr>
+<tr valign="top"><td><code>groups</code></td>
+<td>
+<p>vector of grouping variables (optional), in case of NULL all points are treated as one group</p>
+</td></tr>
+<tr valign="top"><td><code>plot.type</code></td>
+<td>
+<p>plot type: possible arguments are 'density' to plot density lines, 'points' to plot points, or 'image' to plot point counts as a raster image. In case of NULL, the optimal plot.type will be determined dependent on the number of values. It is also possible to combine plot types (e.g. c(&quot;image&quot;, &quot;density&quot;)).</p>
+</td></tr>
+<tr valign="top"><td><code>objfct</code></td>
+<td>
+<p>Compute objective functions and add a 1:1 line to the plot?</p>
+</td></tr>
+<tr valign="top"><td><code>which.objfct</code></td>
+<td>
+<p>Which objective functions should be added to legend of the plot if objfct=TRUE?</p>
+</td></tr>
+<tr valign="top"><td><code>add</code></td>
+<td>
+<p>add plot to existing plot?</p>
+</td></tr>
+<tr valign="top"><td><code>density.levels</code></td>
+<td>
+<p>number of levels for density lines	</p>
+</td></tr>
+<tr valign="top"><td><code>density.labels</code></td>
+<td>
+<p>add labels to density lines?	</p>
+</td></tr>
+<tr valign="top"><td><code>image.nbrks</code></td>
+<td>
+<p>minimum number of breaks for the image</p>
+</td></tr>
+<tr valign="top"><td><code>fits</code></td>
+<td>
+<p>Fitting methods that should be used. See <code><a href="MultiFit.html">MultiFit</a></code> for details. If several methods area provided the mean of all methods is plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>fit.quantile</code></td>
+<td>
+<p>Compute fit to a certain quantile? If NULL, fits to the mean. Otherwise sa value between 0 and 1 can be specified to fit to a certain quantile.</p>
+</td></tr>
+<tr valign="top"><td><code>fit.minnobs</code></td>
+<td>
+<p>minimum number of observations per group in order to calculate a fitting curve</p>
+</td></tr>
+<tr valign="top"><td><code>fit.groups</code></td>
+<td>
+<p>Plot fit lines for groups?</p>
+</td></tr>
+<tr valign="top"><td><code>fit.global</code></td>
+<td>
+<p>Plot global fit lines?</p>
+</td></tr>
+<tr valign="top"><td><code>col.points</code></td>
+<td>
+<p>color for the points/groups</p>
+</td></tr>
+<tr valign="top"><td><code>col.image</code></td>
+<td>
+<p>color range for image</p>
+</td></tr>
+<tr valign="top"><td><code>col.density</code></td>
+<td>
+<p>color range for density lines</p>
+</td></tr>
+<tr valign="top"><td><code>col.fit</code></td>
+<td>
+<p>colors for fitting lines</p>
+</td></tr>
+<tr valign="top"><td><code>col.global</code></td>
+<td>
+<p>colors for global fittiing line</p>
+</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+<p>a title for the x axis</p>
+</td></tr>
+<tr valign="top"><td><code>ylab</code></td>
+<td>
+<p>a title for the y axis</p>
+</td></tr>
+<tr valign="top"><td><code>main</code></td>
+<td>
+<p>an overall title for the plot</p>
+</td></tr>
+<tr valign="top"><td><code>xlim</code></td>
+<td>
+<p>range for the x axis</p>
+</td></tr>
+<tr valign="top"><td><code>ylim</code></td>
+<td>
+<p>range for the y axis</p>
+</td></tr>
+<tr valign="top"><td><code>lwd</code></td>
+<td>
+<p>line width</p>
+</td></tr>
+<tr valign="top"><td><code>lty</code></td>
+<td>
+<p>line type</p>
+</td></tr>
+<tr valign="top"><td><code>quantile.x</code></td>
+<td>
+<p>lower and upper quantile to exclude extreme x values from plotting and fit calculations</p>
+</td></tr>
+<tr valign="top"><td><code>quantile.y</code></td>
+<td>
+<p>lower and upper quantile to exclude extreme y values from plotting and fit calculations</p>
+</td></tr>
+<tr valign="top"><td><code>plot</code></td>
+<td>
+<p>should a scatterplot be plotted or calculate only fitting lines</p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+<p>size of the points in the plot. If NULL point size will be calculated based on the number of points.</p>
+</td></tr>
+<tr valign="top"><td><code>pch</code></td>
+<td>
+<p>point symbol</p>
+</td></tr>
+<tr valign="top"><td><code>alpha</code></td>
+<td>
+<p>transparency of the points (0...255)</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments to <code><a href="MultiFit.html">MultiFit</a></code> or <code><a href="../../graphics/html/plot.default.html">plot.default</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function plots a scatterplot.</p>
+
+
+<h3>Value</h3>
+
+<p>The function returns a list with the computed fitting lines and objective functions per group.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Matthias Forkel &lt;matthias.forkel@geo.tuwien.ac.at&gt; [aut, cre]</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="ObjFct.html">ObjFct</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+# create some data:
+n &lt;- 10000
+x &lt;- runif(n, 0, 100)
+groups &lt;- c(rep(1, 3000), rep(2, 3000), rep(3, 4000))
+y &lt;- (3 * x^(1/2) + rnorm(n, 0, x/20)) * groups
+
+# standard plot: not very well distinguishable
+plot(x, y)
+
+# ScatterPlot 
+result &lt;- ScatterPlot(x, y)
+
+# ScatterPlot with coulored groups and fitting lines
+result &lt;- ScatterPlot(x, y, groups)
+
+# different plot types 
+result &lt;- ScatterPlot(x, y, plot.type="points")
+result &lt;- ScatterPlot(x, y, plot.type="density")
+result &lt;- ScatterPlot(x, y, plot.type=c("image", "density"))
+
+# plot and compute objective functions
+result &lt;- ScatterPlot(x, y, groups, objfct=TRUE)
+result
+
+# plot fits to upper 0.9 and lower 0.1 quantiles, mean fit from two methods
+result &lt;- ScatterPlot(x, y, groups, fits=c("poly3", "spline"), 
+ fit.quantile=0.9, plot.type="image", fit.global=FALSE)
+result &lt;- ScatterPlot(x, y, groups, fits=c("poly3", "spline"), 
+ fit.quantile=0.1, plot.type=NA, add=TRUE, fit.global=FALSE)
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>ModelDataComp</em> version 1.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

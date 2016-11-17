@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Select values around quantiles</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for SelectQuantiles {ModelDataComp}"><tr><td>SelectQuantiles {ModelDataComp}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Select values around quantiles</h2>
+
+<h3>Description</h3>
+
+<p>The function selects  from a set of points along the range of x values these points that are close to a certain quantile of y. First, x values are classified in n groups. Secondly, the specified quantile of y is computed for each group. Thirdly, all y values in a group that are outside +- 0.05 of the estimated quantile are removed. See examples for an illustration.</p>
+
+
+<h3>Usage</h3>
+
+<pre>SelectQuantiles(x, y, q = 0.5, n = NULL, ...)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>vector of x values</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>vector of y values</p>
+</td></tr>
+<tr valign="top"><td><code>q</code></td>
+<td>
+<p>quantile value for which data should be selected</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>number of classes for x</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Matthias Forkel &lt;matthias.forkel@geo.tuwien.ac.at&gt; [aut, cre]</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+# x and y points
+x &lt;- 1:1000
+y &lt;- x * rnorm(1000, 1, 3)
+plot(x, y)
+
+# select points that are close to the median
+q05 &lt;- SelectQuantiles(x, y)
+points(q05$x, q05$y, col="red")
+
+# select points that are close to the 0.9 quantile
+q09 &lt;- SelectQuantiles(x, y, 0.9)
+points(q09$x, q09$y, col="blue")
+
+# select points that are close to the 0.1 quantile
+q01 &lt;- SelectQuantiles(x, y, 0.1)
+points(q01$x, q01$y, col="purple")
+
+# the selected points can be used for fits to a specific quantile
+abline(lm(y ~ x, q09), col="blue")
+abline(lm(y ~ x, q01), col="purple")
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>ModelDataComp</em> version 1.0 <a href="00Index.html">Index</a>]</div>
+</body></html>
