@@ -7,6 +7,14 @@ importFrom(lhs, randomLHS)
 importFrom(classInt, classIntervals)
 importFrom(quantreg, rq)
 importFrom(plotrix, boxed.labels)
+importFrom("grDevices", "colorRampPalette", "dev.off", "pdf", "col2rgb", "colorRampPalette", "grey",
+             "nclass.Sturges", "rgb")
+importFrom("graphics", "abline", "axis", "box", "legend", "mtext",
+             "par", "plot.new", "points", "segments")
+importFrom("stats", "coefficients", "complete.cases", "cor",
+   "cor.test", "formula", "ks.test", "lm", "median", "na.omit",
+   "optim", "qunif", "runif", "sd", "smooth.spline")
+importFrom("utils", "read.table", "write.table")
 
 exportPattern("^[[:alpha:]]+")
 
