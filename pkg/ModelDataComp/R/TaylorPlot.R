@@ -1,16 +1,16 @@
-TaylorDiagram <- structure(function(
+TaylorPlot <- structure(function(
 	##title<< 
-	## Taylor diagram
+	## Plot a Taylor diagram
 	##description<<
 	## Plot a Taylor diagram. This is a modification of the function \code{\link{taylor.diagram}} in the plotrix package.
 	
-	ref,
-	### numeric vector - reference values
+	sim,
+	### simulated/predicted/modeled values
 	
-	model,
-	### numeric vector - predicted model values
+	obs,
+	### observed/reference values
 	
-	groups=rep(1, length(model)),
+	groups=rep(1, length(sim)),
 	### numeric vector that split ref and model in different groups, e.g. to indicate different models or subsets of the data
 	
 	col = NULL,
@@ -28,8 +28,8 @@ TaylorDiagram <- structure(function(
 	text.groups = NULL,
 	### text labels for the groups
 	
-	text.ref = "Obs",
-	### text label for the reference
+	text.obs = "Obs",
+	### text label for the observations
 	
 	text.combined = "All",
 	### text label for the combined model/data set without grouping
@@ -43,26 +43,24 @@ TaylorDiagram <- structure(function(
 	##details<<
 	## No details.
 	
-	##references<< No reference.	
+	##references<< Taylor, K.E., 2001. Summarizing multiple aspects of model performance in a single diagram. Journal of Geophysical Research 106, 7183-7192.
 	
 	##seealso<<
-	## \code{\link{BAmodel2IntegrationData}}
+	## \code{\link{ObjFct}}, \code{\link{plot.ObjFct}}, \code{\link{WollMilchSauPlot}}
 ) { 
-   require(yarrr)
    ### original taylor diagram function with added 'text' argument
-   .taylor.diagram <- function (ref, model, add = FALSE, col = "red", pch = 19, pos.cor = TRUE, 
+   .taylor.diagram <- function (obs, sim, add = FALSE, col = "red", pch = 19, pos.cor = TRUE, 
        xlab = "", ylab = "", main = "Taylor Diagram", show.gamma = TRUE, 
-       ngamma = 3, gamma.col = 8, sd.arcs = 0, ref.sd = FALSE, sd.method = "sample", 
+       ngamma = 3, gamma.col = 8, sd.arcs = 0, obs.sd = FALSE, sd.method = "sample", 
        grad.corr.lines = c(0.2, 0.4, 0.6, 0.8, 0.9), pcex = 1, cex.axis = 1.2, 
        normalize = FALSE, mar = c(5, 4, 6, 6), text=NULL, xlim=NULL, ...) {
-      require(plotrix)
        grad.corr.full <- c(0, 0.2, 0.4, 0.6, 0.8, 0.9, 0.95, 0.99, 
            1)
-       R <- cor(ref, model, use = "pairwise")
-       if (is.list(ref)) 
-           ref <- unlist(ref)
-       if (is.list(model)) 
-           ref <- unlist(model)
+       R <- cor(obs, sim, use = "pairwise")
+       if (is.list(obs)) 
+           obs <- unlist(obs)
+       if (is.list(sim)) 
+           obs <- unlist(sim)
        SD <- function(x, subn) {
            meanx <- mean(x, na.rm = TRUE)
            devx <- x - meanx
@@ -71,8 +69,8 @@ TaylorDiagram <- structure(function(
            return(ssd)
        }
        subn <- sd.method != "sample"
-       sd.r <- SD(ref, subn)
-       sd.f <- SD(model, subn)
+       sd.r <- SD(obs, subn)
+       sd.f <- SD(sim, subn)
        if (normalize) {
            sd.f <- sd.f/sd.r
            sd.r <- 1
@@ -142,7 +140,7 @@ TaylorDiagram <- structure(function(
                    maxsd, cos(bigtickangles) * 0.97 * maxsd, sin(bigtickangles) * 
                    0.97 * maxsd)
                par(xpd = TRUE)
-               if (ref.sd) {
+               if (obs.sd) {
                    xcurve <- cos(seq(0, pi/2, by = 0.01)) * sd.r
                    ycurve <- sin(seq(0, pi/2, by = 0.01)) * sd.r
                    lines(xcurve, ycurve)
@@ -161,8 +159,8 @@ TaylorDiagram <- structure(function(
                    0.99 * maxsd)
            }
            else {
-               x <- ref
-               y <- model
+               x <- obs
+               y <- sim
                R <- cor(x, y, use = "pairwise.complete.obs")
                E <- mean(x, na.rm = TRUE) - mean(y, na.rm = TRUE)
                xprime <- x - mean(x, na.rm = TRUE)
@@ -248,53 +246,54 @@ TaylorDiagram <- structure(function(
    if (is.null(text.groups)) text.groups <- gr
    
    # compute (normalized) standard deviation
-   sd.ref.all <- sd(ref, na.rm=TRUE)
-   sd.model <- aggregate(model, list(groups), sd, na.rm=TRUE)
-   sd.ref <- aggregate(ref, list(groups), sd, na.rm=TRUE)
+   sd.obs.all <- sd(obs, na.rm=TRUE)
+   sd.sim <- aggregate(sim, list(groups), sd, na.rm=TRUE)
+   sd.obs <- aggregate(obs, list(groups), sd, na.rm=TRUE)
    if (normalize) {
-      sd.model$x <- sd.model$x / sd.ref$x
-      sd.ref.all <- 1
+      sd.sim$x <- sd.sim$x / sd.obs$x
+      sd.obs.all <- 1
    }
-   sd.model$x[is.infinite(sd.model$x)] <- NA
-   first <- which.max(sd.model$x)
+   sd.sim$x[is.infinite(sd.sim$x)] <- NA
+   first <- which.max(sd.sim$x)
    
    # compute correlation to check if plot should be produced with negative correlations
    if (is.null(pos.cor)) {
       r <- rep(NA, ngroups)
       for (i in 1:ngroups) {
             b <- groups == gr[i]
-            refmod <- na.omit(cbind(ref[b], model[b])) 
-            r[i] <- cor(refmod[,1], refmod[,2]) 
+            obsmod <- na.omit(cbind(obs[b], sim[b])) 
+            r[i] <- cor(obsmod[,1], obsmod[,2]) 
       }
       pos.cor <- TRUE
       if (any(r < 0)) pos.cor <- FALSE
    }
    
    b <- groups == gr[first]
-   refmod <- na.omit(cbind(ref[b], model[b]))
-   p <- .taylor.diagram(refmod[,1], refmod[,2], col=col[first], normalize=normalize, sd.arcs=sd.arcs, text=text.groups[first], pos.cor=pos.cor, ...)
+   obsmod <- na.omit(cbind(obs[b], sim[b]))
+   p <- .taylor.diagram(obsmod[,1], obsmod[,2], col=col[first], normalize=normalize, sd.arcs=sd.arcs, text=text.groups[first], pos.cor=pos.cor, ...)
    for (i in 1:ngroups) {
       if (i != first) {
          b <- groups == gr[i]
-         refmod <- na.omit(cbind(ref[b], model[b]))
-         .taylor.diagram(refmod[,1], refmod[,2], col=col[i], normalize=normalize, add=TRUE, text=text.groups[i], pos.cor=pos.cor, ...)
+         obsmod <- na.omit(cbind(obs[b], sim[b]))
+         .taylor.diagram(obsmod[,1], obsmod[,2], col=col[i], normalize=normalize, add=TRUE, text=text.groups[i], pos.cor=pos.cor, ...)
       }
    }
-   if (plot.combined) .taylor.diagram(ref, model, col="black", normalize=normalize, add=TRUE, text=text.combined, pos.cor=pos.cor, ...)
-   text(sd.ref.all, 0, text.ref, pos=3)
+   if (plot.combined) .taylor.diagram(obs, sim, col="black", normalize=normalize, add=TRUE, text=text.combined, pos.cor=pos.cor, ...)
+   text(sd.obs.all, 0, text.obs, pos=3)
    
 }, ex=function() {
 
-ref <- rnorm(50, 0, 5)
-model1 <- ref + c(rnorm(25, 1, 2), rnorm(25, 4, 0.2))
-model2 <- ref + c(rnorm(25, -5, 5), rnorm(25, 4, 0.2))
-model3 <- ref + c(rnorm(25, 10, 10), rnorm(25, 4, 0.2))
-data <- data.frame(ref=rep(ref, 3), model=c(model1, model2, model3), 
+obs <- rnorm(50, 0, 5)
+model1 <- obs + c(rnorm(25, 1, 2), rnorm(25, 4, 0.2))
+model2 <- obs + c(rnorm(25, -5, 5), rnorm(25, 4, 0.2))
+model3 <- obs + c(rnorm(25, 10, 10), rnorm(25, 4, 0.2))
+data <- data.frame(obs=rep(obs, 3), model=c(model1, model2, model3), 
    group.models=rep(c("model1", "model2", "model3"), each=50), 
-   group.models.subsets=rep(c("model1.subset1", "model1.subset2", "model2.subset1", "model2.subset2", "model3.subset1", "model3.subset2"), each=25))
+   group.models.subsets=rep(c("model1.subset1", "model1.subset2", 
+   "model2.subset1", "model2.subset2", "model3.subset1", "model3.subset2"), each=25))
 
-TaylorDiagram(data$ref, data$model, data$group.models)
-TaylorDiagram(data$ref, data$model, data$group.models.subsets)
+TaylorPlot(data$model, data$obs, data$group.models)
+TaylorPlot(data$model, data$obs, data$group.models.subsets)
 
 
 })
