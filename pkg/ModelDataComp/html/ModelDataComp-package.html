@@ -9,21 +9,63 @@
 
 <h3>Description</h3>
 
-<p>Metrics and plots for model-data comparison. The package provides functions to 1) compute objective functions (model performance metrics), to 2) fit empirical models to data (currently random forest and multiple logistic functions), and to 3) make model-data comparison plots (barplots and scatterplots of objective functions, Taylor diagrams, WollMilchSauPlot).</p>
+<p>Metrics and plots for model-data comparison. The package provides functions to 1) compute model performance metrics, to 2) multiple fit empirical models or regressions, and to 3) make model-data comparison plots.
+</p>
 
 
 <h3>Details</h3>
 
-<p>The DESCRIPTION file:
-This package was not yet installed at build time.<br />
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+Package: </td><td style="text-align: left;"> ModelDataComp</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Type: </td><td style="text-align: left;"> Package</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Version: </td><td style="text-align: left;"> 1.0</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Date: </td><td style="text-align: left;"> 2015-11-17</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+License: </td><td style="text-align: left;"> GPL-2</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+</td>
+</tr>
+
+</table>
+
+<p>The package provides basic functions to compare different datasets or to compare models with data.
 </p>
-<p>Index:  This package was not yet installed at build time.<br />
+<p>Model performance metrics: The function <code><a href="ObjFct.html">ObjFct</a></code> computes several model performance metrics such as correlations, absolute and squared error metrics, bias metrics, and modelling efficiency metrics. The computed objective functions metrics can be converted to text strings with <code><a href="ObjFct2Text.html">ObjFct2Text</a></code> and can be plotted as barplots and scatterplots with <code><a href="plot.ObjFct.html">plot.ObjFct</a></code>.
+</p>
+<p>Fit empirical models and regressions: The function <code><a href="MultiFit.html">MultiFit</a></code> allows to fit multiple regression approaches between a response variable and one or several predictor variables. Currently considered regression approaches are linear regression, 2-nd and 3-rd order polynomial regression, smoothing splines, generalized additive models, random forest, and logistic functions. The function <code><a href="FitLogistic.html">FitLogistic</a></code> optimizes parameters of a regression based on additive or multiplicative logistic functions. 
+</p>
+<p>Plotting: The package provides several plotting functions to compare model and data. <code><a href="ScatterPlot.html">ScatterPlot</a></code> produces a scatter plot (with points, density lines, or point counts as image) and adds a fitting line based on one or several regression approaches as in <code><a href="MultiFit.html">MultiFit</a></code>. <code><a href="ScatterPlot.html">ScatterPlot</a></code> also allows to colour points and to fit regression lines for different groups. The function <code><a href="plot.ObjFct.html">plot.ObjFct</a></code> is the plotting routine for <code><a href="ObjFct.html">ObjFct</a></code> objects. It allows to plot barplots and scatterplots of objective function metrics for several subsets of the model-data comparison. The function <code><a href="TaylorPlot.html">TaylorPlot</a></code> produces a standard Taylor diagram for model-data comparison and is actually based on the <code>plotrix</code> package. The function <code><a href="WollMilchSauPlot.html">WollMilchSauPlot</a></code> allows to compare distributions (based on smoothed densities), mean values, and the performance or agreement between datasets and models in a single plot. <code><a href="WollMilchSauPlot.html">WollMilchSauPlot</a></code> extends the function <code><a href="../../yarrr/html/pirateplot.html">pirateplot</a></code> from the <code>yarrr</code> package by a colour gradient that is based on the performance or agreement of models with data. For example, ny model performance metric from <code><a href="ObjFct.html">ObjFct</a></code> can be plotted as colour gradient in the pirateplot. 
 </p>
 
 
 <h3>Author(s)</h3>
 
-<p>Matthias Forkel &lt;matthias.forkel@geo.tuwien.ac.at&gt; [aut, cre]</p>
+<p>Matthias Forkel &lt;matthias.forkel@geo.tuwien.ac.at&gt; [aut, cre]
+</p>
+<p>Maintainer: Matthias Forkel &lt;matthias.forkel@geo.tuwien.ac.at&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p>greenbrown.r-forge.r-project.org
+</p>
 
 <hr /><div style="text-align: center;">[Package <em>ModelDataComp</em> version 1.0 <a href="00Index.html">Index</a>]</div>
 </body></html>

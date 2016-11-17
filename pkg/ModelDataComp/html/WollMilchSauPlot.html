@@ -9,12 +9,12 @@
 
 <h3>Description</h3>
 
-<p>Plot a comparison of means, distributions, and correlations (or any other objective function metric) between different datasets. Thus this plot is almost an &quot;eier-legende Wollmichsau&quot; (german, animal that produces eggs, wool, milk and meet) for model-data comparison. The plot is based on the function <code><a href="../../yarrr/html/pirateplot.html">pirateplot</a></code></p>
+<p>Plots a <code><a href="../../yarrr/html/pirateplot.html">pirateplot</a></code> with couulors according to model performance. The function can be used to compare means, distributions, and correlations (or any other metric from <code><a href="ObjFct.html">ObjFct</a></code>) between different datasets and models. Thus this plot is almost an &quot;eier-legende Wollmichsau&quot; (german, animal that produces eggs, wool, milk and meet) for model-data comparison. The plot is based on the function <code><a href="../../yarrr/html/pirateplot.html">pirateplot</a></code></p>
 
 
 <h3>Usage</h3>
 
-<pre>WollMilchSauPlot(x, ref = 1, objfct.col = "Cor", cols = tim.colors(10), 
+<pre>WollMilchSauPlot(x, ref = 1, objfct = "Cor", cols = tim.colors(10), 
     brks = NULL, names = NULL, main = NULL, xlab = NULL, ylab = NULL, 
     xlim = NULL, ylim = NULL, legend = TRUE, legend.only = FALSE, 
     point.pch = NA, bar.o = 1, bean.o = 1, inf.o = 0, bean.lwd = 1, 
@@ -30,11 +30,11 @@
 </td></tr>
 <tr valign="top"><td><code>ref</code></td>
 <td>
-<p>which column in x is the reference dataset?</p>
+<p>Which column in x is the reference dataset? Also more than one reference can be provided, e.g. ref = c(1,2) will compute the objfct based on the combination of both datasets. </p>
 </td></tr>
-<tr valign="top"><td><code>objfct.col</code></td>
+<tr valign="top"><td><code>objfct</code></td>
 <td>
-<p>Which objective function metricc should be used to create the colour palette? (see <code><a href="ObjFct.html">ObjFct</a></code>)</p>
+<p>Which objective function metric should be used to create the colour palette? (see <code><a href="ObjFct.html">ObjFct</a></code>)</p>
 </td></tr>
 <tr valign="top"><td><code>cols</code></td>
 <td>
@@ -132,7 +132,7 @@
 
 <h3>See Also</h3>
 
-<p><code><a href="ObjFct.html">ObjFct</a></code>, <code><a href="../../yarrr/html/pirateplot.html">pirateplot</a></code></p>
+<p><code><a href="../../yarrr/html/pirateplot.html">pirateplot</a></code>, <code><a href="ObjFct.html">ObjFct</a></code>, <code><a href="TaylorPlot.html">TaylorPlot</a></code>, <code><a href="WollMilchSauPlot.html">WollMilchSauPlot</a></code>, <code><a href="ScatterPlot.html">ScatterPlot</a></code></p>
 
 
 <h3>Examples</h3>
@@ -140,12 +140,12 @@
 <pre>
 
 # create some data
-obs &lt;- rlnorm(500, 1, 1)
+obs &lt;- rlnorm(500, 1, 1) # observations
 sim1 &lt;- obs * rnorm(500, 1, 0.5) # similar to obs
 sim2 &lt;- obs * rnorm(500, 1, 2) # less similar to obs
 sim3 &lt;- obs * rnorm(500, 1, 4) # less similar to obs
 sim4 &lt;- rlnorm(500, 1, 1) # same distribution but no correlation
-sim5 &lt;- rnorm(500, 4.4, 2) # similar mean but different distribution and no correlation
+sim5 &lt;- rnorm(500, 4.4, 2) # similar mean but different distribution
 x &lt;- data.frame(obs, sim1, sim2, sim3, sim4, sim5)
 x[x &lt; 0] &lt;- 0
 
@@ -153,12 +153,13 @@ x[x &lt; 0] &lt;- 0
 WollMilchSauPlot(x)
 
 # with different objective function as colour
-WollMilchSauPlot(x, objfct.col="IoA")
-WollMilchSauPlot(x, objfct.col="Pbias")
-WollMilchSauPlot(x, objfct.col="FV")
+WollMilchSauPlot(x, objfct="IoA")
+WollMilchSauPlot(x, objfct="Pbias")
+WollMilchSauPlot(x, objfct="FV")
 
 # some other settings, e.g. with plotting points
-WollMilchSauPlot(x, ylab="Area (km²)", xlab="Groups", point.pch=16, bar.o=0.5, point.o=0.4, main="Comparison")
+WollMilchSauPlot(x, ylab="Area (km2)", xlab="Groups", main="Comparison", 
+ point.pch=16, bar.o=0.5, point.o=0.4)
 
 # different color palettes
 WollMilchSauPlot(x, cols=c("blue", "red"))
@@ -172,7 +173,7 @@ WollMilchSauPlot(x, legend=FALSE)
 WollMilchSauPlot(x, legend.only=TRUE)
 
 # without using an objective function 
-WollMilchSauPlot(x, objfct.col=NULL)
+WollMilchSauPlot(x, objfct=NULL)
 
 # different example data
 obs &lt;- rnorm(500, 5, 1)

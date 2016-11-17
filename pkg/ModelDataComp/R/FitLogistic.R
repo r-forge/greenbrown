@@ -2,7 +2,9 @@ FitLogistic <- structure(function(
 	##title<< 
 	## Fit logistic functions 
 	##description<<
-	## Fit additive or multiplicative logistic functions to a response variable.
+	## Fits logistic functions between one or several predictor variables and a response variable. In case of multi-variate fits, logistic functions can be combined either additatively or multiplicatively: \cr
+	## Additive: y = Logistic(x1) + Logistic(x2) + Logistic(xN) \cr
+	## Multiplicative: y = Logistic(x1) * Logistic(x2) * Logistic(xN) 
 	
 	x,
 	### predictor variables
@@ -11,13 +13,13 @@ FitLogistic <- structure(function(
 	### response variables
 	
 	additive = FALSE,
-	### additive or multiplicative (default) fit?
+	### Make an additive or multiplicative fit? The default is a multiplicative fit.
 	
 	method = c("genoud"),
 	### Method to be used for optimization of fit parameters. "genoud" uses genetic optimization (see \code{\link{genoud}}). Can be also one of "Nelder-Mead", "BFGS", "CG", "L-BFGS-B", "SANN", "Brent" (see \code{\link{optim}}). If two methods are provided, the second method is applied on the best result of the first method.
 		
-	ntry = 50,
-	### number of inital trials for strating parameter sets in the optimization of fit parameters. A higher number of trials yields usually more robust results but takes longer.
+	ninit = 50,
+	### number of inital parameter sets for the optimization. Inital parameter sets will be included in genoud as part of the first generation. Each initial parameter set will be used as starting value within \code{\link{optim}} methods. A higher number of ninit will likely avoid solutions close to local optima but is computationally more expensive.
 	
 	...
 	### further arguments for \code{\link{genoud}} or \code{\link{optim}}
@@ -63,13 +65,13 @@ FitLogistic <- structure(function(
 	
 	# create inital parameter sets
 	sl.init <- (max(y) - min(y)) / (apply(x, 2, max) - apply(x, 2, min))
-	ntry2 <- max(c(300, ntry))
+	ninit2 <- max(c(300, ninit))
 	par.init <- c(rep(mean(y), ndim), sl.init, apply(x, 2, mean), min(y))
-	dpar.init <- matrix(1, nrow=ntry2, ncol=length(par.init), byrow=TRUE)
-	dpar.init[, 1:ndim] <- c(runif(ndim*ntry2/3, -50, 50), runif(ndim*ntry2/3, -3, 3), runif(ndim*ntry2/3, -0.9, 0.9))[1:(ndim*ntry2)]
-	dpar.init[, (ndim+1):(ndim*2)] <- c(runif(ndim*ntry2/3, -500, 500), runif(ndim*ntry2/3, -5, 5), runif(ndim*ntry2/3, -0.5, 0.5))[1:(ndim*ntry2)]
-	dpar.init[, (ndim*2+1):(ndim*3)] <- runif(ndim*ntry2, -5, 5)
-	dpar.init[, ncol(dpar.init)] <- runif(ntry2, 0, 2000)
+	dpar.init <- matrix(1, nrow=ninit2, ncol=length(par.init), byrow=TRUE)
+	dpar.init[, 1:ndim] <- c(runif(ndim*ninit2/3, -50, 50), runif(ndim*ninit2/3, -3, 3), runif(ndim*ninit2/3, -0.9, 0.9))[1:(ndim*ninit2)]
+	dpar.init[, (ndim+1):(ndim*2)] <- c(runif(ndim*ninit2/3, -500, 500), runif(ndim*ninit2/3, -5, 5), runif(ndim*ninit2/3, -0.5, 0.5))[1:(ndim*ninit2)]
+	dpar.init[, (ndim*2+1):(ndim*3)] <- runif(ndim*ninit2, -5, 5)
+	dpar.init[, ncol(dpar.init)] <- runif(ninit2, 0, 2000)
 	dpar.init[is.na(dpar.init)] <- 1
 	dpar.init <- rbind(dpar.init, 1)
 	
@@ -77,11 +79,10 @@ FitLogistic <- structure(function(
 	err <- apply(dpar.init, 1, FUN=function(dpar, x, y, par.init, additive) {
 	   .error(dpar, x=x, y=y, par.init=par.init, additive=additive)
 	}, x=x, y=y, par.init=par.init, additive=additive)
-	dpar.init <- dpar.init[order(err)[1:ntry], ]
+	dpar.init <- dpar.init[order(err)[1:ninit], ]
 	
 	# perform optimization
 	if (method[1] == "genoud") { # genetic optimization
-	   require(rgenoud)
 	   opt <- genoud(.error, nvars=length(par.init), starting.values=dpar.init, x=x, y=y, par.init=par.init, additive=additive, ...)
 	   
 	} else { # or optim
@@ -123,11 +124,9 @@ lines(x, fit$predicted, col="red")
 fit$par # fitted parameter
 
 # performance of fit
-of <- ObjFct(fit$predicted, y)
-of
-plot(of)
+ScatterPlot(fit$predicted, y, objfct=TRUE)
 
-## 2D example
+## 2D example - takes more time
 #n <- 1000
 #x1 <- runif(n, 0, 100)
 #x2 <- runif(n, 0, 100)
@@ -139,16 +138,7 @@ plot(of)
 #plot(x1, y) 
 #plot(x2, y)
 #fit <- FitLogistic(x=cbind(x1, x2), y)
-#plot(y, fit$predicted)
-#fit$par # fitted parameter
-
-## plot fit as a surface:
-#surf <- expand.grid(x1=0:100, x2=0:100)
-#surf <- data.frame(surf, y=predict(fit, surf))
-#require(rgl)
-#with(data.frame(x1, x2, y), plot3d(x1, x2, y))
-#with(surf, surface3d(unique(x1), unique(x2), y, alpha=0.2, col="blue"))
-
+#ScatterPlot(fit$predicted, y, objfct=TRUE)
 
 })
 
@@ -157,13 +147,13 @@ predict.FitLogistic <- structure(function(
 	##title<< 
 	## Predict method for logistic function fits
 	##description<<
-	## 
+	## Predict values based on logistic function fits.
 	
 	object,
-	### independent variables
+	### an oject as returned by \code{\link{FitLogistic}}
 	
 	newdata,
-	### response variables
+	### data.frame of predictor variables
 
 	...
 	### further arguments (not used)
@@ -174,7 +164,7 @@ predict.FitLogistic <- structure(function(
 	##references<< No reference.	
 	
 	##seealso<<
-	## 
+	## \code{\link{FitLogistic}}
 ) { 
    pred <- do.call(object$model, list(dpar=object$opt$par, x=newdata, par.init=object$par.init, additive=object$additive))
    return(pred$pred)

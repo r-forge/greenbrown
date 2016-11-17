@@ -1,12 +1,12 @@
 Package: ModelDataComp
 Title: Model-Data Comparison
 Version: 1.0
-Date: 2016-11-15
+Date: 2016-11-17
 Author: Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]
 Maintainer: Matthias Forkel <matthias.forkel@geo.tuwien.ac.at>
-Description: Metrics and plots for model-data comparison. The package provides functions to 1) compute objective functions (model performance metrics), to 2) fit empirical models to data (currently random forest and multiple logistic functions), and to 3) make model-data comparison plots (barplots and scatterplots of objective functions, Taylor diagrams, WollMilchSauPlot).
-Depends: R (>= 3.2.3), plyr, rgenoud, fields, yarrr
-Suggests: lhs, randomForest, foreach
+Description: Metrics and plots for model-data comparison. The package provides functions to 1) compute model performance metrics (function ObjFct), to 2) fit empirical models to data (function MultiFit), and to 3) make model-data comparison plots (functions ScatterPlot, plot.ObjFct with barplots and scatterplots of objective functions, TaylorPlot, WollMilchSauPlot to plot means, distributions and correlations between observations and models).
+Depends: R (>= 3.2.3), yarrr, raster
+Imports: plyr, fields, lhs, randomForest, rgenoud, foreach, mgcv, plotrix, classInt, quantreg, MASS
 License: GPL-2
 URL: 
 LazyLoad: yes

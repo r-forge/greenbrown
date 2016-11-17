@@ -1,6 +1,6 @@
 MinMaxNorm <- structure(function(
 	##title<< 
-	## Normalize values between to a range
+	## Normalize to a range
 	##description<<
 	## Normalizes values to a given range.
 	
@@ -22,6 +22,7 @@ MinMaxNorm <- structure(function(
 	min <- min(x, na.rm=TRUE)
 	std <- (x - min) * ((ext[2] - ext[1]) / (max - min)) + ext[1]
 	return(std)
+	### vector with normalized values
 }, ex=function() {
 
 x <- rnorm(10, 0, 2)

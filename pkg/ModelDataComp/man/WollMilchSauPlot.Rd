@@ -1,16 +1,16 @@
 \name{WollMilchSauPlot}
 \alias{WollMilchSauPlot}
 \title{Compare means, distributions, and correlations of different datasets }
-\description{Plot a comparison of means, distributions, and correlations (or any other objective function metric) between different datasets. Thus this plot is almost an "eier-legende Wollmichsau" (german, animal that produces eggs, wool, milk and meet) for model-data comparison. The plot is based on the function \code{\link{pirateplot}}}
-\usage{WollMilchSauPlot(x, ref = 1, objfct.col = "Cor", cols = tim.colors(10), 
+\description{Plots a \code{\link{pirateplot}} with couulors according to model performance. The function can be used to compare means, distributions, and correlations (or any other metric from \code{\link{ObjFct}}) between different datasets and models. Thus this plot is almost an "eier-legende Wollmichsau" (german, animal that produces eggs, wool, milk and meet) for model-data comparison. The plot is based on the function \code{\link{pirateplot}}}
+\usage{WollMilchSauPlot(x, ref = 1, objfct = "Cor", cols = tim.colors(10), 
     brks = NULL, names = NULL, main = NULL, xlab = NULL, ylab = NULL, 
     xlim = NULL, ylim = NULL, legend = TRUE, legend.only = FALSE, 
     point.pch = NA, bar.o = 1, bean.o = 1, inf.o = 0, bean.lwd = 1, 
     line.lwd = 1, cut.min = NULL, cut.max = NULL, ...)}
 \arguments{
   \item{x}{a data.frame with at least two columns}
-  \item{ref}{which column in x is the reference dataset?}
-  \item{objfct.col}{Which objective function metricc should be used to create the colour palette? (see \code{\link{ObjFct}})}
+  \item{ref}{Which column in x is the reference dataset? Also more than one reference can be provided, e.g. ref = c(1,2) will compute the objfct based on the combination of both datasets. }
+  \item{objfct}{Which objective function metric should be used to create the colour palette? (see \code{\link{ObjFct}})}
   \item{cols}{vector of colors from which the color palette should be interpolated}
   \item{brks}{break for colour scale}
   \item{names}{names of the datasets}
@@ -38,16 +38,16 @@
 
 
 
-\seealso{\code{\link{ObjFct}}, \code{\link{pirateplot}}}
+\seealso{\code{\link{pirateplot}}, \code{\link{ObjFct}}, \code{\link{TaylorPlot}}, \code{\link{WollMilchSauPlot}}, \code{\link{ScatterPlot}}}
 \examples{
 
 # create some data
-obs <- rlnorm(500, 1, 1)
+obs <- rlnorm(500, 1, 1) # observations
 sim1 <- obs * rnorm(500, 1, 0.5) # similar to obs
 sim2 <- obs * rnorm(500, 1, 2) # less similar to obs
 sim3 <- obs * rnorm(500, 1, 4) # less similar to obs
 sim4 <- rlnorm(500, 1, 1) # same distribution but no correlation
-sim5 <- rnorm(500, 4.4, 2) # similar mean but different distribution and no correlation
+sim5 <- rnorm(500, 4.4, 2) # similar mean but different distribution
 x <- data.frame(obs, sim1, sim2, sim3, sim4, sim5)
 x[x < 0] <- 0
 
@@ -55,12 +55,13 @@ x[x < 0] <- 0
 WollMilchSauPlot(x)
 
 # with different objective function as colour
-WollMilchSauPlot(x, objfct.col="IoA")
-WollMilchSauPlot(x, objfct.col="Pbias")
-WollMilchSauPlot(x, objfct.col="FV")
+WollMilchSauPlot(x, objfct="IoA")
+WollMilchSauPlot(x, objfct="Pbias")
+WollMilchSauPlot(x, objfct="FV")
 
 # some other settings, e.g. with plotting points
-WollMilchSauPlot(x, ylab="Area (km²)", xlab="Groups", point.pch=16, bar.o=0.5, point.o=0.4, main="Comparison")
+WollMilchSauPlot(x, ylab="Area (km2)", xlab="Groups", main="Comparison", 
+ point.pch=16, bar.o=0.5, point.o=0.4)
 
 # different color palettes
 WollMilchSauPlot(x, cols=c("blue", "red"))
@@ -74,7 +75,7 @@ WollMilchSauPlot(x, legend=FALSE)
 WollMilchSauPlot(x, legend.only=TRUE)
 
 # without using an objective function 
-WollMilchSauPlot(x, objfct.col=NULL)
+WollMilchSauPlot(x, objfct=NULL)
 
 # different example data
 obs <- rnorm(500, 5, 1)

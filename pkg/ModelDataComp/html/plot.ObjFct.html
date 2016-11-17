@@ -95,7 +95,7 @@ plot(x, which = c("Cor", "KS", "AE"), alpha = 0.1, cols = "black",
 
 <h3>See Also</h3>
 
-<p><code><a href="ObjFct.html">ObjFct</a></code></p>
+<p><code><a href="ObjFct.html">ObjFct</a></code>, <code><a href="TaylorPlot.html">TaylorPlot</a></code>, <code><a href="ScatterPlot.html">ScatterPlot</a></code>, <code><a href="WollMilchSauPlot.html">WollMilchSauPlot</a></code></p>
 
 
 <h3>Examples</h3>
@@ -103,12 +103,13 @@ plot(x, which = c("Cor", "KS", "AE"), alpha = 0.1, cols = "black",
 <pre>
 
 # create some data
-obs &lt;- 1:40
-sim &lt;- c(1:30 * c(rnorm(10, 1, 0.1), rnorm(10, 1, 0.3), rnorm(10, 1, 2)), 40:31)
-groups &lt;- c(rep("subset 1", 10), rep("subset 2", 10), rep("subset 3", 10), rep("subset 4", 10))
-plot(sim, obs, col=rep(1:4, each=10))
+obs &lt;- 1:300
+sim &lt;- obs * c(rnorm(100, 1, 0.1), rnorm(100, 1, 0.3), rnorm(100, 1, 0.5))
+groups &lt;- c(rep("subset 1", 100), rep("subset 2", 100), rep("subset 3", 100))
+ScatterPlot(sim, obs, groups, objfct=TRUE)
 
-of &lt;- ObjFct(sim, obs, groups=groups)
+of &lt;- ObjFct(sim, obs, groups)
+of 
 
 # default plot
 plot(of)

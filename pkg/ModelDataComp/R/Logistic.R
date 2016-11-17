@@ -2,10 +2,11 @@ Logistic <- structure(function(
 	##title<< 
 	## Logistic function
 	##description<<
-	## Compute values of a logistic function.
+	## Compute the result of a logistic function and a predictor variable x: \cr
+	## y = mx / (1 + exp(-sl * (x - x0)))
 	
 	par, 
-	### parameters of logistic function, a vector of length 3 (asymptote, slope, turning point)
+	### parameters of the logistic function, a vector of length 3 (asymptote mx, slope sl, turning point x0)
 	
 	x, 
 	### independent variable
@@ -19,7 +20,7 @@ Logistic <- structure(function(
 	##references<< No reference.	
 	
 	##seealso<<
-	## \code{\link{FitDataModel}}
+	## \code{\link{FitLogistic}}
 ) { 
    y <- par[1] / (1 + exp(-par[2] * (x - par[3])))
    return(y)

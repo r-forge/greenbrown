@@ -9,12 +9,14 @@
 
 <h3>Description</h3>
 
-<p>Fit additive or multiplicative logistic functions to a response variable.</p>
+<p>Fits logistic functions between one or several predictor variables and a response variable. In case of multi-variate fits, logistic functions can be combined either additatively or multiplicatively: <br />
+Additive: y = Logistic(x1) + Logistic(x2) + Logistic(xN) <br />
+Multiplicative: y = Logistic(x1) * Logistic(x2) * Logistic(xN) </p>
 
 
 <h3>Usage</h3>
 
-<pre>FitLogistic(x, y, additive = FALSE, method = c("genoud"), ntry = 50, 
+<pre>FitLogistic(x, y, additive = FALSE, method = c("genoud"), ninit = 50, 
     ...)</pre>
 
 
@@ -31,15 +33,15 @@
 </td></tr>
 <tr valign="top"><td><code>additive</code></td>
 <td>
-<p>additive or multiplicative (default) fit?</p>
+<p>Make an additive or multiplicative fit? The default is a multiplicative fit.</p>
 </td></tr>
 <tr valign="top"><td><code>method</code></td>
 <td>
 <p>Method to be used for optimization of fit parameters. &quot;genoud&quot; uses genetic optimization (see <code><a href="../../rgenoud/html/genoud.html">genoud</a></code>). Can be also one of &quot;Nelder-Mead&quot;, &quot;BFGS&quot;, &quot;CG&quot;, &quot;L-BFGS-B&quot;, &quot;SANN&quot;, &quot;Brent&quot; (see <code><a href="../../stats/html/optim.html">optim</a></code>). If two methods are provided, the second method is applied on the best result of the first method.</p>
 </td></tr>
-<tr valign="top"><td><code>ntry</code></td>
+<tr valign="top"><td><code>ninit</code></td>
 <td>
-<p>number of inital trials for strating parameter sets in the optimization of fit parameters. A higher number of trials yields usually more robust results but takes longer.</p>
+<p>number of inital parameter sets for the optimization. Inital parameter sets will be included in genoud as part of the first generation. Each initial parameter set will be used as starting value within <code><a href="../../stats/html/optim.html">optim</a></code> methods. A higher number of ninit will likely avoid solutions close to local optima but is computationally more expensive.</p>
 </td></tr>
 <tr valign="top"><td><code>...</code></td>
 <td>
@@ -86,11 +88,9 @@ lines(x, fit$predicted, col="red")
 fit$par # fitted parameter
 
 # performance of fit
-of &lt;- ObjFct(fit$predicted, y)
-of
-plot(of)
+ScatterPlot(fit$predicted, y, objfct=TRUE)
 
-## 2D example
+## 2D example - takes more time
 #n &lt;- 1000
 #x1 &lt;- runif(n, 0, 100)
 #x2 &lt;- runif(n, 0, 100)
@@ -102,16 +102,7 @@ plot(of)
 #plot(x1, y) 
 #plot(x2, y)
 #fit &lt;- FitLogistic(x=cbind(x1, x2), y)
-#plot(y, fit$predicted)
-#fit$par # fitted parameter
-
-## plot fit as a surface:
-#surf &lt;- expand.grid(x1=0:100, x2=0:100)
-#surf &lt;- data.frame(surf, y=predict(fit, surf))
-#require(rgl)
-#with(data.frame(x1, x2, y), plot3d(x1, x2, y))
-#with(surf, surface3d(unique(x1), unique(x2), y, alpha=0.2, col="blue"))
-
+#ScatterPlot(fit$predicted, y, objfct=TRUE)
 
 </pre>
 

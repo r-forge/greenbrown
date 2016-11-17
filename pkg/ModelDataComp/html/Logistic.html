@@ -9,7 +9,8 @@
 
 <h3>Description</h3>
 
-<p>Compute values of a logistic function.</p>
+<p>Compute the result of a logistic function and a predictor variable x: <br />
+y = mx / (1 + exp(-sl * (x - x0)))</p>
 
 
 <h3>Usage</h3>
@@ -22,7 +23,7 @@
 <table summary="R argblock">
 <tr valign="top"><td><code>par</code></td>
 <td>
-<p>parameters of logistic function, a vector of length 3 (asymptote, slope, turning point)</p>
+<p>parameters of the logistic function, a vector of length 3 (asymptote mx, slope sl, turning point x0)</p>
 </td></tr>
 <tr valign="top"><td><code>x</code></td>
 <td>
@@ -57,7 +58,7 @@
 
 <h3>See Also</h3>
 
-<p><code>FitDataModel</code></p>
+<p><code><a href="FitLogistic.html">FitLogistic</a></code></p>
 
 
 <h3>Examples</h3>

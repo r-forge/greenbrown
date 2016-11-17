@@ -1,6 +1,15 @@
-exportPattern("^[^\\.]")	#exports all variables that do not start with a period.
+import(yarrr, raster, plyr, fields, foreach)
+importFrom(MASS, bandwidth.nrd, kde2d)
+importFrom(randomForest, randomForest)
+importFrom(rgenoud, genoud)
+importFrom(mgcv, gam)
+importFrom(lhs, randomLHS)
+importFrom(classInt, classIntervals)
+importFrom(quantreg, rq)
+importFrom(plotrix, boxed.labels)
 
+exportPattern("^[[:alpha:]]+")
 
-
-
-
+S3method("plot", "ObjFct")
+S3method("predict", "FitLogistic")
+S3method("print", "ObjFct")

@@ -16,7 +16,6 @@ RandomLHSPar <- structure(function(
 	fixed=rep(FALSE, length(lower)) 
 	### boolean vector: should a parameter kept fixed (TRUE) or should all parameters be sampled (FALSE). If TRUE than the parameter value from the vector lower will be returned.	
 ) {
-	require(lhs)
 	# random LHS sample
 	npar <- length(lower)	# number of parameters
 	npar.rand <- length(fixed == FALSE)

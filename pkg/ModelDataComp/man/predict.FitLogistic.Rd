@@ -1,11 +1,11 @@
 \name{predict.FitLogistic}
 \alias{predict.FitLogistic}
 \title{Predict method for logistic function fits}
-
+\description{Predict values based on logistic function fits.}
 \usage{\method{predict}{FitLogistic}(object, newdata, ...)}
 \arguments{
-  \item{object}{independent variables}
-  \item{newdata}{response variables}
+  \item{object}{an oject as returned by \code{\link{FitLogistic}}}
+  \item{newdata}{data.frame of predictor variables}
   \item{\dots}{further arguments (not used)}
 }
 \details{No details.}
@@ -15,7 +15,7 @@
 
 
 
-
+\seealso{\code{\link{FitLogistic}}}
 \examples{
 
 x <- 1:1000

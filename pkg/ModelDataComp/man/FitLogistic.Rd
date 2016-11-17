@@ -1,15 +1,17 @@
 \name{FitLogistic}
 \alias{FitLogistic}
 \title{Fit logistic functions }
-\description{Fit additive or multiplicative logistic functions to a response variable.}
-\usage{FitLogistic(x, y, additive = FALSE, method = c("genoud"), ntry = 50, 
+\description{Fits logistic functions between one or several predictor variables and a response variable. In case of multi-variate fits, logistic functions can be combined either additatively or multiplicatively: \cr
+Additive: y = Logistic(x1) + Logistic(x2) + Logistic(xN) \cr
+Multiplicative: y = Logistic(x1) * Logistic(x2) * Logistic(xN) }
+\usage{FitLogistic(x, y, additive = FALSE, method = c("genoud"), ninit = 50, 
     ...)}
 \arguments{
   \item{x}{predictor variables}
   \item{y}{response variables}
-  \item{additive}{additive or multiplicative (default) fit?}
+  \item{additive}{Make an additive or multiplicative fit? The default is a multiplicative fit.}
   \item{method}{Method to be used for optimization of fit parameters. "genoud" uses genetic optimization (see \code{\link{genoud}}). Can be also one of "Nelder-Mead", "BFGS", "CG", "L-BFGS-B", "SANN", "Brent" (see \code{\link{optim}}). If two methods are provided, the second method is applied on the best result of the first method.}
-  \item{ntry}{number of inital trials for strating parameter sets in the optimization of fit parameters. A higher number of trials yields usually more robust results but takes longer.}
+  \item{ninit}{number of inital parameter sets for the optimization. Inital parameter sets will be included in genoud as part of the first generation. Each initial parameter set will be used as starting value within \code{\link{optim}} methods. A higher number of ninit will likely avoid solutions close to local optima but is computationally more expensive.}
   \item{\dots}{further arguments for \code{\link{genoud}} or \code{\link{optim}}}
 }
 \details{No details.}
@@ -31,11 +33,9 @@ lines(x, fit$predicted, col="red")
 fit$par # fitted parameter
 
 # performance of fit
-of <- ObjFct(fit$predicted, y)
-of
-plot(of)
+ScatterPlot(fit$predicted, y, objfct=TRUE)
 
-## 2D example
+## 2D example - takes more time
 #n <- 1000
 #x1 <- runif(n, 0, 100)
 #x2 <- runif(n, 0, 100)
@@ -47,15 +47,6 @@ plot(of)
 #plot(x1, y) 
 #plot(x2, y)
 #fit <- FitLogistic(x=cbind(x1, x2), y)
-#plot(y, fit$predicted)
-#fit$par # fitted parameter
-
-## plot fit as a surface:
-#surf <- expand.grid(x1=0:100, x2=0:100)
-#surf <- data.frame(surf, y=predict(fit, surf))
-#require(rgl)
-#with(data.frame(x1, x2, y), plot3d(x1, x2, y))
-#with(surf, surface3d(unique(x1), unique(x2), y, alpha=0.2, col="blue"))
-
+#ScatterPlot(fit$predicted, y, objfct=TRUE)
 
 }

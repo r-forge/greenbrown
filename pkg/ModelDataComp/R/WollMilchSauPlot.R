@@ -2,25 +2,22 @@ WollMilchSauPlot <- structure(function(
 	##title<< 
 	## Compare means, distributions, and correlations of different datasets 
 	##description<<
-	## Plot a comparison of means, distributions, and correlations (or any other objective function metric) between different datasets. Thus this plot is almost an "eier-legende Wollmichsau" (german, animal that produces eggs, wool, milk and meet) for model-data comparison. The plot is based on the function \code{\link{pirateplot}}
+	## Plots a \code{\link{pirateplot}} with couulors according to model performance. The function can be used to compare means, distributions, and correlations (or any other metric from \code{\link{ObjFct}}) between different datasets and models. Thus this plot is almost an "eier-legende Wollmichsau" (german, animal that produces eggs, wool, milk and meet) for model-data comparison. The plot is based on the function \code{\link{pirateplot}}
 	
 	x,
 	### a data.frame with at least two columns
 	
 	ref = 1,
-	### which column in x is the reference dataset?
+	### Which column in x is the reference dataset? Also more than one reference can be provided, e.g. ref = c(1,2) will compute the objfct based on the combination of both datasets. 
 	
-	objfct.col = "Cor",
-	### Which objective function metricc should be used to create the colour palette? (see \code{\link{ObjFct}})
+	objfct = "Cor",
+	### Which objective function metric should be used to create the colour palette? (see \code{\link{ObjFct}})
 	
 	cols = tim.colors(10),
 	### vector of colors from which the color palette should be interpolated
 	
 	brks = NULL,
 	### break for colour scale
-	
-#	text = c("RMSE", "MEF"),
-#	### Add an objective function metric or any other function as text? (see \code{\link{ObjFct}})
 	
 	names = NULL,
 	### names of the datasets
@@ -79,11 +76,9 @@ WollMilchSauPlot <- structure(function(
 	##references<< No reference.	
 	
 	##seealso<<
-	## \code{\link{ObjFct}}, \code{\link{pirateplot}}
+	## \code{\link{pirateplot}}, \code{\link{ObjFct}}, \code{\link{TaylorPlot}}, \code{\link{WollMilchSauPlot}}, \code{\link{ScatterPlot}}
 ) {
-   require(fields)
-   require(yarrr)
-   require(plyr)
+   op <- par()
    x <- na.omit(x)
    ndatasets <- ncol(x)
    
@@ -101,7 +96,7 @@ WollMilchSauPlot <- structure(function(
    x2.df <- data.frame(y=x[,ref[1]], x=colnames(x)[ref[1]])
    for (i in (1:ncol(x))[-ref[1]]) x2.df <- rbind(x2.df, data.frame(y=x[,i], x=colnames(x)[i]))
    
-   if (!is.null(objfct.col)) {
+   if (!is.null(objfct)) {
       # compute performance metrics
       objfct.l <- llply(as.list(1:ncol(x)), function(n) {
          if (length(ref) == 1) {
@@ -115,18 +110,18 @@ WollMilchSauPlot <- structure(function(
       })
       
       # extract to be used for colour
-      of.col <- unlist(llply(objfct.l, function(of) unlist(of[grep(objfct.col, names(of))[1]])))
+      of.col <- unlist(llply(objfct.l, function(of) unlist(of[grep(objfct, names(of))[1]])))
 
       # optimum objective function
       of.best <- ObjFct(1:10, 1:10)
-      of.best <- unlist(of.best[grep(objfct.col, names(of.best))[1]])
+      of.best <- unlist(of.best[grep(objfct, names(of.best))[1]])
       
       # create breaks for color scale
       of <- c(of.col, of.best)
-      if (objfct.col == "Cor" | objfct.col == "Spearman") of <- c(of, -1)
-      if (objfct.col == "R2" | objfct.col == "IoA") of <- c(of, 0)
-      if (objfct.col == "KS") of <- c(of, 1)
-      if (objfct.col == "FV") of <- c(of, -2, 2)
+      if (objfct == "Cor" | objfct == "Spearman") of <- c(of, -1)
+      if (objfct == "R2" | objfct == "IoA") of <- c(of, 0)
+      if (objfct == "KS") of <- c(of, 1)
+      if (objfct == "FV") of <- c(of, -2, 2)
       if (is.null(brks)) brks <- pretty(of, min.n=10, n=15)
       
       # create colors
@@ -149,7 +144,7 @@ WollMilchSauPlot <- structure(function(
    # plot only legend?
    if (legend & legend.only) {
       plot.new()
-      image.plot(zlim=brks, legend.only=TRUE, col=cols0, breaks=brks, legend.args=list(text=objfct.col, cex=1.2, font=2, line=0.5))
+      image.plot(zlim=brks, legend.only=TRUE, col=cols0, breaks=brks, legend.args=list(text=objfct, cex=1.2, font=2, line=0.5))
       return()
    }
   
@@ -192,18 +187,18 @@ WollMilchSauPlot <- structure(function(
       m <- lm(f ~ l, data.frame(l=xlim, f=c(0, 1)))
       p1 <- predict(m, data.frame(l=ndatasets+0.5))
       p2 <- predict(m, data.frame(l=ndatasets+0.7))
-      image.plot(zlim=brks, legend.only=TRUE, col=cols0, breaks=brks, smallplot=c(p1, p2, 0.2, 0.8), legend.args=list(text=objfct.col, cex=1.2, font=2, line=0.5))
+      image.plot(zlim=brks, legend.only=TRUE, col=cols0, breaks=brks, smallplot=c(p1, p2, 0.2, 0.8), legend.args=list(text=objfct, cex=1.2, font=2, line=0.5))
    }
    
 }, ex=function() {
 
 # create some data
-obs <- rlnorm(500, 1, 1)
+obs <- rlnorm(500, 1, 1) # observations
 sim1 <- obs * rnorm(500, 1, 0.5) # similar to obs
 sim2 <- obs * rnorm(500, 1, 2) # less similar to obs
 sim3 <- obs * rnorm(500, 1, 4) # less similar to obs
 sim4 <- rlnorm(500, 1, 1) # same distribution but no correlation
-sim5 <- rnorm(500, 4.4, 2) # similar mean but different distribution and no correlation
+sim5 <- rnorm(500, 4.4, 2) # similar mean but different distribution
 x <- data.frame(obs, sim1, sim2, sim3, sim4, sim5)
 x[x < 0] <- 0
 
@@ -211,12 +206,13 @@ x[x < 0] <- 0
 WollMilchSauPlot(x)
 
 # with different objective function as colour
-WollMilchSauPlot(x, objfct.col="IoA")
-WollMilchSauPlot(x, objfct.col="Pbias")
-WollMilchSauPlot(x, objfct.col="FV")
+WollMilchSauPlot(x, objfct="IoA")
+WollMilchSauPlot(x, objfct="Pbias")
+WollMilchSauPlot(x, objfct="FV")
 
 # some other settings, e.g. with plotting points
-WollMilchSauPlot(x, ylab="Area (km²)", xlab="Groups", point.pch=16, bar.o=0.5, point.o=0.4, main="Comparison")
+WollMilchSauPlot(x, ylab="Area (km2)", xlab="Groups", main="Comparison", 
+ point.pch=16, bar.o=0.5, point.o=0.4)
 
 # different color palettes
 WollMilchSauPlot(x, cols=c("blue", "red"))
@@ -230,7 +226,7 @@ WollMilchSauPlot(x, legend=FALSE)
 WollMilchSauPlot(x, legend.only=TRUE)
 
 # without using an objective function 
-WollMilchSauPlot(x, objfct.col=NULL)
+WollMilchSauPlot(x, objfct=NULL)
 
 # different example data
 obs <- rnorm(500, 5, 1)

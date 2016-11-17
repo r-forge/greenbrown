@@ -27,16 +27,17 @@
 
 
 
-\seealso{\code{\link{ObjFct}}}
+\seealso{\code{\link{ObjFct}}, \code{\link{TaylorPlot}}, \code{\link{ScatterPlot}}, \code{\link{WollMilchSauPlot}}}
 \examples{
 
 # create some data
-obs <- 1:40
-sim <- c(1:30 * c(rnorm(10, 1, 0.1), rnorm(10, 1, 0.3), rnorm(10, 1, 2)), 40:31)
-groups <- c(rep("subset 1", 10), rep("subset 2", 10), rep("subset 3", 10), rep("subset 4", 10))
-plot(sim, obs, col=rep(1:4, each=10))
+obs <- 1:300
+sim <- obs * c(rnorm(100, 1, 0.1), rnorm(100, 1, 0.3), rnorm(100, 1, 0.5))
+groups <- c(rep("subset 1", 100), rep("subset 2", 100), rep("subset 3", 100))
+ScatterPlot(sim, obs, groups, objfct=TRUE)
 
-of <- ObjFct(sim, obs, groups=groups)
+of <- ObjFct(sim, obs, groups)
+of 
 
 # default plot
 plot(of)
