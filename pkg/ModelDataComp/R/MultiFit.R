@@ -103,7 +103,14 @@ MultiFit <- structure(function(
       message("MultiFit: smoothing spline")
       mspl <- try(smooth.spline(df$x, df$y), silent=TRUE)
 		if (class(mspl) == "try-error") mspl <- try(smooth.spline(df$x, df$y, cv=TRUE), silent=TRUE)
-      if (class(mspl) != "try-error") xout$spline <- predict(mspl, xout$x)$y
+		if (class(mspl) == "try-error") {
+		   f <- formula(paste("y ~ s(", paste(xvar, collapse=", "), ")"))
+         mgam <- gam(f, data=df)
+         xout$spline <- predict(mgam, xout)
+         warnings("Could not compute smoothing spline. Computed gam instead.")
+		} else {
+         xout$spline <- predict(mspl, xout$x)$y
+      }
 	}
    
    # 2nd-order polynomial
