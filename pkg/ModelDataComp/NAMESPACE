@@ -7,7 +7,7 @@ importFrom(lhs, randomLHS)
 importFrom(classInt, classIntervals)
 importFrom(quantreg, rq)
 importFrom(plotrix, boxed.labels)
-importFrom("grDevices", "colorRampPalette", "dev.off", "pdf", "col2rgb", "colorRampPalette", "grey",
+importFrom("grDevices", "colorRampPalette", "dev.off", "pdf", "col2rgb", "grey",
              "nclass.Sturges", "rgb")
 importFrom("graphics", "abline", "axis", "box", "legend", "mtext",
              "par", "plot.new", "points", "segments")
