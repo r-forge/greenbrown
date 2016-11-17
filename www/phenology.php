@@ -52,7 +52,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 
 <p>Metrics of land surface phenology and greenness are often derived from vegetation index time series to map the spatial variability of vegetation phenology or to analyse temporal changes in vegetation. Phenology and greenness metrics (PGMs) are for example the start and end of growing season (SOS and EOS) or the greenness during the peak of the growing season (PEAK). A description of these metrics and a discussion on the caveats and challenges of phenology detection from remote sensing-derived vegetation index time series can be found in Forkel et al. (2015): </p>
 
-<p><ul>Forkel M, Migliavacca M, Thonicke K, Reichstein M, Schaphoff S, Weber U, Carvalhais N (2015) <a href="http://onlinelibrary.wiley.com/doi/10.1111/gcb.12950/abstract">Co-dominant water control on global inter-annual variability and trends in land surface phenology and greenness.</a> Global Change Biology, accepted.</ul></p>
+<p><ul>Forkel, M., Migliavacca, M., Thonicke, K., Reichstein, M., Schaphoff, S., Weber, U., Carvalhais, N., 2015. <a href="http://onlinelibrary.wiley.com/doi/10.1111/gcb.12950/abstract">Codominant water control on global interannual variability and trends in land surface phenology and greenness.</a> Glob Change Biol 21, 3414–3435. doi:10.1111/gcb.12950</ul></p>
 
 <p>In the greenbrown package, phenology detection is implemented as a step-wise procedure with prepocessing and analysis steps as described in Forkel et al. (2015). The steps are:</p>
 <ol>

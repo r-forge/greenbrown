@@ -54,7 +54,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 
 <p>The main function to calculate trends and breakpoints on single time series is <b><a href="man/Trend.html">Trend</a></b>. This function offers a common access to different methods for trend analysis as assessed in Forkel et al. (2013):</p>
 
-<p><ul>Forkel M, Carvalhais N, Verbesselt J, Mahecha M, Neigh C, Reichstein M (2013) <a href="http://www.mdpi.com/2072-4292/5/5/2113">Trend Change Detection in NDVI Time Series: Effects of Inter-Annual Variability and Methodology.</a> Remote Sensing, 5, 2113-2144.</ul></p>
+<p><ul>Forkel, M., Carvalhais, N., Verbesselt, J., Mahecha, M., Neigh, C., Reichstein, M., 2013.  <a href="http://www.mdpi.com/2072-4292/5/5/2113">Trend Change Detection in NDVI Time Series: Effects of Inter-Annual Variability and Methodology.</a> Remote Sensing 5, 2113–2144. doi:10.3390/rs5052113</ul></p>
 
 <p>The following methods are tested and compared in this paper based on NDVI time series:</p>
 

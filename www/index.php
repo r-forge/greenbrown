@@ -58,10 +58,9 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 <p>The package has been developed at the Max Planck Institute for Biogeochemistry, Jena, Germany in order to distribute the code of the following publications: </p>
 
 <ul>
-<li>Forkel M, Carvalhais N, Verbesselt J, Mahecha M, Neigh C, Reichstein M (2013) <a href="http://www.mdpi.com/2072-4292/5/5/2113">Trend Change Detection in NDVI Time Series: Effects of Inter-Annual Variability and Methodology.</a> Remote Sensing, 5, 2113-2144.</li> 
-<li>Forkel M, Migliavacca M, Thonicke K, Reichstein M, Schaphoff S, Weber U, Carvalhais N (2015) <a href="http://onlinelibrary.wiley.com/doi/10.1111/gcb.12950/abstract">Co-dominant water control on global inter-annual variability and trends in land surface phenology and greenness.</a> Global Change Biology, accepted.</li>
+<li>Forkel, M., Carvalhais, N., Verbesselt, J., Mahecha, M., Neigh, C., Reichstein, M., 2013.  <a href="http://www.mdpi.com/2072-4292/5/5/2113">Trend Change Detection in NDVI Time Series: Effects of Inter-Annual Variability and Methodology.</a> Remote Sensing 5, 2113–2144. doi:10.3390/rs5052113</li> 
+<li>Forkel, M., Migliavacca, M., Thonicke, K., Reichstein, M., Schaphoff, S., Weber, U., Carvalhais, N., 2015. <a href="http://onlinelibrary.wiley.com/doi/10.1111/gcb.12950/abstract">Codominant water control on global interannual variability and trends in land surface phenology and greenness.</a> Glob Change Biol 21, 3414–3435. doi:10.1111/gcb.12950</li>
 </ul>
-
 
 <h4>Usage and citation</h4>
 
