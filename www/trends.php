@@ -177,7 +177,7 @@ Fig. 5: Comparsion of greening and browning trends on annual mean NDVI from two 
 
 <br>
 <hr>
-<p><a href="index.php">greenbrown</a>, Matthias Forkel, mforkel [at] bgc-jena.mpg.de, 2015-04-15</p>
+<p><a href="index.php">greenbrown</a>, Matthias Forkel, 2016-11-17</p>
 
 </body>
 </html>

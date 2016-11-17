@@ -75,15 +75,20 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 
 <p>The package has been developed by Matthias Forkel with technical support by Thomas Wutzler. Nuno Carvalhais, Miguel Mahecha, Mirco Migliavacca and Jan Verbesselt gave advice or provided code snippets to some of the functions. </p>
 
-<p>Matthias Forkel, mforkel [at] bgc-jena.mpg.de <br>
-Thomas Wutzler, twutz [at] bgc-jena.mpg.de<br>
-Max Planck Institute for Biogeochemistry Jena, Germany<br>
+<p>Matthias Forkel, matthias.forkel [at] geo.tuwien.ac.at <br>
+Department of Geodesy and Geoinformation <br>
+Technische Universität Wien <br>
+Gusshausstr. 27-29 / E120 <br>
+1040 Wien, Austria</p>
+
+<p>Thomas Wutzler, twutz [at] bgc-jena.mpg.de<br>
+Max Planck Institute for Biogeochemistry Jena<br>
 Hans-Knoell-Str. 10<br>
 07745 Jena, Germany</p>
 
 <br>
 <hr>
-<p><a href="index.php">greenbrown</a>, Matthias Forkel, mforkel [at] bgc-jena.mpg.de, 2015-04-15</p>
+<p><a href="index.php">greenbrown</a>, Matthias Forkel, 2016-11-17</p>
 
 </body>
 </html>
