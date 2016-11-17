@@ -104,10 +104,9 @@ MultiFit <- structure(function(
       mspl <- try(smooth.spline(df$x, df$y), silent=TRUE)
 		if (class(mspl) == "try-error") mspl <- try(smooth.spline(df$x, df$y, cv=TRUE), silent=TRUE)
 		if (class(mspl) == "try-error") {
-		   f <- formula(paste("y ~ s(", paste(xvar, collapse=", "), ")"))
-         mgam <- gam(f, data=df)
-         xout$spline <- predict(mgam, xout)
-         warnings("Could not compute smoothing spline. Computed gam instead.")
+         fits[fits == "spline"] <- "poly3"
+         fits <- unique(fits)
+         warnings("Could not compute smoothing spline. Computed poly3 instead.")
 		} else {
          xout$spline <- predict(mspl, xout$x)$y
       }
