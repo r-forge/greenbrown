@@ -82,7 +82,7 @@ MultiFit <- structure(function(
          xout <- expand.grid(as.data.frame(xout)) 
          colnames(xout) <- xvar
       } else {
-         xout <- data.frame(x=seq(min(x), max(x), length=50))
+         xout <- data.frame(x=seq(min(df$x), max(df$x), length=50))
       }
    } else {
       if (is.vector(xout)) {
@@ -104,14 +104,22 @@ MultiFit <- structure(function(
       mspl <- try(smooth.spline(df$x, df$y), silent=TRUE)
 		if (class(mspl) == "try-error") mspl <- try(smooth.spline(df$x, df$y, cv=TRUE), silent=TRUE)
 		if (class(mspl) == "try-error") {
-         fits[fits == "spline"] <- "poly3"
+         fits[fits == "spline"] <- "gam"
          fits <- unique(fits)
-         warnings("Could not compute smoothing spline. Computed poly3 instead.")
+         warnings("Could not compute smoothing spline. Computed gam instead.")
 		} else {
          xout$spline <- predict(mspl, xout$x)$y
       }
 	}
    
+#   # local polynomical regression 
+#   if ("loess" %in% fits) {
+#      message("MultiFit: local polynomical regression")
+#      f <- formula(paste("y ~ ", paste(xvar, collapse=" * ")))
+#      mloess <- loess(f, data=df, control=loess.control(surface = "direct"))
+#      xout$loess <- predict(mloess, xout)
+#   }
+      
    # 2nd-order polynomial
    if ("poly2" %in% fits) {
       message("MultiFit: 2nd-order polynomial")
@@ -132,7 +140,7 @@ MultiFit <- structure(function(
    if ("quantreg" %in% fits) {
       message("MultiFit: quantile regression")
    	f <- formula(paste("y ~ ", paste(xvar, collapse=" + ")))
-		mqr <- rq(f, tau=0.5, data=df)
+		mqr <- quantreg::rq(f, tau=0.5, data=df)
 		xout$quantreg <- predict(mqr, xout)
 	}
 		
@@ -147,29 +155,29 @@ MultiFit <- structure(function(
    if ("gam" %in% fits) {
       message("MultiFit: GAM")
       f <- formula(paste("y ~ s(", paste(xvar, collapse=", "), ")"))
-      mgam <- gam(f, data=df)
+      mgam <- mgcv::gam(f, data=df)
       xout$gam <- predict(mgam, xout)
    }
    
    # random forest
    if ("rf" %in% fits) {
       message("MultiFit: random forest")
-      mrf <- randomForest(y ~ ., data=df)
+      mrf <- randomForest::randomForest(y ~ ., data=df)
       xout$rf <- predict(mrf, xout)
    }
    
    # ensemble statistics
    m <- match(fits, colnames(xout))
    if (length(fits) > 1) {
-      xout$ensMean <- apply(xout[, m], 1, mean) 
-      xout$ensMedian <- apply(xout[, m], 1, median)
+      xout$ensMean <- apply(xout[, m], 1, mean, na.rm=TRUE) 
+      xout$ensMedian <- apply(xout[, m], 1, median, na.rm=TRUE)
       xout$ensSd <- apply(xout[, m], 1, sd) 
-      xout$ensP01 <- apply(xout[, m], 1, quantile, prob=0.01) 
-      xout$ensP05 <- apply(xout[, m], 1, quantile, prob=0.05) 
-      xout$ensP25 <- apply(xout[, m], 1, quantile, prob=0.25) 
-      xout$ensP75 <- apply(xout[, m], 1, quantile, prob=0.75) 
-      xout$ensP95 <- apply(xout[, m], 1, quantile, prob=0.95) 
-      xout$ensP99 <- apply(xout[, m], 1, quantile, prob=0.99) 
+      xout$ensP01 <- apply(xout[, m], 1, quantile, prob=0.01, na.rm=TRUE) 
+      xout$ensP05 <- apply(xout[, m], 1, quantile, prob=0.05, na.rm=TRUE) 
+      xout$ensP25 <- apply(xout[, m], 1, quantile, prob=0.25, na.rm=TRUE) 
+      xout$ensP75 <- apply(xout[, m], 1, quantile, prob=0.75, na.rm=TRUE) 
+      xout$ensP95 <- apply(xout[, m], 1, quantile, prob=0.95, na.rm=TRUE) 
+      xout$ensP99 <- apply(xout[, m], 1, quantile, prob=0.99, na.rm=TRUE) 
    } else {
       xout$ensMean <- xout[, m]
    }
@@ -180,7 +188,7 @@ MultiFit <- structure(function(
 # bivariate example
 x <- runif(1000, -3, 3) # predictor variable
 y <- 0.5 * x + 1 / exp(-0.4 * x) * rnorm(1000, 1, 1) # response variable
-plot(x, y, cex=0.5)
+ScatterPlot(x, y)
 fit <- MultiFit(x, y, fits=c("lm", "quantreg", "poly2", "poly3", 
    "spline", "gam", "rf", "logistic"))
 summary(fit)
@@ -194,14 +202,15 @@ lines(fit1$x, fit1$ensMean, type="l",lty=1, col="purple", lwd=3)
 
 # to compare fitted with original values compute 
 # fits at original predictor variables (xout=x)
-fit <- MultiFit(x, y, fits=c("lm", "gam"), xout=x) 
-of <- ObjFct(fit$lm, y)
-of
-ScatterPlot(fit$lm, y, objfct=TRUE)
-TaylorPlot(fit$lm, y)
+fit <- MultiFit(x, y, fits=c("poly3", "gam"), xout=x) 
+df <- data.frame(sim=c(fit$poly3, fit$gam), obs=rep(y, 2), groups=rep(c("poly3", "gam"), each=length(y)))
+of <- ObjFct(df$sim, df$obs, df$groups)
+plot(of, which="RMSE")
+ScatterPlot(df$sim, df$obs, df$groups, objfct=TRUE)
+TaylorPlot(df$sim, df$obs, df$groups)
 
 # bivariate example with fit to a certain quantile
-plot(x, y)
+ScatterPlot(x, y)
 fit <- MultiFit(x, y, fit.quantile=0.9, fits=c("spline", "gam", "poly3", "rf"))
 matplot(fit$x, fit[,2:5], type="l", add=TRUE, lty=1, col=cols, lwd=2)
 legend("topleft", colnames(fit)[2:5], lty=1, col=cols, lwd=2)

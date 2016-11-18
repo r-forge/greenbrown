@@ -166,9 +166,9 @@ ScatterPlot <- structure(function(
 	
 	# calculate density lines
 	if (any(grepl("density", plot.type))) {
-		bdw <- c(bandwidth.nrd(x), bandwidth.nrd(y))
+		bdw <- c(MASS::bandwidth.nrd(x), MASS::bandwidth.nrd(y))
 		bdw[bdw <= 0] <- 0.01
-		yx.density <- kde2d(x, y, h=bdw)
+		yx.density <- MASS::kde2d(x, y, h=bdw)
 		if (is.null(col.density)) col.density <- grey(seq(1, 0.2, by=-0.1))
 
 		# can plot density?
@@ -238,7 +238,7 @@ ScatterPlot <- structure(function(
 			xs <- data.df$x[(data.df$groups == gr)]
 			ys <- data.df$y[(data.df$groups == gr)]
 			if ((length(xs) >= fit.minnobs) & (length(ys) >= fit.minnobs) & !AllEqual(na.omit(xs)) & !AllEqual(na.omit(ys))) {
-				fit <- MultiFit(xs, ys, fits=fits, excl.quantile=quantile.x, fit.quantile=fit.quantile)
+				fit <- MultiFit(xs, ys, fits=fits, fit.quantile=fit.quantile)
 				if (plot) lines(fit$x, fit$ensMean, col=col.orig[k], lwd=lwd, lty=lty)
 				fit.l[[k]] <- fit
 			} else {
@@ -250,7 +250,7 @@ ScatterPlot <- structure(function(
 	
 	# add global fit
 	if (fit.global & !AllEqual(data.df$x) & !AllEqual(data.df$y)) {
-		fit <- MultiFit(x=data.df$x, y=data.df$y, fits=fits, excl.quantile=quantile.x, fit.quantile=fit.quantile)
+		fit <- MultiFit(x=data.df$x, y=data.df$y, fits=fits, fit.quantile=fit.quantile)
 		if (is.null(col.global)) { 
 			col.global <- "red"
 			if (has.groups) col.global <- "black"

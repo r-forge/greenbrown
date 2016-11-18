@@ -126,7 +126,7 @@ TaylorPlot <- structure(function(
                      lines(xcurve[startcurve:endcurve], ycurve[startcurve:endcurve], 
                        col = gamma.col)
                      if (xcurve[labelpos[gindex]] > 0) 
-                       boxed.labels(xcurve[labelpos[gindex]], ycurve[labelpos[gindex]], 
+                       plotrix::boxed.labels(xcurve[labelpos[gindex]], ycurve[labelpos[gindex]], 
                          gamma[gindex], border = FALSE)
                    }
                }

@@ -144,7 +144,7 @@ WollMilchSauPlot <- structure(function(
    # plot only legend?
    if (legend & legend.only) {
       plot.new()
-      image.plot(zlim=brks, legend.only=TRUE, col=cols0, breaks=brks, legend.args=list(text=objfct, cex=1.2, font=2, line=0.5))
+      fields::image.plot(zlim=brks, legend.only=TRUE, col=cols0, breaks=brks, legend.args=list(text=objfct, cex=1.2, font=2, line=0.5))
       return()
    }
   
@@ -187,7 +187,7 @@ WollMilchSauPlot <- structure(function(
       m <- lm(f ~ l, data.frame(l=xlim, f=c(0, 1)))
       p1 <- predict(m, data.frame(l=ndatasets+0.5))
       p2 <- predict(m, data.frame(l=ndatasets+0.7))
-      image.plot(zlim=brks, legend.only=TRUE, col=cols0, breaks=brks, smallplot=c(p1, p2, 0.2, 0.8), legend.args=list(text=objfct, cex=1.2, font=2, line=0.5))
+      fields::image.plot(zlim=brks, legend.only=TRUE, col=cols0, breaks=brks, smallplot=c(p1, p2, 0.2, 0.8), legend.args=list(text=objfct, cex=1.2, font=2, line=0.5))
    }
    
 }, ex=function() {

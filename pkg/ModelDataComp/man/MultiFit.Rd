@@ -38,7 +38,7 @@ Furthermore, ensemble statistics like the mean, median, standard deviation and p
 # bivariate example
 x <- runif(1000, -3, 3) # predictor variable
 y <- 0.5 * x + 1 / exp(-0.4 * x) * rnorm(1000, 1, 1) # response variable
-plot(x, y, cex=0.5)
+ScatterPlot(x, y)
 fit <- MultiFit(x, y, fits=c("lm", "quantreg", "poly2", "poly3", 
    "spline", "gam", "rf", "logistic"))
 summary(fit)
@@ -52,14 +52,15 @@ lines(fit1$x, fit1$ensMean, type="l",lty=1, col="purple", lwd=3)
 
 # to compare fitted with original values compute 
 # fits at original predictor variables (xout=x)
-fit <- MultiFit(x, y, fits=c("lm", "gam"), xout=x) 
-of <- ObjFct(fit$lm, y)
-of
-ScatterPlot(fit$lm, y, objfct=TRUE)
-TaylorPlot(fit$lm, y)
+fit <- MultiFit(x, y, fits=c("poly3", "gam"), xout=x) 
+df <- data.frame(sim=c(fit$poly3, fit$gam), obs=rep(y, 2), groups=rep(c("poly3", "gam"), each=length(y)))
+of <- ObjFct(df$sim, df$obs, df$groups)
+plot(of, which="RMSE")
+ScatterPlot(df$sim, df$obs, df$groups, objfct=TRUE)
+TaylorPlot(df$sim, df$obs, df$groups)
 
 # bivariate example with fit to a certain quantile
-plot(x, y)
+ScatterPlot(x, y)
 fit <- MultiFit(x, y, fit.quantile=0.9, fits=c("spline", "gam", "poly3", "rf"))
 matplot(fit$x, fit[,2:5], type="l", add=TRUE, lty=1, col=cols, lwd=2)
 legend("topleft", colnames(fit)[2:5], lty=1, col=cols, lwd=2)

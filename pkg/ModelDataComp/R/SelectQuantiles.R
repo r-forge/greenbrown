@@ -33,7 +33,7 @@ SelectQuantiles <- structure(function(
    
    # split x in classes
 	if (is.null(n)) n <- nclass.Sturges(d$x)
-	cl <- classIntervals(d$x, n=n, style="quantile")
+	cl <- classInt::classIntervals(d$x, n=n, style="quantile")
 	d$xcl <- findInterval(d$x, cl$brks)
 		
 	# add classes with low number of values to previous class
