@@ -2,6 +2,9 @@ import(ModelDataComp)
 importFrom(plyr, llply, laply)
 importFrom(parallel, clusterEvalQ, makeCluster, clusterExport, stopCluster)
 importFrom(rgenoud, genoud)
+importFrom("grDevices", "dev.off", "pdf")
+importFrom("graphics", "abline", "axis", "box", "hist", "legend", "lines", "mtext", "par", "plot", "text")
+importFrom("stats", "na.omit", "quantile", "runif")
 
 exportPattern("^[[:alpha:]]+")
 

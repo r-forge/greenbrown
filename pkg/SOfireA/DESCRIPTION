@@ -5,8 +5,8 @@ Date: 2016-11-18
 Author: Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]
 Maintainer: Matthias Forkel <matthias.forkel@geo.tuwien.ac.at>
 Description: SOFIA (Satellite Observations for Fire Activity) is an empirical modelling concept to predict burned area based on satellite and climate data. The package implements the basic SOFIA model structure, and functions to optimize and plot SOFIA models.
-Depends: R (>= 3.2.3)
-Imports: rgenoud, ModelDataComp, plyr, parallel
+Depends: R (>= 3.2.3), ModelDataComp, plyr, parallel
+Imports: rgenoud
 License: GPL-2
 URL: 
 LazyLoad: yes

@@ -251,7 +251,7 @@ SofiaOpt <- structure(function(
       
       # perform genetic optimization
       message(paste("SofiaOpt: Starting genoud optimization.", Sys.time()))
-      opt <- genoud(.error, nvars=npar, starting.values=dpar.init, pop.size=pop.size, max.generations=max.generations, boundary.enforcement=0, print.level=1, gradient.check=FALSE, hessian=FALSE, optim.method="BFGS", BFGSburnin=BFGSburnin, cluster=cluster, x=x, area=area, per.group=per.group, obs=obs, unc=unc)
+      opt <- rgenoud::genoud(.error, nvars=npar, starting.values=dpar.init, pop.size=pop.size, max.generations=max.generations, boundary.enforcement=0, print.level=1, gradient.check=FALSE, hessian=FALSE, optim.method="BFGS", BFGSburnin=BFGSburnin, cluster=cluster, x=x, area=area, per.group=per.group, obs=obs, unc=unc)
       
       # Domains=cbind(dpar.lower, dpar.upper), boundary.enforcement=2
       
