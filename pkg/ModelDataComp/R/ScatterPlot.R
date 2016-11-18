@@ -261,7 +261,9 @@ ScatterPlot <- structure(function(
 	obj <- ObjFct(y, x, groups)
 	if (plot & objfct) {
 	   pos <- "bottomleft"
-		if (median(obj$Cor) > 0) pos <- "topleft"
+	   medr <- median(obj$Cor)
+	   medr[is.na(medr)] <- 0
+		if (medr > 0) pos <- "topleft"
 		if (has.groups) legend(pos, ObjFct2Text(obj, which=which.objfct, sep=" "), bty="n", text.col=c(col.global, col.orig))
 		if (!has.groups) legend(pos, ObjFct2Text(obj, which=which.objfct, sep=" ")[1], bty="n", text.col=c(col.global, col.orig))
 	}
