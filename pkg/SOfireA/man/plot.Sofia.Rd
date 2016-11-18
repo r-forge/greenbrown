@@ -34,7 +34,7 @@ tree <- runif(100, 0, 0.8)
 grass <- 1 - tree
 area <- cbind(tree, grass)
 
-# with some more realisitc parameters:
+# make and plot SOFIA model
 par <- SofiaPar(colnames(x), per.group=c(TRUE, FALSE), group.names=c("tree", "grass"))
 par$par <- c(1, 1, 20, 2, 1, -0.2, -0.1, 13, 10)
 sf <- Sofia(x, area, per.group=c(TRUE, FALSE), sofiapar=par)

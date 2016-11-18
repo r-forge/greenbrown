@@ -36,6 +36,7 @@ plot.Sofia <- structure(function(
 	##seealso<<
 	## \code{\link{Sofia}}
 ) { 
+   op <- par()
    if (is.null(mfrow)) {
       nplot <- length(x$x.names) + 1
       fig <- MakeFig(nplot)
@@ -51,9 +52,8 @@ plot.Sofia <- structure(function(
    mtext(main, 3, 0, font=2, outer=TRUE)
    if (!is.null(labels)) legend("topleft", labels[1], bty="n")
    
-   require(RColorBrewer)
    cols0 <- "black"
-   if (any(x$with.group)) cols0 <- brewer.pal(9, "Set1")
+   if (any(x$with.group)) cols0 <- yarrr::piratepal("basel")
 
    # plot response functions
    if (ncol(x$data) > 1) {
@@ -79,13 +79,13 @@ plot.Sofia <- structure(function(
                psl <- x$par$par[match(paste0(x$x.names[i], ".sl.", x$group.names[j]), x$par$names)]
                px0 <- x$par$par[match(paste0(x$x.names[i], ".x0.", x$group.names[j]), x$par$names)]
             }
-            yvar <- Logistic(c(pmx, psl, px0), xvar)
+            yvar <- SofiaLogistic(c(pmx, psl, px0), xvar)
             yvar[yvar > 1] <- 1
             yvar[yvar < 0] <- 0
                   
             # plot response function
             if (j == 1) {
-               ylim <- range(x$data[, g])
+               ylim <- range(x$data[, g], na.rm=TRUE)
                ylim[2] <- ylim[2] + diff(ylim) * 0.3
                
                if (is.null(names)) {
@@ -133,8 +133,8 @@ plot.Sofia <- structure(function(
          }
          
       }
-  }
-
+   }
+   on.exit(par(op))
 }, ex=function() {
 
 # explanatory variables
@@ -147,7 +147,7 @@ tree <- runif(100, 0, 0.8)
 grass <- 1 - tree
 area <- cbind(tree, grass)
 
-# with some more realisitc parameters:
+# make and plot SOFIA model
 par <- SofiaPar(colnames(x), per.group=c(TRUE, FALSE), group.names=c("tree", "grass"))
 par$par <- c(1, 1, 20, 2, 1, -0.2, -0.1, 13, 10)
 sf <- Sofia(x, area, per.group=c(TRUE, FALSE), sofiapar=par)

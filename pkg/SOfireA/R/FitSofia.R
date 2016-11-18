@@ -39,7 +39,6 @@ FitSofia <- structure(function(
 	##seealso<<
 	## \code{\link{Sofia}}, \code{\link{SofiaOpt}}
 ) { 
-   require(rgenoud)
    
    # get area
    area <- x[, match(sofiapar$group.names, colnames(x))]

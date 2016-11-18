@@ -31,9 +31,8 @@ Sofia <- structure(function(
 	##references<< No reference.	
 	
 	##seealso<<
-	## \code{\link{SofiaOpt}}, \code{\link{Logistic}}
+	## \code{\link{SofiaOpt}}, \code{\link{SofiaLogistic}}
 ) { 
-   require(plyr)
 
    # check if setup has PFT-dependent and global variables
    with.group <- !is.vector(area)
@@ -72,8 +71,7 @@ Sofia <- structure(function(
       resp.gl <- llply(as.list(colnames(x)[!per.group]), function(xvar) {
          g1 <- c(grep(paste0(xvar, ".max"), sofiapar$names), grep(paste0(xvar, ".sl"), sofiapar$names), grep(paste0(xvar, ".x0"), sofiapar$names)) 
          g2 <- grep(xvar, colnames(x))[1]
-         y.xvar.gl <- Logistic(sofiapar$par[g1], x[, g2])
-         y.xvar.gl[y.xvar.gl > 1] <- 1
+         y.xvar.gl <- SofiaLogistic(sofiapar$par[g1], x[, g2])
          y.xvar.gl[y.xvar.gl < 0] <- 0
          return(y.xvar.gl)
       })
@@ -88,8 +86,7 @@ Sofia <- structure(function(
          for (i in 1:ngroup) {
             m <- match(c(paste(xvar, "max", group.names[i], sep="."), paste(xvar, "sl", group.names[i], sep="."), paste(xvar, "x0", group.names[i], sep=".")),  sofiapar$names)
             g2 <- grep(xvar, colnames(x))[1]
-            y.xvar.gr[,i] <- Logistic(sofiapar$par[m], x[, g2])
-            # plot(x[, g2], y.xvar.gr[,i])
+            y.xvar.gr[,i] <- SofiaLogistic(sofiapar$par[m], x[, g2])
          }
          y.xvar.gr[y.xvar.gr > 1] <- 1
          y.xvar.gr[y.xvar.gr < 0] <- 0
@@ -149,6 +146,10 @@ Sofia <- structure(function(
    ### an object of class 'Sofia' which is actually a list.
 }, ex=function() {
 
+
+# example based on aritifical data
+#---------------------------------
+
 # explanatory variables
 sm <- 1:100
 temp <- rnorm(100, 12, 10)
@@ -176,11 +177,58 @@ sm <- 1:100
 sm.2 <- sm
 temp <- rnorm(100, 12, 10)
 x <- cbind(sm, sm.2, temp)
-par <- SofiaPar(colnames(x), per.group=c(TRUE, TRUE, FALSE), group.names=c("tree", "grass"))
+par <- SofiaPar(colnames(x), per.group=c(TRUE, TRUE, FALSE), 
+   group.names=c("tree", "grass"))
 par
 par$par <- c(2, 1, 20, 2, 2, 0.3, 0.2, 20, 40, 1, 1, -0.2, -0.1, 20, 10)  
 sf <- Sofia(x, area, per.group=c(TRUE, TRUE, FALSE), sofiapar=par)
 plot(sf)
+
+
+# example based on real data
+#---------------------------
+
+require(ModelDataComp)
+
+# get data
+data(firedata)
+
+# predictor variables
+train <- firedata$train == 1 # use training data
+xvars.df <- data.frame(
+   NLDI = firedata$NLDI[train],
+   CRU.WET.orig = firedata$CRU.WET.orig[train],
+   Liu.VOD.annual = firedata$Liu.VOD.annual[train],
+   GIMMS.FAPAR.pre = firedata$GIMMS.FAPAR.pre[train],
+   CRU.DTR.orig = firedata$CRU.DTR.orig[train]
+)
+
+# observed data
+obs <- firedata$GFED.BA.obs[train]
+regid <- firedata$regid[train]
+
+# Which x variable should depend on land cover?
+per.group <- c(FALSE, TRUE, TRUE, TRUE, TRUE)
+
+# land cover
+area <- data.frame(
+   Tree = firedata$CCI.LC.Tree[train],
+   Shrub = firedata$CCI.LC.Shrub[train],
+   HrbCrp = firedata$CCI.LC.HrbCrp[train]
+)
+
+# define parameters (from Forkel et al. 2016, Fig. 1)
+sofiapar <- SofiaPar(colnames(xvars.df), colnames(area), per.group=per.group, 
+   par.act=c(1.9, 780, 1, # for NLDI
+   0.3, 1.1, -5.3, 8.9, 0.54, -23, -39, 13, -16, # for CRU.DTR
+   0.13, 3, 0.53, 0.35, -0.44, 0.36, -1.2, -4.8, -45, # for CRU.WET
+   -0.7, 18, -1.5, 22, 11, -17, -2.3, 0.64, 1,  # for GIMMS.FAPAR
+   1.9, 3, -0.36, -21, 68, -38, 0.35, 0.31, 0.11) # for Liu.VOD
+   )
+
+# run model
+sf <- Sofia(xvars.df, area, per.group=per.group, sofiapar=sofiapar)
+plot(sf) 
 
 
 })

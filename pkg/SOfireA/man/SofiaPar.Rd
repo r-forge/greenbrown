@@ -23,7 +23,7 @@
 
 
 
-\seealso{\code{\link{Sofia}}, \code{\link{Logistic}}}
+\seealso{\code{\link{Sofia}}, \code{\link{SofiaLogistic}}}
 \examples{
 
 # explanatory variables

@@ -1,8 +1,8 @@
 MakeFig <- structure(function(
 	##title<< 
-	## Calculate figure positions for graphics that consist of multiple figure
+	## fig positions for graphics
 	##description<<
-	## 
+	## Calculates positions for figure that consist of multiple panels
 	
 	nfig, 
 	### number of figures
@@ -53,5 +53,5 @@ MakeFig <- structure(function(
 		}
 	}
 	return(list(fig=fig.l, nrow=nrow, ncol=ncol))
-	### A list with positions for each figure and number of rows and cloumns
+	### A list with positions for each figure and number of rows and columns
 })

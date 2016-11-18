@@ -34,7 +34,7 @@ SofiaPar <- structure(function(
 	##references<< No reference.	
 	
 	##seealso<<
-	## \code{\link{Sofia}}, \code{\link{Logistic}}
+	## \code{\link{Sofia}}, \code{\link{SofiaLogistic}}
 ) { 
    # global parameters
    if (all(per.group)) {

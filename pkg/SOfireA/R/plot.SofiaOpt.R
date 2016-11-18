@@ -1,13 +1,13 @@
 plot.SofiaOpt <- structure(function(
 	##title<< 
-	## plot a SofiaOpt object
+	## Plot SOFIA optimization results
 	##description<<
-	## The optimization within \code{\link{SofiaFit}} produces files that can be used to restart or monitor an optimization experiment. These files can be read with \code{\link{ReadSofiaFit}} and plotted with this function..
+	## Plots the devlopment of the cost and of other performance metrics during the optimization of a SOFIA model. \code{\link{SofiaOpt}} produces files that can be used to restart or monitor an optimization experiment. These files can be read with \code{\link{ReadSofiaOpt}} and plotted with this function..
 	
 	x,
-	### an object of class \code{\link{SofiaFit}} as returned by \code{\link{ReadSofiaFit}}
+	### an object of class \code{\link{SofiaOpt}} as returned by \code{\link{ReadSofiaOpt}}
 	
-	plot.objfct = c("Cor", "MEF", "Pbias"),
+	plot.objfct = c("IoA", "FV", "MEF"),
 	### which objective function should be plotted (maximum 3)?
 	
    ...
