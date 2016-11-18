@@ -1,10 +1,9 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html><head><title>R: Fit a double logisitic function to a vector according to...</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="stylesheet" type="text/css" href="R.css">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Fit a double logisitic function to a vector according to...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
 </head><body>
 
-<table width="100%" summary="page for FitDoubleLogElmore {greenbrown}"><tr><td>FitDoubleLogElmore {greenbrown}</td><td align="right">R Documentation</td></tr></table>
+<table width="100%" summary="page for FitDoubleLogElmore {greenbrown}"><tr><td>FitDoubleLogElmore {greenbrown}</td><td style="text-align: right;">R Documentation</td></tr></table>
 
 <h2>Fit a double logisitic function to a vector according to Elmore et al. (2012)</h2>
 
@@ -15,8 +14,8 @@
 
 <h3>Usage</h3>
 
-<pre>FitDoubleLogElmore(x, t = 1:length(x), tout = t, return.par = FALSE, 
-    plot = FALSE, ...)</pre>
+<pre>FitDoubleLogElmore(x, t = 1:length(x), tout = t, hessian = FALSE, 
+    plot = FALSE, ninit = 100, ...)</pre>
 
 
 <h3>Arguments</h3>
@@ -34,13 +33,17 @@
 <td>
 <p>time steps of output (can be used for interpolation)</p>
 </td></tr>
-<tr valign="top"><td><code>return.par</code></td>
+<tr valign="top"><td><code>hessian</code></td>
 <td>
-<p>if TRUE the function returns parameters of the double logisitic fit, if FALSE it returns the fitted curve</p>
+<p>compute standard errors of parameters based on the Hessian?</p>
 </td></tr>
 <tr valign="top"><td><code>plot</code></td>
 <td>
 <p>plot iterations for logistic fit?</p>
+</td></tr>
+<tr valign="top"><td><code>ninit</code></td>
+<td>
+<p>number of inital parameter sets from which to start optimization</p>
 </td></tr>
 <tr valign="top"><td><code>...</code></td>
 <td>
@@ -51,12 +54,12 @@
 
 <h3>Value</h3>
 
-<p>The function returns a vector with fitted values if return.par is FALSE and it returns parameters of the logisitic modle of return.par is TRUE</p>
+<p>The function returns a list with fitted values, parameters, fitting formula and standard errors if hessian is TRUE</p>
 
 
 <h3>Author(s)</h3>
 
-<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt; [aut, cre]</p>
+<p>Matthias Forkel &lt;matthias.forkel@geo.tuwien.ac.at&gt; [aut, cre]</p>
 
 
 <h3>References</h3>
@@ -73,32 +76,30 @@
 
 <pre>
 
-# load NDVI data
+# select one year of NDVi data
 data(ndvi)
-plot(ndvi)
-
-# select one year of data
-x &lt;- as.vector(window(ndvi, start=c(1997,1), end=c(1997, 12)))
+x &lt;- as.vector(window(ndvi, start=c(1991,1), end=c(1991, 12)))
 plot(x)
 
 # fit double-logistic function to one year of data
 fit &lt;- FitDoubleLogElmore(x)
+fit
 plot(x)
-lines(fit, col="blue")
+lines(fit$predicted, col="blue")
 
-# return parameters of fit
-FitDoubleLogElmore(x, return.par=TRUE, plot=TRUE)	
+# do more inital trials, plot iterations and compute parameter uncertainties
+FitDoubleLogElmore(x, hessian=TRUE, plot=TRUE, ninit=1000)	
 
 # fit double-logistic function to one year of data, 
 # interpolate to daily time steps and calculate phenology metrics
 tout &lt;- seq(1, 12, length=365)	# time steps for output (daily)
 fit &lt;- FitDoubleLogElmore(x, tout=tout)
 plot(x)
-lines(tout, fit, col="blue")
-PhenoDeriv(fit, plot=TRUE)
+lines(tout, fit$predicted, col="blue")
+PhenoDeriv(fit$predicted, plot=TRUE)
 
 
 </pre>
 
-<hr><div align="center">[Package <em>greenbrown</em> version 2.2 <a href="00Index.html">Index</a>]</div>
+<hr /><div style="text-align: center;">[Package <em>greenbrown</em> version 2.4.2 <a href="00Index.html">Index</a>]</div>
 </body></html>

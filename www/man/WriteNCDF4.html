@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Write NetCDF files</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for WriteNCDF4 {greenbrown}"><tr><td>WriteNCDF4 {greenbrown}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Write NetCDF files</h2>
+
+<h3>Description</h3>
+
+<p>Writes NetCDF files from rasters and makes sure that meta-information is properly defined.</p>
+
+
+<h3>Usage</h3>
+
+<pre>WriteNCDF4(data.l, var.name, var.unit, time = as.Date("2000-01-01"), 
+    var.description = var.name, file = NULL, data.name = NA, 
+    region.name = NA, file.title = var.name, file.description = var.name, 
+    reference = "", provider = "", creator = "", missval = -9999, 
+    scale = 1, offset = 0, compression = 9, overwrite = FALSE)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data.l</code></td>
+<td>
+<p>a single Raster* object or a list of Raster* objects </p>
+</td></tr>
+<tr valign="top"><td><code>var.name</code></td>
+<td>
+<p>vector of variable names</p>
+</td></tr>
+<tr valign="top"><td><code>var.unit</code></td>
+<td>
+<p>vector of variable units</p>
+</td></tr>
+<tr valign="top"><td><code>time</code></td>
+<td>
+<p>vector of time steps for each layer.</p>
+</td></tr>
+<tr valign="top"><td><code>var.description</code></td>
+<td>
+<p>vector of variable descriptions</p>
+</td></tr>
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>file name. If NULL the file name will be created from the variable name and the dimensions of the data.</p>
+</td></tr>
+<tr valign="top"><td><code>data.name</code></td>
+<td>
+<p>name of the dataset</p>
+</td></tr>
+<tr valign="top"><td><code>region.name</code></td>
+<td>
+<p>name of the region</p>
+</td></tr>
+<tr valign="top"><td><code>file.title</code></td>
+<td>
+<p>title of the file</p>
+</td></tr>
+<tr valign="top"><td><code>file.description</code></td>
+<td>
+<p>description of the file</p>
+</td></tr>
+<tr valign="top"><td><code>reference</code></td>
+<td>
+<p>reference for the dataset</p>
+</td></tr>
+<tr valign="top"><td><code>provider</code></td>
+<td>
+<p>dataset provider</p>
+</td></tr>
+<tr valign="top"><td><code>creator</code></td>
+<td>
+<p>dataset creator</p>
+</td></tr>
+<tr valign="top"><td><code>missval</code></td>
+<td>
+<p>flag for missing/NA values</p>
+</td></tr>
+<tr valign="top"><td><code>scale</code></td>
+<td>
+<p>scaling values for the data</p>
+</td></tr>
+<tr valign="top"><td><code>offset</code></td>
+<td>
+<p>offset value</p>
+</td></tr>
+<tr valign="top"><td><code>compression</code></td>
+<td>
+<p>If set to an integer between 1 (least compression) and 9 (most compression), this enables compression for the variable as it is written to the file. Turning compression on forces the created file to be in netcdf version 4 format, which will not be compatible with older software that only reads netcdf version 3 files.</p>
+</td></tr>
+<tr valign="top"><td><code>overwrite</code></td>
+<td>
+<p>overwrite existing file?</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Matthias Forkel &lt;matthias.forkel@geo.tuwien.ac.at&gt; [aut, cre]</p>
+
+<hr /><div style="text-align: center;">[Package <em>greenbrown</em> version 2.4.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

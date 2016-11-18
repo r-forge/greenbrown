@@ -1,10 +1,9 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html><head><title>R: Identify if a gap in a time series occurs permanently</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="stylesheet" type="text/css" href="R.css">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Identify if a gap in a time series occurs permanently</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
 </head><body>
 
-<table width="100%" summary="page for IsPermanentGap {greenbrown}"><tr><td>IsPermanentGap {greenbrown}</td><td align="right">R Documentation</td></tr></table>
+<table width="100%" summary="page for IsPermanentGap {greenbrown}"><tr><td>IsPermanentGap {greenbrown}</td><td style="text-align: right;">R Documentation</td></tr></table>
 
 <h2>Identify if a gap in a time series occurs permanently</h2>
 
@@ -42,7 +41,7 @@
 
 <h3>Author(s)</h3>
 
-<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt; [aut, cre]</p>
+<p>Matthias Forkel &lt;matthias.forkel@geo.tuwien.ac.at&gt; [aut, cre]</p>
 
 
 <h3>See Also</h3>
@@ -58,7 +57,8 @@ data(ndvi)
 
 # introduce some systematic gaps in january, february, december and july
 gaps &lt;- ndvi
-gaps[cycle(ndvi) == 1 | cycle(ndvi) == 2 | cycle(ndvi) == 12 | cycle(ndvi) == 7] &lt;- NA
+winter &lt;- cycle(ndvi) == 1 | cycle(ndvi) == 2 | cycle(ndvi) == 12 | cycle(ndvi) == 7
+gaps[winter] &lt;- NA
 gaps[1] &lt;- 0.2
 gaps[7] &lt;- 0.3
 plot(gaps)
@@ -73,5 +73,5 @@ IsPermanentGap(gaps, lower=FALSE)
 IsPermanentGap(gaps, lower=NULL)
 </pre>
 
-<hr><div align="center">[Package <em>greenbrown</em> version 2.2 <a href="00Index.html">Index</a>]</div>
+<hr /><div style="text-align: center;">[Package <em>greenbrown</em> version 2.4.2 <a href="00Index.html">Index</a>]</div>
 </body></html>

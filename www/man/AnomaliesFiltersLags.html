@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Calculate anomalies, lags and rolling windows</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for AnomaliesFiltersLags {greenbrown}"><tr><td>AnomaliesFiltersLags {greenbrown}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Calculate anomalies, lags and rolling windows</h2>
+
+<h3>Description</h3>
+
+<p>This function computes several time-variant statisttics of a time series like seasonal anomalies, time lagged versions of time series, and filters time series based on running windows (using <code><a href="../../zoo/html/rollapply.html">rollapply</a></code>.</p>
+
+
+<h3>Usage</h3>
+
+<pre>AnomaliesFiltersLags(x, funSeasonalCycle = MeanSeasonalCycle, 
+    funFilter = median, alignFilter = c("center", "left", "right"), 
+    filters = c(3, 5, 7, 9, 11, 13), lags = -1:-7, ...)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>univariate time series of class <code><a href="../../stats/html/ts.html">ts</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>funSeasonalCycle</code></td>
+<td>
+<p>a function to estimate the seasonal cycle of the time series.</p>
+</td></tr>
+<tr valign="top"><td><code>funFilter</code></td>
+<td>
+<p>a function to filter the time series based on rolling windows.</p>
+</td></tr>
+<tr valign="top"><td><code>alignFilter</code></td>
+<td>
+<p>specifies whether the index of the running filter results should be left- or right-aligned or centered (default) compared to the rolling window of observations. See <code><a href="../../zoo/html/rollapply.html">rollapply</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>filters</code></td>
+<td>
+<p>window sizes for rolling filters to be applied</p>
+</td></tr>
+<tr valign="top"><td><code>lags</code></td>
+<td>
+<p>time lags to be applied for lagged time series</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments (currently not used)</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The function returns a multivariate time series of class 'mts' with the following columns:
+</p>
+ 
+<ul>
+<li> <p><code>orig</code> the original time series 
+</p>
+</li>
+<li> <p><code>msc</code> mean seasonal cycle as computed with <code>funSeasonalCycle</code> (repeated for the full time series length) 
+</p>
+</li>
+<li> <p><code>anom</code> anomalies releative to mean seasonal cycle 
+</p>
+</li>
+<li> <p><code>orig.filterX</code> rolling window result based on the original time series as computed with <code>funFilter</code> for the filter window size X 
+</p>
+</li>
+<li> <p><code>anom.filterX</code> rolling window result based on the anomaly time series as computed with <code>funFilter</code> for the filter window size X 
+</p>
+</li>
+<li> <p><code>orig.lagX</code> time lagged version of the original time series for the time lag X 	
+</p>
+</li>
+<li> <p><code>msc.lagX</code> time lagged version of the mean seasonal cycle time series for the time lag X 		 
+</p>
+</li>
+<li> <p><code>anom.lagX</code> time lagged version of the anomaly time series for the time lag X      
+</p>
+</li></ul>
+
+
+<h3>Author(s)</h3>
+
+<p>Matthias Forkel &lt;matthias.forkel@geo.tuwien.ac.at&gt; [aut, cre]</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="MeanSeasonalCycle.html">MeanSeasonalCycle</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# load a time series of Normalized Difference Vegetation Index
+data(ndvi)
+plot(ndvi)
+
+# do calculations
+afl &lt;- AnomaliesFiltersLags(ndvi)
+colnames(afl)
+
+# seasonal anomalies
+plot(afl[,"anom"]) 
+
+# running median filters on original time series
+plot(afl[, grep("orig.filter", colnames(afl))], plot.type="single", col=rainbow(6)) 
+
+# running median filters on anomalies
+plot(afl[, grep("anom.filter", colnames(afl))], plot.type="single", col=rainbow(6)) 
+
+# lagged versions of original time series
+plot(window(afl[, grep("orig.lag", colnames(afl))], start=c(1995, 1), 
+   end=c(2000, 12)), plot.type="single", col=rainbow(7), type="l") 
+
+# lagged versions of anomaly time series
+plot(afl[, grep("anom.lag", colnames(afl))], plot.type="single", col=rainbow(7)) 
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>greenbrown</em> version 2.4.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

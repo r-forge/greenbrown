@@ -1,10 +1,9 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html><head><title>R: plot a comparison of two classification rasters</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="stylesheet" type="text/css" href="R.css">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: plot a comparison of two classification rasters</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
 </head><body>
 
-<table width="100%" summary="page for plot.CompareClassification {greenbrown}"><tr><td>plot.CompareClassification {greenbrown}</td><td align="right">R Documentation</td></tr></table>
+<table width="100%" summary="page for plot.CompareClassification {greenbrown}"><tr><td>plot.CompareClassification {greenbrown}</td><td style="text-align: right;">R Documentation</td></tr></table>
 
 <h2>plot a comparison of two classification rasters</h2>
 
@@ -16,8 +15,7 @@
 <h3>Usage</h3>
 
 <pre>## S3 method for class 'CompareClassification'
-plot(x,
- xlab = "", ylab = "", main = "Classification agreement", 
+plot(x, xlab = "", ylab = "", main = "Classification agreement", 
     names = NULL, ul = "burlywood4", lr = "darkgreen", ll = "khaki1", 
     ur = "royalblue1", ctr = "gray87", mar = NULL, ...)</pre>
 
@@ -27,7 +25,7 @@ plot(x,
 <table summary="R argblock">
 <tr valign="top"><td><code>x</code></td>
 <td>
-<p>Object of class 'CompareClassification' as returned from function <code><a href="CompareClassification.html">CompareClassification</a></code>.</p>
+<p>Object of class <code><a href="CompareClassification.html">CompareClassification</a></code>.</p>
 </td></tr>
 <tr valign="top"><td><code>xlab</code></td>
 <td>
@@ -78,7 +76,7 @@ plot(x,
 
 <h3>Author(s)</h3>
 
-<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt; [aut, cre]</p>
+<p>Matthias Forkel &lt;matthias.forkel@geo.tuwien.ac.at&gt; [aut, cre]</p>
 
 
 <h3>See Also</h3>
@@ -91,7 +89,7 @@ plot(x,
 <pre>
 # Example: calculate NDVI trends from two methods and compare the significant trends
 
-# load a multi-temporal raster dataset of Normalized Difference Vegetation Index
+# load a raster dataset of Normalized Difference Vegetation Index
 data(ndvimap)
 
 # calculate trends with two different methods
@@ -100,7 +98,8 @@ plot(AATmap)
 STMmap &lt;- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="STM", breaks=0)
 plot(STMmap)
 
-# classify the trend estimates from the two methods into positive, negative and no trend
+# classify the trend estimates from the two methods into 
+# positive, negative and no trend
 AATmap.cl &lt;- TrendClassification(AATmap)
 plot(AATmap.cl, col=brgr.colors(3))
 STMmap.cl &lt;- TrendClassification(STMmap)
@@ -116,5 +115,5 @@ plot(compare)
 
 </pre>
 
-<hr><div align="center">[Package <em>greenbrown</em> version 2.2 <a href="00Index.html">Index</a>]</div>
+<hr /><div style="text-align: center;">[Package <em>greenbrown</em> version 2.4.2 <a href="00Index.html">Index</a>]</div>
 </body></html>

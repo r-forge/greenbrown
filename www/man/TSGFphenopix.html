@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Temporal smoothing and gap filling using phenopix</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for TSGFphenopix {greenbrown}"><tr><td>TSGFphenopix {greenbrown}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Temporal smoothing and gap filling using phenopix</h2>
+
+<h3>Description</h3>
+
+<p>Time series smoothing and gap filling using fitting methods as provided in the <code><a href="../../phenopix/html/greenProcess.html">greenProcess</a></code> function of the <code>phenopix</code> package. Function fits are performed for each year separately for which <code><a href="PhenopixMY.html">PhenopixMY</a></code> is used. </p>
+
+
+<h3>Usage</h3>
+
+<pre>TSGFphenopix(Yt, interpolate = FALSE, fit = "spline", ...)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>Yt</code></td>
+<td>
+<p>univariate time series of class <code><a href="../../stats/html/ts.html">ts</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>interpolate</code></td>
+<td>
+<p>Should the smoothed and gap filled time series be interpolated to daily values?</p>
+</td></tr>
+<tr valign="top"><td><code>fit</code></td>
+<td>
+<p>fitting function to be applied, available options are: spline, beck, elmore, klosterman, gu (see <code><a href="../../phenopix/html/greenProcess.html">greenProcess</a></code>)</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments (currently not used)</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The function returns a gap-filled and smoothed version of the time series.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Matthias Forkel &lt;matthias.forkel@geo.tuwien.ac.at&gt; [aut, cre]</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="PhenopixMY.html">PhenopixMY</a></code>, <code><a href="TsPP.html">TsPP</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# load a time series of NDVI (normalized difference vegetation index)
+data(ndvi)
+plot(ndvi)
+
+# introduce random gaps 
+gaps &lt;- ndvi
+gaps[runif(100, 1, length(ndvi))] &lt;- NA
+plot(gaps)
+
+# do smoothing and gap filling
+tsgf &lt;- TSGFphenopix(gaps, fit="spline")
+plot(gaps)
+lines(tsgf, col="red")
+
+# compare original data with gap-filled data
+plot(ndvi[is.na(gaps)], tsgf[is.na(gaps)], xlab="original", ylab="gap filled")
+abline(0,1)
+r &lt;- cor(ndvi[is.na(gaps)], tsgf[is.na(gaps)])
+legend("topleft", paste("Cor =", round(r, 3)))
+
+# compare spline from phenopix with TSGFspline
+spl &lt;- TSGFspline(gaps)
+plot(gaps)
+lines(tsgf, col="red")
+lines(spl, col="blue")
+legend("topleft", c("TSGFphenopix.spline", "TSGFspline"), text.col=c("red", "blue"))
+# Note that the differences originate from the fact that TSGFspline is applied on 
+# the full time series whereas spline within phenopix is applied for each year 
+# separetely. Yearly fits for TSGFphenopix.spline are afterwards combined to a full 
+# time series. This can cause jumps or peaks between two years. Thus, TSGFspline is 
+# the better choice for multi-year time series. This is also seen in cross-validation:
+plot(ndvi[is.na(gaps)], tsgf[is.na(gaps)], xlab="original", ylab="gap filled", col="red")
+points(ndvi[is.na(gaps)], spl[is.na(gaps)], col="blue")
+abline(0,1)
+r &lt;- cor(cbind(ndvi[is.na(gaps)], tsgf[is.na(gaps)], spl[is.na(gaps)]))
+lgd &lt;- paste(c("TSGFphenopix.spline", "TSGFspline"), "Cor =", round(r[1,2:3], 3))
+legend("topleft", lgd, text.col=c("red", "blue"))
+
+# Other fits wihtin phenopix might be usefull but are rather computationally expensive:
+tsgf &lt;- TSGFphenopix(gaps, fit="klosterman")
+plot(gaps)
+lines(tsgf, col="red")
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>greenbrown</em> version 2.4.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

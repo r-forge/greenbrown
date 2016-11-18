@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot multi-year phenopix objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for plot.PhenopixMY {greenbrown}"><tr><td>plot.PhenopixMY {greenbrown}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot multi-year phenopix objects</h2>
+
+<h3>Description</h3>
+
+<p>Plotting methods for objects of class <code><a href="PhenopixMY.html">PhenopixMY</a></code></p>
+
+
+<h3>Usage</h3>
+
+<pre>## S3 method for class 'PhenopixMY'
+plot(x, add = FALSE, col.fit = "black", type = "ts", 
+    ...)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object of class <code><a href="PhenopixMY.html">PhenopixMY</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>add</code></td>
+<td>
+<p>add to existing plot?</p>
+</td></tr>
+<tr valign="top"><td><code>col.fit</code></td>
+<td>
+<p>color for fitting line</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>plot type: 'ts' plots the original data, the fitted curve and the metrics; 'metrics' plots only time series of the metrics</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments as in <code><a href="../../graphics/html/plot.default.html">plot.default</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Matthias Forkel &lt;matthias.forkel@geo.tuwien.ac.at&gt; [aut, cre]</p>
+
+
+<h3>References</h3>
+
+<p>Filippa, G., Cremonese, E., Migliavacca, M., Galvagno, M., Forkel, M., Wingate, L., Tomelleri, E., Morra di Cella, U. and Richardson, A. D.: Phenopix: A R package for image-based vegetation phenology, Agricultural and Forest Meteorology, 220, 141-150, doi:10.1016/j.agrformet.2016.01.006, 2016.</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../phenopix/html/plot.phenopix.html">plot.phenopix</a></code>, <code><a href="PhenopixMY.html">PhenopixMY</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(ndvi)
+plot(ndvi)
+
+ppixmy &lt;- PhenopixMY(ndvi, "spline", "trs")
+plot(ppixmy)
+
+plot(ppixmy, type="metrics")
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>greenbrown</em> version 2.4.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

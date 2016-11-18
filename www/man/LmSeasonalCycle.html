@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Calculate the mean seasonal cycle of a time series based on a...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for LmSeasonalCycle {greenbrown}"><tr><td>LmSeasonalCycle {greenbrown}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Calculate the mean seasonal cycle of a time series based on a linear model</h2>
+
+<h3>Description</h3>
+
+<p>The function calculates the mean seasonal cycle of a time series based on a linear regression between the values and the time. Therefore a linear model with interactions is fitted to the original values Y of the form: Y = (a * m) * (b * sin(m)) * (c * cos(m)) + d where m are the the seasonal indices (e.g. months).  </p>
+
+
+<h3>Usage</h3>
+
+<pre>LmSeasonalCycle(ts)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>ts</code></td>
+<td>
+<p>univariate time series of class <code><a href="../../stats/html/ts.html">ts</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Mean seasonal cycle of time series ts with the same length as ts, i.e. the mean seasonal cycle is repeated for each year. The mean seasonal cycle is centered to 0.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Matthias Forkel &lt;matthias.forkel@geo.tuwien.ac.at&gt; [aut, cre]</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="Decompose.html">Decompose</a></code>, <code><a href="TrendSeasonalAdjusted.html">TrendSeasonalAdjusted</a></code>, <code><a href="MeanSeasonalCycle.html">MeanSeasonalCycle</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# load a time series of Normalized Difference Vegetation Index
+data(ndvi)
+plot(ndvi)
+ndvi.lmcycl &lt;- LmSeasonalCycle(ndvi)
+plot(ndvi.lmcycl)
+
+ndvi.meancycl &lt;- MeanSeasonalCycle(ndvi)
+plot(ndvi.lmcycl[1:12], col="red", type="l")
+lines(ndvi.meancycl[1:12], col="blue")
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>greenbrown</em> version 2.4.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

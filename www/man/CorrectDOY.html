@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Correct day-of-year time series</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for CorrectDOY {greenbrown}"><tr><td>CorrectDOY {greenbrown}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Correct day-of-year time series</h2>
+
+<h3>Description</h3>
+
+<p>This function corrects a time series with days-of-years (e.g. start of growing season). For example, if the start of season occurs in one year at the end of the calendar year (doy &gt; 305) and in another year at the beginning (doy &lt; 60), the DOYs are corrected so that all values occur at the beginning of the year (e.g. negative DOYs will be produced) or at the end of the year (e.g. DOY &gt; 365 will be produced). This function is applied in <code><a href="Phenology.html">Phenology</a></code> after phenology detection on sos, eos, pop and pot time series (see examples).</p>
+
+
+<h3>Usage</h3>
+
+<pre>CorrectDOY(doy, check.outliers = TRUE)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>doy</code></td>
+<td>
+<p>a vector or time series representing DOYs</p>
+</td></tr>
+<tr valign="top"><td><code>check.outliers</code></td>
+<td>
+<p>Set outliers to NA after correction? Outliers are defined here as: doy &lt; (median - IQR*2) | doy &gt; (median + IQR*2))</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a vector or time series</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Matthias Forkel &lt;matthias.forkel@geo.tuwien.ac.at&gt; [aut, cre]</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="Phenology.html">Phenology</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+# imagine the following start of season DOYs in 10 years
+sos &lt;- ts(c(15, 10, 12, 8, 10, 3, 362, 2, 1, 365), start=1982) 
+plot(sos)
+# Visually, there seems to be big differences in the start of season. However, 
+# there is actually only one day between the last two values (DOY 1 = 1st January, 
+# DOY 365 = 31st December). Trend calculation fails on this time series:
+plot(Trend(sos), ylab="SOS") 
+
+# The DOY time series needs to be corrected to analyze 
+# the true differences between days.
+sos2 &lt;- CorrectDOY(sos)
+plot(Trend(sos2), ylab="SOS") 
+# The correction now allows trend analysis.
+# Negative DOYs indicate days at the end of the previous year!
+
+# other example
+sos &lt;- ts(c(5, 12, 15, 120, 363, 3, 362, 365, 360, 358), start=1982) 
+plot(sos) # one value seems like an outlier
+sos2 &lt;- CorrectDOY(sos)
+plot(Trend(sos2), ylab="SOS") 
+# The outlier is removed.
+# DOYs &gt; 365 indicate days in the next year!
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>greenbrown</em> version 2.4.2 <a href="00Index.html">Index</a>]</div>
+</body></html>

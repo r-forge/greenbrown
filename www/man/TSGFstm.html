@@ -1,20 +1,20 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Temporal smoothing and gap filling using splines</title>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Temporal smoothing and gap filling based on a season-trend...</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="R.css" />
 </head><body>
 
-<table width="100%" summary="page for TSGFspline {greenbrown}"><tr><td>TSGFspline {greenbrown}</td><td style="text-align: right;">R Documentation</td></tr></table>
+<table width="100%" summary="page for TSGFstm {greenbrown}"><tr><td>TSGFstm {greenbrown}</td><td style="text-align: right;">R Documentation</td></tr></table>
 
-<h2>Temporal smoothing and gap filling using splines</h2>
+<h2>Temporal smoothing and gap filling based on a season-trend model</h2>
 
 <h3>Description</h3>
 
-<p>This function fills gaps in a time series by using <code><a href="../../spacetime/html/na.html">na.spline</a></code> and smoothes the time series by using  <code><a href="../../stats/html/smooth.spline.html">smooth.spline</a></code></p>
+<p>This function fills gaps in a time series by using a season-trend model as in <code><a href="TrendSTM.html">TrendSTM</a></code> (Verbesselt et al. 2010, 2012).</p>
 
 
 <h3>Usage</h3>
 
-<pre>TSGFspline(Yt, interpolate = FALSE, ...)</pre>
+<pre>TSGFstm(Yt, interpolate = FALSE, ...)</pre>
 
 
 <h3>Arguments</h3>
@@ -30,7 +30,7 @@
 </td></tr>
 <tr valign="top"><td><code>...</code></td>
 <td>
-<p>further arguments (currently not used)</p>
+<p>further arguments to <code><a href="TrendSTM.html">TrendSTM</a></code>.</p>
 </td></tr>
 </table>
 
@@ -45,9 +45,15 @@
 <p>Matthias Forkel &lt;matthias.forkel@geo.tuwien.ac.at&gt; [aut, cre]</p>
 
 
+<h3>References</h3>
+
+<p>Verbesselt, J.; Hyndman, R.; Zeileis, A.; Culvenor, D., Phenological change detection while accounting for abrupt and gradual trends in satellite image time series. Remote Sensing of Environment 2010, 114, 2970-2980. <br />
+Verbesselt, J.; Zeileis, A.; Herold, M., Near real-time disturbance detection using satellite image time series. Remote Sensing of Environment 2012, 123, 98-108.</p>
+
+
 <h3>See Also</h3>
 
-<p><code><a href="TsPP.html">TsPP</a></code></p>
+<p><code><a href="TsPP.html">TsPP</a></code>, <code><a href="TrendSTM.html">TrendSTM</a></code> </p>
 
 
 <h3>Examples</h3>
@@ -63,7 +69,7 @@ gaps[runif(100, 1, length(ndvi))] &lt;- NA
 plot(gaps)
 
 # do smoothing and gap filling
-tsgf &lt;- TSGFspline(gaps)
+tsgf &lt;- TSGFstm(gaps)
 plot(gaps)
 lines(tsgf, col="red")
 

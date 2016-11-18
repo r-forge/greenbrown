@@ -1,10 +1,9 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html><head><title>R: Temporal smoothing and gap filling using double logisitic...</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="stylesheet" type="text/css" href="R.css">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Temporal smoothing and gap filling using double logisitic...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
 </head><body>
 
-<table width="100%" summary="page for TSGFdoublelog {greenbrown}"><tr><td>TSGFdoublelog {greenbrown}</td><td align="right">R Documentation</td></tr></table>
+<table width="100%" summary="page for TSGFdoublelog {greenbrown}"><tr><td>TSGFdoublelog {greenbrown}</td><td style="text-align: right;">R Documentation</td></tr></table>
 
 <h2>Temporal smoothing and gap filling using double logisitic functions</h2>
 
@@ -56,12 +55,12 @@
 
 <h3>Author(s)</h3>
 
-<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt; [aut, cre]</p>
+<p>Matthias Forkel &lt;matthias.forkel@geo.tuwien.ac.at&gt; [aut, cre]</p>
 
 
 <h3>References</h3>
 
-<p>Beck, P.S.A., C. Atzberger, K.A. Hodga, B. Johansen, A. Skidmore (2006): Improved monitoring of vegetation dynamics at very high latitudes: A new method using MODIS NDVI. - Remote Sensing of Environment 100:321-334. <br>
+<p>Beck, P.S.A., C. Atzberger, K.A. Hodga, B. Johansen, A. Skidmore (2006): Improved monitoring of vegetation dynamics at very high latitudes: A new method using MODIS NDVI. - Remote Sensing of Environment 100:321-334. <br />
 Elmore, A.J., S.M. Guinn, B.J. Minsley and A.D. Richardson (2012): Landscape controls on the timing of spring, autumn, and growing season length in mid-Atlantic forests. - Global Change Biology 18, 656-674. </p>
 
 
@@ -90,16 +89,18 @@ lines(tsgf1, col="red")
 lines(tsgf2, col="blue")
 
 # compare original data with gap-filled data
+cols &lt;- c("red", "blue")
 all &lt;- ts.union(ndvi, tsgf1, tsgf2)
 all[!is.na(gaps),] &lt;- NA
-plot(all[,1], all[,2], col="red", xlab="original", ylab="gap filled")
-points(all[,1], all[,3], col="blue")
+plot(all[,1], all[,2], col=cols[1], xlab="original", ylab="gap filled")
+points(all[,1], all[,3], col=cols[2])
 abline(0,1)
 r &lt;- c(cor(all[,1], all[,2], use="pairwise.complete.obs"), 
 	cor(all[,1], all[,3], use="pairwise.complete.obs"))
-legend("topleft", paste(c("Elmore Cor =", "Beck Cor ="), round(r, 3)), text.col=c("red", "blue"))
+lgd &lt;- paste(c("Elmore Cor =", "Beck Cor ="), round(r, 3))
+legend("topleft", lgd, text.col=cols)
 
 </pre>
 
-<hr><div align="center">[Package <em>greenbrown</em> version 2.2 <a href="00Index.html">Index</a>]</div>
+<hr /><div style="text-align: center;">[Package <em>greenbrown</em> version 2.4.2 <a href="00Index.html">Index</a>]</div>
 </body></html>

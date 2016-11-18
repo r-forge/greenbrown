@@ -1,10 +1,9 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html><head><title>R: Trend estimation based on seasonal-adjusted time series</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="stylesheet" type="text/css" href="R.css">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Trend estimation based on seasonal-adjusted time series</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
 </head><body>
 
-<table width="100%" summary="page for TrendSeasonalAdjusted {greenbrown}"><tr><td>TrendSeasonalAdjusted {greenbrown}</td><td align="right">R Documentation</td></tr></table>
+<table width="100%" summary="page for TrendSeasonalAdjusted {greenbrown}"><tr><td>TrendSeasonalAdjusted {greenbrown}</td><td style="text-align: right;">R Documentation</td></tr></table>
 
 <h2>Trend estimation based on seasonal-adjusted time series</h2>
 
@@ -74,7 +73,7 @@
 
 <h3>Author(s)</h3>
 
-<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt; [aut, cre]</p>
+<p>Matthias Forkel &lt;matthias.forkel@geo.tuwien.ac.at&gt; [aut, cre]</p>
 
 
 <h3>References</h3>
@@ -108,15 +107,15 @@ lines(MACtrend$adjusted, col="orange")
 MACtrend &lt;- TrendSeasonalAdjusted(ndvi, breaks=1, funSeasonalCycle=MeanSeasonalCycle)
 plot(MACtrend)
 
-# calculate trend on time series with removed seasonal cycle but seasonal cycle computed based 
-# on singular spectrum analysis
-SSAtrend &lt;- TrendSeasonalAdjusted(ndvi, funSeasonalCycle=SSASeasonalCycle)
-SSAtrend 
-plot(SSAtrend)
-lines(SSAtrend$adjusted, col="orange")
+## calculate trend on time series with removed seasonal cycle but seasonal cycle computed based 
+## on singular spectrum analysis
+#SSAtrend &lt;- TrendSeasonalAdjusted(ndvi, funSeasonalCycle=SSASeasonalCycle)
+#SSAtrend 
+#plot(SSAtrend)
+#lines(SSAtrend$adjusted, col="orange")
 
 
 </pre>
 
-<hr><div align="center">[Package <em>greenbrown</em> version 2.2 <a href="00Index.html">Index</a>]</div>
+<hr /><div style="text-align: center;">[Package <em>greenbrown</em> version 2.4.2 <a href="00Index.html">Index</a>]</div>
 </body></html>

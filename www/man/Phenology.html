@@ -1,10 +1,9 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html><head><title>R: Calculate phenology metrics in time series</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="stylesheet" type="text/css" href="R.css">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Calculate phenology metrics in time series</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
 </head><body>
 
-<table width="100%" summary="page for Phenology {greenbrown}"><tr><td>Phenology {greenbrown}</td><td align="right">R Documentation</td></tr></table>
+<table width="100%" summary="page for Phenology {greenbrown}"><tr><td>Phenology {greenbrown}</td><td style="text-align: right;">R Documentation</td></tr></table>
 
 <h2>Calculate phenology metrics in time series</h2>
 
@@ -63,6 +62,9 @@
 </li>
 <li><p> Step 3: Detection of phenology metrics. Phenology metrics are estimated from the gap filled, smoothed and interpolated time series. This can be done by threshold methods (<code><a href="PhenoTrs.html">PhenoTrs</a></code>) or by using the derivative of the time series (<code><a href="PhenoDeriv.html">PhenoDeriv</a></code>). 
 </p>
+</li>
+<li><p> Step 4: Correction of annual DOY (day of year) time series. sos, eos, pop, and pot time series are corrected to not jump between years and ouliers are removed. See (<code><a href="CorrectDOY.html">CorrectDOY</a></code>). 
+</p>
 </li></ul>
 
 
@@ -71,8 +73,8 @@
 <pre>Phenology(Yt, approach = c("White", "Trs", "Deriv"), min.mean = 0.1, 
     trs = NULL, fpg = FillPermanentGaps, tsgf = "TSGFspline", 
     interpolate = TRUE, min.gapfrac = 0.2, lower = TRUE, fillval = NA, 
-    fun = min, method = c("Elmore", "Beck"), backup = NULL, check.seasonality = 1:3, 
-    ...)</pre>
+    fun = min, method = c("Elmore", "Beck"), check.seasonality = 1:3, 
+    backup = NULL, ...)</pre>
 
 
 <h3>Arguments</h3>
@@ -100,7 +102,7 @@
 </td></tr>
 <tr valign="top"><td><code>tsgf</code></td>
 <td>
-<p>Temporal smoothing and gap filling: Function to be used for temporal smoothing, gap filling and interpolation of the time series. If NULL, this step will be not applied. Otherwise a function needs to be specified. Exisiting functions that can be applied are <code><a href="TSGFspline.html">TSGFspline</a></code>, <code><a href="TSGFlinear.html">TSGFlinear</a></code>, <code><a href="TSGFssa.html">TSGFssa</a></code>, <code><a href="TSGFdoublelog.html">TSGFdoublelog</a></code>  </p>
+<p>Temporal smoothing and gap filling: Function to be used for temporal smoothing, gap filling and interpolation of the time series. If NULL, this step will be not applied. Otherwise a function needs to be specified. Exisiting functions that can be applied are <code><a href="TSGFspline.html">TSGFspline</a></code>, <code><a href="TSGFlinear.html">TSGFlinear</a></code>, <code><a href="TSGFssa.html">TSGFssa</a></code>, <code><a href="TSGFdoublelog.html">TSGFdoublelog</a></code>, <code><a href="TSGFphenopix.html">TSGFphenopix</a></code>  </p>
 </td></tr>
 <tr valign="top"><td><code>interpolate</code></td>
 <td>
@@ -124,15 +126,15 @@
 </td></tr>
 <tr valign="top"><td><code>method</code></td>
 <td>
-<p>If 'tsgf' is TSGFdoublelog: Which kind of double logistic curve should be used to smooth the data? 'Elmore' (Elmore et al. 2012, see <code><a href="FitDoubleLogElmore.html">FitDoubleLogElmore</a></code>) or 'Beck' (Beck et al. 2006, see <code><a href="FitDoubleLogBeck.html">FitDoubleLogBeck</a></code>) .	</p>
-</td></tr>
-<tr valign="top"><td><code>backup</code></td>
-<td>
-<p>Which backup algorithm should be used instead of TSGFdoublelog for temporal smoothing and gap filling if the time series has no seasonality? If a time series has no seasonal pattern, the fitting of double logistic functions is not meaningful. In this case another method can be used. Default: NULL (returns NA - no smoothing), other options: &quot;TSGFspline&quot;, &quot;TSGFssa&quot;, &quot;TSGFlinear&quot;	</p>
+<p>If 'tsgf' is TSGFdoublelog: Which kind of double logistic curve should be used to smooth the data? 'Elmore' (Elmore et al. 2012, see <code><a href="FitDoubleLogElmore.html">FitDoubleLogElmore</a></code>) or 'Beck' (Beck et al. 2006, see <code><a href="FitDoubleLogBeck.html">FitDoubleLogBeck</a></code>) .</p>
 </td></tr>
 <tr valign="top"><td><code>check.seasonality</code></td>
 <td>
 <p>Which methods in <code><a href="Seasonality.html">Seasonality</a></code> should indicate TRUE (i.e. time series has seasonality) in order to calculate phenology metrics? 1:3 = all methods should indicate seasonality, Set to NULL in order to not perform seasonality checks.</p>
+</td></tr>
+<tr valign="top"><td><code>backup</code></td>
+<td>
+<p>Which backup algorithm should be used instead of TSGFdoublelog for temporal smoothing and gap filling if the time series has no seasonality? If a time series has no seasonal pattern, the fitting of double logistic functions is not meaningful. In this case another method can be used. Default: NULL (returns NA - no smoothing), other options: &quot;TSGFspline&quot;, &quot;TSGFssa&quot;, &quot;TSGFlinear&quot;	</p>
 </td></tr>
 <tr valign="top"><td><code>...</code></td>
 <td>
@@ -198,13 +200,13 @@
 
 <h3>Author(s)</h3>
 
-<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt; [aut, cre]</p>
+<p>Matthias Forkel &lt;matthias.forkel@geo.tuwien.ac.at&gt; [aut, cre]</p>
 
 
 <h3>References</h3>
 
-<p>Beck, P.S.A., C. Atzberger, K.A. Hodga, B. Johansen, A. Skidmore (2006): Improved monitoring of vegetation dynamics at very high latitudes: A new method using MODIS NDVI. - Remote Sensing of Environment 100:321-334. <br>
-Elmore, A.J., S.M. Guinn, B.J. Minsley and A.D. Richardson (2012): Landscape controls on the timing of spring, autumn, and growing season length in mid-Atlantic forests. - Global Change Biology 18, 656-674. <br>	
+<p>Beck, P.S.A., C. Atzberger, K.A. Hodga, B. Johansen, A. Skidmore (2006): Improved monitoring of vegetation dynamics at very high latitudes: A new method using MODIS NDVI. - Remote Sensing of Environment 100:321-334. <br />
+Elmore, A.J., S.M. Guinn, B.J. Minsley and A.D. Richardson (2012): Landscape controls on the timing of spring, autumn, and growing season length in mid-Atlantic forests. - Global Change Biology 18, 656-674. <br />	
 White M.A., P.E. Thornton and S.W. Running (1997): A continental phenology model for monitoring vegetation responses to interannual climatic variability. - Global Biogeochemical Cycles 11, 217-234. </p>
 
 
@@ -253,12 +255,6 @@ spl.trs &lt;- Phenology(ndvi, tsgf="TSGFspline", approach="White")
 # spline + derivative
 spl.deriv &lt;- Phenology(ndvi, tsgf="TSGFspline", approach="Deriv") 
 
-# singular spectrum analysis + threshold
-ssa.trs &lt;- Phenology(ndvi, tsgf="TSGFssa", approach="White") 
-
-# singular spectrum analysis + derivative
-ssa.deriv &lt;- Phenology(ndvi, tsgf="TSGFssa", approach="Deriv") 
-
 # double logistic fit + threshold
 beck.trs &lt;- Phenology(ndvi, tsgf="TSGFdoublelog", method="Beck", approach="White") 
 
@@ -272,27 +268,25 @@ elmore.trs &lt;- Phenology(ndvi, tsgf="TSGFdoublelog", method="Elmore", approach
 elmore.deriv &lt;- Phenology(ndvi, tsgf="TSGFdoublelog", method="Elmore", approach="Deriv") 
 
 # compare results: SOS and EOS
-library(RColorBrewer)
 type &lt;- c("sos", "eos")
+require(RColorBrewer)
 cols &lt;- brewer.pal(10, "Paired")
-nms &lt;- c("Lin+Trs", "Lin+Deriv", "Spline+Trs", "Spline+Deriv", "SSA+Trs", "SSA+Deriv", 
-	"DoubleLog1+Trs", "DoubleLog1+Deriv", "DoubleLog2+Trs", "DoubleLog2+Deriv")
+nms &lt;- c("Lin+Trs", "Lin+Deriv", "Spline+Trs", "Spline+Deriv", "DoubleLog1+Trs", 
+ "DoubleLog1+Deriv", "DoubleLog2+Trs", "DoubleLog2+Deriv")
 plot(lin.trs, col=cols[1], type=type, ylim=c(1, 365))
 plot(lin.deriv, col=cols[2], type=type, add=TRUE)
 plot(spl.trs, col=cols[3], type=type, add=TRUE)
 plot(spl.deriv, col=cols[4], type=type, add=TRUE)
-plot(ssa.trs, col=cols[5], type=type, add=TRUE)
-plot(ssa.deriv, col=cols[6], type=type, add=TRUE)
 plot(beck.trs, col=cols[7], type=type, add=TRUE)
 plot(beck.deriv, col=cols[8], type=type, add=TRUE)
 plot(elmore.trs, col=cols[9], type=type, add=TRUE)
 plot(elmore.deriv, col=cols[10], type=type, add=TRUE)
 legend("center", nms, text.col=cols, ncol=3, bty="n")
 
-cor(cbind(lin.trs$sos, lin.deriv$sos, spl.trs$sos, spl.deriv$sos, ssa.trs$sos, ssa.deriv$sos, 
-	beck.trs$sos, beck.deriv$sos, elmore.trs$sos, elmore.deriv$sos), use="pairwise.complete.obs")
-cor(cbind(lin.trs$eos, lin.deriv$eos, spl.trs$eos, spl.deriv$eos, ssa.trs$eos, ssa.deriv$eos, 
-	beck.trs$eos, beck.deriv$eos, elmore.trs$eos, elmore.deriv$eos), use="pairwise.complete.obs")
+cor(cbind(lin.trs$sos, lin.deriv$sos, spl.trs$sos, spl.deriv$sos, beck.trs$sos, 
+   beck.deriv$sos, elmore.trs$sos, elmore.deriv$sos), use="pairwise.complete.obs")
+cor(cbind(lin.trs$eos, lin.deriv$eos, spl.trs$eos, spl.deriv$eos, beck.trs$eos, 
+   beck.deriv$eos, elmore.trs$eos, elmore.deriv$eos), use="pairwise.complete.obs")
 
 # compare results: LOS
 type &lt;- c("los")
@@ -300,8 +294,6 @@ plot(lin.trs, col=cols[1], type=type, ylim=c(130, 365))
 plot(lin.deriv, col=cols[2], type=type, add=TRUE)
 plot(spl.trs, col=cols[3], type=type, add=TRUE)
 plot(spl.deriv, col=cols[4], type=type, add=TRUE)
-plot(ssa.trs, col=cols[5], type=type, add=TRUE)
-plot(ssa.deriv, col=cols[6], type=type, add=TRUE)
 plot(beck.trs, col=cols[7], type=type, add=TRUE)
 plot(beck.deriv, col=cols[8], type=type, add=TRUE)
 plot(elmore.trs, col=cols[9], type=type, add=TRUE)
@@ -314,8 +306,6 @@ plot(lin.trs, col=cols[1], type=type, ylim=c(0.17, 0.37))
 plot(lin.deriv, col=cols[2], type=type, add=TRUE)
 plot(spl.trs, col=cols[3], type=type, add=TRUE)
 plot(spl.deriv, col=cols[4], type=type, add=TRUE)
-plot(ssa.trs, col=cols[5], type=type, add=TRUE)
-plot(ssa.deriv, col=cols[6], type=type, add=TRUE)
 plot(beck.trs, col=cols[7], type=type, add=TRUE)
 plot(beck.deriv, col=cols[8], type=type, add=TRUE)
 plot(elmore.trs, col=cols[9], type=type, add=TRUE)
@@ -325,5 +315,5 @@ legend("bottom", nms, text.col=cols, ncol=5, bty="n")
 
 </pre>
 
-<hr><div align="center">[Package <em>greenbrown</em> version 2.2 <a href="00Index.html">Index</a>]</div>
+<hr /><div style="text-align: center;">[Package <em>greenbrown</em> version 2.4.2 <a href="00Index.html">Index</a>]</div>
 </body></html>

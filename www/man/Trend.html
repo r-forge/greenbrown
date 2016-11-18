@@ -1,10 +1,9 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html><head><title>R: Calculate trends and trend changes in time series</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="stylesheet" type="text/css" href="R.css">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Calculate trends and trend changes in time series</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
 </head><body>
 
-<table width="100%" summary="page for Trend {greenbrown}"><tr><td>Trend {greenbrown}</td><td align="right">R Documentation</td></tr></table>
+<table width="100%" summary="page for Trend {greenbrown}"><tr><td>Trend {greenbrown}</td><td style="text-align: right;">R Documentation</td></tr></table>
 
 <h2>Calculate trends and trend changes in time series</h2>
 
@@ -101,7 +100,7 @@ These methods can be applied to gridded (raster) data using the function <code><
 
 <h3>Author(s)</h3>
 
-<p>Matthias Forkel &lt;mforkel@bgc-jena.mpg.de&gt; [aut, cre]</p>
+<p>Matthias Forkel &lt;matthias.forkel@geo.tuwien.ac.at&gt; [aut, cre]</p>
 
 
 <h3>References</h3>
@@ -139,29 +138,19 @@ trd
 plot(trd)
 
 # calculate trend based on removal of the seasonal cycle
-trd &lt;- Trend(ndvi, method="SeasonalAdjusted", funSeasonalCycle=SSASeasonalCycle)
-plot(trd)
-trd
-
-# calculate trend based on removal of the seasonal cycle
 trd &lt;- Trend(ndvi, method="SeasonalAdjusted", funSeasonalCycle=MeanSeasonalCycle)
 plot(trd)
 lines(trd$adjusted, col="green")
 trd
 
-# calculate trend based on removal of the seasonal cycle: modify maximal number of breakpoints
+# modify maximal number of breakpoints
 trd &lt;- Trend(ndvi, method="SeasonalAdjusted", breaks=1, 
 	funSeasonalCycle=MeanSeasonalCycle, sample.method="sample")
 plot(trd)
 trd
 
-# calculate trend based on removal of the seasonal cycle, 
-# modify minimum segment size, e.g. set the minimum length of segments to 8 years
-trd &lt;- Trend(ndvi, method="SeasonalAdjusted", h=(8*12)/length(ndvi))
-plot(trd)
-trd
 
 </pre>
 
-<hr><div align="center">[Package <em>greenbrown</em> version 2.2 <a href="00Index.html">Index</a>]</div>
+<hr /><div style="text-align: center;">[Package <em>greenbrown</em> version 2.4.2 <a href="00Index.html">Index</a>]</div>
 </body></html>

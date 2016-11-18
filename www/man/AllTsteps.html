@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert an irregular zoo time series to a zoo time series...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for AllTsteps {greenbrown}"><tr><td>AllTsteps {greenbrown}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convert an irregular zoo time series to a zoo time series with all time steps</h2>
+
+<h3>Description</h3>
+
+<p>Irregular 'zoo' time series with missing time steps are converted to a 'zoo' time series including all time steps. Observations at time steps that were missing in the original time series are filled with NA.</p>
+
+
+<h3>Usage</h3>
+
+<pre>AllTsteps(x, by = "day", start.jan = FALSE, end.dec = FALSE, 
+    exclude.feb29 = FALSE, ...)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a time series of class 'zoo'</p>
+</td></tr>
+<tr valign="top"><td><code>by</code></td>
+<td>
+<p>time step of full time series, e.g. &quot;day&quot;, &quot;month&quot;</p>
+</td></tr>
+<tr valign="top"><td><code>start.jan</code></td>
+<td>
+<p>Should the full time series start in January? If FALSE, the full time series will start at the first observation in x.</p>
+</td></tr>
+<tr valign="top"><td><code>end.dec</code></td>
+<td>
+<p>Should the full time series end in December? If FALSE, the full time series will end at the last observation in x.</p>
+</td></tr>
+<tr valign="top"><td><code>exclude.feb29</code></td>
+<td>
+<p>Should 29th Februaries be excluded in case of a daily time series (i.e. if by = 'day')?</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments (currently not used)</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Matthias Forkel &lt;matthias.forkel@geo.tuwien.ac.at&gt; [aut, cre]</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+x &lt;- zoo(rnorm(5), as.Date(c("2010-01-15", "2010-02-15", "2010-07-15", 
+ "2010-08-15", "2010-09-15")))
+x
+AllTsteps(x, by="month")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>greenbrown</em> version 2.4.2 <a href="00Index.html">Index</a>]</div>
+</body></html>
