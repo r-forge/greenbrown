@@ -15,17 +15,17 @@
 
 \seealso{\code{\link{TrendSeasonalAdjusted}}, \code{\link[Rssa]{ssa}}, \code{\link[Rssa]{reconstruct}}}
 \examples{
-# load a time series of Normalized Difference Vegetation Index
-data(ndvi)
-plot(ndvi)
+## load a time series of Normalized Difference Vegetation Index
+#data(ndvi)
+#plot(ndvi)
 
-# estimate the seasonal cycle using SSA
-ndvi.cycle <- SSASeasonalCycle(ndvi)
-plot(ndvi.cycle)
+## estimate the seasonal cycle using SSA
+#ndvi.cycle <- SSASeasonalCycle(ndvi)
+#plot(ndvi.cycle)
 
-# the mean seasonal cycle is centered to 0,
-# add the mean of the time series if you want to overlay it with the original data
-plot(ndvi)
-lines(ndvi.cycle + mean(ndvi, na.rm=TRUE), col="blue")
+## the mean seasonal cycle is centered to 0,
+## add the mean of the time series if you want to overlay it with the original data
+#plot(ndvi)
+#lines(ndvi.cycle + mean(ndvi, na.rm=TRUE), col="blue")
 	
 }

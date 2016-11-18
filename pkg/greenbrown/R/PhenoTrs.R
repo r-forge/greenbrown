@@ -113,7 +113,7 @@ PhenoTrs <- structure(function(
 data(ndvi)
 plot(ndvi)
 
-# perform smoothing, gap filling and interpolation and extract seasonal cycle from first year
+# perform time series processing for first year pof data
 x <- TsPP(ndvi, interpolate=TRUE)[1:365]
 plot(x)
 

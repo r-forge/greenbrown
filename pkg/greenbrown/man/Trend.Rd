@@ -59,26 +59,16 @@ trd
 plot(trd)
 
 # calculate trend based on removal of the seasonal cycle
-trd <- Trend(ndvi, method="SeasonalAdjusted", funSeasonalCycle=SSASeasonalCycle)
-plot(trd)
-trd
-
-# calculate trend based on removal of the seasonal cycle
 trd <- Trend(ndvi, method="SeasonalAdjusted", funSeasonalCycle=MeanSeasonalCycle)
 plot(trd)
 lines(trd$adjusted, col="green")
 trd
 
-# calculate trend based on removal of the seasonal cycle: modify maximal number of breakpoints
+# modify maximal number of breakpoints
 trd <- Trend(ndvi, method="SeasonalAdjusted", breaks=1, 
 	funSeasonalCycle=MeanSeasonalCycle, sample.method="sample")
 plot(trd)
 trd
 
-# calculate trend based on removal of the seasonal cycle, 
-# modify minimum segment size, e.g. set the minimum length of segments to 8 years
-trd <- Trend(ndvi, method="SeasonalAdjusted", h=(8*12)/length(ndvi))
-plot(trd)
-trd
 
 }

@@ -23,7 +23,8 @@ data(ndvi)
 
 # introduce some systematic gaps in january, february, december and july
 gaps <- ndvi
-gaps[cycle(ndvi) == 1 | cycle(ndvi) == 2 | cycle(ndvi) == 12 | cycle(ndvi) == 7] <- NA
+winter <- cycle(ndvi) == 1 | cycle(ndvi) == 2 | cycle(ndvi) == 12 | cycle(ndvi) == 7
+gaps[winter] <- NA
 gaps[1] <- 0.2
 gaps[7] <- 0.3
 plot(gaps)

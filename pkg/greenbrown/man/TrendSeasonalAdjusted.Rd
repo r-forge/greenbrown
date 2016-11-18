@@ -46,12 +46,12 @@ lines(MACtrend$adjusted, col="orange")
 MACtrend <- TrendSeasonalAdjusted(ndvi, breaks=1, funSeasonalCycle=MeanSeasonalCycle)
 plot(MACtrend)
 
-# calculate trend on time series with removed seasonal cycle but seasonal cycle computed based 
-# on singular spectrum analysis
-SSAtrend <- TrendSeasonalAdjusted(ndvi, funSeasonalCycle=SSASeasonalCycle)
-SSAtrend 
-plot(SSAtrend)
-lines(SSAtrend$adjusted, col="orange")
+## calculate trend on time series with removed seasonal cycle but seasonal cycle computed based 
+## on singular spectrum analysis
+#SSAtrend <- TrendSeasonalAdjusted(ndvi, funSeasonalCycle=SSASeasonalCycle)
+#SSAtrend 
+#plot(SSAtrend)
+#lines(SSAtrend$adjusted, col="orange")
 
 
 }

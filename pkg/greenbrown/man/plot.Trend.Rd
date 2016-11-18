@@ -46,7 +46,8 @@ plot(ndvi.trend.aat, symbolic=FALSE, uncertainty=FALSE)
 ndvi.trend.stm <- Trend(ndvi, method="STM", mosum.pval=1)
 plot(ndvi.trend.stm)
 
-plot(ndvi.trend.aat, symbolic=TRUE, ylim=c(0.23, 0.31), col=c("blue", "blue", "red"))
+plot(ndvi.trend.aat, symbolic=TRUE, ylim=c(0.23, 0.31), 
+   col=c("blue", "blue", "red"))
 plot(ndvi.trend.stm, symbolic=TRUE, col=c("darkgreen", "darkgreen", "red"), 
 	lty=c(0, 1, 1), add=TRUE)
 	

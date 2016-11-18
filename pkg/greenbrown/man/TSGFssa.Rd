@@ -17,25 +17,25 @@
 
 \seealso{\code{\link{TsPP}}}
 \examples{
-# load a time series of NDVI (normalized difference vegetation index)
-data(ndvi)
-plot(ndvi)
+## load a time series of NDVI (normalized difference vegetation index)
+#data(ndvi)
+#plot(ndvi)
 
-# introduce random gaps 
-gaps <- ndvi
-gaps[runif(100, 1, length(ndvi))] <- NA
-plot(gaps)
+## introduce random gaps 
+#gaps <- ndvi
+#gaps[runif(100, 1, length(ndvi))] <- NA
+#plot(gaps)
 
-# do smoothing and gap filling
-tsgf <- TSGFssa(gaps)
-plot(gaps)
-lines(tsgf, col="red")
+## do smoothing and gap filling
+#tsgf <- TSGFssa(gaps)
+#plot(gaps)
+#lines(tsgf, col="red")
 
-# compare original data with gap-filled data
-plot(ndvi[is.na(gaps)], window(tsgf[is.na(gaps)], end=c(2008, 11)), 
-	xlab="original", ylab="gap filled")
-abline(0,1)
-r <- cor(ndvi[is.na(gaps)], tsgf[is.na(gaps)])
-legend("topleft", paste("Cor =", round(r, 3)))
+## compare original data with gap-filled data
+#plot(ndvi[is.na(gaps)], window(tsgf[is.na(gaps)], end=c(2008, 11)), 
+#	xlab="original", ylab="gap filled")
+#abline(0,1)
+#r <- cor(ndvi[is.na(gaps)], tsgf[is.na(gaps)])
+#legend("topleft", paste("Cor =", round(r, 3)))
 
 }

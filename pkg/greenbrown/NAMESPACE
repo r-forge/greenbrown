@@ -1,6 +1,20 @@
-exportPattern("^[^\\.]")	#exports all variables that do not start with a period.
+import(strucchange, raster, plyr, zoo)
+importFrom(Kendall, MannKendall)
+importFrom(bfast, bfastpp)
+importFrom(phenopix, greenProcess)
+importFrom(fields, image.plot, tim.colors)
+importFrom(RColorBrewer, brewer.pal)
+importFrom(ncdf4, ncatt_put, nc_close, ncvar_put, ncdim_def, ncvar_def)
+importFrom(sp, coordinates, CRS, SpatialPointsDataFrame)
+importFrom(parallel, makeCluster, clusterEvalQ, clusterExport, clusterApply, stopCluster)
 
+exportPattern("^[[:alpha:]]+")
 
-
-
-
+S3method("plot", "CompareClassification")
+S3method("plot", "Phenology")
+S3method("plot", "PhenopixMY")
+S3method("plot", "Trend")
+S3method("plot", "TrendGradient")
+S3method("plot", "TrendSample")
+S3method("print", "Phenology")
+S3method("print", "Trend")

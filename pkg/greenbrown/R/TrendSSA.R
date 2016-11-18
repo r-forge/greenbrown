@@ -14,7 +14,6 @@ TrendSSA <- structure(function(
 	##seealso<<
 	## \code{\link{ssa}}
 ) {
-	require(Rssa)
 	
 	# get time series properties
 	freq <- frequency(Yt)
@@ -30,8 +29,9 @@ TrendSSA <- structure(function(
 	Yt1[Na1 == 1] <- Yt1[Na1 == 1] + rnorm(sum(Na1), 0, diff(range(Yt, na.rm=TRUE)) * 0.01)
 	
 	# perform a singular spectrum analysis on the data
-	ssa <- ssa(Yt1, kind="1d-ssa", L=as.integer(length(Yt1)*0.9))
-	ssarc <- Rssa::reconstruct(ssa, groups=as.list(1:nu(ssa)))
+	ssa <- Rssa::ssa(Yt1, kind="1d-ssa", L=as.integer(length(Yt1)*0.9))
+	n <- Rssa::nu(ssa)
+	ssarc <- Rssa::reconstruct(ssa, groups=as.list(1:n))
 	# plot(ssa, type="values"); plot(ssa, type="series"); plot(ssa, type="paired")
 	
 	# estimate frequency of each component
@@ -72,14 +72,14 @@ TrendSSA <- structure(function(
 	return(result)
 	### The function returns a list of class "Trend". 
 }, ex=function(){
-# load a time series of NDVI (normalized difference vegetation index)
-data(ndvi)
-plot(ndvi)
-	
-# calculate trend on mean annual NDVI values
-trd <- TrendSSA(ndvi)
-trd
-plot(trd)
+## load a time series of NDVI (normalized difference vegetation index)
+#data(ndvi)
+#plot(ndvi)
+#	
+## calculate trend on mean annual NDVI values
+#trd <- TrendSSA(ndvi)
+#trd
+#plot(trd)
 
 })
 

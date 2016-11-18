@@ -1,10 +1,11 @@
 \name{print.Trend}
 \alias{print.Trend}
-\title{Print a summary of calculated trends}
-\description{The function prints a summary the results from \code{\link{Trend}}.}
-\usage{\method{print}{Trend}(x)}
+\title{Prints trends}
+\description{The function prints an object of class \code{\link{Trend}}.}
+\usage{\method{print}{Trend}(x, ...)}
 \arguments{
   \item{x}{Object of class 'Trend' as returned from function \code{\link{Trend}}}
+  \item{\dots}{further arguments (not used)}
 }
 
 
@@ -23,6 +24,5 @@ plot(ndvi)
 ndvi.trend <- Trend(ndvi)
 ndvi.trend
 print(ndvi.trend)
-summary(ndvi.trend)
 	
 }

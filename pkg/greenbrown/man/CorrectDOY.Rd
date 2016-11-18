@@ -18,21 +18,22 @@
 \examples{
 
 # imagine the following start of season DOYs in 10 years
-sos <- ts(c(15, 10, 12, 8, 10, 3, 362, 2, 1, 365), start=1982) # most values occur at the beginning of the year
+sos <- ts(c(15, 10, 12, 8, 10, 3, 362, 2, 1, 365), start=1982) 
 plot(sos)
-# Visually, there seems to be big differences in the start of season. However, there is actually 
-# only one day difference between the last two values (DOY 1 = 1st January, DOY 365 = 31st December)! 
-# Trend calculation fails on this time series:
+# Visually, there seems to be big differences in the start of season. However, 
+# there is actually only one day between the last two values (DOY 1 = 1st January, 
+# DOY 365 = 31st December). Trend calculation fails on this time series:
 plot(Trend(sos), ylab="SOS") 
 
-# The DOY time series needs to be corrected to analyze the true differences between days.
+# The DOY time series needs to be corrected to analyze 
+# the true differences between days.
 sos2 <- CorrectDOY(sos)
 plot(Trend(sos2), ylab="SOS") 
 # The correction now allows trend analysis.
 # Negative DOYs indicate days at the end of the previous year!
 
 # other example
-sos <- ts(c(5, 12, 15, 120, 363, 3, 362, 365, 360, 358), start=1982) # most values occur at the end of the year
+sos <- ts(c(5, 12, 15, 120, 363, 3, 362, 365, 360, 358), start=1982) 
 plot(sos) # one value seems like an outlier
 sos2 <- CorrectDOY(sos)
 plot(Trend(sos2), ylab="SOS") 

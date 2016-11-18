@@ -20,13 +20,14 @@ NamesTrendRaster <- structure(function(
 	if (breaks == 0) names <- c(paste("LengthSEG", 1:(breaks+1), sep=""), paste("SlopeSEG", 1:(breaks+1), sep=""), paste("PvalSEG", 1:(breaks+1), sep=""))
 	return(names)
 }, ex=function() {
-# load a multi-temporal raster dataset of Normalized Difference Vegetation Index
+# load a raster dataset of Normalized Difference Vegetation Index
 data(ndvimap)
 plot(ndvimap, 8)
 
 # calculate trend with maximum 2 breakpoints
 breaks <- 2
-trendmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="AAT", breaks=breaks)
+trendmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, 
+   method="AAT", breaks=breaks)
 plot(trendmap)
 
 # layer names ot the result

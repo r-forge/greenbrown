@@ -52,7 +52,8 @@ AllTsteps <- structure(function(
    names(x) <- nms
    return(x)
 }, ex=function() {
-   x <- zoo(rnorm(5), as.Date(c("2010-01-15", "2010-02-15", "2010-07-15", "2010-08-15", "2010-09-15")))
+   x <- zoo(rnorm(5), as.Date(c("2010-01-15", "2010-02-15", "2010-07-15", 
+    "2010-08-15", "2010-09-15")))
    x
    AllTsteps(x, by="month")
 })

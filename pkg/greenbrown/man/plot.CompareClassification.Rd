@@ -6,7 +6,7 @@
     names = NULL, ul = "burlywood4", lr = "darkgreen", ll = "khaki1", 
     ur = "royalblue1", ctr = "gray87", mar = NULL, ...)}
 \arguments{
-  \item{x}{Object of class 'CompareClassification' as returned from function \code{\link{CompareClassification}}.}
+  \item{x}{Object of class \code{\link{CompareClassification}}.}
   \item{xlab}{A title for the x axis}
   \item{ylab}{A title for the y axis}
   \item{main}{A title for the plot}
@@ -30,7 +30,7 @@
 \examples{
 # Example: calculate NDVI trends from two methods and compare the significant trends
 
-# load a multi-temporal raster dataset of Normalized Difference Vegetation Index
+# load a raster dataset of Normalized Difference Vegetation Index
 data(ndvimap)
 
 # calculate trends with two different methods
@@ -39,7 +39,8 @@ plot(AATmap)
 STMmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="STM", breaks=0)
 plot(STMmap)
 
-# classify the trend estimates from the two methods into positive, negative and no trend
+# classify the trend estimates from the two methods into 
+# positive, negative and no trend
 AATmap.cl <- TrendClassification(AATmap)
 plot(AATmap.cl, col=brgr.colors(3))
 STMmap.cl <- TrendClassification(STMmap)

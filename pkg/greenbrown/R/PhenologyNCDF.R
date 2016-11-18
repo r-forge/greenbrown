@@ -151,7 +151,6 @@ PhenologyNCDF <- structure(function(
 		id.l <- as.list(1:nodes)
 		
 		# initialize cluster
-		require(snow)
 		cluster <- makeCluster(nodes)
 		
 		# load packages on all nodes
@@ -198,7 +197,7 @@ PhenologyNCDF <- structure(function(
 					file.out <- gsub(filesuffix, paste(".", vars[i], ".Tile", id, filesuffix, sep=""), filename)
 					var.rb <- subset(phen.rb, grep(vars[i], names(phen.rb)))
 					setwd(path.out2)
-					WriteNCDF(var.rb, var.name=vars[i], var.unit="-", var.longname=vars.longname[i], time=time.out, file=file.out, overwrite=TRUE)
+					WriteNCDF4(var.rb, var.name=vars[i], var.unit="-", var.description=vars.longname[i], time=time.out, file=file.out, overwrite=TRUE)
 					files.out <- c(files.out, file.out)
 				}
 			
@@ -219,7 +218,7 @@ PhenologyNCDF <- structure(function(
 			file.out <- gsub(filesuffix, paste(".", vars[i], filesuffix, sep=""), filename)
 			var.rb <- subset(phen.rb, grep(vars[i], names(phen.rb)))
 			setwd(path.out2)
-			WriteNCDF(var.rb, var.name=vars[i], var.unit="-", var.longname=vars.longname[i], time=time.out, file=file.out, overwrite=TRUE)
+			WriteNCDF4(var.rb, var.name=vars[i], var.unit="-", var.description=vars.longname[i], time=time.out, file=file.out, overwrite=TRUE)
 			files.out <- c(files.out, file.out)
 		}
 	}
@@ -251,7 +250,7 @@ PhenologyNCDF <- structure(function(
 			
 			# write result
 			time.out <- as.Date(ts(1:nlayers(var.rb), start=start, frequency=1))
-			WriteNCDF(var.rb, var.name=vars[i], var.unit="-", var.longname=vars.longname[i], time=time.out, file=file.out, overwrite=TRUE)
+			WriteNCDF4(var.rb, var.name=vars[i], var.unit="-", var.description=vars.longname[i], time=time.out, file=file.out, overwrite=TRUE)
 			
 			# delete tile files 
 			file.remove(unlist(files.var.l))

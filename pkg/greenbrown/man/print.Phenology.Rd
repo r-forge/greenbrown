@@ -1,10 +1,11 @@
 \name{print.Phenology}
 \alias{print.Phenology}
-\title{Print a summary of phenology metrics}
-\description{The function prints a summary the results from \code{\link{Phenology}}.}
-\usage{\method{print}{Phenology}(x)}
+\title{Prints phenology metrics}
+\description{The function prints an object of class \code{\link{Phenology}}.}
+\usage{\method{print}{Phenology}(x, ...)}
 \arguments{
   \item{x}{Object of class 'Phenology' as returned from function \code{\link{Phenology}}}
+  \item{\dots}{further arguments (not used)}
 }
 
 

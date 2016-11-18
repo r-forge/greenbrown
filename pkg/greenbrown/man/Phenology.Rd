@@ -26,8 +26,8 @@ The calculation of these metrics is performed in three steps and by using differ
 \usage{Phenology(Yt, approach = c("White", "Trs", "Deriv"), min.mean = 0.1, 
     trs = NULL, fpg = FillPermanentGaps, tsgf = "TSGFspline", 
     interpolate = TRUE, min.gapfrac = 0.2, lower = TRUE, fillval = NA, 
-    fun = min, method = c("Elmore", "Beck"), backup = NULL, check.seasonality = 1:3, 
-    ...)}
+    fun = min, method = c("Elmore", "Beck"), check.seasonality = 1:3, 
+    backup = NULL, ...)}
 \arguments{
   \item{Yt}{univariate time series of class \code{\link{ts}}}
   \item{approach}{Approach to be used to calculate phenology metrics from smoothed time series. 'White' by sclaing annual cycles between 0 and 1 (White et al. 1997, see \code{\link{PhenoTrs}}); 'Trs' for simple thresholds (\code{\link{PhenoTrs}}); 'Deriv' by using the derivative of the smoothed function (\code{\link{PhenoDeriv}}).}
@@ -40,9 +40,9 @@ The calculation of these metrics is performed in three steps and by using differ
   \item{lower}{For filling of permanent gaps: fill lower gaps (TRUE), upper gaps (FALSE) or lower and upper gaps (NULL)}
   \item{fillval}{For filling of permanent gaps: constant fill values for gaps. If NA the fill value will be estimated from the data using fun. }
   \item{fun}{For filling of permanent gaps: function to be used to compute fill values. By default, minimum.}
-  \item{method}{If 'tsgf' is TSGFdoublelog: Which kind of double logistic curve should be used to smooth the data? 'Elmore' (Elmore et al. 2012, see \code{\link{FitDoubleLogElmore}}) or 'Beck' (Beck et al. 2006, see \code{\link{FitDoubleLogBeck}}) .	}
-  \item{backup}{Which backup algorithm should be used instead of TSGFdoublelog for temporal smoothing and gap filling if the time series has no seasonality? If a time series has no seasonal pattern, the fitting of double logistic functions is not meaningful. In this case another method can be used. Default: NULL (returns NA - no smoothing), other options: "TSGFspline", "TSGFssa", "TSGFlinear"	}
+  \item{method}{If 'tsgf' is TSGFdoublelog: Which kind of double logistic curve should be used to smooth the data? 'Elmore' (Elmore et al. 2012, see \code{\link{FitDoubleLogElmore}}) or 'Beck' (Beck et al. 2006, see \code{\link{FitDoubleLogBeck}}) .}
   \item{check.seasonality}{Which methods in \code{\link{Seasonality}} should indicate TRUE (i.e. time series has seasonality) in order to calculate phenology metrics? 1:3 = all methods should indicate seasonality, Set to NULL in order to not perform seasonality checks.}
+  \item{backup}{Which backup algorithm should be used instead of TSGFdoublelog for temporal smoothing and gap filling if the time series has no seasonality? If a time series has no seasonal pattern, the fitting of double logistic functions is not meaningful. In this case another method can be used. Default: NULL (returns NA - no smoothing), other options: "TSGFspline", "TSGFssa", "TSGFlinear"	}
   \item{\dots}{further arguments (currently not used)}
 }
 \details{This function allows to calculate phenology metrics on time series. This method  can be applied to gridded (raster) data using the function \code{\link{PhenologyRaster}}.}
@@ -109,12 +109,6 @@ spl.trs <- Phenology(ndvi, tsgf="TSGFspline", approach="White")
 # spline + derivative
 spl.deriv <- Phenology(ndvi, tsgf="TSGFspline", approach="Deriv") 
 
-# singular spectrum analysis + threshold
-ssa.trs <- Phenology(ndvi, tsgf="TSGFssa", approach="White") 
-
-# singular spectrum analysis + derivative
-ssa.deriv <- Phenology(ndvi, tsgf="TSGFssa", approach="Deriv") 
-
 # double logistic fit + threshold
 beck.trs <- Phenology(ndvi, tsgf="TSGFdoublelog", method="Beck", approach="White") 
 
@@ -128,27 +122,25 @@ elmore.trs <- Phenology(ndvi, tsgf="TSGFdoublelog", method="Elmore", approach="W
 elmore.deriv <- Phenology(ndvi, tsgf="TSGFdoublelog", method="Elmore", approach="Deriv") 
 
 # compare results: SOS and EOS
-library(RColorBrewer)
 type <- c("sos", "eos")
+require(RColorBrewer)
 cols <- brewer.pal(10, "Paired")
-nms <- c("Lin+Trs", "Lin+Deriv", "Spline+Trs", "Spline+Deriv", "SSA+Trs", "SSA+Deriv", 
-	"DoubleLog1+Trs", "DoubleLog1+Deriv", "DoubleLog2+Trs", "DoubleLog2+Deriv")
+nms <- c("Lin+Trs", "Lin+Deriv", "Spline+Trs", "Spline+Deriv", "DoubleLog1+Trs", 
+ "DoubleLog1+Deriv", "DoubleLog2+Trs", "DoubleLog2+Deriv")
 plot(lin.trs, col=cols[1], type=type, ylim=c(1, 365))
 plot(lin.deriv, col=cols[2], type=type, add=TRUE)
 plot(spl.trs, col=cols[3], type=type, add=TRUE)
 plot(spl.deriv, col=cols[4], type=type, add=TRUE)
-plot(ssa.trs, col=cols[5], type=type, add=TRUE)
-plot(ssa.deriv, col=cols[6], type=type, add=TRUE)
 plot(beck.trs, col=cols[7], type=type, add=TRUE)
 plot(beck.deriv, col=cols[8], type=type, add=TRUE)
 plot(elmore.trs, col=cols[9], type=type, add=TRUE)
 plot(elmore.deriv, col=cols[10], type=type, add=TRUE)
 legend("center", nms, text.col=cols, ncol=3, bty="n")
 
-cor(cbind(lin.trs$sos, lin.deriv$sos, spl.trs$sos, spl.deriv$sos, ssa.trs$sos, ssa.deriv$sos, 
-	beck.trs$sos, beck.deriv$sos, elmore.trs$sos, elmore.deriv$sos), use="pairwise.complete.obs")
-cor(cbind(lin.trs$eos, lin.deriv$eos, spl.trs$eos, spl.deriv$eos, ssa.trs$eos, ssa.deriv$eos, 
-	beck.trs$eos, beck.deriv$eos, elmore.trs$eos, elmore.deriv$eos), use="pairwise.complete.obs")
+cor(cbind(lin.trs$sos, lin.deriv$sos, spl.trs$sos, spl.deriv$sos, beck.trs$sos, 
+   beck.deriv$sos, elmore.trs$sos, elmore.deriv$sos), use="pairwise.complete.obs")
+cor(cbind(lin.trs$eos, lin.deriv$eos, spl.trs$eos, spl.deriv$eos, beck.trs$eos, 
+   beck.deriv$eos, elmore.trs$eos, elmore.deriv$eos), use="pairwise.complete.obs")
 
 # compare results: LOS
 type <- c("los")
@@ -156,8 +148,6 @@ plot(lin.trs, col=cols[1], type=type, ylim=c(130, 365))
 plot(lin.deriv, col=cols[2], type=type, add=TRUE)
 plot(spl.trs, col=cols[3], type=type, add=TRUE)
 plot(spl.deriv, col=cols[4], type=type, add=TRUE)
-plot(ssa.trs, col=cols[5], type=type, add=TRUE)
-plot(ssa.deriv, col=cols[6], type=type, add=TRUE)
 plot(beck.trs, col=cols[7], type=type, add=TRUE)
 plot(beck.deriv, col=cols[8], type=type, add=TRUE)
 plot(elmore.trs, col=cols[9], type=type, add=TRUE)
@@ -170,8 +160,6 @@ plot(lin.trs, col=cols[1], type=type, ylim=c(0.17, 0.37))
 plot(lin.deriv, col=cols[2], type=type, add=TRUE)
 plot(spl.trs, col=cols[3], type=type, add=TRUE)
 plot(spl.deriv, col=cols[4], type=type, add=TRUE)
-plot(ssa.trs, col=cols[5], type=type, add=TRUE)
-plot(ssa.deriv, col=cols[6], type=type, add=TRUE)
 plot(beck.trs, col=cols[7], type=type, add=TRUE)
 plot(beck.deriv, col=cols[8], type=type, add=TRUE)
 plot(elmore.trs, col=cols[9], type=type, add=TRUE)

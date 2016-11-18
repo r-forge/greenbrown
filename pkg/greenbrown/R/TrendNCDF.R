@@ -79,36 +79,36 @@ TrendNCDF <- structure(function(
 	
 	# write trend result
 	file.trd <- gsub(".nc", ".Trend.nc", file)
-	WriteNCDF(trend.rb, var.name="Trend", var.unit="-", var.longname="Trend", layernames=names(trend.rb), file=file.trd, overwrite=TRUE)
+	WriteNCDF4(trend.rb, var.name=names(trend.rb), var.unit="-", var.description="Trend", file=file.trd, overwrite=TRUE)
 	
 	# classify trend
 	trendcl.rb <- TrendClassification(trend.rb, min.length=8, max.pval=0.05)	
 	file.trdcl <- gsub(".nc", ".Trend.Classif.nc", file)
-	WriteNCDF(trendcl.rb, var.name="Trend.Classif", var.unit="-", var.longname="Trend.Classif", layernames=names(trendcl.rb), file=file.trdcl, overwrite=TRUE)
+	WriteNCDF4(trendcl.rb, var.name=names(trendcl.rb), var.unit="-", var.description="Trend.Classif", file=file.trdcl, overwrite=TRUE)
 	
 	if (breaks > 0) {
 		# breakpoints
 		bp.r <- raster::subset(trend.rb, grep("BP", names(trend.rb)))
 		file.bp <- gsub(".nc", ".Trend.BP.nc", file)
-		WriteNCDF(bp.r, var.name="Trend.BP", var.unit="-", var.longname="Trend.BP", layernames=names(bp.r), file=file.bp, overwrite=TRUE)
+		WriteNCDF4(bp.r, var.name=names(bp.r), var.unit="-", var.description="Trend.BP", file=file.bp, overwrite=TRUE)
 	
 		# slope and pvalue of longest trend segment
 		trend.longestseg.rb <- TrendLongestSEG(trend.rb)
 		file.trdlongest <- gsub(".nc", ".Trend.LongestSEG.nc", file)
-		WriteNCDF(trend.longestseg.rb, var.name="Trend.LongestSEG", var.unit="-", var.longname="Trend.LongestSEG", layernames=names(trend.longestseg.rb), file=file.trdlongest, overwrite=TRUE)		
+		WriteNCDF4(trend.longestseg.rb, var.name=names(trend.longestseg.rb), var.unit="-", var.description="Trend.LongestSEG", file=file.trdlongest, overwrite=TRUE)		
 		
 		sl.longestseg.r <- raster(trend.longestseg.rb, 2)
 		file.sllongest <- gsub(".nc", ".Trend.SlopeLongestSEG.nc", file)
-		WriteNCDF(sl.longestseg.r, var.name="Trend.SlopeLongestSEG", var.unit="-", var.longname="Trend.SlopeLongestSEG", file=file.sllongest, overwrite=TRUE)				
+		WriteNCDF4(sl.longestseg.r, var.name="Trend.SlopeLongestSEG", var.unit="-", var.description="Trend.SlopeLongestSEG", file=file.sllongest, overwrite=TRUE)
 
 		pval.longestseg.r <- raster(trend.longestseg.rb, 3)
 		file.pvallongest <- gsub(".nc", ".Trend.PvalLongestSEG.nc", file)
-		WriteNCDF(pval.longestseg.r, var.name="Trend.PvalLongestSEG", var.unit="-", var.longname="Trend.PvalLongestSEG", file=file.pvallongest, overwrite=TRUE)			
+		WriteNCDF4(pval.longestseg.r, var.name="Trend.PvalLongestSEG", var.unit="-", var.description="Trend.PvalLongestSEG", file=file.pvallongest, overwrite=TRUE)
 		
 		# classify trend of longest segment
 		trendcl.longestseg.rb <- TrendClassification(trend.longestseg.rb)
 		file.trdlongestcl <- gsub(".nc", ".Trend.LongestSEGClassif.nc", file)
-		WriteNCDF(trendcl.longestseg.rb, var.name="Trend.LongestSEGClassif", var.unit="-", var.longname="Trend.LongestSEGClassif", file=file.trdlongestcl, overwrite=TRUE)			
+		WriteNCDF4(trendcl.longestseg.rb, var.name="Trend.LongestSEGClassif", var.unit="-", var.description="Trend.LongestSEGClassif", file=file.trdlongestcl, overwrite=TRUE)
 		
 	} else {
 		file.bp <- NA

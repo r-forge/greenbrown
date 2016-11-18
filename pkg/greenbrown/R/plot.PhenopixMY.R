@@ -20,10 +20,10 @@ plot.PhenopixMY <- structure(function(
 	### further arguments as in \code{\link{plot.default}}
 	
 	##references<< 
-	## Filippa, G., Cremonese, E., Migliavacca, M., Galvagno, M., Forkel, M., Wingate, L., Tomelleri, E., Morra di Cella, U. and Richardson, A. D.: Phenopix: A R package for image-based vegetation phenology, Agricultural and Forest Meteorology, 220, 141–150, doi:10.1016/j.agrformet.2016.01.006, 2016.
+	## Filippa, G., Cremonese, E., Migliavacca, M., Galvagno, M., Forkel, M., Wingate, L., Tomelleri, E., Morra di Cella, U. and Richardson, A. D.: Phenopix: A R package for image-based vegetation phenology, Agricultural and Forest Meteorology, 220, 141-150, doi:10.1016/j.agrformet.2016.01.006, 2016.
 		
 	##seealso<<
-	## \code{\link{plot.phenopix}}, \code{\link{PhenopixMY} 
+	## \code{\link{plot.phenopix}}, \code{\link{PhenopixMY}}
 ) { 
 
    if (type == "metrics") {

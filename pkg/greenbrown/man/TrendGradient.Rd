@@ -5,8 +5,8 @@
 \usage{TrendGradient(r, start = c(1982, 1), freq = 12, gradient.r = NULL, 
     gradient.brks = NULL, funSpatial = "mean", cor.area = FALSE, 
     scalar = 1, method = c("AAT", "STM", "SeasonalAdjusted"), 
-    mosum.pval = 0.05, h = 0.15, breaks = 0, funSeasonalCycle = MeanSeasonalCycle, 
-    funAnnual = mean, percent = FALSE)}
+    mosum.pval = 0.05, h = 0.15, breaks = 0, funAnnual = mean, 
+    funSeasonalCycle = MeanSeasonalCycle, percent = FALSE)}
 \arguments{
   \item{r}{multi-layer raster object of class \code{\link[raster]{brick}}}
   \item{start}{beginning of the time series (i.e. the time of the first observation). The default is c(1982, 1), i.e. January 1982 which is the usual start date to compute trends on long-term series of satellite observations of NDVI. See \code{\link[stats]{ts}} for further examples.}
@@ -25,12 +25,12 @@
   \item{mosum.pval}{Maximum p-value for the OLS-MOSUM test in order to search for breakpoints. If p = 0.05, breakpoints will be only searched in the time series trend component if the OLS-MOSUM test indicates a significant structural change in the time series. If p = 1 breakpoints will be always searched regardless if there is a significant structural change in the time series or not. See \code{\link[strucchange]{sctest}} for details.	}
   \item{h}{minimal segment size either given as fraction relative to the sample size or as an integer giving the minimal number of observations in each segment. See \code{\link[strucchange]{breakpoints}} for details.}
   \item{breaks}{maximal number of breaks to be calculated (integer number). By default the maximal number allowed by h is used. See \code{\link[strucchange]{breakpoints}} for details.}
+  \item{funAnnual}{function to aggregate time series to annual values if \code{AAT} is selected as method. The default function is the mean (i.e. trend calculated on mean annual time series). See \code{\link{TrendAAT}} for other examples}
   \item{funSeasonalCycle}{a function to estimate the seasonal cycle of the time series if \code{SeasonalAdjusted} is selected as method. A own function can be defined to estimate the seasonal cycle which has to return the seasonal cycle as a time series of class \code{\link{ts}}. Currently two approaches are part of this package:
 \itemize{ 
 \item{ \code{\link{MeanSeasonalCycle}} is the default which computes the mean seasonal cycle. }
 \item{ \code{\link{SSASeasonalCycle}} detects a modulated seasonal cycle based on Singular Spectrum Analysis. }
 }}
-  \item{funAnnual}{function to aggregate time series to annual values if \code{AAT} is selected as method. The default function is the mean (i.e. trend calculated on mean annual time series). See \code{\link{TrendAAT}} for other examples}
   \item{percent}{return trend as percentage change}
 }
 \details{The function returns a list of class 'TrendGradient' }
@@ -50,21 +50,23 @@ plot(ndvimap, 8)
 gradient <- TrendGradient(ndvimap, start=c(1982, 1), freq=12)
 gradient
 plot(gradient) 
-# shown is the trend at each latitudinal band, # the area represents the 95\% confidence interval
-# of the trend (computed with function TrendUncertainty), symbols indicate the p-value of the 
-# trend at each latitude
+# shown is the trend at each latitudinal band, the area represents the 95\% 
+# confidence interval of the trend (computed with function TrendUncertainty), 
+# symbols indicate the p-value of the trend at each latitude
 
 plot(gradient, type="yx") # the gradient can be also plotted in reversed order
 
 # latitudinal gradient with different number of intervals:
-gradient <- TrendGradient(ndvimap, start=c(1982, 1), freq=12, gradient.brks=seq(66, 69, length=5))
+gradient <- TrendGradient(ndvimap, start=c(1982, 1), freq=12,
+   gradient.brks=seq(66, 69, length=5))
 plot(gradient) 
 
 # example for a longitudinal gradient:
 gradient.r <- raster(ndvimap, 1) # create a raster layer with longitudes:
 gradient.r[] <- xFromCell(gradient.r, 1:ncell(gradient.r)) 
 plot(gradient.r)
-gradient <- TrendGradient(ndvimap, start=c(1982, 1), freq=12, gradient.r=gradient.r)
+gradient <- TrendGradient(ndvimap, start=c(1982, 1), freq=12, 
+   gradient.r=gradient.r)
 plot(gradient, xlab="Longitude (E)") 
 
 }

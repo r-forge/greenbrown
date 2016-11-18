@@ -5,8 +5,9 @@ Date: 2016-10-27
 Author: Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]
 Maintainer: Matthias Forkel <matthias.forkel@geo.tuwien.ac.at>, Thomas Wutzler <twutz@bgc-jena.mpg.de>
 Description: Collection of functions to analyse trends, trend changes and phenology events in gridded time series like from satellite observations or climate model simulations. The package provides access to different methods for 1) trend and breakpoint analysis, 2) time series smoothing and interpolation, and 3) analysis of land surface phenology. 
-Depends: R (>= 2.15.3), strucchange, raster, Kendall, plyr, bfast, zoo
-Suggests: phenopix, Rssa, fields, ncdf4, RColorBrewer
+Depends: R (>= 2.15.3), strucchange, raster, zoo
+Imports: Kendall, bfast, phenopix, fields, sp, ncdf4, RColorBrewer, parallel, plyr
+Suggests: 
 License: GPL-2
 URL: http://greenbrown.r-forge.r-project.org/
 LazyLoad: yes

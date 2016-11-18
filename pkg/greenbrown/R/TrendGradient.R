@@ -45,16 +45,16 @@ TrendGradient <- structure(function(
 	breaks=0, 
 	### maximal number of breaks to be calculated (integer number). By default the maximal number allowed by h is used. See \code{\link[strucchange]{breakpoints}} for details.
 	
+	funAnnual=mean,
+	### function to aggregate time series to annual values if \code{AAT} is selected as method. The default function is the mean (i.e. trend calculated on mean annual time series). See \code{\link{TrendAAT}} for other examples
+	
 	funSeasonalCycle=MeanSeasonalCycle,
 	### a function to estimate the seasonal cycle of the time series if \code{SeasonalAdjusted} is selected as method. A own function can be defined to estimate the seasonal cycle which has to return the seasonal cycle as a time series of class \code{\link{ts}}. Currently two approaches are part of this package:
 	### \itemize{ 
 	### \item{ \code{\link{MeanSeasonalCycle}} is the default which computes the mean seasonal cycle. }
 	### \item{ \code{\link{SSASeasonalCycle}} detects a modulated seasonal cycle based on Singular Spectrum Analysis. }
 	### }
-	
-	funAnnual=mean,
-	### function to aggregate time series to annual values if \code{AAT} is selected as method. The default function is the mean (i.e. trend calculated on mean annual time series). See \code{\link{TrendAAT}} for other examples
-	
+
 	percent=FALSE
 	### return trend as percentage change
         
@@ -135,21 +135,23 @@ plot(ndvimap, 8)
 gradient <- TrendGradient(ndvimap, start=c(1982, 1), freq=12)
 gradient
 plot(gradient) 
-# shown is the trend at each latitudinal band, # the area represents the 95% confidence interval
-# of the trend (computed with function TrendUncertainty), symbols indicate the p-value of the 
-# trend at each latitude
+# shown is the trend at each latitudinal band, the area represents the 95% 
+# confidence interval of the trend (computed with function TrendUncertainty), 
+# symbols indicate the p-value of the trend at each latitude
 
 plot(gradient, type="yx") # the gradient can be also plotted in reversed order
 
 # latitudinal gradient with different number of intervals:
-gradient <- TrendGradient(ndvimap, start=c(1982, 1), freq=12, gradient.brks=seq(66, 69, length=5))
+gradient <- TrendGradient(ndvimap, start=c(1982, 1), freq=12,
+   gradient.brks=seq(66, 69, length=5))
 plot(gradient) 
 
 # example for a longitudinal gradient:
 gradient.r <- raster(ndvimap, 1) # create a raster layer with longitudes:
 gradient.r[] <- xFromCell(gradient.r, 1:ncell(gradient.r)) 
 plot(gradient.r)
-gradient <- TrendGradient(ndvimap, start=c(1982, 1), freq=12, gradient.r=gradient.r)
+gradient <- TrendGradient(ndvimap, start=c(1982, 1), freq=12, 
+   gradient.r=gradient.r)
 plot(gradient, xlab="Longitude (E)") 
 
 })

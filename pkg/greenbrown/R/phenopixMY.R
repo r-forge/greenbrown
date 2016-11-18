@@ -20,13 +20,12 @@ PhenopixMY <- structure(function(
 	### further arguments as in \code{\link{greenProcess}}
 	
 	##references<< 
-	## Filippa, G., Cremonese, E., Migliavacca, M., Galvagno, M., Forkel, M., Wingate, L., Tomelleri, E., Morra di Cella, U. and Richardson, A. D.: Phenopix: A R package for image-based vegetation phenology, Agricultural and Forest Meteorology, 220, 141–150, doi:10.1016/j.agrformet.2016.01.006, 2016.
+	## Filippa, G., Cremonese, E., Migliavacca, M., Galvagno, M., Forkel, M., Wingate, L., Tomelleri, E., Morra di Cella, U. and Richardson, A. D.: Phenopix: A R package for image-based vegetation phenology, Agricultural and Forest Meteorology, 220, 141-150, doi:10.1016/j.agrformet.2016.01.006, 2016.
 		
 	##seealso<<
 	## \code{\link{greenProcess}}, \code{\link{plot.PhenopixMY}}, \code{\link{Phenology}} 
 
 ) { 
-   require(phenopix)
 
    if (class(ts) == "ts") {
       # convert 'ts' to 'zoo'
@@ -103,7 +102,7 @@ PhenopixMY <- structure(function(
    ppixmy <- list(data=ts, fit=pred, years=years0, ppix=ppix.l, metrics=metrics)
    class(ppixmy) <- "PhenopixMY"
    return(ppixmy)
-   ### An object of class \code{phenopixmy} with dedicated functions: plot(), print(), summary(). The structure is actually a list.
+   ### An object of class \code{phenopixmy} with dedicated functions: plot(), print(). The structure is actually a list.
 }, ex=function() {
 
 data(ndvi)

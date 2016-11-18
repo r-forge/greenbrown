@@ -39,13 +39,15 @@ lines(tsgf1, col="red")
 lines(tsgf2, col="blue")
 
 # compare original data with gap-filled data
+cols <- c("red", "blue")
 all <- ts.union(ndvi, tsgf1, tsgf2)
 all[!is.na(gaps),] <- NA
-plot(all[,1], all[,2], col="red", xlab="original", ylab="gap filled")
-points(all[,1], all[,3], col="blue")
+plot(all[,1], all[,2], col=cols[1], xlab="original", ylab="gap filled")
+points(all[,1], all[,3], col=cols[2])
 abline(0,1)
 r <- c(cor(all[,1], all[,2], use="pairwise.complete.obs"), 
 	cor(all[,1], all[,3], use="pairwise.complete.obs"))
-legend("topleft", paste(c("Elmore Cor =", "Beck Cor ="), round(r, 3)), text.col=c("red", "blue"))
+lgd <- paste(c("Elmore Cor =", "Beck Cor ="), round(r, 3))
+legend("topleft", lgd, text.col=cols)
 
 }

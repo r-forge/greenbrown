@@ -99,7 +99,8 @@ plot(afl[, grep("orig.filter", colnames(afl))], plot.type="single", col=rainbow(
 plot(afl[, grep("anom.filter", colnames(afl))], plot.type="single", col=rainbow(6)) 
 
 # lagged versions of original time series
-plot(window(afl[, grep("orig.lag", colnames(afl))], start=c(1995, 1), end=c(2000, 12)), plot.type="single", col=rainbow(7), type="l") 
+plot(window(afl[, grep("orig.lag", colnames(afl))], start=c(1995, 1), 
+   end=c(2000, 12)), plot.type="single", col=rainbow(7), type="l") 
 
 # lagged versions of anomaly time series
 plot(afl[, grep("anom.lag", colnames(afl))], plot.type="single", col=rainbow(7)) 

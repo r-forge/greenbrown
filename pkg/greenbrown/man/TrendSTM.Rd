@@ -1,7 +1,7 @@
 \name{TrendSTM}
 \alias{TrendSTM}
 \title{Trend estimation based on a season-trend model}
-\description{The trend and breakpoint estimation in method STM is based on the classical additive decomposition model and is following the implementation as in the bfast approach (\url{http://cran.r-project.org/web/packages/bfast/index.html}) (Verbesselt et al. 2010, 2012). Linear and harmonic terms are fitted to the original time series using ordinary least squares regression. This method can be also used to detect breakpoints in the seasonal component of a time series. The function can be applied to gridded (raster) data using the function \code{\link{TrendRaster}}.}
+\description{The trend and breakpoint estimation in method STM is based on the classical additive decomposition model and is following the implementation as in the \code{\link{bfast}} approach (Verbesselt et al. 2010, 2012). Linear and harmonic terms are fitted to the original time series using ordinary least squares regression. This method can be also used to detect breakpoints in the seasonal component of a time series. The function can be applied to gridded (raster) data using the function \code{\link{TrendRaster}}.}
 \usage{TrendSTM(Yt, h = 0.15, breaks = NULL, mosum.pval = 0.05)}
 \arguments{
   \item{Yt}{univariate time series of class \code{\link{ts}}}

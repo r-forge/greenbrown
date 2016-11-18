@@ -59,13 +59,13 @@ Phenology <- structure(function(
 	### For filling of permanent gaps: function to be used to compute fill values. By default, minimum.
 	
 	method = c("Elmore", "Beck"),
-	### If 'tsgf' is TSGFdoublelog: Which kind of double logistic curve should be used to smooth the data? 'Elmore' (Elmore et al. 2012, see \code{\link{FitDoubleLogElmore}}) or 'Beck' (Beck et al. 2006, see \code{\link{FitDoubleLogBeck}}) .	
-	
-	backup = NULL,
-	### Which backup algorithm should be used instead of TSGFdoublelog for temporal smoothing and gap filling if the time series has no seasonality? If a time series has no seasonal pattern, the fitting of double logistic functions is not meaningful. In this case another method can be used. Default: NULL (returns NA - no smoothing), other options: "TSGFspline", "TSGFssa", "TSGFlinear"	
+	### If 'tsgf' is TSGFdoublelog: Which kind of double logistic curve should be used to smooth the data? 'Elmore' (Elmore et al. 2012, see \code{\link{FitDoubleLogElmore}}) or 'Beck' (Beck et al. 2006, see \code{\link{FitDoubleLogBeck}}) .
 	
 	check.seasonality = 1:3,
 	### Which methods in \code{\link{Seasonality}} should indicate TRUE (i.e. time series has seasonality) in order to calculate phenology metrics? 1:3 = all methods should indicate seasonality, Set to NULL in order to not perform seasonality checks.
+	
+	backup = NULL,
+	### Which backup algorithm should be used instead of TSGFdoublelog for temporal smoothing and gap filling if the time series has no seasonality? If a time series has no seasonal pattern, the fitting of double logistic functions is not meaningful. In this case another method can be used. Default: NULL (returns NA - no smoothing), other options: "TSGFspline", "TSGFssa", "TSGFlinear"	
 	
 	...
 	### further arguments (currently not used)
@@ -226,12 +226,6 @@ spl.trs <- Phenology(ndvi, tsgf="TSGFspline", approach="White")
 # spline + derivative
 spl.deriv <- Phenology(ndvi, tsgf="TSGFspline", approach="Deriv") 
 
-# singular spectrum analysis + threshold
-ssa.trs <- Phenology(ndvi, tsgf="TSGFssa", approach="White") 
-
-# singular spectrum analysis + derivative
-ssa.deriv <- Phenology(ndvi, tsgf="TSGFssa", approach="Deriv") 
-
 # double logistic fit + threshold
 beck.trs <- Phenology(ndvi, tsgf="TSGFdoublelog", method="Beck", approach="White") 
 
@@ -245,27 +239,25 @@ elmore.trs <- Phenology(ndvi, tsgf="TSGFdoublelog", method="Elmore", approach="W
 elmore.deriv <- Phenology(ndvi, tsgf="TSGFdoublelog", method="Elmore", approach="Deriv") 
 
 # compare results: SOS and EOS
-library(RColorBrewer)
 type <- c("sos", "eos")
+require(RColorBrewer)
 cols <- brewer.pal(10, "Paired")
-nms <- c("Lin+Trs", "Lin+Deriv", "Spline+Trs", "Spline+Deriv", "SSA+Trs", "SSA+Deriv", 
-	"DoubleLog1+Trs", "DoubleLog1+Deriv", "DoubleLog2+Trs", "DoubleLog2+Deriv")
+nms <- c("Lin+Trs", "Lin+Deriv", "Spline+Trs", "Spline+Deriv", "DoubleLog1+Trs", 
+ "DoubleLog1+Deriv", "DoubleLog2+Trs", "DoubleLog2+Deriv")
 plot(lin.trs, col=cols[1], type=type, ylim=c(1, 365))
 plot(lin.deriv, col=cols[2], type=type, add=TRUE)
 plot(spl.trs, col=cols[3], type=type, add=TRUE)
 plot(spl.deriv, col=cols[4], type=type, add=TRUE)
-plot(ssa.trs, col=cols[5], type=type, add=TRUE)
-plot(ssa.deriv, col=cols[6], type=type, add=TRUE)
 plot(beck.trs, col=cols[7], type=type, add=TRUE)
 plot(beck.deriv, col=cols[8], type=type, add=TRUE)
 plot(elmore.trs, col=cols[9], type=type, add=TRUE)
 plot(elmore.deriv, col=cols[10], type=type, add=TRUE)
 legend("center", nms, text.col=cols, ncol=3, bty="n")
 
-cor(cbind(lin.trs$sos, lin.deriv$sos, spl.trs$sos, spl.deriv$sos, ssa.trs$sos, ssa.deriv$sos, 
-	beck.trs$sos, beck.deriv$sos, elmore.trs$sos, elmore.deriv$sos), use="pairwise.complete.obs")
-cor(cbind(lin.trs$eos, lin.deriv$eos, spl.trs$eos, spl.deriv$eos, ssa.trs$eos, ssa.deriv$eos, 
-	beck.trs$eos, beck.deriv$eos, elmore.trs$eos, elmore.deriv$eos), use="pairwise.complete.obs")
+cor(cbind(lin.trs$sos, lin.deriv$sos, spl.trs$sos, spl.deriv$sos, beck.trs$sos, 
+   beck.deriv$sos, elmore.trs$sos, elmore.deriv$sos), use="pairwise.complete.obs")
+cor(cbind(lin.trs$eos, lin.deriv$eos, spl.trs$eos, spl.deriv$eos, beck.trs$eos, 
+   beck.deriv$eos, elmore.trs$eos, elmore.deriv$eos), use="pairwise.complete.obs")
 
 # compare results: LOS
 type <- c("los")
@@ -273,8 +265,6 @@ plot(lin.trs, col=cols[1], type=type, ylim=c(130, 365))
 plot(lin.deriv, col=cols[2], type=type, add=TRUE)
 plot(spl.trs, col=cols[3], type=type, add=TRUE)
 plot(spl.deriv, col=cols[4], type=type, add=TRUE)
-plot(ssa.trs, col=cols[5], type=type, add=TRUE)
-plot(ssa.deriv, col=cols[6], type=type, add=TRUE)
 plot(beck.trs, col=cols[7], type=type, add=TRUE)
 plot(beck.deriv, col=cols[8], type=type, add=TRUE)
 plot(elmore.trs, col=cols[9], type=type, add=TRUE)
@@ -287,8 +277,6 @@ plot(lin.trs, col=cols[1], type=type, ylim=c(0.17, 0.37))
 plot(lin.deriv, col=cols[2], type=type, add=TRUE)
 plot(spl.trs, col=cols[3], type=type, add=TRUE)
 plot(spl.deriv, col=cols[4], type=type, add=TRUE)
-plot(ssa.trs, col=cols[5], type=type, add=TRUE)
-plot(ssa.deriv, col=cols[6], type=type, add=TRUE)
 plot(beck.trs, col=cols[7], type=type, add=TRUE)
 plot(beck.deriv, col=cols[8], type=type, add=TRUE)
 plot(elmore.trs, col=cols[9], type=type, add=TRUE)

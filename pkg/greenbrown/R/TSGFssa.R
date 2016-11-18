@@ -17,7 +17,6 @@ TSGFssa <- structure(function(
 	## \code{\link{TsPP}}
 
 ) {
-	require(Rssa)
 	if (class(Yt) != "ts") stop("TsPP: Yt should be class of 'ts'.")
 		
 	# get time series properties
@@ -44,8 +43,9 @@ TSGFssa <- structure(function(
 	if (AllEqual(Yt1)) return(Yt1)
 
 	# perform a singular spectrum analysis on the data
-	ssa <- ssa(Yt1, kind="1d-ssa", L=as.integer(length(Yt1)*0.9))
-	ssarc <- Rssa:::reconstruct(ssa, groups=as.list(1:nu(ssa)))
+	ssa <- Rssa::ssa(Yt1, kind="1d-ssa", L=as.integer(length(Yt1)*0.9))
+	n <- Rssa::nu(ssa)
+	ssarc <- Rssa::reconstruct(ssa, groups=as.list(1:n))
 	# plot(ssa, type="values"); plot(ssa, type="series"); plot(ssa, type="paired")
 	
 	# estimate frequency of each component
@@ -67,26 +67,26 @@ TSGFssa <- structure(function(
 	return(Yt2)
 	### The function returns a gap-filled and smoothed version of the time series.
 }, ex=function() {
-# load a time series of NDVI (normalized difference vegetation index)
-data(ndvi)
-plot(ndvi)
+## load a time series of NDVI (normalized difference vegetation index)
+#data(ndvi)
+#plot(ndvi)
 
-# introduce random gaps 
-gaps <- ndvi
-gaps[runif(100, 1, length(ndvi))] <- NA
-plot(gaps)
+## introduce random gaps 
+#gaps <- ndvi
+#gaps[runif(100, 1, length(ndvi))] <- NA
+#plot(gaps)
 
-# do smoothing and gap filling
-tsgf <- TSGFssa(gaps)
-plot(gaps)
-lines(tsgf, col="red")
+## do smoothing and gap filling
+#tsgf <- TSGFssa(gaps)
+#plot(gaps)
+#lines(tsgf, col="red")
 
-# compare original data with gap-filled data
-plot(ndvi[is.na(gaps)], window(tsgf[is.na(gaps)], end=c(2008, 11)), 
-	xlab="original", ylab="gap filled")
-abline(0,1)
-r <- cor(ndvi[is.na(gaps)], tsgf[is.na(gaps)])
-legend("topleft", paste("Cor =", round(r, 3)))
+## compare original data with gap-filled data
+#plot(ndvi[is.na(gaps)], window(tsgf[is.na(gaps)], end=c(2008, 11)), 
+#	xlab="original", ylab="gap filled")
+#abline(0,1)
+#r <- cor(ndvi[is.na(gaps)], tsgf[is.na(gaps)])
+#legend("topleft", paste("Cor =", round(r, 3)))
 
 })
 

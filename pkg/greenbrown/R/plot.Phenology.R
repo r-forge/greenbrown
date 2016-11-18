@@ -1,11 +1,14 @@
-print.Phenology <- summary.Phenology <- structure(function(
+print.Phenology <- structure(function(
 	##title<< 
-	## Print a summary of phenology metrics
+	## Prints phenology metrics
 	
-	##description<< The function prints a summary the results from \code{\link{Phenology}}.
+	##description<< The function prints an object of class \code{\link{Phenology}}.
 	
-	x
+	x,
 	### Object of class 'Phenology' as returned from function \code{\link{Phenology}}
+	
+	...
+	### further arguments (not used)
 	
 ) {
 	

@@ -13,7 +13,6 @@ SSASeasonalCycle <- structure(function(
 	##seealso<<
 	## \code{\link{TrendSeasonalAdjusted}}, \code{\link[Rssa]{ssa}}, \code{\link[Rssa]{reconstruct}}
 ) {
-	require("Rssa")
 	if (class(ts) != "ts") stop("ts should be of class ts.")
 	
 	# check if all values are equal -> no Seasonality return 0
@@ -24,8 +23,9 @@ SSASeasonalCycle <- structure(function(
 	if (length(pos.na) > 0) ts[pos.na] <- approx(x=time(ts), y=ts, xout=time(ts)[pos.na], method="const", rule=c(2,2))$y
 	
 	# perform a singular spectrum analysis on the data
-	ssa <- ssa(ts, kind="1d-ssa", L=as.integer(length(ts)*0.9))
-	ssa.ts <- Rssa:::reconstruct(ssa, groups=as.list(1:nu(ssa)))
+	ssa <- Rssa::ssa(ts, kind="1d-ssa", L=as.integer(length(ts)*0.9))
+	n <- Rssa::nu(ssa)
+	ssa.ts <- Rssa::reconstruct(ssa, groups=as.list(1:n))
 	# plot(ssa, type="values"); plot(ssa, type="series"); plot(ssa, type="paired")
 		
 	# identify if SSA component is a seasonal component
@@ -52,17 +52,17 @@ SSASeasonalCycle <- structure(function(
 	if (length(pos.na) > 0) St_est[pos.na] <- NA
 	return(St_est)
 }, ex=function() {
-# load a time series of Normalized Difference Vegetation Index
-data(ndvi)
-plot(ndvi)
+## load a time series of Normalized Difference Vegetation Index
+#data(ndvi)
+#plot(ndvi)
 
-# estimate the seasonal cycle using SSA
-ndvi.cycle <- SSASeasonalCycle(ndvi)
-plot(ndvi.cycle)
+## estimate the seasonal cycle using SSA
+#ndvi.cycle <- SSASeasonalCycle(ndvi)
+#plot(ndvi.cycle)
 
-# the mean seasonal cycle is centered to 0,
-# add the mean of the time series if you want to overlay it with the original data
-plot(ndvi)
-lines(ndvi.cycle + mean(ndvi, na.rm=TRUE), col="blue")
+## the mean seasonal cycle is centered to 0,
+## add the mean of the time series if you want to overlay it with the original data
+#plot(ndvi)
+#lines(ndvi.cycle + mean(ndvi, na.rm=TRUE), col="blue")
 	
 })

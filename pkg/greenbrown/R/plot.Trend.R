@@ -132,21 +132,25 @@ plot(ndvi.trend.aat, symbolic=FALSE, uncertainty=FALSE)
 ndvi.trend.stm <- Trend(ndvi, method="STM", mosum.pval=1)
 plot(ndvi.trend.stm)
 
-plot(ndvi.trend.aat, symbolic=TRUE, ylim=c(0.23, 0.31), col=c("blue", "blue", "red"))
+plot(ndvi.trend.aat, symbolic=TRUE, ylim=c(0.23, 0.31), 
+   col=c("blue", "blue", "red"))
 plot(ndvi.trend.stm, symbolic=TRUE, col=c("darkgreen", "darkgreen", "red"), 
 	lty=c(0, 1, 1), add=TRUE)
 	
 })
 
 
-print.Trend <- summary.Trend <- structure(function(
+print.Trend <- structure(function(
 	##title<< 
-	## Print a summary of calculated trends
+	## Prints trends
 	
-	##description<< The function prints a summary the results from \code{\link{Trend}}.
+	##description<< The function prints an object of class \code{\link{Trend}}.
 	
-	x
+	x,
 	### Object of class 'Trend' as returned from function \code{\link{Trend}}
+	
+	...
+	### further arguments (not used)
 	
 ) {
 	nseg <- length(x$slope)
@@ -211,7 +215,6 @@ plot(ndvi)
 ndvi.trend <- Trend(ndvi)
 ndvi.trend
 print(ndvi.trend)
-summary(ndvi.trend)
 	
 })
 

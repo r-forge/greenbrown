@@ -25,7 +25,7 @@
 data(ndvi)
 plot(ndvi)
 
-# perform smoothing, gap filling and interpolation and extract seasonal cycle from first year
+# perform time series preprocessing from first year of data
 x <- TsPP(ndvi, interpolate=TRUE)[1:365]
 plot(x)
 

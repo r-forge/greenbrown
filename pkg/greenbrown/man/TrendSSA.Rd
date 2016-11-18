@@ -16,13 +16,13 @@
 
 \seealso{\code{\link{ssa}}}
 \examples{
-# load a time series of NDVI (normalized difference vegetation index)
-data(ndvi)
-plot(ndvi)
-	
-# calculate trend on mean annual NDVI values
-trd <- TrendSSA(ndvi)
-trd
-plot(trd)
+## load a time series of NDVI (normalized difference vegetation index)
+#data(ndvi)
+#plot(ndvi)
+#	
+## calculate trend on mean annual NDVI values
+#trd <- TrendSSA(ndvi)
+#trd
+#plot(trd)
 
 }

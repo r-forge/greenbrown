@@ -55,7 +55,8 @@ plot(x, ndvi); abline(0,1)
 KGE(x, ndvi, trend=FALSE)
 
 # be careful when using trends and breakpoints 
-# (using trends is not part of the original implementation of the Kling-Gupta efficiency):
+# using trends is howver not part of the original implementation 
+# of the Kling-Gupta efficiency
 KGE(x, ndvi, trend=TRUE, breaks=0)
 KGE(x, ndvi, trend=TRUE, breaks=1)
 	

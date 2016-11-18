@@ -6,7 +6,7 @@ plot.CompareClassification <- structure(function(
 	## This function takes an object of class \code{\link{CompareClassification}} as input and plots a map of the class agreement of two classifications.
 	
 	x,
-	### Object of class 'CompareClassification' as returned from function \code{\link{CompareClassification}}.
+	### Object of class \code{\link{CompareClassification}}.
 	
 	xlab="",
 	### A title for the x axis
@@ -76,7 +76,7 @@ plot.CompareClassification <- structure(function(
 }, ex=function() {
 # Example: calculate NDVI trends from two methods and compare the significant trends
 
-# load a multi-temporal raster dataset of Normalized Difference Vegetation Index
+# load a raster dataset of Normalized Difference Vegetation Index
 data(ndvimap)
 
 # calculate trends with two different methods
@@ -85,7 +85,8 @@ plot(AATmap)
 STMmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="STM", breaks=0)
 plot(STMmap)
 
-# classify the trend estimates from the two methods into positive, negative and no trend
+# classify the trend estimates from the two methods into 
+# positive, negative and no trend
 AATmap.cl <- TrendClassification(AATmap)
 plot(AATmap.cl, col=brgr.colors(3))
 STMmap.cl <- TrendClassification(STMmap)

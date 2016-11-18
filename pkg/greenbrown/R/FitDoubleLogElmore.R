@@ -108,7 +108,7 @@ FitDoubleLogElmore <- structure(function(
             }
             res
         }
-        vc <- .qr.solve(opt.new$hessian)
+        vc <- .qr.solve(opt$hessian)
         npar <- nrow(vc)
         s2 <- opt$value^2/(n - npar)
         std.errors <- sqrt(diag(vc) * s2)

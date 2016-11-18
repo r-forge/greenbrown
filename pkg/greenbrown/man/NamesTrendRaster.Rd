@@ -15,13 +15,14 @@
 
 \seealso{\code{\link{TrendRaster}}}
 \examples{
-# load a multi-temporal raster dataset of Normalized Difference Vegetation Index
+# load a raster dataset of Normalized Difference Vegetation Index
 data(ndvimap)
 plot(ndvimap, 8)
 
 # calculate trend with maximum 2 breakpoints
 breaks <- 2
-trendmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="AAT", breaks=breaks)
+trendmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, 
+   method="AAT", breaks=breaks)
 plot(trendmap)
 
 # layer names ot the result

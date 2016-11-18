@@ -59,8 +59,6 @@ WriteNCDF <- structure(function(
 	### overwrite existing file?
 ) {
 	
-	library(ncdf)
-
 	# check parameters
 	if (is.null(data)) stop("Provide a Raster* object")
 	if (is.null(var.name)) stop("Define 'var.name'")
@@ -122,59 +120,59 @@ WriteNCDF <- structure(function(
 	
 	if (!is.null(layernames)) {
 		xy <- xyFromCell(data, 1:ncell(data))
-		lon.dim <- dim.def.ncdf("longitude", "degrees_east", unique(xy[,1]))
-		lat.dim <- dim.def.ncdf("latitude", "degrees_north", unique(xy[,2]))
-		z.dim <- dim.def.ncdf("layer", "", 1:nlayers(data), unlim=TRUE)
-		var.ncdf <- var.def.ncdf(name=as.character(var.name), units=as.character(var.unit), 
+		lon.dim <- ncdf::dim.def.ncdf("longitude", "degrees_east", unique(xy[,1]))
+		lat.dim <- ncdf::dim.def.ncdf("latitude", "degrees_north", unique(xy[,2]))
+		z.dim <- ncdf::dim.def.ncdf("layer", "", 1:nlayers(data), unlim=TRUE)
+		var.ncdf <- ncdf::var.def.ncdf(name=as.character(var.name), units=as.character(var.unit), 
 			dim=list(lon.dim, lat.dim, z.dim), missval=naflag, longname=as.character(var.longname))
-		nc <- create.ncdf(file, var.ncdf, verbose=FALSE)
-		put.var.ncdf(nc, as.character(var.name), values(data), start=NA, count=NA, verbose=FALSE ) 
-		close.ncdf(nc)	
+		nc <- ncdf::create.ncdf(file, var.ncdf, verbose=FALSE)
+		ncdf::put.var.ncdf(nc, as.character(var.name), values(data), start=NA, count=NA, verbose=FALSE ) 
+		ncdf::close.ncdf(nc)	
 			
 	} else {
 
 		# write NetCDF file
 		xy <- xyFromCell(data, 1:ncell(data))
-		lon.dim <- dim.def.ncdf("longitude", "degrees_east", unique(xy[,1]))
-		lat.dim <- dim.def.ncdf("latitude", "degrees_north", unique(xy[,2]))
-		time.dim <- dim.def.ncdf("time", "days since 1582-10-14 00:00:00", time2, unlim=TRUE)
-		var.ncdf <- var.def.ncdf(name=as.character(var.name), units=as.character(var.unit), 
+		lon.dim <- ncdf::dim.def.ncdf("longitude", "degrees_east", unique(xy[,1]))
+		lat.dim <- ncdf::dim.def.ncdf("latitude", "degrees_north", unique(xy[,2]))
+		time.dim <- ncdf::dim.def.ncdf("time", "days since 1582-10-14 00:00:00", time2, unlim=TRUE)
+		var.ncdf <- ncdf::var.def.ncdf(name=as.character(var.name), units=as.character(var.unit), 
 			dim=list(lon.dim, lat.dim, time.dim), missval=naflag, longname=as.character(var.longname))
-		nc <- create.ncdf(file, var.ncdf, verbose=FALSE)
-		put.var.ncdf(nc, as.character(var.name), values(data), start=NA, count=NA, verbose=FALSE ) 
-		close.ncdf(nc)
+		nc <- ncdf::create.ncdf(file, var.ncdf, verbose=FALSE)
+		ncdf::put.var.ncdf(nc, as.character(var.name), values(data), start=NA, count=NA, verbose=FALSE ) 
+		ncdf::close.ncdf(nc)
 	}
 
 	# write file information
 	#-----------------------
 
-	nc <- open.ncdf(file, write=TRUE)
-	att.put.ncdf(nc, var.name, "missing_value", naflag, "double")
-	att.put.ncdf(nc, var.name, "scale_factor", scale, "double")
-	att.put.ncdf(nc, var.name, "add_offset", offset, "double")
+	nc <- ncdf::open.ncdf(file, write=TRUE)
+	ncdf::att.put.ncdf(nc, var.name, "missing_value", naflag, "double")
+	ncdf::att.put.ncdf(nc, var.name, "scale_factor", scale, "double")
+	ncdf::att.put.ncdf(nc, var.name, "add_offset", offset, "double")
 
 	# set global attributes
-	att.put.ncdf(nc, 0, "title", as.character(file.title), "text")
-	att.put.ncdf(nc, 0, "description", as.character(file.description), "text")
+	ncdf::att.put.ncdf(nc, 0, "title", as.character(file.title), "text")
+	ncdf::att.put.ncdf(nc, 0, "description", as.character(file.description), "text")
 	history <- paste(Sys.time(), creator, ": file created from R function WriteNCDF")
-	att.put.ncdf(nc, 0, "history", as.character(history), "text")
-	att.put.ncdf(nc, 0, "provided_by", as.character(provider), "text")
-	att.put.ncdf(nc, 0, "created_by", as.character(creator), "text")
-	att.put.ncdf(nc, 0, "reference", as.character(reference), "text")
+	ncdf::att.put.ncdf(nc, 0, "history", as.character(history), "text")
+	ncdf::att.put.ncdf(nc, 0, "provided_by", as.character(provider), "text")
+	ncdf::att.put.ncdf(nc, 0, "created_by", as.character(creator), "text")
+	ncdf::att.put.ncdf(nc, 0, "reference", as.character(reference), "text")
 	
 	# write time attributes
 	if (length(time) >= 2) {	# if more than two dimensions [lon,lat,time]
-		put.var.ncdf(nc, "time", time2) 
-		att.put.ncdf(nc, "time", "units", "days since 1582-10-14 00:00", "double")
-		att.put.ncdf(nc, "time", "calendar", "gregorian", "text")
+		ncdf::put.var.ncdf(nc, "time", time2) 
+		ncdf::att.put.ncdf(nc, "time", "units", "days since 1582-10-14 00:00", "double")
+		ncdf::att.put.ncdf(nc, "time", "calendar", "gregorian", "text")
 	}
 	
 	# write layernames
 	if (!is.null(layernames)) {
-		put.var.ncdf(nc, "layer", 1:length(layernames)) 
-		att.put.ncdf(nc, "layer", "description", layernames, "text")
+		ncdf::put.var.ncdf(nc, "layer", 1:length(layernames)) 
+		ncdf::att.put.ncdf(nc, "layer", "description", layernames, "text")
 	}
-	close.ncdf(nc)
+	ncdf::close.ncdf(nc)
 		
 	# delete temporary files
 	file.remove(file.tmp)

@@ -42,10 +42,10 @@ TSGFphenopix <- structure(function(
 	   ym <- format(time(Yt2), "%Y-%m")
 	   Yt3 <- aggregate(Yt2, ym, mean, na.rm=TRUE)
 	   start2 <- as.numeric(format(time(Yt2)[1], "%Y"))
-	   Yt4 <- window(ts(Yt3, start=start2, freq=freq), start=start, end=end)
+	   Yt4 <- window(ts(Yt3, start=start2, frequency=freq), start=start, end=end)
 	} else {
 	   start2 <- as.numeric(format(time(Yt2)[1], "%Y"))
-	   Yt4 <- window(ts(Yt2, start=start2, freq=365), start=start, end=c(end[1], 365))
+	   Yt4 <- window(ts(Yt2, start=start2, frequency=365), start=start, end=c(end[1], 365))
 	}
 	
 	# remove outliers
@@ -81,16 +81,17 @@ plot(gaps)
 lines(tsgf, col="red")
 lines(spl, col="blue")
 legend("topleft", c("TSGFphenopix.spline", "TSGFspline"), text.col=c("red", "blue"))
-# Note that the differences originate from the fact that TSGFspline is applied on the full 
-# time series whereas spline within phenopix is applied for each year separetely. Yearly 
-# fits for TSGFphenopix.spline are afterwards combined to a full time series. This can cause 
-# jumps or peaks between two years. Thus, TSGFspline is the better choice for multi-year time 
-# series. This also evident in cross-validation:
+# Note that the differences originate from the fact that TSGFspline is applied on 
+# the full time series whereas spline within phenopix is applied for each year 
+# separetely. Yearly fits for TSGFphenopix.spline are afterwards combined to a full 
+# time series. This can cause jumps or peaks between two years. Thus, TSGFspline is 
+# the better choice for multi-year time series. This is also seen in cross-validation:
 plot(ndvi[is.na(gaps)], tsgf[is.na(gaps)], xlab="original", ylab="gap filled", col="red")
 points(ndvi[is.na(gaps)], spl[is.na(gaps)], col="blue")
 abline(0,1)
 r <- cor(cbind(ndvi[is.na(gaps)], tsgf[is.na(gaps)], spl[is.na(gaps)]))
-legend("topleft", paste(c("TSGFphenopix.spline", "TSGFspline"), "Cor =", round(r[1,2:3], 3)), text.col=c("red", "blue"))
+lgd <- paste(c("TSGFphenopix.spline", "TSGFspline"), "Cor =", round(r[1,2:3], 3))
+legend("topleft", lgd, text.col=c("red", "blue"))
 
 # Other fits wihtin phenopix might be usefull but are rather computationally expensive:
 tsgf <- TSGFphenopix(gaps, fit="klosterman")
