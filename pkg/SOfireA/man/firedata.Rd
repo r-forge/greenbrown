@@ -76,7 +76,7 @@ This data.frame contains several datasets on burned area, climate, soil moisture
 }
 
 }
-\format{A object of class \code{\link{ts}}.}
+\format{A \code{\link{data.frame}}.}
 \references{
 Forkel, M., et al. (2016): in prep.
 }
