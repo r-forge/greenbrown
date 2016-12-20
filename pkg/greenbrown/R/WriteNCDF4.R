@@ -133,7 +133,7 @@ WriteNCDF4 <- structure(function(
 	if (file.exists(file) & (overwrite == FALSE)) stop("File 'file' already exists. Use overwrite=TRUE to overwrite it.")
    
    # create NetCDF
-   nc <- ncvar_put(file, ncvars.l)
+   nc <- nc_create(file, ncvars.l)
    
    # write data and set attributes
    if (length(scale) < length(data.l)) scale <- rep(scale[1], length(data.l))
