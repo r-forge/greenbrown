@@ -65,35 +65,13 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 <p><b>Warning message:<br>
 package 'greenbrown' is not available (for R version X.Y.Z) </b></p>
 
-<p>This message indicates that the most recent version or any updates to the greenbrown package were not yet build to a package.  R-forge is a development platform and greenbrown is continously developed. Therefore it can often happen that the package needs to be checked and re-build. During this stage the package cannot be directly installed with <b>install.packages</b>. However if you still want to use the package, you can receive the most recent functions through a svn checkout:</p>
+<p>This message indicates that the most recent version or any updates to the greenbrown package were not yet build to a package. R-forge is a development platform and greenbrown is continously developed. Therefore it can often happen that the package needs to be checked and re-build. The package cannot be directly installed with <b>install.packages</b> during this stage. If you still want to use the package, you can <a href="tar/">download a *.tar file with an older version of the greenbrown package.</a>. Then you can directly install the package from the *.tar file within R:</p>
 
-<p><b>svn checkout svn://r-forge.r-project.org/svnroot/greenbrown/</b></p>
-
-<p>Afterwards you can install the package within R:</p>
-
-<p><b>path <- "yourdirectory/greenbrown/pkg/"<br>
-setwd(path)<br>
-cmd <- "R CMD INSTALL --html greenbrown --resave-data"<br>
-tryCatch(system(cmd), finally=setwd(path))</b></p>
-
-<p>If this installation does not work, you could alternatively just source the files within R and load the additional packages:</p>
-
-<p>
-<b>setwd("yourdirectory/greenbrown/R/")<br>
-files <- list.files(pattern=".R")<br>
-for (i in 1:length(files)) source(files[i])
-<br><br>
-library(strucchange)<br>
-library(raster)<br>
-library(Kendall)<br>
-library(plyr)<br>
-library(bfast)<br>
-library(zoo)<br>
-</b>
+<p><b>install.packages("greenbrown_2.4.2.tar.gz", repos = NULL, type="source")</b></p>
 
 <br>
 <hr>
-<p><a href="index.php">greenbrown</a>, Matthias Forkel, 2016-11-17</p>
+<p><a href="index.php">greenbrown</a>, Matthias Forkel, 2016-12-20</p>
 
 </body>
 </html>
