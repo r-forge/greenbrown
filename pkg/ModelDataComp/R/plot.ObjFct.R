@@ -73,9 +73,9 @@ plot.ObjFct <- structure(function(
    if (length(which) == 1) {
       if (is.null(ylim)) ylim <- range(c(0, x, xopt), na.rm=TRUE)
       if (!is.null(pch)) {
-         bp <- barplot(x, names="", ylim=ylim, ylab=xlab, plot=!add, col="white", border="white")
+         bp <- barplot(x, names="", ylim=ylim, ylab=xlab, plot=!add, col="white", border="white", ...)
       } else {
-         bp <- barplot(x, names="", ylim=ylim, ylab=xlab, plot=!add)
+         bp <- barplot(x, names="", ylim=ylim, ylab=xlab, plot=!add, ...)
       }
       if (!add) {
          box()

@@ -10,7 +10,7 @@ Metrics and plots for model-data comparison. The package provides functions to 1
 \tabular{ll}{
 Package: \tab ModelDataComp\cr
 Type: \tab Package\cr
-Version: \tab 1.0\cr
+Version: \tab 1.01\cr
 Date: \tab 2015-11-17\cr
 License: \tab GPL-2\cr
 }

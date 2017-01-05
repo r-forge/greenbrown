@@ -1,7 +1,7 @@
 Package: ModelDataComp
 Title: Model-Data Comparison
-Version: 1.0
-Date: 2016-11-17
+Version: 1.01
+Date: 2017-01-05
 Author: Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]
 Maintainer: Matthias Forkel <matthias.forkel@geo.tuwien.ac.at>
 Description: Metrics and plots for model-data comparison. The package provides functions to 1) compute model performance metrics (function ObjFct), to 2) fit empirical models to data (function MultiFit), and to 3) make model-data comparison plots (functions ScatterPlot, plot.ObjFct with barplots and scatterplots of objective functions, TaylorPlot, WollMilchSauPlot to plot means, distributions and correlations between observations and models).

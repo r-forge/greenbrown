@@ -13,7 +13,7 @@ WollMilchSauPlot <- structure(function(
 	objfct = "Cor",
 	### Which objective function metric should be used to create the colour palette? (see \code{\link{ObjFct}})
 	
-	cols = tim.colors(10),
+	cols = NULL,
 	### vector of colors from which the color palette should be interpolated
 	
 	brks = NULL,
@@ -43,29 +43,26 @@ WollMilchSauPlot <- structure(function(
 	legend.only = FALSE,
 	### plot only a legend?
 	
-	point.pch = NA,
-	### point types, default: no points
-	
-	bar.o = 1, 
-	### opacity of bars
-	
-	bean.o = 1, 
-	### opacity of beans
-	
-	inf.o = 0,
-	### inference bands
-	
-	bean.lwd = 1, 
-	### line width of beans
-	
-	line.lwd = 1, 
-	### line width of lines
-	
 	cut.min = NULL,
 	### Optional minimum value of the beans.
 	
 	cut.max = NULL,
 	### Optional maximum value of the beans.
+	
+	avg = TRUE,
+	### plot average line?
+	
+	points = TRUE,
+	### plot points?
+	
+	bean = TRUE,
+	### plot beans (density estimates)?
+	
+	inf = TRUE,
+	### plot inference bands around mean?
+	
+	bar = TRUE,
+	### plot bars?
 	
 	...
 	### further arguments to \code{\link{pirateplot}}
@@ -125,18 +122,15 @@ WollMilchSauPlot <- structure(function(
       if (is.null(brks)) brks <- pretty(of, min.n=10, n=15)
       
       # create colors
+      if (is.null(cols)) cols <- c("#00008F", "#0020FF", "#00AFFF", "#40FFBF", "#CFFF30", "#FF9F00", "#FF1000", "#800000")
       cols0 <- colorRampPalette(cols)
       cols0 <- cols0(length(brks)-1)
       if (of.best > 0) cols0 <- rev(cols0)
       cols <- cols0[cut(of.col, brks)]
       if (length(ref) == 1) cols[ref] <- "black" 
       
-#      # apply transparency to legend
-#      if (bar.o < 1) {
-#         cols0 <- col2rgb(cols0)
-#         cols0 <- rgb(cols0[1,], cols0[2,], cols0[3,], 255*bar.o, maxColorValue=255)
-#      }
    } else {
+      if (is.null(cols)) cols <- piratepal("basel", length.out=ndatasets)
       if (length(cols) != ndatasets) cols <- piratepal("basel", length.out=ndatasets)
       legend <- FALSE
    }
@@ -150,13 +144,39 @@ WollMilchSauPlot <- structure(function(
   
    # y axis limits
    if (is.null(ylim)) {
-      ylim <- aggregate(y ~ x, data=x2.df, quantile, prob=c(0.025, 0.975), na.rm=TRUE)
-      o1 <- order(ylim$y[,1], decreasing=FALSE)
-      o2 <- order(ylim$y[,2], decreasing=TRUE)
-      ylim <- c(ylim$y[,1][o1[2]], ylim$y[,2][o2[2]]) # take second highest quantile 0.975
-      m <- aggregate(y ~ x, data=x2.df, mean, na.rm=TRUE)$y
-      if (any(m < ylim[1])) ylim[1] <- min(m) - diff(ylim) * 0.03
-      if (any(m > ylim[2])) ylim[2] <- max(m) + diff(ylim) * 0.03
+      pstats <- pirateplot(y ~ x, data=x2.df, plot=FALSE)
+      m <- pstats$summary$avg
+      m.lb <- pstats$summary$inf.lb
+      m.ub <- pstats$summary$inf.ub
+      if (bean | points) {
+         ylim <- aggregate(y ~ x, data=x2.df, quantile, prob=c(0.025, 0.975), na.rm=TRUE)
+         o1 <- order(ylim$y[,1], decreasing=FALSE)
+         o2 <- order(ylim$y[,2], decreasing=TRUE)
+         ylim <- c(ylim$y[,1][o1[2]], ylim$y[,2][o2[2]]) # take second highest quantile 0.975
+      } else {
+         if (avg) {
+            ylim <- range(m)
+         }
+         if (inf) {
+            ylim <- range(c(m.lb, m.ub))
+         }
+      }
+      
+      # check if average and inference bands are within limits
+      if (avg) {
+         if (any(m < ylim[1])) ylim[1] <- min(m) - diff(ylim) * 0.03
+         if (any(m > ylim[2])) ylim[2] <- max(m) + diff(ylim) * 0.03
+      }
+      if (inf) {
+         if (any(m.lb < ylim[1])) ylim[1] <- min(m.lb) - diff(ylim) * 0.03
+         if (any(m.ub > ylim[2])) ylim[2] <- max(m.ub) + diff(ylim) * 0.03
+      }
+      if (!is.null(cut.min)) {
+         if (ylim[1] < cut.min) ylim[1] <- cut.min
+      }
+      if (!is.null(cut.max)) {
+         if (ylim[2] > cut.max) ylim[2] <- cut.max
+      }
    }
    
    # x-axis limits
@@ -165,11 +185,31 @@ WollMilchSauPlot <- structure(function(
       if (!legend) xlim <- c(0.5, ndatasets+0.5)
    }
    
+   # settings for plotting of elements
+   avg.line.o <- 1
+   if (!avg) avg.line.o <- 0
+   bar.f.o <- 0.3
+   if (!bar) bar.f.o <- 0
+   inf.f.o <- 0.6
+   if (!inf) inf.f.o <- 0
+   bean.o <- 1
+   if (!bean) bean.o <- 0
+   point.pch <- 16
+   if (!points) point.pch <- NA
+   
    # make plot
    cex <- 1.3
    par(mfrow=c(1,1), mar=c(3.7, 3.5, 2.5, 1.5), oma=c(0.8, 0.1, 0.1, 0.1), mgp=c(2.4, 1, 0), cex=cex, cex.lab=cex*1.1, cex.axis=cex*1.1, cex.main=cex*1.1, xpd=FALSE)
-   pirateplot(y ~ x, data=x2.df, ylim=ylim, xlim=xlim, cut.min=cut.min, xlab=xlab, ylab=ylab, yaxt="n", xaxt="n", bean.border.col=cols, average.line.col=cols, pal=cols, at=1:ndatasets, point.pch = point.pch, bar.o = bar.o, bean.o = bean.o, inf.o = inf.o, bean.lwd = bean.lwd, line.lwd = line.lwd, ...)
-   
+   plot(1, 1, type="n", ylim=ylim, xlim=xlim, xlab=xlab, ylab=ylab, yaxt="n", xaxt="n")
+   pirateplot(y ~ x, data=x2.df, add=TRUE, at=1:ndatasets, yaxt="n", xaxt="n", 
+      cut.min=cut.min, pal=cols, 
+      point.pch = point.pch, # plot points?
+      bean.b.o=bean.o, bean.b.col=cols, bean.f.o=bean.o, bean.f.col="white", # looking of beans
+      inf.b.o=0, inf.b.col=cols, inf.f.o=inf.f.o, inf.f.col=cols, # looking of inference bands
+      bar.b.o=0, bar.b.col=cols, bar.f.o=bar.f.o, bar.f.col=cols, # looking of bars
+      avg.line.o=avg.line.o, avg.line.col=cols # looking of average line
+      )
+
    # add axes
    yaxt <- pretty(seq(ylim[1], ylim[2], length=15))
    axis(2, yaxt, yaxt)
@@ -210,12 +250,21 @@ WollMilchSauPlot(x, objfct="IoA")
 WollMilchSauPlot(x, objfct="Pbias")
 WollMilchSauPlot(x, objfct="FV")
 
-# some other settings, e.g. with plotting points
-WollMilchSauPlot(x, ylab="Area (km2)", xlab="Groups", main="Comparison", 
- point.pch=16, bar.o=0.5, point.o=0.4)
+# axis labels and title
+WollMilchSauPlot(x, ylab="Area (km2)", xlab="Groups", main="Comparison")
+
+# remove certain elements from plot
+WollMilchSauPlot(x, points=FALSE)
+WollMilchSauPlot(x, bean=FALSE)
+WollMilchSauPlot(x, points=FALSE, bean=FALSE)
+WollMilchSauPlot(x, points=FALSE, bean=FALSE, bar=FALSE)
+WollMilchSauPlot(x, inf=FALSE)
+WollMilchSauPlot(x, inf=FALSE, avg=FALSE)
+WollMilchSauPlot(x, avg=FALSE, bar=FALSE, inf=FALSE)
 
 # different color palettes
 WollMilchSauPlot(x, cols=c("blue", "red"))
+WollMilchSauPlot(x, cols=c("blue", "grey", "red"))
 WollMilchSauPlot(x, cols=rainbow(10))
 WollMilchSauPlot(x, cols=heat.colors(5))
 
@@ -225,7 +274,7 @@ WollMilchSauPlot(x, legend=FALSE)
 # only legend
 WollMilchSauPlot(x, legend.only=TRUE)
 
-# without using an objective function 
+# without using an objective function - categorial colours
 WollMilchSauPlot(x, objfct=NULL)
 
 # different example data

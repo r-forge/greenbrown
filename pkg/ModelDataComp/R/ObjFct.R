@@ -137,7 +137,8 @@ ObjFct <- structure(function(
 	   r <- a / b
 	
 	   # p-value of correlation
-	   suppressWarnings(r.p <- cor.test(sim, obs, method="pearson")$p.value)
+	   suppressWarnings(r.p <- try(cor.test(sim, obs, method="pearson")$p.value, silent=TRUE))
+	   if (class(r.p) == "try-error") r.p <- NA
 	
 	   # calculate spearman correlation
 	   a <- (sim.rank - sim.rank.mean) * (obs.rank - obs.rank.mean)
@@ -147,10 +148,11 @@ ObjFct <- structure(function(
 	   spearman <- sum(a) / d
 	
 	   # p-value of spearman
-	   suppressWarnings(spearman.p <- cor.test(sim, obs, method="spearman")$p.value)
+	   suppressWarnings(spearman.p <- try(cor.test(sim, obs, method="spearman")$p.value, silent=TRUE))
+	   if (class(spearman.p) == "try-error") spearman.p <- NA
 	
 	   # regression slope
-	   m <- lm(obs ~ sim)
+	   suppressWarnings(m <- try(lm(obs ~ sim), silent=TRUE))
 	   sl <- coefficients(m)[2]
 	   suppressWarnings(r2 <- summary(m)$r.squared)
 	
