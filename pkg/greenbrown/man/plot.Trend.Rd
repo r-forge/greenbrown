@@ -4,7 +4,7 @@
 \description{This is the standard plot function for results of the \code{\link{Trend}} function. See \code{\link{plot.default}} for further specifications of basic plots.}
 \usage{\method{plot}{Trend}(x, ylab = "NDVI", add = FALSE, col = c("black", "blue", 
     "red", "blue"), lty = c(2, 1, 2, 3), lwd = 1, symbolic = TRUE, 
-    legend = FALSE, uncertainty = TRUE, axes = TRUE, ...)}
+    legend = FALSE, axes = TRUE, ...)}
 \arguments{
   \item{x}{Object of class 'Trend' as returned from function \code{\link{Trend}}}
   \item{ylab}{A title for the y axis}
@@ -15,7 +15,6 @@
 }
   \item{symbolic}{add significance as symbols (TRUE). If TRUE the p-value of a trend slope is added as symbol as following: *** (p <= 0.001), ** (p <= 0.01), * (p <= 0.05), . (p <= 0.1) and no symbol if p > 0.1. }
   \item{legend}{add slope and p-value as legend}
-  \item{uncertainty}{plot uncertainty in trend slopes? (only possible if the x 'Trend' object includes uncertainty estimates)}
   \item{axes}{plot axes?}
   \item{\dots}{Further arguments that can be passed \code{\link{plot.default}}}
 }
@@ -36,12 +35,11 @@ plot(ndvi)
 ndvi.trend <- Trend(ndvi)
 ndvi.trend
 plot(ndvi.trend)
-plot(ndvi.trend, uncertainty=FALSE)
 
 ndvi.trend.aat <- Trend(ndvi, method="AAT", mosum.pval=1)
 plot(ndvi.trend.aat)
 plot(ndvi.trend.aat, symbolic=FALSE)
-plot(ndvi.trend.aat, symbolic=FALSE, uncertainty=FALSE)
+plot(ndvi.trend.aat, symbolic=FALSE, legend=TRUE)
 
 ndvi.trend.stm <- Trend(ndvi, method="STM", mosum.pval=1)
 plot(ndvi.trend.stm)

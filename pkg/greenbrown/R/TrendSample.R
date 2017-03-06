@@ -14,8 +14,11 @@ TrendSample <- structure(function(
 	sample.min.length = 0.7,
 	### Minimum length of the time series (as a fraction of total length) that should be used to compute trend statistics. Time windows between start and end that are shorter than min.length will be not used for trend computation.
 	
-	sample.size = 30
+	sample.size = 30,
 	### sample size (number of combinations of start and end dates) to be used if \code{method} is sample.
+	
+	trend = TrendAAT
+	### method that should be used to compute the trend
 	
 	##references<<  
 		
@@ -51,11 +54,14 @@ TrendSample <- structure(function(
 		samples[,3] <- samples[,2] - samples[,1] + 1
 		samples <- samples[samples[,3] > min.length, ]
 		colnames(samples) <- c("start", "end", "length")
+		if (sample.method == "sample") {
+		   if (sample.size < nrow(samples)) samples <- rbind(samples0, samples[sample(1:nrow(samples), sample.size-1), ])
+	   } else {
+	      full <- which.max(samples$length)
+	      samples <- rbind(samples[full, ], samples[-full, ])
+	   }
 	}
-	if (sample.method == "sample") {
-		if (sample.size < nrow(samples)) samples <- rbind(samples0, samples[sample(1:nrow(samples), sample.size-1), ])
-	}
-	
+
 	# compute trend statistics for each sample
 	stats <- ldply(as.list(1:nrow(samples)), function(i) {
 		x <- unlist(samples[i ,])
@@ -66,13 +72,10 @@ TrendSample <- structure(function(
 		}
 			
 		if (length(Yt.sample) < 3) {
-			result <- data.frame(start=x[1], end=x[2], length=x[3], tau=NA, pvalue=NA, slope=NA, intercept=NA, perc=NA)
+			result <- data.frame(start=x[1], end=x[2], length=x[3], slope=NA, slope_se=NA, pval=NA, perc=NA, mk.tau=NA, mk.pval=NA)
 		} else {
-			time.sample <- time(Yt.sample)
-			mk <- MannKendall(Yt.sample)
-			m <- lm(Yt.sample ~ time.sample)
-			perc <- coef(m)[2] / fitted(m)[1] * 100 # trend as percentage change
-			result <- data.frame(start=x[1], end=x[2], length=x[3], tau=mk$tau, pvalue=mk$sl, slope=coef(m)[2], intercept=coef(m)[1], perc=perc)
+			trd <- do.call(trend, list(Yt=Yt.sample, breaks=0))
+			result <- data.frame(start=x[1], end=x[2], length=x[3], slope=trd$slope, slope_se=trd$slope_se, pval=trd$pval, perc=trd$perc, mk.tau=trd$mk.tau, mk.pval=trd$mk.pval)
 		}
 		return(result)
 	})
@@ -80,8 +83,8 @@ TrendSample <- structure(function(
 	rownames(stats) <- 1:nrow(stats)
 	class(stats) <- "TrendSample"
 	
-	stats$tau.test <- wilcox.test(stats$tau)
-	stats$slope.test <- wilcox.test(stats$slope)
+	suppressWarnings(stats$tau.test <- wilcox.test(stats$mk.tau))
+	suppressWarnings(stats$slope.test <- wilcox.test(stats$slope))
 	
 	return(stats)
 	### The function returns a data.frame with the start date, end date and length of the sample from the time series and the correspondig Mann-Kendall tau, p-value, slope, intercept, and percentage slope of a linear trend.
@@ -90,12 +93,16 @@ TrendSample <- structure(function(
 data(ndvi)
 
 # calculate uncertainty of trend dependent on start and end dates
-ndvi <- aggregate(ndvi, FUN=mean)
-trd.ens <- TrendSample(ndvi)
-trd.ens
+trd.ens <- TrendSample(ndvi, trend=TrendAAT)
+plot(trd.ens)
+plot(trd.ens, "tau")
+
+trd.ens <- TrendSample(ndvi, trend=TrendRQ)
+plot(trd.ens)
+
 
 # plot relations between start, end dates, length and trend statistics
-plot(trd.ens)
+
 
 
 })

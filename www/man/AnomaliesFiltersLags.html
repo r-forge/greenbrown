@@ -16,7 +16,8 @@
 
 <pre>AnomaliesFiltersLags(x, funSeasonalCycle = MeanSeasonalCycle, 
     funFilter = median, alignFilter = c("center", "left", "right"), 
-    filters = c(3, 5, 7, 9, 11, 13), lags = -1:-7, ...)</pre>
+    filters = c(3, 5, 7, 9, 11, 13), lags = -1:-7, anom = TRUE, 
+    ...)</pre>
 
 
 <h3>Arguments</h3>
@@ -40,11 +41,15 @@
 </td></tr>
 <tr valign="top"><td><code>filters</code></td>
 <td>
-<p>window sizes for rolling filters to be applied</p>
+<p>window sizes for rolling filters to be applied. If NULL, do not apply filters.</p>
 </td></tr>
 <tr valign="top"><td><code>lags</code></td>
 <td>
-<p>time lags to be applied for lagged time series</p>
+<p>time lags to be applied for lagged time series. If NULL, do not apply lags.</p>
+</td></tr>
+<tr valign="top"><td><code>anom</code></td>
+<td>
+<p>compute seasonal anomalies?</p>
 </td></tr>
 <tr valign="top"><td><code>...</code></td>
 <td>
@@ -105,6 +110,7 @@ plot(ndvi)
 # do calculations
 afl &lt;- AnomaliesFiltersLags(ndvi)
 colnames(afl)
+summary(afl)
 
 # seasonal anomalies
 plot(afl[,"anom"]) 
@@ -124,5 +130,5 @@ plot(afl[, grep("anom.lag", colnames(afl))], plot.type="single", col=rainbow(7))
 
 </pre>
 
-<hr /><div style="text-align: center;">[Package <em>greenbrown</em> version 2.4.2 <a href="00Index.html">Index</a>]</div>
+<hr /><div style="text-align: center;">[Package <em>greenbrown</em> version 2.4.3 <a href="00Index.html">Index</a>]</div>
 </body></html>

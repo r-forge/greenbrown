@@ -28,7 +28,7 @@ TrendGradient <- structure(function(
 	scalar=1,
 	### Multiplier to be applied to time series (e.g. for unit conversions).
 	
-	method=c("AAT", "STM", "SeasonalAdjusted"), 
+	method=c("AAT", "STM", "SeasonalAdjusted", "RQ"), 
 	### method to be used for trend calculation with the following options: 
 	### \itemize{
 	### \item{ \code{AAT} (default) calculates trends on annual aggregated time series (see \code{\link{TrendAAT}} for details). This method will be automatically choosen if the time series has a frequency of 1 (e.g. in case of annual time steps). If the time series has a frequency > 1, the time series will be aggregated to annual time steps using the mean. }
@@ -103,7 +103,7 @@ TrendGradient <- structure(function(
 
 		# calculate trend
 		trd <- Trend(Yt, method=method[1], funAnnual=funAnnual, h=h, breaks=breaks, funSeasonalCycle=funSeasonalCycle, mosum.pval=mosum.pval)	
-		trd <- TrendLongestSEG(trd) # return always result of the longest segement
+		trd <- TrendLongestSEG(trd) # return always result of the longest segment
 		
 		df <- data.frame(
 			zone=zone.vals[id,2], 
@@ -114,10 +114,6 @@ TrendGradient <- structure(function(
 			SlopeUncMedian = trd[grep("SlopeUncMedianSEG", names(trd))],
 			LongestSEG = trd[grep("LongestSEG", names(trd))],
 			LengthSEG = trd[grep("LengthSEG", names(trd))]
-			# Percentage = trd[grep("SlopeSEG", names(trd))] / median(Yt[1:3], na.rm=TRUE),
-			# PercentageUncLower = trd[grep("SlopeUncLowerSEG", names(trd))] / median(Yt[1:3], na.rm=TRUE),
-			# PercentageUncUpper = trd[grep("SlopeUncUpperSEG", names(trd))] / median(Yt[1:3], na.rm=TRUE),
-			# PercentageUncMedian = trd[grep("SlopeUncMedianSEG", names(trd))] / median(Yt[1:3], na.rm=TRUE)			
 		)
 		return(df)	
 	})

@@ -18,10 +18,13 @@ AnomaliesFiltersLags <- structure(function(
 	###  specifies whether the index of the running filter results should be left- or right-aligned or centered (default) compared to the rolling window of observations. See \code{\link{rollapply}}
 	
 	filters = c(3, 5, 7, 9, 11, 13),
-	### window sizes for rolling filters to be applied
+	### window sizes for rolling filters to be applied. If NULL, do not apply filters.
 	
 	lags = -1:-7,
-	### time lags to be applied for lagged time series
+	### time lags to be applied for lagged time series. If NULL, do not apply lags.
+	
+	anom = TRUE,
+	### compute seasonal anomalies?
 	
 	...
 	### further arguments (currently not used)
@@ -29,12 +32,20 @@ AnomaliesFiltersLags <- structure(function(
 	##seealso<<
 	## \code{\link{MeanSeasonalCycle}}
 ) {    
+
+      if (is.null(anom)) anom <- FALSE
       
       # mean seasonal cycle 
       x.msc <- do.call(funSeasonalCycle, list(ts=x)) + mean(x, na.rm=TRUE) 
-
+      res <- ts.union(x, x.msc)
+      nms <- c("orig", "msc")
+      
       # anomalies
-      x.anom <- x - x.msc
+      if (anom) {
+         x.anom <- x - x.msc
+         res <- ts.union(res, x.anom)
+         nms <- c(nms, "anom")
+      }
       
       # filter time series 
       .Filter <- function(x, filters, funFilter) {
@@ -43,8 +54,17 @@ AnomaliesFiltersLags <- structure(function(
          colnames(x) <- c("orig", paste0("filter", filters))
          return(x)
       }      
-      x.filt <- .Filter(x, filters=filters, funFilter=funFilter)
-      x.anom.filt <- .Filter(x.anom, filters=filters, funFilter=funFilter)
+      if (!is.null(filters)) {
+         x.filt <- .Filter(x, filters=filters, funFilter=funFilter)
+         res <- ts.union(res, x.filt[,-1])
+         nms <- c(nms, paste0("orig.", colnames(x.filt)[-1]))
+         
+         if (anom) {
+            x.anom.filt <- .Filter(x.anom, filters=filters, funFilter=funFilter)
+            res <- ts.union(res, x.anom.filt[,-1])
+            nms <- c(nms, paste0("anom.", colnames(x.anom.filt)[-1]))
+         }
+      } 
       # plot(x.anom.filt, col=rainbow(maxFilter), plot.type="single")
       
       # time lags
@@ -55,19 +75,32 @@ AnomaliesFiltersLags <- structure(function(
          colnames(x) <- nms
          return(x)
       }
-      x.lag <- .Lags(x, lags=lags)
-      x.msc.lag <- .Lags(x.msc, lags=lags)
-      x.anom.lag <- .Lags(x.anom, lags=lags)
+      if (!is.null(lags)) {
+         x.lag <- .Lags(x, lags=lags)
+         res <- ts.union(res, x.lag[,-1])
+         nms <- c(nms, paste0("orig.", colnames(x.lag)[-1]))
+            
+         if (anom) {
+            x.anom.lag <- .Lags(x.anom, lags=lags)
+            res <- ts.union(res, x.anom.lag[,-1])
+            nms <- c(nms, paste0("anom.", colnames(x.anom.lag)[-1]))
+         }
+      } 
       
       # results
-      res <- ts.union(x, x.msc, x.anom, x.filt, x.anom.filt, x.lag, x.msc.lag, x.anom.lag)
-      colnames(res) <- c("orig", "msc", "anom", 
-         paste0("orig.", colnames(x.anom.filt)), 
-         paste0("anom.", colnames(x.anom.filt)), 
-         paste0("orig.", colnames(x.lag)), 
-         paste0("msc.", colnames(x.msc.lag)), 
-         paste0("anom.", colnames(x.anom.lag)))
-      res <- res[, -(grep(".orig", colnames(res)))]
+      
+      if (any(grepl(".orig", res))) {
+         res <- res[, !grepl(".orig", res)]
+      }
+      if (any(grepl(".orig", nms))) {
+         nms <- nms[!grepl(".orig", nms)]
+      }
+      colnames(res) <- nms
+      
+#      if (any(grepl(".orig", colnames(res)))) res <- res[, !grepl(".orig", colnames(res))]
+      b <- apply(res, 2, function(x) !all(is.na(x)))
+      
+      res <- res[, b]
       return(res)
       ### The function returns a multivariate time series of class 'mts' with the following columns:
       ### \itemize{ 
@@ -88,6 +121,7 @@ plot(ndvi)
 # do calculations
 afl <- AnomaliesFiltersLags(ndvi)
 colnames(afl)
+summary(afl)
 
 # seasonal anomalies
 plot(afl[,"anom"]) 

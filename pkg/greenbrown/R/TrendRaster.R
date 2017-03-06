@@ -75,7 +75,7 @@ TrendRaster <- structure(function(
 		if ((sum(is.na(x))/length(x) > 0.7) | (AllEqual(x))) return(rep(NA, length.res))
 
 		# apply the function for trend analysis 
-		result.l <- do.call(Trend, list(x, breaks=breaks, h=h, method=method, funSeasonalCycle=funSeasonalCycle, mosum.pval=mosum.pval, funAnnual=funAnnual, sample.method="none"))
+		result.l <- do.call(Trend, list(x, breaks=breaks, h=h, method=method, funSeasonalCycle=funSeasonalCycle, mosum.pval=mosum.pval, funAnnual=funAnnual))
 		
 		# get breakpoints and length of segments
 		bp <- result.l$bp$breakpoints	# get breakpoints

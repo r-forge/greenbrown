@@ -15,8 +15,7 @@
 <h3>Usage</h3>
 
 <pre>TrendSeasonalAdjusted(Yt, mosum.pval = 0.05, h = 0.15, breaks = NULL, 
-    funSeasonalCycle = MeanSeasonalCycle, sample.method = c("sample", 
-        "all", "none"), sample.min.length = 0.75, sample.size = 30)</pre>
+    funSeasonalCycle = MeanSeasonalCycle)</pre>
 
 
 <h3>Arguments</h3>
@@ -50,18 +49,6 @@
 <li> <p><code><a href="SSASeasonalCycle.html">SSASeasonalCycle</a></code> can be used which detects a modulated seasonal cycle based on Singular Spectrum Analysis. 
 </p>
 </li></ul>
-</td></tr>
-<tr valign="top"><td><code>sample.method</code></td>
-<td>
-<p>Sampling method for combinations of start and end dates to compute uncertainties in trends. If &quot;sample&quot; (default), trend statistics are computed for a sample of combinations of start and end dates according to <code>sample.size</code>. If &quot;all&quot;, trend statistics are computed for all combinations of start and end dates longer than <code>sample.min.length</code>.  If &quot;none&quot;, trend statistics will be only computed for the entire time series (i.e. no sampling of different start and end dates). </p>
-</td></tr>
-<tr valign="top"><td><code>sample.min.length</code></td>
-<td>
-<p>Minimum length of the time series (as a fraction of total length) that should be used to compute trend statistics. Time windows between start and end that are shorter than min.length will be not used for trend computation.</p>
-</td></tr>
-<tr valign="top"><td><code>sample.size</code></td>
-<td>
-<p>sample size (number of combinations of start and end dates) to be used if <code>method</code> is sample.</p>
 </td></tr>
 </table>
 
@@ -105,6 +92,7 @@ lines(MACtrend$adjusted, col="orange")
 # calculate trend on time series with removed mean seasonal cycle 
 # but with limited number of breakpoints
 MACtrend &lt;- TrendSeasonalAdjusted(ndvi, breaks=1, funSeasonalCycle=MeanSeasonalCycle)
+MACtrend
 plot(MACtrend)
 
 ## calculate trend on time series with removed seasonal cycle but seasonal cycle computed based 
@@ -117,5 +105,5 @@ plot(MACtrend)
 
 </pre>
 
-<hr /><div style="text-align: center;">[Package <em>greenbrown</em> version 2.4.2 <a href="00Index.html">Index</a>]</div>
+<hr /><div style="text-align: center;">[Package <em>greenbrown</em> version 2.4.3 <a href="00Index.html">Index</a>]</div>
 </body></html>

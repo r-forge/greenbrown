@@ -8,37 +8,55 @@ plot.TrendSample <- structure(function(
 	x,
 	### objects of class \code{\link{TrendSample}}
 	
+	y = "slope",
+	### plot linear trend 'slope', 'perc' or 'tau' from Mann-Kendall trend test as response variable.
+	
 	full = TRUE,
 	### make full plot or plot only main plot?
 	
-	response = "slope",
-	### plot linear trend 'slope' or 'tau' from Mann-Kendall trend test as response variable.
-		
 	...
 	### further arguments to \code{\link{plot}}
 	
 	##seealso<<
 	## \code{\link{TrendSample}}, \code{\link{TrendUncertainty}}		
 ) {
+   op <- par()
 	trd.ens <- x
-	if (response != "slope" & response != "tau") response <- "slope"
-	if (response == "slope") {
-		sl <- trd.ens$slope
+	if (!(y %in% c("slope", "tau", "perc"))) y <- "slope"
+	
+	if (y == "slope" | y == "perc") {
+	   xlab <- "Trend slope"
+	   ylab <- "Slope p-value"
+		if (y == "slope") {
+		   xlab <- "Trend slope"
+		   sl <- trd.ens$slope
+		}
+		if (y == "perc") {
+		   xlab <- "Trend slope (%)"
+		   sl <- trd.ens$perc
+		}
+		pval <- trd.ens$pval
+		if (any(is.na(pval))) {
+		   pval <- trd.ens$mk.pval
+		   ylab <- "Mann-Kendall p-value"
+		}
 		test <- trd.ens$slope.test
-		xlab <- "Trend slope"
+		
 	}
-	if (response == "tau") {
-		sl <- trd.ens$tau
+	if (y == "tau") {
+	   xlab <- "Mann-Kendall tau"
+	   ylab <- "Mann-Kendall p-value"
+		sl <- trd.ens$mk.tau
+		pval <- trd.ens$mk.pval
 		test <- trd.ens$tau.test
-		xlab <- "Mann-Kendall tau"
 	}
 
 	sl.abs <- abs(sl)
-	cex <- (sl.abs - min(sl.abs)) * ((4 - 0.3) / max(sl.abs) - min(sl.abs)) + 0.3
+	cex <- (sl.abs - min(sl.abs)) * ((4 - 0.3) / (max(sl.abs) - min(sl.abs))) + 0.3
 	cols <- c("blue", "red")[cut(sl, c(min(sl), 0, max(sl)))]
 	if (all(sl > 0)) cols <- "red"
 	if (all(sl < 0)) cols <- "blue"
-	pch <- c(8, 4, 1)[cut(trd.ens$pval, c(0, 0.05, 0.1, 1))]
+	pch <- c(8, 4, 1)[cut(pval, c(0, 0.05, 0.1, 1))]
 
 	cex.def <- 1.3
 	par(mfrow=c(1,1), mar=c(3.7, 3.5, 2, 0.5), mgp=c(2.4, 1, 0), cex=cex.def, cex.lab=cex.def*1.1, cex.axis=cex.def*1.1, cex.main=cex.def*1.1)
@@ -50,9 +68,9 @@ plot.TrendSample <- structure(function(
 	text(x=min(trd.ens$start), y=seq(min(trd.ens$end), max(trd.ens$end)), paste("n =", seq(min(trd.ens$length), max(trd.ens$length))), srt=44, pos=4, cex=0.7, col="darkgrey")
 
 	if (full) {
-		par(fig=c(0.5, 0.98, 0.1, 0.51), new=TRUE, cex.lab=cex.def*0.8, cex.axis=cex.def*0.8, cex.main=cex.def*0.8, mgp=c(1.3, 0.5, 0), mar=c(3.7, 3.5, 0, 0.5))
+		par(fig=c(0.5, 0.98, 0.1, 0.51), new=TRUE, cex.lab=cex.def*0.7, cex.axis=cex.def*0.7, cex.main=cex.def*0.8, mgp=c(1.3, 0.5, 0), mar=c(3.7, 3.5, 0, 0.5))
 		xlim <- range(sl)
-		plot(sl, trd.ens$pvalue, col=cols, bg=cols, cex=cex, lwd=cex, pch=pch, xlab=xlab, ylab="p-value", xlim=xlim)
+		plot(sl, pval, col=cols, bg=cols, cex=cex, lwd=cex, pch=pch, xlab=xlab, ylab=ylab, xlim=xlim)
 		abline(v=0, h=c(0.05, 0.1), lty=2, lwd=0.04, col="darkgrey")
 
 		par(fig=c(0.5, 0.98, 0.51, 0.56), new=TRUE, mar=c(0, 3.5, 0, 0.5))
@@ -68,6 +86,8 @@ plot.TrendSample <- structure(function(
 		text(x=median(sl, na.rm=TRUE), y=0.6, sig, pos=3, adj=0.5, col=col)
 		
 	}
+	on.exit(par(op))
+	
 	# quantile(trd.ens$slope, c(0.05, 0.25, 0.5, 0.75, 0.95))
 }, ex=function(){
 # load a time series of NDVI (normalized difference vegetation index)

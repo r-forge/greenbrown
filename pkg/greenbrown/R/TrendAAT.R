@@ -17,17 +17,8 @@ TrendAAT <- structure(function(
 	breaks=NULL, 
 	### maximal number of breaks to be calculated (integer number). By default the maximal number allowed by h is used. See \code{\link[strucchange]{breakpoints}} for details.
 	
-	funAnnual=mean,
+	funAnnual=mean
 	### function to aggregate time series to annual values The default function is the mean (i.e. trend calculated on mean annual time series). See example section for other examples.
-
-	sample.method = c("sample", "all", "none"),
-	### Sampling method for combinations of start and end dates to compute uncertainties in trends. If "sample" (default), trend statistics are computed for a sample of combinations of start and end dates according to \code{sample.size}. If "all", trend statistics are computed for all combinations of start and end dates longer than \code{sample.min.length}.  If "none", trend statistics will be only computed for the entire time series (i.e. no sampling of different start and end dates). 
-	
-	sample.min.length = 0.75,
-	### Minimum length of the time series (as a fraction of total length) that should be used to compute trend statistics. Time windows between start and end that are shorter than min.length will be not used for trend computation.
-	
-	sample.size = 30
-	### sample size (number of combinations of start and end dates) to be used if \code{method} is sample.	
 	
 	##references<< Forkel, M., N. Carvalhais, J. Verbesselt, M. Mahecha, C. Neigh and M. Reichstein (2013): Trend Change Detection in NDVI Time Series: Effects of Inter-Annual Variability and Methodology. - Remote Sensing 5.
 		
@@ -96,12 +87,12 @@ TrendAAT <- structure(function(
 	trend_est <- ts(trend_est, start=start(Yt), frequency=frequency(Yt))
 	trend_est <- (trend_est - mean(trend_est, na.rm=TRUE)) + mean(Yt, na.rm=TRUE)
 	
-	# results: estimate p-value, slope and uncertainties 
-	trd.unc <- TrendUncertainty(Yt, bp_est, sample.method = sample.method, sample.min.length=sample.min.length, sample.size=sample.size)
-	
 	if (!is.na(bp_est$breakpoints[1])) {
 		bp_est$breakpoints <- d$trend[bp_est$breakpoints]
 	}
+	
+	# compute MannKendall test
+	mk <- MannKendallSeg(Yt, bp=bp_est)[-1,]
 	
 	# return results
 	result <- list(
@@ -109,14 +100,15 @@ TrendAAT <- structure(function(
 		trend = trend_est,
 		time = as.vector(time),
 		bp = bp_est,
-		slope = unlist(llply(trd.unc, function(x) x$slope)), 
-		slope_unc = ldply(trd.unc, function(x) x$slope_unc),
-		pval = unlist(llply(trd.unc, function(x) x$pval)),  
-		pval_unc = ldply(trd.unc, function(x) x$pval_unc),
-		tau = unlist(llply(trd.unc, function(x) x$tau)),
-		tau_unc = ldply(trd.unc, function(x) x$tau_unc),
-		percentage = unlist(llply(trd.unc, function(x) x$percentage)),
-		percentage_unc = ldply(trd.unc, function(x) x$percentage_unc),		
+		slope = mk$lm.slope, 
+		slope_unc = NoUnc(),
+		slope_se = mk$lm.slope.se,
+		pval = mk$lm.slope.pvalue,  
+		perc = mk$lm.slope.perc,
+		perc_unc = NoUnc(),
+		mk.tau = mk$mk.tau,
+		mk.tau_unc = NoUnc(),
+		mk.pval = mk$mk.pval,
 		bptest = test,
 		method = "AAT")
 	class(result) <- "Trend"
@@ -131,6 +123,8 @@ plot(ndvi)
 trd.annualmean <- TrendAAT(ndvi)
 trd.annualmean
 plot(trd.annualmean)
+
+TrendLongestSEG(trd.annualmean)
 
 # calculate annual trend but don't apply MOSUM test for structural change
 trd.annualmean <- TrendAAT(ndvi, mosum.pval=1)

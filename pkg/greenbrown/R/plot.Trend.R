@@ -29,9 +29,6 @@ plot.Trend <- structure(function(
 	legend=FALSE,
 	### add slope and p-value as legend
 	
-	uncertainty=TRUE,
-	### plot uncertainty in trend slopes? (only possible if the x 'Trend' object includes uncertainty estimates)
-	
 	axes=TRUE,
 	### plot axes?
 	
@@ -43,6 +40,13 @@ plot.Trend <- structure(function(
 ) {
 	if (length(col) != 4) col <- rep(col[1], 4)
 	if (length(lty) != 4) lty <- rep(lty[1], 4)
+	
+	if (symbolic | legend) {
+	  if (!(x$method == "STM" | x$method == "AAT" | x$method == "SeasonalAdjusted" | grepl("RQ", x$method))) {
+	      symbolic <- FALSE
+	      legend <- FALSE
+	  } 
+	}
 
 	# plot time series
 	if (!add) {
@@ -71,7 +75,7 @@ plot.Trend <- structure(function(
 	
 	# add legend or symbolic representation of significance
 	pval.symbol <- rep("", length(x$pval))
-	pval.symbol[!is.na(x$pval)] <- symnum(x$pval[!is.na(x$pval)] , corr = FALSE, na = FALSE, cutpoints = c(0, 0.001, 0.01, 0.05, 0.1, 1), symbols = c("***", "**", "*", ".", " "))
+	pval.symbol[!is.na(x$pval)] <- symnum(x$mk.pval[!is.na(x$mk.pval)] , corr = FALSE, na = FALSE, cutpoints = c(0, 0.001, 0.01, 0.05, 0.1, 1), symbols = c("***", "**", "*", ".", " "))
 	xpos <- NULL
 	ypos <- NULL
 	if (!is.na(x$bp$breakpoints[1])) { 
@@ -88,23 +92,22 @@ plot.Trend <- structure(function(
 		d <- (x$trend[!b])[seg == unique(seg)[i]]
 		ypos <- c(ypos, quantile(d, prob=0.6, na.rm=TRUE)[1])
 		
-		# add trend slope uncertainty
-		if (!is.na(x$slope_unc[i,2]) & uncertainty) {
-			t <- x$time[seg == unique(seg)[i]]
-			y <-  x$trend[seg == unique(seg)[i]]
-			unc <- unlist(x$slope_unc[i,-1])
-			if (length(unc > 1)) {
-				y1 <- unc[1] * 1:length(t)
-				y2 <- unc[2] * 1:length(t)
-			} else {
-				y1 <- (x$slope[i] + unc[1]) * 1:length(t)
-				y2 <- (x$slope[i] - unc[1]) * 1:length(t)
-			}
-			y1 <- y1 - mean(y1, na.rm=TRUE) + mean(y, na.rm=TRUE)
-			y2 <- y2 - mean(y2, na.rm=TRUE) + mean(y, na.rm=TRUE)
-			lines(t, y1, col=col[2], lty=lty[4], lwd=lwd)
-			lines(t, y2, col=col[2], lty=lty[4], lwd=lwd)
-		}
+#		# add trend slope uncertainty
+#		if ((!is.null(x$slope_se[i]) | !is.null(x$slope_unc[i])) & uncertainty) {
+#			t <- x$time[seg == unique(seg)[i]]
+#			y <-  x$trend[seg == unique(seg)[i]]
+#			if (!is.null(x$slope_unc[i])) {
+#			   unc <- unlist(x$slope_unc[i])
+#			} else {
+#			   unc <- unlist(x$slope_se[i])
+#			}
+#			y1 <- (x$slope[i] + unc[1]) * 1:length(t)
+#			y2 <- (x$slope[i] - unc[1]) * 1:length(t)
+#			y1 <- y1 - mean(y1, na.rm=TRUE) + mean(y, na.rm=TRUE)
+#			y2 <- y2 - mean(y2, na.rm=TRUE) + mean(y, na.rm=TRUE)
+#			lines(t, y1, col=col[2], lty=lty[4], lwd=lwd)
+#			lines(t, y2, col=col[2], lty=lty[4], lwd=lwd)
+#		}
 	}
 	 
 	if (symbolic) {	
@@ -122,12 +125,11 @@ plot(ndvi)
 ndvi.trend <- Trend(ndvi)
 ndvi.trend
 plot(ndvi.trend)
-plot(ndvi.trend, uncertainty=FALSE)
 
 ndvi.trend.aat <- Trend(ndvi, method="AAT", mosum.pval=1)
 plot(ndvi.trend.aat)
 plot(ndvi.trend.aat, symbolic=FALSE)
-plot(ndvi.trend.aat, symbolic=FALSE, uncertainty=FALSE)
+plot(ndvi.trend.aat, symbolic=FALSE, legend=TRUE)
 
 ndvi.trend.stm <- Trend(ndvi, method="STM", mosum.pval=1)
 plot(ndvi.trend.stm)
@@ -155,17 +157,13 @@ print.Trend <- structure(function(
 ) {
 	nseg <- length(x$slope)
 	# get coefficients for piecewise linear trend
-	trd <- format(signif(x$slope, 3), digits=3, scientific=FALSE, width=8)
-	tau <- format(signif(x$tau, 3), digits=3, scientific=FALSE, width=8)
-	pval <- format(signif(x$pval, 3), digits=3, width=8)
-	# if (is.null(x$bptest) & !is.null(x$tau)) trd <- format(signif(x$tau, 3), digits=3, scientific=FALSE, width=8)
-	if (!is.null(x$percentage)) {
-		perc <- format(signif(x$percentage, 3), digits=3, width=8)
-		names <- format(c("slope", "%", "p-value", "tau"), justify="right", width=8)
-	} else {	
-		names <- format(c("slope", "p-value", "tau"), justify="right", width=8)
-	}
-	
+	slope <- format(signif(x$slope, 3), width=10)
+	pval <- format(signif(x$pval, 3), width=10)
+	mk.tau <- format(signif(x$mk.tau, 3), width=10)
+	mk.pval <- format(signif(x$mk.pval, 3), width=10)
+	perc <- format(signif(x$perc, 3), width=10)
+	names <- format(c("segment", "slope", "%", "p-value", "MK tau", "MK p-value"), justify="right", width=10)
+		
 	if (nseg > 1) bp.dates <- format(x$time[x$bp$breakpoints], justify="right", width=8)
 
 	# print time series information
@@ -178,33 +176,31 @@ print.Trend <- structure(function(
 	cat("Time series length  : ", length(x$series), "\n")
 	cat("\n")
 	
-	cat("Test for structural change", "\n")
-	if (!is.null(x$bptest)) {
-		cat("  OLS-based MOSUM test for structural change", "\n")
-		cat("    statistic       :", x$bptest$statistic, "\n")
-		cat("    p-value         :", x$bptest$p.value, "\n")
-	} else {
-		cat("  Test for structural change was not perfomed.", "\n")
-	}
-	if (!is.null(x$bptest)) {
-		if (nseg > 1) cat("  Breakpoints       :", paste(bp.dates, sep="  "), "\n")
-		if (nseg == 1) cat("  Breakpoints       : Breakpoints were not detected.", "\n")
-	}	
-	cat("\n")
-	
 	cat("Trend method        :", x$method, "\n")
 	if (x$method == "STM" & nseg > 1) {
 		cat("  breakpoint type   : ", x$bptype, "\n")
 	}
 	cat("\n")
 	
-	# print coefficients of piecewise linear trend
-	cat("Trends in segments of the time series", "\n")
-	cat("    ", "              ", names, "\n")
-	if (!is.null(x$percentage)) {
-		for (i in 1:nseg) cat("    ", "segment", format(i, width=3, justify="right"), ":", trd[i], perc[i], pval[i], tau[i], "\n")	
-	} else {
-		for (i in 1:nseg) cat("    ", "segment", format(i, width=3, justify="right"), ":", trd[i], pval[i], tau[i], "\n")	
+	if (x$method == "STM" | x$method == "AAT" | x$method == "SeasonalAdjusted" | grepl("RQ", x$method)) {
+		cat("Test for structural change", "\n")
+	   if (!is.null(x$bptest)) {
+		   cat("  OLS-based MOSUM test for structural change", "\n")
+		   cat("    statistic       :", x$bptest$statistic, "\n")
+		   cat("    p-value         :", x$bptest$p.value, "\n")
+	   } else {
+		   cat("  Test for structural change was not perfomed.", "\n")
+	   }
+	   if (!is.null(x$bptest)) {
+		   if (nseg > 1) cat("  Breakpoints       :", paste(bp.dates, sep="  "), "\n")
+		   if (nseg == 1) cat("  Breakpoints       : Breakpoints were not detected.", "\n")
+	   }	
+	   cat("\n")
+	
+	   # print coefficients of piecewise linear trend
+	   cat("Trends in segments of the time series", "\n")
+	   cat(" ", names, "\n")
+	   for (s in 1:nseg) cat(" ", format(s, width=10), slope[s], perc[s], pval[s], mk.tau[s], mk.pval[s], "\n")
 	}
 }, ex=function() {
 # load a time series of Normalized Difference Vegetation Index

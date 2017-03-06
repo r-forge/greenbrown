@@ -4,14 +4,16 @@
 \description{This function computes several time-variant statisttics of a time series like seasonal anomalies, time lagged versions of time series, and filters time series based on running windows (using \code{\link{rollapply}}.}
 \usage{AnomaliesFiltersLags(x, funSeasonalCycle = MeanSeasonalCycle, 
     funFilter = median, alignFilter = c("center", "left", "right"), 
-    filters = c(3, 5, 7, 9, 11, 13), lags = -1:-7, ...)}
+    filters = c(3, 5, 7, 9, 11, 13), lags = -1:-7, anom = TRUE, 
+    ...)}
 \arguments{
   \item{x}{univariate time series of class \code{\link{ts}}}
   \item{funSeasonalCycle}{a function to estimate the seasonal cycle of the time series.}
   \item{funFilter}{a function to filter the time series based on rolling windows.}
   \item{alignFilter}{specifies whether the index of the running filter results should be left- or right-aligned or centered (default) compared to the rolling window of observations. See \code{\link{rollapply}}}
-  \item{filters}{window sizes for rolling filters to be applied}
-  \item{lags}{time lags to be applied for lagged time series}
+  \item{filters}{window sizes for rolling filters to be applied. If NULL, do not apply filters.}
+  \item{lags}{time lags to be applied for lagged time series. If NULL, do not apply lags.}
+  \item{anom}{compute seasonal anomalies?}
   \item{\dots}{further arguments (currently not used)}
 }
 
@@ -40,6 +42,7 @@ plot(ndvi)
 # do calculations
 afl <- AnomaliesFiltersLags(ndvi)
 colnames(afl)
+summary(afl)
 
 # seasonal anomalies
 plot(afl[,"anom"]) 

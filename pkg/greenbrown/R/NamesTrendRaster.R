@@ -30,7 +30,7 @@ trendmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12,
    method="AAT", breaks=breaks)
 plot(trendmap)
 
-# layer names ot the result
+# layer names of the result
 NamesTrendRaster(breaks)
 NamesTrendRaster(trendmap)
 names(trendmap)

@@ -30,7 +30,10 @@ Seasonality <- structure(function(
 	
 	# make three tests for seasoanlity: acf, periodogram and seasonal model
 	seasonal <- rep(FALSE, 3)
-	if (plot) par(mfrow=c(3,1))
+	if (plot) {
+	   op <- par()
+	   par(mfrow=c(3,1))
+	}
 	
 	# Test 1: periodogram
 		# estimate spectral density 
@@ -83,6 +86,7 @@ Seasonality <- structure(function(
 		
 	# return result
 	names(seasonal) <- c("pgram", "acf", "lm")
+	if (plot) on.exit(par(op))
 	return(seasonal)
 	### The function returns a boolean vector of length 3 including TRUE if a method detected seasonality or FALSE if a method did not detect seasonality. 
 }, ex=function() {

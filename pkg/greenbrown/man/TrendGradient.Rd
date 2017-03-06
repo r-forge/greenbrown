@@ -4,8 +4,8 @@
 \description{This function extracts along a spatial gradient (e.g. along latitude) time series from a raster brick and computes for each position a temporal trend.}
 \usage{TrendGradient(r, start = c(1982, 1), freq = 12, gradient.r = NULL, 
     gradient.brks = NULL, funSpatial = "mean", cor.area = FALSE, 
-    scalar = 1, method = c("AAT", "STM", "SeasonalAdjusted"), 
-    mosum.pval = 0.05, h = 0.15, breaks = 0, funAnnual = mean, 
+    scalar = 1, method = c("AAT", "STM", "SeasonalAdjusted", 
+        "RQ"), mosum.pval = 0.05, h = 0.15, breaks = 0, funAnnual = mean, 
     funSeasonalCycle = MeanSeasonalCycle, percent = FALSE)}
 \arguments{
   \item{r}{multi-layer raster object of class \code{\link[raster]{brick}}}

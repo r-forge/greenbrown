@@ -45,16 +45,16 @@ CompareClassification <- structure(function(
 		return(agree)
 	})
 	
-	# calculate contingency table
-	n <- ncell(x) * samplefrac
-	xval <- values(x)
-	yval <- values(y)
-	tab <- table(xval, yval)
-	
 	# names for the table
 	if (is.null(names)) {
 		names <- list(x=classes, y=classes)
 	}	
+	
+	# calculate contingency table
+	n <- ncell(x) * samplefrac
+	xval <- c(values(x), rep(NA, ncl))
+	yval <- c(values(y), unique(classes))
+	tab <- table(xval, yval)
 	tab <- as.matrix(tab)
 	rownames(tab) <- names[[1]]
 	colnames(tab) <- names[[2]]

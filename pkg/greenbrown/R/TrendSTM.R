@@ -66,9 +66,9 @@ TrendSTM <- structure(function(
 		d$seg <- as.integer(breakfactor(bp_est))
 		
 		# calculate regression with breakpoints affecting ...
-		m1 <- lm(response ~ seg/trend, data = d)	# ... trend
+		m1 <- lm(response ~ seg/trend, data = d)	# ... trend - no harmonics
 		m2 <- lm(response ~ seg/trend + harmon, data = d) # ... trend
-		m3 <- lm(response ~ seg/(trend + harmon), data = d)	# ... trend and harmonics
+		m3 <- lm(response ~ seg/(trend + harmon), data = d) # ... trend and harmonics
 		m4 <- lm(response ~ trend + seg/harmon, data = d)	# ... harmonics only
 		
 		# select best regression model
@@ -128,17 +128,12 @@ TrendSTM <- structure(function(
 	trend_est <- ts(trend_est, start=start(Yt), frequency=frequency(Yt))
 	trend_est <- (trend_est - mean(trend_est, na.rm=TRUE)) + mean(Yt, na.rm=TRUE)
 	
-	# results: trend and pvalue as significance from regression coefficient
-	pval_est <- m.sum$coefficients[grep("trend", rownames(m.sum$coefficients)),4]
-	slope_est <- m.sum$coefficients[grep("trend", rownames(m.sum$coefficients)),1]	
-	tau <- rep(NA, length(slope_est))
-	slope_unc <- data.frame(.id=1, NA, NA, NA)
-	pval_unc <- data.frame(.id=1, NA, NA, NA)
-	tau_unc <- data.frame(.id=1, NA, NA, NA)
-	
 	if (!is.na(bp_est$breakpoints[1])) {
 		bp_est$breakpoints <- d$trend[bp_est$breakpoints]
 	}
+	
+	# compute MannKendall test
+	mk <- MannKendallSeg(Yt, bp=bp_est)[-1,]
 
 	# return results
 	result <- list(
@@ -146,12 +141,15 @@ TrendSTM <- structure(function(
 		trend = trend_est,
 		time = time(Yt),
 		bp = bp_est,
-		slope = slope_est,
-		slope_unc = slope_unc,
-		pval = pval_est,
-		pval_unc = pval_unc,
-		tau = tau,
-		tau_unc = tau_unc,
+		slope = mk$lm.slope, 
+		slope_unc = NoUnc(),
+		slope_se = mk$lm.slope.se,
+		pval = mk$lm.slope.pvalue,  
+		perc = mk$lm.slope.perc,
+		perc_unc = NoUnc(),
+		mk.tau = mk$mk.tau,
+		mk.tau_unc = NoUnc(),
+		mk.pval = mk$mk.pval,
 		bptest = test,
 		bptype = bptype,
 		bptrend = bptrend,

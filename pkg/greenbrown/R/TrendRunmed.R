@@ -35,12 +35,7 @@ TrendRunmed <- structure(function(
 	Tt[Na == 1] <- NA	
 	
 	# results: pvalue with MannKendall test
-	mk <- MannKendall(Tt)
-	mk.pval <- mk$sl 
-	mk.tau <- mk$tau
-	slope_unc <- data.frame(.id=1, NA, NA, NA)
-	pval_unc <- data.frame(.id=1, NA, NA, NA)
-	tau_unc <- data.frame(.id=1, NA, NA, NA)
+	mk <- MannKendallSeg(Yt)[-1,]
 	
 	# return results
 	result <- list(
@@ -48,12 +43,15 @@ TrendRunmed <- structure(function(
 		trend = Tt,
 		time = as.vector(time),
 		bp = NoBP(),
-		slope = NA,
-		slope_unc = slope_unc,
-		pval = mk.pval,
-		pval_unc = pval_unc,
-		tau = mk.tau,
-		tau_unc = tau_unc,
+		slope = mk$lm.slope, 
+		slope_unc = NoUnc(),
+		slope_se = mk$lm.slope.se,
+		pval = mk$lm.slope.pvalue,  
+		perc = mk$lm.slope.perc,
+		perc_unc = NoUnc(),
+		mk.tau = mk$mk.tau,
+		mk.tau_unc = NoUnc(),
+		mk.pval = mk$mk.pval,
 		bptest = NULL,
 		method = "Runmed")
 	class(result) <- "Trend"

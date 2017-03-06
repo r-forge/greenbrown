@@ -64,7 +64,6 @@ TrendNCDF <- structure(function(
 	data.rb <- brick(file)
 	
 	# create output directory
-	
 	path.out <- gsub(".nc", "_Trend", file)
 	dir.create(path.out)
 	setwd(path.out)

@@ -17,7 +17,7 @@
 <pre>## S3 method for class 'Trend'
 plot(x, ylab = "NDVI", add = FALSE, col = c("black", "blue", 
     "red", "blue"), lty = c(2, 1, 2, 3), lwd = 1, symbolic = TRUE, 
-    legend = FALSE, uncertainty = TRUE, axes = TRUE, ...)</pre>
+    legend = FALSE, axes = TRUE, ...)</pre>
 
 
 <h3>Arguments</h3>
@@ -55,10 +55,6 @@ plot(x, ylab = "NDVI", add = FALSE, col = c("black", "blue",
 <td>
 <p>add slope and p-value as legend</p>
 </td></tr>
-<tr valign="top"><td><code>uncertainty</code></td>
-<td>
-<p>plot uncertainty in trend slopes? (only possible if the x 'Trend' object includes uncertainty estimates)</p>
-</td></tr>
 <tr valign="top"><td><code>axes</code></td>
 <td>
 <p>plot axes?</p>
@@ -91,12 +87,11 @@ plot(ndvi)
 ndvi.trend &lt;- Trend(ndvi)
 ndvi.trend
 plot(ndvi.trend)
-plot(ndvi.trend, uncertainty=FALSE)
 
 ndvi.trend.aat &lt;- Trend(ndvi, method="AAT", mosum.pval=1)
 plot(ndvi.trend.aat)
 plot(ndvi.trend.aat, symbolic=FALSE)
-plot(ndvi.trend.aat, symbolic=FALSE, uncertainty=FALSE)
+plot(ndvi.trend.aat, symbolic=FALSE, legend=TRUE)
 
 ndvi.trend.stm &lt;- Trend(ndvi, method="STM", mosum.pval=1)
 plot(ndvi.trend.stm)
@@ -108,5 +103,5 @@ plot(ndvi.trend.stm, symbolic=TRUE, col=c("darkgreen", "darkgreen", "red"),
 	
 </pre>
 
-<hr /><div style="text-align: center;">[Package <em>greenbrown</em> version 2.4.2 <a href="00Index.html">Index</a>]</div>
+<hr /><div style="text-align: center;">[Package <em>greenbrown</em> version 2.4.3 <a href="00Index.html">Index</a>]</div>
 </body></html>

@@ -7,12 +7,13 @@ Trend <- structure(function(
 	Yt, 
 	### univariate time series of class \code{\link{ts}}
 	
-	method=c("AAT", "STM", "SeasonalAdjusted"), 
+	method=c("AAT", "STM", "SeasonalAdjusted", "RQ"), 
 	### method to be used for trend calculation with the following options: 
 	### \itemize{
 	### \item{ \code{AAT} (default) calculates trends on annual aggregated time series (see \code{\link{TrendAAT}} for details). This method will be automatically choosen if the time series has a frequency of 1 (e.g. in case of annual time steps). If the time series has a frequency > 1, the time series will be aggregated to annual time steps using the mean. }
 	### \item{ \code{STM} fits harmonics to the seasonal time series to model the seasonal cycle and to calculate trends based on a multiple linear regression (see \code{\link{TrendSTM}} for details). }
 	### \item{ \code{SeasonalAdjusted} removes first the seasonal cycle from the time series and calculates the trend on the reaminder series (see \code{\link{TrendSeasonalAdjusted}} for details). }
+	### \item{ \code{RQ} computes trends based on quantile regression (see \code{\link{TrendRQ}} for details). }
 	### }
 	
 	mosum.pval=0.05,
@@ -31,17 +32,8 @@ Trend <- structure(function(
 	### \item{ \code{\link{SSASeasonalCycle}} detects a modulated seasonal cycle based on Singular Spectrum Analysis. }
 	### }
 	
-	funAnnual=mean,
+	funAnnual=mean
 	### function to aggregate time series to annual values if \code{AAT} is selected as method. The default function is the mean (i.e. trend calculated on mean annual time series). See \code{\link{TrendAAT}} for other examples
-	
-	sample.method = c("sample", "all", "none"),
-	### Sampling method for combinations of start and end dates to compute uncertainties in trends. If "sample" (default), trend statistics are computed for a sample of combinations of start and end dates according to \code{sample.size}. If "all", trend statistics are computed for all combinations of start and end dates longer than \code{sample.min.length}.  If "none", trend statistics will be only computed for the entire time series (i.e. no sampling of different start and end dates). 
-	
-	sample.min.length = 0.75,
-	### Minimum length of the time series (as a fraction of total length) that should be used to compute trend statistics. Time windows between start and end that are shorter than min.length will be not used for trend computation.
-	
-	sample.size = 30
-	### sample size (number of combinations of start and end dates) to be used if \code{method} is sample.	
 	
 	##details<<
 	## This function allows to calculate trends and trend changes based on different methods: see \code{\link{TrendAAT}}, \code{\link{TrendSTM}} or \code{\link{TrendSeasonalAdjusted}} for more details on these methods.
@@ -70,9 +62,10 @@ Trend <- structure(function(
 	
 	# compute trend
 	if (frequency(Yt) <= 1) method <- "AAT"
-	if (method[1] == "AAT") trend <- TrendAAT(Yt, h=h, breaks=breaks, mosum.pval=mosum.pval, funAnnual=funAnnual, sample.method=sample.method, sample.min.length=sample.min.length, sample.size=sample.size)
+	if (method[1] == "AAT") trend <- TrendAAT(Yt, h=h, breaks=breaks, mosum.pval=mosum.pval, funAnnual=funAnnual)
 	if (method[1] == "STM") trend <- TrendSTM(Yt, h=h, breaks=breaks, mosum.pval=mosum.pval)
-	if (method[1] == "SeasonalAdjusted") trend <- TrendSeasonalAdjusted(Yt, h=h, breaks=breaks, funSeasonalCycle=funSeasonalCycle, mosum.pval=mosum.pval, sample.method=sample.method, sample.min.length=sample.min.length, sample.size=sample.size)
+	if (method[1] == "SeasonalAdjusted") trend <- TrendSeasonalAdjusted(Yt, h=h, breaks=breaks, funSeasonalCycle=funSeasonalCycle, mosum.pval=mosum.pval)
+	if (method[1] == "RQ") trend <- TrendRQ(Yt)
 	return(trend)
 	### The function returns a list of class "Trend". 
 },ex=function(){
@@ -104,8 +97,12 @@ lines(trd$adjusted, col="green")
 trd
 
 # modify maximal number of breakpoints
-trd <- Trend(ndvi, method="SeasonalAdjusted", breaks=1, 
-	funSeasonalCycle=MeanSeasonalCycle, sample.method="sample")
+trd <- Trend(ndvi, method="SeasonalAdjusted", breaks=1)
+plot(trd)
+trd
+
+# use quantile regression
+trd <- Trend(ndvi, method="RQ")
 plot(trd)
 trd
 

@@ -14,10 +14,9 @@
 
 <h3>Usage</h3>
 
-<pre>Trend(Yt, method = c("AAT", "STM", "SeasonalAdjusted"), mosum.pval = 0.05, 
-    h = 0.15, breaks = NULL, funSeasonalCycle = MeanSeasonalCycle, 
-    funAnnual = mean, sample.method = c("sample", "all", "none"), 
-    sample.min.length = 0.75, sample.size = 30)</pre>
+<pre>Trend(Yt, method = c("AAT", "STM", "SeasonalAdjusted", "RQ"), 
+    mosum.pval = 0.05, h = 0.15, breaks = NULL, funSeasonalCycle = MeanSeasonalCycle, 
+    funAnnual = mean)</pre>
 
 
 <h3>Arguments</h3>
@@ -40,6 +39,9 @@
 </p>
 </li>
 <li> <p><code>SeasonalAdjusted</code> removes first the seasonal cycle from the time series and calculates the trend on the reaminder series (see <code><a href="TrendSeasonalAdjusted.html">TrendSeasonalAdjusted</a></code> for details). 
+</p>
+</li>
+<li> <p><code>RQ</code> computes trends based on quantile regression (see <code><a href="TrendRQ.html">TrendRQ</a></code> for details). 
 </p>
 </li></ul>
 </td></tr>
@@ -71,18 +73,6 @@
 <tr valign="top"><td><code>funAnnual</code></td>
 <td>
 <p>function to aggregate time series to annual values if <code>AAT</code> is selected as method. The default function is the mean (i.e. trend calculated on mean annual time series). See <code><a href="TrendAAT.html">TrendAAT</a></code> for other examples</p>
-</td></tr>
-<tr valign="top"><td><code>sample.method</code></td>
-<td>
-<p>Sampling method for combinations of start and end dates to compute uncertainties in trends. If &quot;sample&quot; (default), trend statistics are computed for a sample of combinations of start and end dates according to <code>sample.size</code>. If &quot;all&quot;, trend statistics are computed for all combinations of start and end dates longer than <code>sample.min.length</code>.  If &quot;none&quot;, trend statistics will be only computed for the entire time series (i.e. no sampling of different start and end dates). </p>
-</td></tr>
-<tr valign="top"><td><code>sample.min.length</code></td>
-<td>
-<p>Minimum length of the time series (as a fraction of total length) that should be used to compute trend statistics. Time windows between start and end that are shorter than min.length will be not used for trend computation.</p>
-</td></tr>
-<tr valign="top"><td><code>sample.size</code></td>
-<td>
-<p>sample size (number of combinations of start and end dates) to be used if <code>method</code> is sample.	</p>
 </td></tr>
 </table>
 
@@ -144,13 +134,17 @@ lines(trd$adjusted, col="green")
 trd
 
 # modify maximal number of breakpoints
-trd &lt;- Trend(ndvi, method="SeasonalAdjusted", breaks=1, 
-	funSeasonalCycle=MeanSeasonalCycle, sample.method="sample")
+trd &lt;- Trend(ndvi, method="SeasonalAdjusted", breaks=1)
+plot(trd)
+trd
+
+# use quantile regression
+trd &lt;- Trend(ndvi, method="RQ")
 plot(trd)
 trd
 
 
 </pre>
 
-<hr /><div style="text-align: center;">[Package <em>greenbrown</em> version 2.4.2 <a href="00Index.html">Index</a>]</div>
+<hr /><div style="text-align: center;">[Package <em>greenbrown</em> version 2.4.3 <a href="00Index.html">Index</a>]</div>
 </body></html>

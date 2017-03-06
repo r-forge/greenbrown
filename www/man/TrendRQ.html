@@ -1,20 +1,20 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Trend estimation based on a running median</title>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Trend estimation based on quantile regression</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="R.css" />
 </head><body>
 
-<table width="100%" summary="page for TrendRunmed {greenbrown}"><tr><td>TrendRunmed {greenbrown}</td><td style="text-align: right;">R Documentation</td></tr></table>
+<table width="100%" summary="page for TrendRQ {greenbrown}"><tr><td>TrendRQ {greenbrown}</td><td style="text-align: right;">R Documentation</td></tr></table>
 
-<h2>Trend estimation based on a running median</h2>
+<h2>Trend estimation based on quantile regression</h2>
 
 <h3>Description</h3>
 
-<p>The function computes a non-linear trend based a running median.</p>
+<p>The function computes breakpoints and trends based on quantile regression.</p>
 
 
 <h3>Usage</h3>
 
-<pre>TrendRunmed(Yt, k = NULL, ...)</pre>
+<pre>TrendRQ(Yt, tau = 0.5, ...)</pre>
 
 
 <h3>Arguments</h3>
@@ -24,9 +24,9 @@
 <td>
 <p>univariate time series of class <code><a href="../../stats/html/ts.html">ts</a></code></p>
 </td></tr>
-<tr valign="top"><td><code>k</code></td>
+<tr valign="top"><td><code>tau</code></td>
 <td>
-<p>integer width of median window; must be odd. If NULL a window size of 20 years (i.e. frequency * 20) will be used.</p>
+<p>quantile to be estimated in quantile regression</p>
 </td></tr>
 <tr valign="top"><td><code>...</code></td>
 <td>
@@ -47,7 +47,7 @@
 
 <h3>See Also</h3>
 
-<p><code><a href="../../stats/html/stl.html">stl</a></code></p>
+<p><code><a href="Trend.html">Trend</a></code>, <code><a href="TrendAAT.html">TrendAAT</a></code></p>
 
 
 <h3>Examples</h3>
@@ -55,12 +55,16 @@
 <pre>
 # load a time series of NDVI (normalized difference vegetation index)
 data(ndvi)
+ndvi &lt;- window(aggregate(ndvi, FUN=mean), end=1996)
 plot(ndvi)
 	
-# calculate trend on mean annual NDVI values
-trd &lt;- TrendRunmed(ndvi)
-trd
-plot(trd)
+# calculate trend based on regression to median
+trd.q05 &lt;- TrendRQ(ndvi)
+trd.q05
+plot(trd.q05)
+
+TrendLongestSEG(trd.q05)
+
 
 </pre>
 

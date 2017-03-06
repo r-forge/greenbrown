@@ -26,13 +26,17 @@ TrendLongestSEG <- structure(function(
 			seg.length.res[1] <- length(r$series)
 		}
 		seg.max <- which.max(seg.length.res)
-		sl <- r$slope[seg.max]	# slope of longest segment
+		sl <- 	# slope of longest segment
 		pval <- r$pval[seg.max]	# p-value of longest segment
-		lngth <- seg.length.res[seg.max]	# length of longest segment
-		uncL <- unlist(r$slope_unc[seg.max, 2])
-		uncU <- unlist(r$slope_unc[seg.max, 3])
-		uncM <- unlist(r$slope_unc[seg.max, 4])
-		r2 <- c(LengthSEG=lngth, SlopeSEG=sl, PvalSEG=pval, LongestSEG=seg.max, SlopeUncLowerSEG=uncL, SlopeUncUpperSEG=uncU, SlopeUncMed=uncM)
+		if (all(is.na(pval))) pval <- r$mk.pval[seg.max]
+		r2 <- c(
+		   LengthSEG = seg.length.res[seg.max], 
+		   SlopeSEG = r$slope[seg.max], 
+		   PvalSEG = pval, 
+		   LongestSEG=seg.max, 
+		   SlopeUncLowerSEG = unlist(r$slope_unc[seg.max, 2]), 
+		   SlopeUncUpperSEG = unlist(r$slope_unc[seg.max, 3]), 
+		   SlopeUncMed = unlist(r$slope_unc[seg.max, 4]))
 		names(r2) <- c("LengthSEG", "SlopeSEG", "PvalSEG", "LongestSEG", "SlopeUncLowerSEG", "SlopeUncUpperSEG", "SlopeUncMedianSEG")
 	} else {
 		# get results for longest segment if raster
