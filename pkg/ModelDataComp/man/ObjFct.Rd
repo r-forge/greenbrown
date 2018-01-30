@@ -149,5 +149,8 @@ plot(of, c("Cor", "IoA"))
 plot(of, c("RMSE", "AE"))
 plot(of, c("RMSE", "MEF"))
 plot(of, c("KS", "MEF"))
+plot(of, c("NME", "MEF"))
+plot(of, c("NMSE", "MEF"))
+plot(of, c("NME", "NAE"))
 
 }

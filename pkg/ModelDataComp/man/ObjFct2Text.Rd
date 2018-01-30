@@ -2,7 +2,7 @@
 \alias{ObjFct2Text}
 \title{Convert objective functions to text}
 \description{Converts an object of class \code{\link{ObjFct}} to text string.}
-\usage{ObjFct2Text(x, which = c("Cor", "RMSE", "MEF"), sep = ", ", digits = 3)}
+\usage{ObjFct2Text(x, which = c("Cor", "RMSE", "MEF"), sep = ", ", digits = 2)}
 \arguments{
   \item{x}{an object of class \code{\link{ObjFct}}}
   \item{which}{which objective function metrics should be written as text?}

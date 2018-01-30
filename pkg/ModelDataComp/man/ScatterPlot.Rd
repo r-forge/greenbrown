@@ -11,7 +11,7 @@
     xlab = "", ylab = "", main = "", xlim = NULL, ylim = NULL, 
     lwd = 2, lty = 1, quantile.x = c(0.01, 0.99), quantile.y = c(0.01, 
         0.99), plot = TRUE, cex = NULL, pch = 21, alpha = NULL, 
-    ...)}
+    nrpoints = NULL, legend = TRUE, ...)}
 \arguments{
   \item{x}{vector of x values}
   \item{y}{vector of y values}
@@ -46,6 +46,8 @@
   \item{cex}{size of the points in the plot. If NULL point size will be calculated based on the number of points.}
   \item{pch}{point symbol}
   \item{alpha}{transparency of the points (0...255)}
+  \item{nrpoints}{number of outlier points to be drawn on images}
+  \item{legend}{dsiplay a legend?}
   \item{\dots}{further arguments to \code{\link{MultiFit}} or \code{\link{plot.default}}}
 }
 \details{This function plots a scatterplot.}
@@ -69,6 +71,7 @@ plot(x, y)
 
 # ScatterPlot 
 result <- ScatterPlot(x, y)
+result <- ScatterPlot(x, y, col.image=c("red", "grey", "blue"))
 
 # ScatterPlot with coulored groups and fitting lines
 result <- ScatterPlot(x, y, groups)
@@ -77,6 +80,7 @@ result <- ScatterPlot(x, y, groups)
 result <- ScatterPlot(x, y, plot.type="points")
 result <- ScatterPlot(x, y, plot.type="density")
 result <- ScatterPlot(x, y, plot.type=c("image", "density"))
+result <- ScatterPlot(x, y, groups, plot.type=c("image", "points"))
 
 # plot and compute objective functions
 result <- ScatterPlot(x, y, groups, objfct=TRUE)
