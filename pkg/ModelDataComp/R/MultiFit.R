@@ -48,6 +48,8 @@ MultiFit <- structure(function(
    # 1-d or n-d fit?
    nd <- !is.vector(x)
    if (nd) nd <- ncol(x) > 1
+   nobs <- length(y)
+   nun <- length(unique(y))
 
    # dont't fit spline in n-dimensional case
    if (nd) fits[grep("spline", fits)] <- NA
@@ -90,27 +92,37 @@ MultiFit <- structure(function(
       }
    }
    
-   # linear model 
-   if ("lm" %in% fits) {
-      message("MultiFit: fit linear regression")
-      f <- formula(paste("y ~ ", paste(xvar, collapse=" + ")))
-      mlm <- lm(f, data=df)
-      xout$lm <- predict(mlm, xout)
-   }
-   
    # smoothing spline
-   if ("spline" %in% fits) {
+   if ("spline" %in% fits & nobs > 5) {
       message("MultiFit: smoothing spline")
       mspl <- try(smooth.spline(df$x, df$y), silent=TRUE)
 		if (class(mspl) == "try-error") mspl <- try(smooth.spline(df$x, df$y, cv=TRUE), silent=TRUE)
 		if (class(mspl) == "try-error") {
          fits[fits == "spline"] <- "gam"
          fits <- unique(fits)
-         warnings("Could not compute smoothing spline. Computed gam instead.")
+         message("Could not compute smoothing spline. Try to compute GAM instead.")
 		} else {
          xout$spline <- predict(mspl, xout$x)$y
       }
 	}
+   
+   # GAM
+   if ("gam" %in% fits & nobs > 5) {
+      message("MultiFit: GAM")
+      f <- formula(paste("y ~ s(", paste(xvar, collapse=", "), ")"))
+      mgam <- try(mgcv::gam(f, data=df), silent=TRUE)
+      if (class(mgam) == "try-error") {
+         k <- nrow(unique(df[xvar]))
+         mgam <- try(mgcv::gam(f, data=df, k=k), silent=TRUE)
+      }
+		if (class(mgam) == "try-error") {
+         fits[fits == "gam"] <- "poly2"
+         fits <- unique(fits)
+         warnings("Could not compute GAM. Try to compute poly2 instead.")
+		} else {
+         xout$gam <- predict(mgam, xout)
+      }
+   }
    
 #   # local polynomical regression 
 #   if ("loess" %in% fits) {
@@ -121,23 +133,40 @@ MultiFit <- structure(function(
 #   }
       
    # 2nd-order polynomial
-   if ("poly2" %in% fits) {
+   if ("poly2" %in% fits & nobs > 5 & nun > 5) {
       message("MultiFit: 2nd-order polynomial")
       f <- formula(paste("y ~ poly(", paste(xvar, collapse=", "), ", degree=2)"))
-      mpoly2 <- lm(f, data=df)
-      xout$poly2 <- predict(mpoly2, xout)
+      mpoly2 <- try(lm(f, data=df), silent=TRUE)
+      if (class(mpoly2) == "try-error") {
+         fits[fits == "gam"] <- "lm"
+      } else {
+         xout$poly2 <- predict(mpoly2, xout)
+      }
    }
    
    # 3rd-order polynomial
-   if ("poly3" %in% fits) {
+   if ("poly3" %in% fits & nobs > 5 & nun > 5) {
       message("MultiFit: 3rd-order polynomial")
       f <- formula(paste("y ~ poly(", paste(xvar, collapse=", "), ", degree=3)"))
-      mpoly3 <- lm(f, data=df)
-      xout$poly3 <- predict(mpoly3, xout)
+      mpoly3 <- try(lm(f, data=df), silent=TRUE)
+      if (class(mpoly3) == "try-error") {
+         fits[fits == "gam"] <- "lm"
+      } else {
+         xout$poly3 <- predict(mpoly3, xout)
+      }
+   }
+   
+   
+   # linear model 
+   if ("lm" %in% fits) {
+      message("MultiFit: fit linear regression")
+      f <- formula(paste("y ~ ", paste(xvar, collapse=" + ")))
+      mlm <- lm(f, data=df)
+      xout$lm <- predict(mlm, xout)
    }
    
    # quantile regression
-   if ("quantreg" %in% fits) {
+   if ("quantreg" %in% fits & nobs > 3) {
       message("MultiFit: quantile regression")
    	f <- formula(paste("y ~ ", paste(xvar, collapse=" + ")))
 		mqr <- quantreg::rq(f, tau=0.5, data=df)
@@ -145,29 +174,21 @@ MultiFit <- structure(function(
 	}
 		
 	# logistic functions
-	if ("logistic" %in% fits) {
+	if ("logistic" %in% fits & nobs > 5) {
 	   message("MultiFit: logistic function")
 	   mfl <- FitLogistic(x=df[,-1], y=df[,1], method=c("genoud", "BFGS"), pop.size=500, max.generations=30, print.level=0)
 	   xout$logistic <- predict(mfl, xout)
 	}
    
-   # GAM
-   if ("gam" %in% fits) {
-      message("MultiFit: GAM")
-      f <- formula(paste("y ~ s(", paste(xvar, collapse=", "), ")"))
-      mgam <- mgcv::gam(f, data=df)
-      xout$gam <- predict(mgam, xout)
-   }
-   
    # random forest
-   if ("rf" %in% fits) {
+   if ("rf" %in% fits & nobs > 5) {
       message("MultiFit: random forest")
       mrf <- randomForest::randomForest(y ~ ., data=df)
       xout$rf <- predict(mrf, xout)
    }
    
    # ensemble statistics
-   m <- match(fits, colnames(xout))
+   m <- na.omit(match(fits, colnames(xout)))
    if (length(fits) > 1) {
       xout$ensMean <- apply(xout[, m], 1, mean, na.rm=TRUE) 
       xout$ensMedian <- apply(xout[, m], 1, median, na.rm=TRUE)

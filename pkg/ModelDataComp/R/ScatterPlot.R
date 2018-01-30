@@ -103,6 +103,12 @@ ScatterPlot <- structure(function(
 	alpha=NULL, 
 	### transparency of the points (0...255)
 	
+	nrpoints = NULL,
+	### number of outlier points to be drawn on images
+	
+	legend = TRUE,
+	### dsiplay a legend?
+	
 	... 
 	### further arguments to \code{\link{MultiFit}} or \code{\link{plot.default}}
 	
@@ -180,15 +186,10 @@ ScatterPlot <- structure(function(
 
 	# convert points to image
 	if (any(grepl("image", plot.type))) {
-	   x.brks <- pretty(x, n=(image.nbrks+5), min.n=image.nbrks)
-	   y.brks <- pretty(y, n=(image.nbrks+5), min.n=image.nbrks)
-	   ext <- extent(min(x.brks), max(x.brks), min(y.brks), max(y.brks))
-	   r <- raster(ext, ncols=(length(x.brks)-1), nrows=(length(y.brks)-1))
-	   pts.fs <- rasterize(cbind(x, y), r, fun='count')
-	   pts.fs[] <- log(values(pts.fs))
 	   if (is.null(col.image)) col.image <- grey(seq(1, 0.2, by=-0.1))
 	   col.fun <- colorRampPalette(col.image)
-		col.img <- col.fun(50)
+	   if (is.null(nrpoints)) nrpoints <- min(round(c(length(x)*0.1, 200), 0))
+	   if (any(grepl("points", plot.type)) | has.groups) nrpoints <- 0
 	}
 
    # calculate point size and half transparency
@@ -215,10 +216,11 @@ ScatterPlot <- structure(function(
 
 	# make plot
 	if (plot) {
-		if (!add) plot(x, y, type="n", xlim=xlim, ylim=ylim, xlab=xlab, ylab=ylab, main=main, ...)
+		if (!add & !any(grepl("image", plot.type))) {
+		   plot(x, y, type="n", xlim=xlim, ylim=ylim, xlab=xlab, ylab=ylab, main=main, ...)
+		}
 		if (any(grepl("image", plot.type))) {
-		   image(pts.fs, add=TRUE, col=col.img)
-			box()
+		   smoothScatter(x, y,  xlim=xlim, ylim=ylim, xlab=xlab, ylab=ylab, main=main, colramp=col.fun, nrpoints=nrpoints, pch=pch, cex=0.4)
 		}
 		if (any(grepl("points", plot.type))) {
 			points(x, y, col=col.points[groups.id], bg=col.points[groups.id], cex=cex, pch=pch)
@@ -237,7 +239,7 @@ ScatterPlot <- structure(function(
 			gr <- groups.unique[k]
 			xs <- data.df$x[(data.df$groups == gr)]
 			ys <- data.df$y[(data.df$groups == gr)]
-			if ((length(xs) >= fit.minnobs) & (length(ys) >= fit.minnobs) & !AllEqual(na.omit(xs)) & !AllEqual(na.omit(ys))) {
+			if ((length(unique(xs)) >= fit.minnobs) & (length(unique(ys)) >= fit.minnobs) & !AllEqual(na.omit(xs)) & !AllEqual(na.omit(ys))) {
 				fit <- MultiFit(xs, ys, fits=fits, fit.quantile=fit.quantile)
 				if (plot) lines(fit$x, fit$ensMean, col=col.orig[k], lwd=lwd, lty=lty)
 				fit.l[[k]] <- fit
@@ -259,13 +261,20 @@ ScatterPlot <- structure(function(
 		results$global.fit <- fit
 	}
 	obj <- ObjFct(y, x, groups)
-	if (plot & objfct) {
+	if (plot & objfct & legend) {
 	   pos <- "bottomleft"
 	   medr <- median(obj$Cor)
 	   medr[is.na(medr)] <- 0
 		if (medr > 0) pos <- "topleft"
 		if (has.groups) legend(pos, ObjFct2Text(obj, which=which.objfct, sep=" "), bty="n", text.col=c(col.global, col.orig))
 		if (!has.groups) legend(pos, ObjFct2Text(obj, which=which.objfct, sep=" ")[1], bty="n", text.col=c(col.global, col.orig))
+	}
+	if (plot & !objfct & has.groups & !add & legend) {
+	   pos <- "bottomleft"
+	   medr <- median(obj$Cor)
+	   medr[is.na(medr)] <- 0
+		if (medr > 0) pos <- "topleft"
+		legend(pos, as.character(groups.unique), bty="n", text.col=col.orig)
 	}
 	if (objfct) results$ObjFct <- obj
 
@@ -284,6 +293,7 @@ plot(x, y)
 
 # ScatterPlot 
 result <- ScatterPlot(x, y)
+result <- ScatterPlot(x, y, col.image=c("red", "grey", "blue"))
 
 # ScatterPlot with coulored groups and fitting lines
 result <- ScatterPlot(x, y, groups)
@@ -292,6 +302,7 @@ result <- ScatterPlot(x, y, groups)
 result <- ScatterPlot(x, y, plot.type="points")
 result <- ScatterPlot(x, y, plot.type="density")
 result <- ScatterPlot(x, y, plot.type=c("image", "density"))
+result <- ScatterPlot(x, y, groups, plot.type=c("image", "points"))
 
 # plot and compute objective functions
 result <- ScatterPlot(x, y, groups, objfct=TRUE)

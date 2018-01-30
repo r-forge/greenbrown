@@ -75,8 +75,8 @@ ObjFct <- structure(function(
       ngroups <- length(gr)
    }
    
-   obj.nms <- c("Cor", "Cor.pval", "Spearman", "Spearman.pval", "Slope", "R2", "AE", "NAE", "FB", "rB", "FV", "VR", "Pbias", "SSE", "MSE", "RMSE", "NRMSE", "IoA", "MAE", "NMAE", "MaxAE", "MedAE", "UpAE", "RS", "MEF", "KGE", "KGE.fBias", "KGE.fSd", "KGE.fCor", "KS", "KS.pval")
-   obj.longnms <- c("Correlation coefficient", "Correlation p-value", "Spearman correlation", "Spearman p-value", "Regression slope", "Coefficient of determination", "Average error", "Normalized average error", "Fractional mean bias", "Relative mean bias", "Fractional variance", "Variance ratio", "Percent bias", "Sum squared error", "Mean squared error", "Root mean squared error", "Normalized RMSE", "Index of agreement","Mean absolute error", "Normalized mean absolute error", "Maximal absolute error", "Median absolute error", "Upper quartile absolute error", "Ratio of scatter", "Modelling efficiency", "Kling-Gupta efficiency", "KGE (bias fraction)", "KGE (variance fraction)", "KGE (correlation fraction)", "Kolmogorov-Smirnov statistic", "Kolmogorov-Smirnov p-value")
+   obj.nms <- c("Cor", "Cor.pval", "Spearman", "Spearman.pval", "Slope", "R2", "AE", "NAE", "FB", "rB", "FV", "VR", "Pbias", "SSE", "MSE", "NMSE", "RMSE", "NRMSE", "NME", "IoA", "MAE", "NMAE", "MaxAE", "MedAE", "UpAE", "RS", "MEF", "KGE", "KGE.fBias", "KGE.fSd", "KGE.fCor", "KS", "KS.pval")
+   obj.longnms <- c("Correlation coefficient", "Correlation p-value", "Spearman correlation", "Spearman p-value", "Regression slope", "Coefficient of determination", "Average error", "Normalized average error", "Fractional mean bias", "Relative mean bias", "Fractional variance", "Variance ratio", "Percent bias", "Sum squared error", "Mean squared error", "Normalized mean squared error", "Root mean squared error", "Normalized RMSE", "Normalized mean error", "Index of agreement","Mean absolute error", "Normalized mean absolute error", "Maximal absolute error", "Median absolute error", "Upper quartile absolute error", "Ratio of scatter", "Modelling efficiency", "Kling-Gupta efficiency", "KGE (bias fraction)", "KGE (variance fraction)", "KGE (correlation fraction)", "Kolmogorov-Smirnov statistic", "Kolmogorov-Smirnov p-value")
    
    obj.df <- data.frame(matrix(NA, nrow=ngroups+1, ncol=length(obj.nms)))
 
@@ -98,7 +98,7 @@ ObjFct <- structure(function(
 	
 	   # calculate statistics that depend on the number of layers
 	   sim.mean <- mean(sim)
-	   obs.mean <- mean(obs)	
+	   obs.mean <- mean(obs)
 	   sim.sd <- sd(sim)
 	   obs.sd <- sd(obs)
 	   sim.var <- sim.sd^2
@@ -176,6 +176,12 @@ ObjFct <- structure(function(
 	
 	   # percent bias
 	   pbias <- 100 * res.sum / obs.sum 
+	   
+	   # normalized mean squared error
+	   nmse <- sse / sum(obs.dev^2)
+	   
+	   # normalized mean error
+	   nme <- sum(res.abs) / sum(abs(obs.dev))
 	
 	   # RMSE
 	   rmse <- sqrt(mse)
@@ -218,7 +224,7 @@ ObjFct <- structure(function(
 	   suppressWarnings(ks <- ks.test(sim, obs))
 	
       # return all objective functions
-	   obj <- c(r, r.p, spearman, spearman.p, sl, r2, ae, nae, fb, rb, fv, vr, pbias, sse, mse, rmse, nrmse, ioa, mae, nmae, maxae, medae, upae, rs, mef, kge, kge.fbeta, kge.falpha, kge.fr, ks$statistic, ks$p.value)
+	   obj <- c(r, r.p, spearman, spearman.p, sl, r2, ae, nae, fb, rb, fv, vr, pbias, sse, mse, nmse, rmse, nrmse, nme, ioa, mae, nmae, maxae, medae, upae, rs, mef, kge, kge.fbeta, kge.falpha, kge.fr, ks$statistic, ks$p.value)
 	   obj[is.infinite(obj) | is.nan(obj)] <- NA
 	   obj.df[g+1, ] <- obj
 	}
@@ -325,6 +331,9 @@ plot(of, c("Cor", "IoA"))
 plot(of, c("RMSE", "AE"))
 plot(of, c("RMSE", "MEF"))
 plot(of, c("KS", "MEF"))
+plot(of, c("NME", "MEF"))
+plot(of, c("NMSE", "MEF"))
+plot(of, c("NME", "NAE"))
 
 })
 
@@ -368,10 +377,12 @@ print.ObjFct <- structure(function(
 		cat("  Variance ratio                   VR = ", format(x$VR, digits=3, trim=TRUE, width=8), "\n")
 		cat("Squared error metrics:", "\n")
 		cat("  Sum squared error               SSE = ", format(x$SSE, digits=3, trim=TRUE, width=8), "\n")
-		cat("  Mean squared error              MSE = ", format(x$MSE, digits=3, trim=TRUE, width=8), "\n")	
+		cat("  Mean squared error              MSE = ", format(x$MSE, digits=3, trim=TRUE, width=8), "\n")
+		cat("  Normalized mean squared error  NMSE = ", format(x$NMSE, digits=3, trim=TRUE, width=8), "\n")
 		cat("  Root mean squared error        RMSE = ", format(x$RMSE, digits=3, trim=TRUE, width=8), "\n")
 		cat("  Normalized RMSE               NRMSE = ", format(x$NRMSE, digits=3, trim=TRUE, width=8), "\n")
 		cat("Absolute error metrics:", "\n")
+		cat("  Normalized mean error           NME = ", format(x$NME, digits=3, trim=TRUE, width=8), "\n")
 		cat("  Mean absolute error             MAE = ", format(x$MAE, digits=3, trim=TRUE, width=8), "\n")
 		cat("  Normalized mean absolute error NMAE = ", format(x$NMAE, digits=3, trim=TRUE, width=8), "\n")
 		cat("  Median absolute error         MedAE = ", format(x$MedAE, digits=3, trim=TRUE, width=8), "\n")
@@ -407,7 +418,7 @@ ObjFct2Text <- structure(function(
 	sep=", ", 
 	### separation between metrics
 	
-	digits=3
+	digits=2
 	### digits for rounding
 	
 	##details<<
@@ -420,7 +431,7 @@ ObjFct2Text <- structure(function(
 ) {
 
 	for (i in 1:length(which)) {
-		txt.i <- paste(which[i], "=", format((x[[which[i]]]), digits=digits))
+		txt.i <- paste(which[i], "=", round((x[[which[i]]]), digits))
 		if (i == 1) {	
 			txt <- txt.i
 		} else {

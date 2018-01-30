@@ -108,25 +108,13 @@ WollMilchSauPlot <- structure(function(
       
       # extract to be used for colour
       of.col <- unlist(llply(objfct.l, function(of) unlist(of[grep(objfct, names(of))[1]])))
+      
+      # class breaks and colours
+      of.brks <- ObjFctColours(of.col, objfct, cols=cols)
+      cols <- of.brks$cols
+      brks <- of.brks$brks
+      cols0 <- of.brks$cols0
 
-      # optimum objective function
-      of.best <- ObjFct(1:10, 1:10)
-      of.best <- unlist(of.best[grep(objfct, names(of.best))[1]])
-      
-      # create breaks for color scale
-      of <- c(of.col, of.best)
-      if (objfct == "Cor" | objfct == "Spearman") of <- c(of, -1)
-      if (objfct == "R2" | objfct == "IoA") of <- c(of, 0)
-      if (objfct == "KS") of <- c(of, 1)
-      if (objfct == "FV") of <- c(of, -2, 2)
-      if (is.null(brks)) brks <- pretty(of, min.n=10, n=15)
-      
-      # create colors
-      if (is.null(cols)) cols <- c("#00008F", "#0020FF", "#00AFFF", "#40FFBF", "#CFFF30", "#FF9F00", "#FF1000", "#800000")
-      cols0 <- colorRampPalette(cols)
-      cols0 <- cols0(length(brks)-1)
-      if (of.best > 0) cols0 <- rev(cols0)
-      cols <- cols0[cut(of.col, brks)]
       if (length(ref) == 1) cols[ref] <- "black" 
       
    } else {
@@ -145,6 +133,8 @@ WollMilchSauPlot <- structure(function(
    # y axis limits
    if (is.null(ylim)) {
       pstats <- pirateplot(y ~ x, data=x2.df, plot=FALSE)
+      pstats$summary$inf.lb[is.na(pstats$summary$inf.lb)] <- pstats$summary$avg
+      pstats$summary$inf.ub[is.na(pstats$summary$inf.ub)] <- pstats$summary$avg
       m <- pstats$summary$avg
       m.lb <- pstats$summary$inf.lb
       m.ub <- pstats$summary$inf.ub
@@ -199,7 +189,9 @@ WollMilchSauPlot <- structure(function(
    
    # make plot
    cex <- 1.3
-   par(mfrow=c(1,1), mar=c(3.7, 3.5, 2.5, 1.5), oma=c(0.8, 0.1, 0.1, 0.1), mgp=c(2.4, 1, 0), cex=cex, cex.lab=cex*1.1, cex.axis=cex*1.1, cex.main=cex*1.1, xpd=FALSE)
+   mar <- c(3.7, 3.5, 2.5, 1.5)
+   if (ndatasets > 15) mar <- c(5, 3.5, 2.5, 1.5)
+   par(mar=mar, oma=c(0.8, 0.1, 0.1, 0.1), mgp=c(2.4, 1, 0), cex=cex, cex.lab=cex*1.1, cex.axis=cex*1.1, cex.main=cex*1.1, xpd=FALSE)
    plot(1, 1, type="n", ylim=ylim, xlim=xlim, xlab=xlab, ylab=ylab, yaxt="n", xaxt="n")
    pirateplot(y ~ x, data=x2.df, add=TRUE, at=1:ndatasets, yaxt="n", xaxt="n", 
       cut.min=cut.min, pal=cols, 
@@ -215,9 +207,19 @@ WollMilchSauPlot <- structure(function(
    axis(2, yaxt, yaxt)
    xaxt <- 1:ndatasets
    axis(1, xaxt, rep("", ndatasets))
-   par(xpd=TRUE)
-   ypos <- ylim[1] - diff(ylim) * 0.1
-   text(1:ndatasets, rep(ypos, ndatasets), names, srt=16)
+   if (ndatasets <= 15) {
+      ypos <- ylim[1] - diff(ylim) * 0.1
+      par(xpd=TRUE)
+      text(1:ndatasets, rep(ypos, ndatasets), names, srt=16)
+   } else {
+      abline(v=seq(5.5, ndatasets+0.5, by=5), col="darkgrey", lty=2)
+      ypos <- ylim[1] - diff(ylim) * 0.06
+      cl <- "black"
+      if (is.null(objfct)) cl <- cols
+      par(xpd=TRUE)
+      text(1:ndatasets, rep(ypos, ndatasets), names, srt=30, cex=0.6, adj=c(1, 0), col=cl)
+      
+   }
    box()
    mtext(main, 3, 0.5, font=2, cex=1.5)
    par(xpd=FALSE)
@@ -266,7 +268,8 @@ WollMilchSauPlot(x, avg=FALSE, bar=FALSE, inf=FALSE)
 WollMilchSauPlot(x, cols=c("blue", "red"))
 WollMilchSauPlot(x, cols=c("blue", "grey", "red"))
 WollMilchSauPlot(x, cols=rainbow(10))
-WollMilchSauPlot(x, cols=heat.colors(5))
+WollMilchSauPlot(x, objfct="IoA", cols=heat.colors(5))
+WollMilchSauPlot(x, objfct="RMSE", cols=rev(heat.colors(5)))
 
 # without legend (but using an objective function to colour)
 WollMilchSauPlot(x, legend=FALSE)
