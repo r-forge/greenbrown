@@ -38,37 +38,38 @@ CorPlot <- structure(function(
 	   }
 	   xlim <- quantile(xy$x, c(0.01, 0.99))
 	   ylim <- quantile(xy$y, c(0.01, 0.99))
-	   sel <- xy$x >= xlim[1] & xy$x <= xlim[2] & xy$y >= ylim[1] & xy$y <= ylim[2]
-	   xy <- xy[sel, ]
-	   x <- xy$x
-	   y <- xy$y
-	   
-	   # compute objective function
-	   obj <- ObjFct(x, y)
-	   of <- obj[[objfct]]
-	   pval <- obj[[paste0(objfct, ".pval")]]
-	
-	   # format objective function
-	   txt <- signif(of, 2)
-	   txt <- paste(prefix, txt, sep="")
-	   
-	   # get pvalue
-	   if (is.null(pval)) {
-	      signif <- p <- ""
-	   } else {
-	      p <- format(c(pval, 0.123456789), digits=digits)[1]
-	      signif <- symnum(pval, corr = FALSE, na = FALSE,
-		      cutpoints = c(0, 0.001, 0.01, 0.05, 0.1, 1),
-		      symbols = c("***", "**", "*", ".", " "))
-	   }
-	   
-	   # make colors
-	   cols <- ObjFctColours(c(of, of.all), objfct, cols=cols)
-
-      # plot elements
-	   rect(0, 0, 1, 1, col=cols$cols[1])
-	   text(0.5, 0.5, txt, cex=(par()$cex*3))	
-	   text(0.5, 0.8, signif, cex=(par()$cex*2.5), col="darkgrey")
+  	   sel <- xy$x >= xlim[1] & xy$x <= xlim[2] & xy$y >= ylim[1] & xy$y <= ylim[2]
+  	   xy <- xy[sel, ]
+  	   b <<- xy
+  	   x <- xy$x
+  	   y <- xy$y
+  	   
+  	   # compute objective function
+  	   obj <- ObjFct(x, y)
+  	   of <- obj[[objfct]]
+  	   pval <- obj[[paste0(objfct, ".pval")]]
+  	
+  	   # format objective function
+  	   txt <- signif(of, 2)
+  	   txt <- paste(prefix, txt, sep="")
+  	   
+  	   # get pvalue
+  	   if (is.null(pval)) {
+  	      signif <- p <- ""
+  	   } else {
+  	      p <- format(c(pval, 0.123456789), digits=digits)[1]
+  	      signif <- symnum(pval, corr = FALSE, na = FALSE,
+  		      cutpoints = c(0, 0.001, 0.01, 0.05, 0.1, 1),
+  		      symbols = c("***", "**", "*", ".", " "))
+  	   }
+  	   
+  	   # make colors
+  	   cols <- ObjFctColours(c(of, of.all), objfct, cols=cols)
+  
+        # plot elements
+  	   rect(0, 0, 1, 1, col=cols$cols[1])
+  	   text(0.5, 0.5, txt, cex=(par()$cex*3))	
+  	   text(0.5, 0.8, signif, cex=(par()$cex*2.5), col="darkgrey")
    }
 
    # function to plot histogram
@@ -139,7 +140,12 @@ CorPlot <- structure(function(
 
    # remove variables that are missing or are the same
    x <- apply(x, 2, function(x) as.numeric(x))
-	keep <- apply(x, 2, function(x) !all(is.na(x)))
+   x <- apply(x, 2, function(x) {
+     x[is.infinite(x)] <- NA
+     x[x < -1.8e+307 | x > 1.8e+307] <- NA
+     return(x)
+   })
+  keep <- apply(x, 2, function(x) !all(is.na(x)))
 	x <- x[, keep]
 	
 	# compute objective functions
