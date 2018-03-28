@@ -69,10 +69,9 @@ Sofia <- structure(function(
    # calculate response functions for global variables
    if (with.global) {
       resp.gl <- llply(as.list(colnames(x)[!per.group]), function(xvar) {
-         g1 <- c(grep(paste0(xvar, ".max"), sofiapar$names), grep(paste0(xvar, ".sl"), sofiapar$names), grep(paste0(xvar, ".x0"), sofiapar$names)) 
+         g1 <- c(grep(paste0(xvar, ".max"), sofiapar$names), grep(paste0(xvar, ".sl"), sofiapar$names), grep(paste0(xvar, ".x0"), sofiapar$names), grep(paste0(xvar, ".min"), sofiapar$names)) 
          g2 <- grep(xvar, colnames(x))[1]
          y.xvar.gl <- SofiaLogistic(sofiapar$par[g1], x[, g2])
-         y.xvar.gl[y.xvar.gl < 0] <- 0
          return(y.xvar.gl)
       })
    }
@@ -84,12 +83,15 @@ Sofia <- structure(function(
          # iterate over groups
          y.xvar.gr <- matrix(NA, ncol=ncol(area), nrow=nrow(area))
          for (i in 1:ngroup) {
-            m <- match(c(paste(xvar, "max", group.names[i], sep="."), paste(xvar, "sl", group.names[i], sep="."), paste(xvar, "x0", group.names[i], sep=".")),  sofiapar$names)
+            m <- match(c(
+                paste(xvar, "max", group.names[i], sep="."), 
+                paste(xvar, "sl", group.names[i], sep="."), 
+                paste(xvar, "x0", group.names[i], sep="."), 
+                paste(xvar, "min", group.names[i], sep=".")),  sofiapar$names)
             g2 <- grep(xvar, colnames(x))[1]
             y.xvar.gr[,i] <- SofiaLogistic(sofiapar$par[m], x[, g2])
+            # plot(x[, g2], y.xvar.gr[,i])
          }
-         y.xvar.gr[y.xvar.gr > 1] <- 1
-         y.xvar.gr[y.xvar.gr < 0] <- 0
          return(y.xvar.gr)
       })
    }
@@ -166,29 +168,9 @@ sf$eq
 summary(sf$data)
 plot(sf)
 
-# with some more realisitc parameters:
-par <- SofiaPar(colnames(x), per.group=c(TRUE, FALSE), group.names=c("tree", "grass"))
-par
-par$par <- c(1, 1, 20, 2, 1, -0.2, -0.1, 13, 10)
-sf <- Sofia(x, area, per.group=c(TRUE, FALSE), sofiapar=par)
-plot(sf)
-
-sm <- 1:100
-sm.2 <- sm
-temp <- rnorm(100, 12, 10)
-x <- cbind(sm, sm.2, temp)
-par <- SofiaPar(colnames(x), per.group=c(TRUE, TRUE, FALSE), 
-   group.names=c("tree", "grass"))
-par
-par$par <- c(2, 1, 20, 2, 2, 0.3, 0.2, 20, 40, 1, 1, -0.2, -0.1, 20, 10)  
-sf <- Sofia(x, area, per.group=c(TRUE, TRUE, FALSE), sofiapar=par)
-plot(sf)
-
 
 # example based on real data
 #---------------------------
-
-require(ModelDataComp)
 
 # get data
 data(firedata)
@@ -219,11 +201,11 @@ area <- data.frame(
 
 # define parameters (from Forkel et al. 2016, Fig. 1)
 sofiapar <- SofiaPar(colnames(xvars.df), colnames(area), per.group=per.group, 
-   par.act=c(1.9, 780, 1, # for NLDI
-   0.3, 1.1, -5.3, 8.9, 0.54, -23, -39, 13, -16, # for CRU.DTR
-   0.13, 3, 0.53, 0.35, -0.44, 0.36, -1.2, -4.8, -45, # for CRU.WET
-   -0.7, 18, -1.5, 22, 11, -17, -2.3, 0.64, 1,  # for GIMMS.FAPAR
-   1.9, 3, -0.36, -21, 68, -38, 0.35, 0.31, 0.11) # for Liu.VOD
+   par.act=c(1.9, 0, 780, 1, # for NLDI
+   0.3, 1.1, -5.3, 0, 0, 0, 8.9, 0.54, -23, -39, 13, -16, # for CRU.DTR
+   0.13, 3, 0.53, 0, 0, 0, 0.35, -0.44, 0.36, -1.2, -4.8, -45, # for CRU.WET
+   -0.7, 18, -1.5, 0, 0, 0, 22, 11, -17, -2.3, 0.64, 1,  # for GIMMS.FAPAR
+   1.9, 3, -0.36, 0, 0, 0, -21, 68, -38, 0.35, 0.31, 0.11) # for Liu.VOD
    )
 
 # run model

@@ -24,6 +24,12 @@ SofiaPar <- structure(function(
 	
 	par.upper = NULL,
 	### upper parameter limits
+	
+	par.priorsd = NULL,
+	### uncertainty of prior parameters
+	
+	par.optim = NULL,
+	### (boolean) parameters that shoud be included in optimization
    
    ...
    ### further arguments
@@ -41,7 +47,7 @@ SofiaPar <- structure(function(
       par.names <- NULL
       par.global <- NULL
    } else {
-      par.names <- paste(rep(x.names[!per.group], each=3), c("max", "x0", "sl"), sep=".")
+      par.names <- paste(rep(x.names[!per.group], each=4), c("max", "x0", "sl", "min"), sep=".")
       par.names <- sort(par.names)
       par.global <- rep(TRUE, length(par.names))
    }
@@ -49,7 +55,7 @@ SofiaPar <- structure(function(
    # group-dependent parameters
    if (any(per.group) & !is.null(group.names)) {
       ngroup <- length(group.names)
-      par.group <- paste(rep(x.names[per.group], each=3), c("max", "x0", "sl"),  sep=".")
+      par.group <- paste(rep(x.names[per.group], each=4), c("max", "x0", "sl", "min"),  sep=".")
       par.group <- paste(rep(par.group, ngroup), rep(group.names, each=length(par.group)), sep=".")
       par.group <- sort(par.group)
       par.names <- c(par.names, par.group)
@@ -62,14 +68,17 @@ SofiaPar <- structure(function(
    par.dummy[grep("max", par.names)] <- 1
    par.dummy[grep("x0", par.names)] <- 0
    par.dummy[grep("sl", par.names)] <- 0.5
+   par.dummy[grep("min", par.names)] <- 0
    
+   if (is.null(par.priorsd)) par.priorsd <- rep(NA, npar)
    if (is.null(par.lower)) par.lower <- rep(NA, npar)
    if (is.null(par.prior)) par.prior <- par.dummy
    if (is.null(par.act)) par.act <- par.dummy
    if (is.null(par.upper)) par.upper <- rep(NA, npar)
+   if (is.null(par.optim)) par.optim <- rep(TRUE, npar)
    
    sofiapar <- list(
-      names = par.names, dummy = par.dummy, par = par.act, prior = par.prior, lower = par.lower, upper = par.upper, global = par.global, group.names = group.names)
+      names = par.names, dummy = par.dummy, par = par.act, prior = par.prior, lower = par.lower, upper = par.upper, priorsd = par.priorsd, global = par.global, optim = par.optim, group.names = group.names)
    class(sofiapar) <- "SofiaPar"
    sofiapar$names <- as.character(sofiapar$names)
    return(sofiapar)
