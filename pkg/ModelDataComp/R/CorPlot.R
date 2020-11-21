@@ -36,9 +36,15 @@ CorPlot <- structure(function(
 	   if (nrow(xy) < 2) {
 		   xy <- data.frame(x=c(-1, -1), y=c(-1, -1))
 	   }
-	   xlim <- quantile(xy$x, c(0.01, 0.99))
-	   ylim <- quantile(xy$y, c(0.01, 0.99))
-  	   sel <- xy$x >= xlim[1] & xy$x <= xlim[2] & xy$y >= ylim[1] & xy$y <= ylim[2]
+	   if (nrow(xy) > 30) {
+	     xlim <- quantile(xy$x, c(0.01, 0.99))
+	     ylim <- quantile(xy$y, c(0.01, 0.99))
+	     sel <- xy$x >= xlim[1] & xy$x <= xlim[2] & xy$y >= ylim[1] & xy$y <= ylim[2]
+	   } else {
+	     xlim <- range(xy$x)
+	     ylim <- range(xy$y)
+	     sel <- 1:nrow(xy)
+	   }
   	   xy <- xy[sel, ]
   	   b <<- xy
   	   x <- xy$x
@@ -100,9 +106,15 @@ CorPlot <- structure(function(
 	   if (nrow(xy) < 2) {
 		   xy <- data.frame(c(-1, -1), c(-1, -1))
 	   }
-	   xlim <- quantile(xy$x, c(0.01, 0.99))
-	   ylim <- quantile(xy$y, c(0.01, 0.99))
-	   sel <- xy$x >= xlim[1] & xy$x <= xlim[2] & xy$y >= ylim[1] & xy$y <= ylim[2]
+	   if (nrow(xy) > 30) {
+	     xlim <- quantile(xy$x, c(0.01, 0.99))
+	     ylim <- quantile(xy$y, c(0.01, 0.99))
+	     sel <- xy$x >= xlim[1] & xy$x <= xlim[2] & xy$y >= ylim[1] & xy$y <= ylim[2]
+	   } else {
+	     xlim <- range(xy$x)
+	     ylim <- range(xy$y)
+	     sel <- 1:nrow(xy)
+	   }
 	   xy <- xy[sel, ]
 	   x <- xy$x
 	   y <- xy$y
