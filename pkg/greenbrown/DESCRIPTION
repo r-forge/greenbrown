@@ -1,0 +1,14 @@
+Package: greenbrown
+Title: Land Surface Phenology and Trend Analysis
+Version: 2.5.0
+Date: 2020-08-27
+Author: Matthias Forkel <matthias.forkel@tu-dresden.de> [aut, cre]
+Maintainer: Matthias Forkel <matthias.forkel@tu-dresden.de>
+Description: Collection of functions to analyse trends, trend changes and phenology events in gridded time series like from satellite observations or climate model simulations. 
+ The package provides access to different methods for 1) trend and breakpoint analysis, 2) time series smoothing and interpolation, and 3) analysis of land surface phenology. 
+Depends: R (>= 4.0.2), strucchange, raster, zoo
+Imports: Kendall, bfast, phenopix, quantreg, parallel, plyr
+Suggests: 
+License: GPL-2
+URL: http://greenbrown.r-forge.r-project.org/
+LazyLoad: yes
