@@ -41,7 +41,7 @@ Phenology <- structure(function(
 	### Filling of permanent gaps: If NULL, permanent gaps will be not filled, else the function \code{\link{FillPermanentGaps}} will be applied.
 	
 	tsgf = "TSGFspline",
-	### Temporal smoothing and gap filling: Function to be used for temporal smoothing, gap filling and interpolation of the time series. If NULL, this step will be not applied. Otherwise a function needs to be specified. Exisiting functions that can be applied are \code{\link{TSGFspline}}, \code{\link{TSGFlinear}}, \code{\link{TSGFssa}}, \code{\link{TSGFdoublelog}}, \code{\link{TSGFphenopix}}  
+	### Temporal smoothing and gap filling: Function to be used for temporal smoothing, gap filling and interpolation of the time series. If NULL, this step will be not applied. Otherwise a function needs to be specified. Exisiting functions that can be applied are \code{\link{TSGFspline}}, \code{\link{TSGFlinear}}, \code{\link{TSGFdoublelog}}, \code{\link{TSGFphenopix}}  
 	
 	interpolate = TRUE,
 	### Should the smoothed and gap filled time series be interpolated to daily values?
@@ -65,7 +65,7 @@ Phenology <- structure(function(
 	### Which methods in \code{\link{Seasonality}} should indicate TRUE (i.e. time series has seasonality) in order to calculate phenology metrics? 1:3 = all methods should indicate seasonality, Set to NULL in order to not perform seasonality checks.
 	
 	backup = NULL,
-	### Which backup algorithm should be used instead of TSGFdoublelog for temporal smoothing and gap filling if the time series has no seasonality? If a time series has no seasonal pattern, the fitting of double logistic functions is not meaningful. In this case another method can be used. Default: NULL (returns NA - no smoothing), other options: "TSGFspline", "TSGFssa", "TSGFlinear"	
+	### Which backup algorithm should be used instead of TSGFdoublelog for temporal smoothing and gap filling if the time series has no seasonality? If a time series has no seasonal pattern, the fitting of double logistic functions is not meaningful. In this case another method can be used. Default: NULL (returns NA - no smoothing), other options: "TSGFspline", "TSGFlinear"	
 	
 	...
 	### further arguments (currently not used)
@@ -79,7 +79,7 @@ Phenology <- structure(function(
 	## White M.A., P.E. Thornton and S.W. Running (1997): A continental phenology model for monitoring vegetation responses to interannual climatic variability. - Global Biogeochemical Cycles 11, 217-234. 
 	
 	##seealso<<
-	## \code{\link{PhenologyRaster}}, \code{\link{TSGFspline}}, \code{\link{TSGFssa}}, \code{\link{TSGFdoublelog}}, \code{\link{FitDoubleLogElmore}}, \code{\link{FitDoubleLogBeck}}
+	## \code{\link{PhenologyRaster}}, \code{\link{TSGFspline}}, \code{\link{TSGFdoublelog}}, \code{\link{FitDoubleLogElmore}}, \code{\link{FitDoubleLogBeck}}
 
 ) {
 

@@ -9,7 +9,7 @@
 
 \value{Kappa coeffcient}
 \references{Congalton, R.G. (1991): A review of assessing the accuracy of classifications of remotely sensed data. - Remote Sensing of Environment 1991, 37, 35-46.}
-\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@tu-dresden.de> [aut, cre]}
 
 
 

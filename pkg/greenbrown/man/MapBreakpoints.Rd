@@ -2,15 +2,13 @@
 \alias{MapBreakpoints}
 \title{Plot map of breakpoints }
 \description{This function plots a map of breakpoints or adds breakpoints as points and text to map of trends.}
-\usage{MapBreakpoints(bp.r, add = TRUE, add.text = TRUE, ntext = NULL, 
-    breaks = NULL, col = NULL, cex = 0.6, lwd = 0.6, pch = 1, 
-    format.text, ...)}
+\usage{"\\nMapBreakpoints(bp.r, add = TRUE, add.text = TRUE, ntext = NULL, breaks = NULL, col = NULL, cex = 0.6, lwd = 0.6, pch = 1, format.text = \\"\\\%Y\\", ...)\\n"}
 \arguments{
   \item{bp.r}{raster layer with breakpoints as computed with \code{\link{TrendRaster}}.}
-  \item{add}{add breakpoint map to actual map (default TRUE)}
-  \item{add.text}{add text (i.e. year of breakpoint) to regional groups of breakpoints}
+  \item{add}{\code{add} breakpoint map to actual map (default TRUE)}
+  \item{add.text}{\code{add} text (i.e. year of breakpoint) to regional groups of breakpoints}
   \item{ntext}{number of regional groups of breakpoints that should be labelled with text}
-  \item{breaks}{class breaks to color breapoints (if NULL will be computed automatically)}
+  \item{breaks}{class \code{breaks} to color breapoints (if NULL will be computed automatically)}
   \item{col}{colors for breakpoints }
   \item{cex}{size of point symbols}
   \item{lwd}{line width of  point symbols}
@@ -19,9 +17,9 @@
   \item{\dots}{further arguments for \code{\link{plot}}}
 }
 
-\value{The function returns a list with class colors and breaks that was used for plotting}
+\value{The function returns a list with class colors and \code{breaks} that was used for plotting}
 
-\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@tu-dresden.de> [aut, cre]}
 
 
 

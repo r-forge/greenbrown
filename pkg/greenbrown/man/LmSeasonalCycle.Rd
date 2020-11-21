@@ -7,9 +7,9 @@
   \item{ts}{univariate time series of class \code{\link{ts}}}
 }
 
-\value{Mean seasonal cycle of time series ts with the same length as ts, i.e. the mean seasonal cycle is repeated for each year. The mean seasonal cycle is centered to 0.}
+\value{Mean seasonal cycle of time series \code{ts} with the same length as \code{ts}, i.e. the mean seasonal cycle is repeated for each year. The mean seasonal cycle is centered to 0.}
 
-\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@tu-dresden.de> [aut, cre]}
 
 
 

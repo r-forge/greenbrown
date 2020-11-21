@@ -2,7 +2,8 @@
 \alias{TSGFlinear}
 \title{Temporal smoothing and gap filling using linear interpolation}
 \description{This function fills gaps in a time series by using linear interpolation \code{\link{na.approx}} and smoothes the time series by using running median window of size 3 \code{\link{runmed}}}
-\usage{TSGFlinear(Yt, interpolate = FALSE, ...)}
+\usage{TSGFlinear(Yt, interpolate = FALSE, 
+    ...)}
 \arguments{
   \item{Yt}{univariate time series of class \code{\link{ts}}.}
   \item{interpolate}{Should the smoothed and gap filled time series be interpolated to daily values by using \code{\link{approx}}?}
@@ -11,7 +12,7 @@
 
 \value{The function returns a gap-filled and smoothed version of the time series.}
 
-\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@tu-dresden.de> [aut, cre]}
 
 
 

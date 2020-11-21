@@ -10,7 +10,7 @@
 
 \value{a Raster* object with smaller extent.}
 
-\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@tu-dresden.de> [aut, cre]}
 
 
 

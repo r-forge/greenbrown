@@ -31,8 +31,8 @@ MapBreakpoints <- structure(function(
 	pch=1, 
 	### type of point symbol 
 	
-	format.text,
-	### format of the text if add.text=TRUE, default: %y
+	format.text = "%Y",
+	### format of the text if add.text=TRUE, default: %Y
 	
 	...
 	### further arguments for \code{\link{plot}}
@@ -45,9 +45,7 @@ MapBreakpoints <- structure(function(
 	bp.sp <- rasterToPoints(bp.r)
 	proj <- CRS(projection(bp.r))
 	bp.sp0 <- SpatialPointsDataFrame(bp.sp[,1:2], data.frame(bp.sp[,3]), proj4string = proj)
-	
-	if (!hasArg(format.text)) format.text <- "%y"
-	
+
 	# compute class breaks for breakpoints
 	if (is.null(breaks)) {
 		breaks <- pretty(bp.sp[, -c(1:2)])
@@ -55,7 +53,7 @@ MapBreakpoints <- structure(function(
 	
 	# colors for breakpoints
 	if (is.null(col)) {
-		.col <- colorRampPalette(brewer.pal(9, "RdPu")[4:9])
+		.col <- colorRampPalette(c("#FA9FB5", "#F768A1", "#DD3497", "#AE017E", "#7A0177", "#49006A"))
 		col <- .col(length(breaks)-1)
 	}
 	cols <- col[findInterval(bp.sp[, -c(1:2)], breaks, all.inside=TRUE)]

@@ -9,7 +9,7 @@
 
 \value{The function returns the same frequency table as the input but with added row and column totals and total accuracy, user accuracy and producer accuracy.}
 \references{Congalton, R.G. (1991): A review of assessing the accuracy of classifications of remotely sensed data. - Remote Sensing of Environment 1991, 37, 35-46.}
-\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@tu-dresden.de> [aut, cre]}
 
 
 
@@ -25,8 +25,5 @@ tab <- table(a, b)
 
 # calculate now the accuracy assessment
 AccuracyAssessment(tab)
-
-# calculate Kappa coeffcient
-Kappa(tab)
 
 }

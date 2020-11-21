@@ -2,7 +2,8 @@
 \alias{TSGFphenopix}
 \title{Temporal smoothing and gap filling using phenopix}
 \description{Time series smoothing and gap filling using fitting methods as provided in the \code{\link{greenProcess}} function of the \code{phenopix} package. Function fits are performed for each year separately for which \code{\link{PhenopixMY}} is used. }
-\usage{TSGFphenopix(Yt, interpolate = FALSE, fit = "spline", ...)}
+\usage{TSGFphenopix(Yt, interpolate = FALSE, 
+    fit = "spline", ...)}
 \arguments{
   \item{Yt}{univariate time series of class \code{\link{ts}}.}
   \item{interpolate}{Should the smoothed and gap filled time series be interpolated to daily values?}
@@ -12,7 +13,7 @@
 
 \value{The function returns a gap-filled and smoothed version of the time series.}
 
-\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@tu-dresden.de> [aut, cre]}
 
 
 

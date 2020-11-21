@@ -3,11 +3,16 @@ importFrom(Kendall, MannKendall)
 importFrom(bfast, bfastpp)
 importFrom(phenopix, greenProcess)
 importFrom(quantreg, rq)
-importFrom(fields, image.plot, tim.colors)
-importFrom(RColorBrewer, brewer.pal)
-importFrom(ncdf4, ncatt_put, nc_close, ncvar_put, ncdim_def, ncvar_def)
-importFrom(sp, coordinates, CRS, SpatialPointsDataFrame)
 importFrom(parallel, makeCluster, clusterEvalQ, clusterExport, clusterApply, stopCluster)
+importFrom(grDevices, col2rgb, colorRampPalette, palette, rgb)
+importFrom("graphics", "abline", "axis", "box", "legend", "mtext",
+             "par", "points", "polygon", "segments")
+importFrom("stats", "BIC", "IQR", "addmargins", "approx", "coef",
+             "confint", "cor", "cycle", "end", "frequency", "kmeans",
+             "lag", "lm", "median", "na.omit", "na.pass", "optim",
+             "rnorm", "runmed", "sd", "smooth.spline", "spec.pgram",
+             "start", "stl", "symnum", "time", "ts", "ts.intersect",
+             "ts.union", "tsp", "tsp<-", "var", "wilcox.test", "window")
 
 exportPattern("^[[:alpha:]]+")
 

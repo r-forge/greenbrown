@@ -1,16 +1,16 @@
 \name{CorrectDOY}
 \alias{CorrectDOY}
 \title{Correct day-of-year time series}
-\description{This function corrects a time series with days-of-years (e.g. start of growing season). For example, if the start of season occurs in one year at the end of the calendar year (doy > 305) and in another year at the beginning (doy < 60), the DOYs are corrected so that all values occur at the beginning of the year (e.g. negative DOYs will be produced) or at the end of the year (e.g. DOY > 365 will be produced). This function is applied in \code{\link{Phenology}} after phenology detection on sos, eos, pop and pot time series (see examples).}
+\description{This function corrects a time series with days-of-years (e.g. start of growing season). For example, if the start of season occurs in one year at the end of the calendar year (\code{doy} > 305) and in another year at the beginning (\code{doy} < 60), the DOYs are corrected so that all values occur at the beginning of the year (e.g. negative DOYs will be produced) or at the end of the year (e.g. DOY > 365 will be produced). This function is applied in \code{\link{Phenology}} after phenology detection on sos, eos, pop and pot time series (see examples).}
 \usage{CorrectDOY(doy, check.outliers = TRUE)}
 \arguments{
   \item{doy}{a vector or time series representing DOYs}
-  \item{check.outliers}{Set outliers to NA after correction? Outliers are defined here as: doy < (median - IQR*2) | doy > (median + IQR*2))}
+  \item{check.outliers}{Set outliers to NA after correction? Outliers are defined here as: \code{doy} < (median - IQR*2) | \code{doy} > (median + IQR*2))}
 }
 
 \value{a vector or time series}
 
-\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@tu-dresden.de> [aut, cre]}
 
 
 

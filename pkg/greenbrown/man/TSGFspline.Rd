@@ -2,7 +2,8 @@
 \alias{TSGFspline}
 \title{Temporal smoothing and gap filling using splines}
 \description{This function fills gaps in a time series by using \code{\link{na.spline}} and smoothes the time series by using  \code{\link{smooth.spline}}}
-\usage{TSGFspline(Yt, interpolate = FALSE, ...)}
+\usage{TSGFspline(Yt, interpolate = FALSE, 
+    ...)}
 \arguments{
   \item{Yt}{univariate time series of class \code{\link{ts}}.}
   \item{interpolate}{Should the smoothed and gap filled time series be interpolated to daily values by using \code{\link{na.spline}}?}
@@ -11,7 +12,7 @@
 
 \value{The function returns a gap-filled and smoothed version of the time series.}
 
-\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@tu-dresden.de> [aut, cre]}
 
 
 

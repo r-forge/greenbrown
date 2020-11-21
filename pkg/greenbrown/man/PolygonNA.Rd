@@ -2,17 +2,18 @@
 \alias{PolygonNA}
 \title{Plot a polygon by accounting for NA values (breaks in polygon)}
 \description{This function is an improved version of \code{\link{polygon}} that considers NA values in plotting.}
-\usage{PolygonNA(x, lower, upper, col = "grey")}
+\usage{PolygonNA(x, lower, upper, 
+    col = "grey")}
 \arguments{
   \item{x}{vector of x-values}
-  \item{lower}{vector of lower polygon range}
-  \item{upper}{vector of upper polygon range}
+  \item{lower}{vector of \code{lower} polygon range}
+  \item{upper}{vector of \code{upper} polygon range}
   \item{col}{color of the polygon}
 }
 
 
 
-\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@tu-dresden.de> [aut, cre]}
 
 
 

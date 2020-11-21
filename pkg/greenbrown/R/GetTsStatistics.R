@@ -28,19 +28,20 @@ GetTsStatisticsRaster <- structure(function(
 			
 			# decompose time series
 			dc <- Decompose(ts, breaks=0)	# don't consider breakpoints in trend
+			if (!all(is.na(dc))) {
 
-			# get statistics
-			dc.mean <- mean(dc[,1])	# mean of time series
-			trd <- aggregate(dc[,2], FUN="mean")	
-			coef <- coef(lm(trd ~ time(trd)))
-			dc.trend.slope <- coef[2]	# slope of trend
-			dc.iav.range <- max(dc[,3]) - min(dc[,3])	# range of IAV
-			dc.iav.sd <- sd(dc[,3])	# standard deviation of IAV
-			dc.seas.range <- max(dc[,4]) - min(dc[,4])	# range of seasonal cycle
-			dc.rem.range <- max(dc[,5]) - min(dc[,5])	# range of remainder component
-			dc.rem.sd <- sd(dc[,5]) 	# standard deviation of remainder component
-			result <- c(mean=dc.mean, trend.slope=dc.trend.slope, iav.range=dc.iav.range, iav.sd=dc.iav.sd, seas.range=dc.seas.range, rem.range=dc.rem.range, rem.sd=dc.rem.sd)
-			
+  			# get statistics
+  			dc.mean <- mean(dc[,1])	# mean of time series
+  			trd <- aggregate(dc[,2], FUN="mean")	
+  			coef <- coef(lm(trd ~ time(trd)))
+  			dc.trend.slope <- coef[2]	# slope of trend
+  			dc.iav.range <- max(dc[,3]) - min(dc[,3])	# range of IAV
+  			dc.iav.sd <- sd(dc[,3])	# standard deviation of IAV
+  			dc.seas.range <- max(dc[,4]) - min(dc[,4])	# range of seasonal cycle
+  			dc.rem.range <- max(dc[,5]) - min(dc[,5])	# range of remainder component
+  			dc.rem.sd <- sd(dc[,5]) 	# standard deviation of remainder component
+  			result <- c(mean=dc.mean, trend.slope=dc.trend.slope, iav.range=dc.iav.range, iav.sd=dc.iav.sd, seas.range=dc.seas.range, rem.range=dc.rem.range, rem.sd=dc.rem.sd)
+			}
 		}
 		return(result)
 	} # end GetTsStatistics
@@ -58,5 +59,5 @@ plot(ndvimap, 8)
 # calculate time series statistics 
 ndvimap.tsstat <- GetTsStatisticsRaster(ndvimap)
 plot(ndvimap.tsstat)
+
 })
-	

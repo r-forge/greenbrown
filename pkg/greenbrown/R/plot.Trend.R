@@ -63,7 +63,7 @@ plot.Trend <- structure(function(
 		if (symbolic) points(x=x$time[x$bp$breakpoints], y=x$trend[x$bp$breakpoints], col=col[3], pch=3, cex=1.2)
 		if (!symbolic) abline(v=x$time[x$bp$breakpoints], col=col[3], lty=lty[3])
 		ci <- try(confint(x$bp)$confint, silent=TRUE)
-		if (class(ci) != "try-error") {
+		if (class(ci)[1] != "try-error") {
 		   for (i in 1:length(ci)) {
 			   ti <- ci[i]
 			   ti[ti == 0] <- 1

@@ -9,7 +9,7 @@
 
 \value{A character vector of color names.}
 
-\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@tu-dresden.de> [aut, cre]}
 
 
 
@@ -18,13 +18,9 @@
 # load a multi-temporal raster dataset of Normalized Difference Vegetation Index
 data(ndvimap)
 
-# calculate trends and plot the result in nice brown-to-green colors
-ndvitrend <- TrendRaster(ndvimap)
-cols <- brgr.colors(15)
-plot(ndvitrend, 2, col=cols, zlim=c(-0.004, 0.004))
+cols <- brgr.colors(10)
+brks <- seq(0, 1, 0.1)
+plot(ndvimap, c(3, 6), col=cols, breaks=brks)
 
-classbreaks <- seq(-0.0035, 0.0035, by=0.001)
-cols <- brgr.colors(length(classbreaks)-1)
-plot(ndvitrend, 2, col=cols, breaks=classbreaks)
 
 }

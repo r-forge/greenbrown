@@ -29,7 +29,7 @@ Trend <- structure(function(
 	### a function to estimate the seasonal cycle of the time series if \code{SeasonalAdjusted} is selected as method. A own function can be defined to estimate the seasonal cycle which has to return the seasonal cycle as a time series of class \code{\link{ts}}. Currently two approaches are part of this package:
 	### \itemize{ 
 	### \item{ \code{\link{MeanSeasonalCycle}} is the default which computes the mean seasonal cycle. }
-	### \item{ \code{\link{SSASeasonalCycle}} detects a modulated seasonal cycle based on Singular Spectrum Analysis. }
+	### \item{ \code{\link{LmSeasonalCycle}} detects a seasonal cycle based on a linear regression with harmonic terms. }
 	### }
 	
 	funAnnual=mean

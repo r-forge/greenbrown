@@ -2,15 +2,20 @@
 \alias{plot.CompareClassification}
 \title{plot a comparison of two classification rasters}
 \description{This function takes an object of class \code{\link{CompareClassification}} as input and plots a map of the class agreement of two classifications.}
-\usage{\method{plot}{CompareClassification}(x, xlab = "", ylab = "", main = "Classification agreement", 
-    names = NULL, ul = "burlywood4", lr = "darkgreen", ll = "khaki1", 
-    ur = "royalblue1", ctr = "gray87", mar = NULL, ...)}
+\usage{\method{plot}{CompareClassification}(x, 
+    xlab = "", ylab = "", 
+    main = "Classification agreement", 
+    names = NULL, ul = "burlywood4", 
+    lr = "darkgreen", 
+    ll = "khaki1", ur = "royalblue1", 
+    ctr = "gray87", mar = NULL, 
+    ...)}
 \arguments{
   \item{x}{Object of class \code{\link{CompareClassification}}.}
-  \item{xlab}{A title for the x axis}
+  \item{xlab}{A title for the \code{x} axis}
   \item{ylab}{A title for the y axis}
   \item{main}{A title for the plot}
-  \item{names}{a list with names of the two classifications and class names. See example section for details.}
+  \item{names}{a list with \code{names} of the two classifications and class \code{names}. See example section for details.}
   \item{ul}{starting color in the upper left corner of the \code{\link{ColorMatrix}}}
   \item{lr}{ending color in the lower right corner of the \code{\link{ColorMatrix}}}
   \item{ll}{starting color in the lower left corner of the \code{\link{ColorMatrix}}}
@@ -22,7 +27,7 @@
 
 
 
-\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@tu-dresden.de> [aut, cre]}
 
 
 

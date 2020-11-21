@@ -2,17 +2,18 @@
 \alias{IsPermanentGap}
 \title{Identify if a gap in a time series occurs permanently}
 \description{The function identifies obervations in time series as permanent gaps if the gap occurs during the same period in several years.}
-\usage{IsPermanentGap(Yt, min.gapfrac = 0.2, lower = TRUE, ...)}
+\usage{IsPermanentGap(Yt, min.gapfrac = 0.2, 
+    lower = TRUE, ...)}
 \arguments{
   \item{Yt}{univariate time series of class \code{\link{ts}}}
-  \item{min.gapfrac}{How often has an observation to be NA to be considered as a permanent gap? (fraction of time series length) Example: If the month January is 5 times NA in a 10 year time series (= 0.5), then the month January is considered as permanent gap if min.gapfrac = 0.4.}
-  \item{lower}{identify lower gaps (TRUE), upper gaps (FALSE) or lower and upper gaps (NULL)}
+  \item{min.gapfrac}{How often has an observation to be NA to be considered as a permanent gap? (fraction of time series length) Example: If the month January is 5 times NA in a 10 year time series (= 0.5), then the month January is considered as permanent gap if \code{min.gapfrac} = 0.4.}
+  \item{lower}{identify \code{lower} gaps (TRUE), upper gaps (FALSE) or \code{lower} and upper gaps (NULL)}
   \item{\dots}{further arguments (currently not used)}
 }
 
 
 
-\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@tu-dresden.de> [aut, cre]}
 
 
 

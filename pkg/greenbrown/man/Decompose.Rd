@@ -2,10 +2,11 @@
 \alias{Decompose}
 \title{Simple decomposition of time series}
 \description{This function decomposes time series in different components using a simple step-wise approach.}
-\usage{Decompose(Yt, breaks = 0, mosum.pval = 0.05)}
+\usage{Decompose(Yt, breaks = 0, 
+    mosum.pval = 0.05)}
 \arguments{
   \item{Yt}{univariate time series of class \code{\link{ts}}}
-  \item{breaks}{maximal number of breaks in the trend component to be calculated (integer number). }
+  \item{breaks}{maximal number of \code{breaks} in the trend component to be calculated (integer number). }
   \item{mosum.pval}{Maximum p-value for the OLS-MOSUM test in order to search for breakpoints. If p = 0.05, breakpoints will be only searched in the time series trend component if the OLS-MOSUM test indicates a significant structural change in the time series. If p = 1 breakpoints will be always searched regardless if there is a significant structural change in the time series or not.}
 }
 \details{The decomposition of the time series is based on a simple step-wise approach:
@@ -17,7 +18,7 @@
 \item{ In the last step, the short-term anomalies are computed. For this, the mean, the trend component, the annual anomalies and the mean seasonal cycle are subtracted from the original time series. } }}
 \value{The function returns a multi-variate object of class ts including the time series components.}
 \references{Forkel, M., N. Carvalhais, J. Verbesselt, M. Mahecha, C. Neigh and M. Reichstein (2013): Trend Change Detection in NDVI Time Series: Effects of Inter-Annual Variability and Methodology. - Remote Sensing 5.}
-\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@tu-dresden.de> [aut, cre]}
 
 
 

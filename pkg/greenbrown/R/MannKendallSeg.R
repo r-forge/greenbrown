@@ -20,6 +20,7 @@ MannKendallSeg <- structure(function(
 	## \code{\link{MannKendall}}
 ) {
 
+  b <- !is.na(Yt)
    if (is.null(seg)) {
 	   # has the time series breakpoints?
 	   has.bp <- !is.na(bp$breakpoints[1])
@@ -28,34 +29,37 @@ MannKendallSeg <- structure(function(
 	   if (has.bp) {
 		   seg <- breakfactor(bp)
 	   } else {
-		   seg <- factor(rep(1, length(Yt)))
+		   seg <- factor(rep(1, sum(b)))
 	   }
 	   seg <- as.numeric(seg)
-	}
+   }
+  d <- data.frame(time=time(Yt), response=Yt, seg=NA)
+  d$seg[b] <- seg
+  d <- na.omit(d)
 	
-	# get trend uncertainty from trend ensemble
+	# get trend uncertainty for each segment
 	result <- ldply(as.list(c(0, unique(seg))), function(s) {
-	   if (s == 0) {
-	      ti.seg <- time(Yt)
-	      x <- Yt
-	   } else {
-	      ti.seg <- time(Yt)[seg == s]
-	      x <- Yt[seg == s]
-	   }
+	  if (s == 0) {
+	    ti.seg <- d$time
+	    x <- d$response
+	  } else {
+	    ti.seg <- d$time[d$seg == s]
+	    x <- d$response[d$seg == s]
+	  }
 	   start <- ti.seg[1]
 	   end <- ti.seg[length(ti.seg)]
-	   Ytseg <- ts(x, start=start, end=end, frequency=frequency(Yt))
-	   
+
 	   # mann kendall test
-	   mk <- MannKendall(Ytseg)
+	   mk <- MannKendall(x)
 	   
 	   # linear regression
-	   m <- lm(Ytseg ~ time(Ytseg))
+	   m <- lm(x ~ ti.seg)
 	   m.sum <- summary(m)
 	   slope <- coef(m)[2]
 	   slope.se <- m.sum$coefficients[2, grep("Error", colnames(m.sum$coefficients))]
 	   pval <- m.sum$coefficients[2, grep("Pr", colnames(m.sum$coefficients))]
-	   perc <- slope / mean(Ytseg, na.rm=TRUE) * 100
+	   perc <- abs(slope) / abs(mean(x, na.rm=TRUE)) * 100
+	   if (slope < 0) perc <- perc * -1
 	
 		result <- data.frame(seg=s, start=start, end=end, mk.tau=mk$tau, mk.pvalue=mk$sl, lm.slope=slope, lm.slope.se=slope.se, lm.slope.pvalue=pval, lm.slope.perc=perc)
 		return(result)
@@ -82,6 +86,15 @@ mk <- MannKendallSeg(ndvi, bp=bp)
 mk
 
 # MannKendall test without segments
+MannKendallSeg(ndvi)
+
+# test with NA values
+ndvi[14:18] <- NA
+plot(ndvi)
+bp <- breakpoints(ndvi ~ time(ndvi))
+MannKendallSeg(ndvi, bp=bp)
+
+# without breakpoints
 MannKendallSeg(ndvi)
 
 

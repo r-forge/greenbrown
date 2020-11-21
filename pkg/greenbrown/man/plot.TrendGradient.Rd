@@ -2,26 +2,30 @@
 \alias{plot.TrendGradient}
 \title{Plotting function for objects of class TrendGradient}
 \description{This function plots a gradient of trend slopes (e.g. latitudinal gradient). }
-\usage{\method{plot}{TrendGradient}(x, type = "xy", ylab = NULL, xlab = NULL, 
-    col = "black", ylim = NULL, xlim = NULL, add = FALSE, symbolic = TRUE, 
-    symbols = "standard", ...)}
+\usage{\method{plot}{TrendGradient}(x, 
+    type = "xy", ylab = NULL, 
+    xlab = NULL, col = "black", 
+    ylim = NULL, xlim = NULL, 
+    add = FALSE, symbolic = TRUE, 
+    symbols = "standard", 
+    ...)}
 \arguments{
   \item{x}{Object of class 'TrendGradient' as returned from function \code{\link{TrendGradient}}}
-  \item{type}{plotting type: 'xy' = gradient at x axis and slope at y axis, 'yx' = gradient at y axis and slope at x axis.}
+  \item{type}{plotting \code{type}: 'xy' = gradient at \code{x} axis and slope at y axis, 'yx' = gradient at y axis and slope at \code{x} axis.}
   \item{ylab}{A title for the y axis}
-  \item{xlab}{A title for the x axis}
+  \item{xlab}{A title for the \code{x} axis}
   \item{col}{line colors	}
   \item{ylim}{limits for y axis}
-  \item{xlim}{limits for x axis}
-  \item{add}{add to exisiting plot?}
-  \item{symbolic}{Add p-value as symbols (TRUE) or not (FALSE). If TRUE the p-value of a trend slope is added as symbol to the plot. }
-  \item{symbols}{Type of symbols for p-values. "standard": *** (p <= 0.001), ** (p <= 0.01), * (p <= 0.05), . (p <= 0.1) and no symbol if p > 0.1.; "simple": * (p <= 0.05), x (p < 0.1)}
+  \item{xlim}{limits for \code{x} axis}
+  \item{add}{\code{add} to exisiting plot?}
+  \item{symbolic}{Add p-value as \code{symbols} (TRUE) or not (FALSE). If TRUE the p-value of a trend slope is added as symbol to the plot. }
+  \item{symbols}{Type of \code{symbols} for p-values. "standard": *** (p <= 0.001), ** (p <= 0.01), * (p <= 0.05), . (p <= 0.1) and no symbol if p > 0.1.; "simple": * (p <= 0.05), \code{x} (p < 0.1)}
   \item{\dots}{Further arguments that can be passed \code{\link{plot.default}}}
 }
 
 
 
-\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@tu-dresden.de> [aut, cre]}
 
 
 

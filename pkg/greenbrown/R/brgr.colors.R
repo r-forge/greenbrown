@@ -11,7 +11,7 @@ brgr.colors <- structure(function(
 	## \code{\link{TrendRaster}}
 
 ) {
-	.fun <- colorRampPalette(c("chocolate4", "orange", "yellow", "grey", "green", "green3", "darkgreen"))
+	.fun <- colorRampPalette(c("chocolate4", "orange", "yellow", "grey", "green", "forestgreen", "darkgreen"))
 	col <- .fun(n)
 	return(col)
 	### A character vector of color names.
@@ -19,14 +19,10 @@ brgr.colors <- structure(function(
 # load a multi-temporal raster dataset of Normalized Difference Vegetation Index
 data(ndvimap)
 
-# calculate trends and plot the result in nice brown-to-green colors
-ndvitrend <- TrendRaster(ndvimap)
-cols <- brgr.colors(15)
-plot(ndvitrend, 2, col=cols, zlim=c(-0.004, 0.004))
+cols <- brgr.colors(10)
+brks <- seq(0, 1, 0.1)
+plot(ndvimap, c(3, 6), col=cols, breaks=brks)
 
-classbreaks <- seq(-0.0035, 0.0035, by=0.001)
-cols <- brgr.colors(length(classbreaks)-1)
-plot(ndvitrend, 2, col=cols, breaks=classbreaks)
 
 })
 

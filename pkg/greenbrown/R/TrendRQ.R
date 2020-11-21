@@ -37,10 +37,12 @@ TrendRQ <- structure(function(
 	
 	# get results
 	slope <- coef(m)[2]
-	perc <- slope / mean(Yt, na.rm=TRUE) * 100
+	perc <- abs(slope) / abs(mean(Yt, na.rm=TRUE)) * 100
+	if (slope < 0) perc <- perc * -1
 	slope_unc <- data.frame(1, coef(m.sum)[2,2], coef(m.sum)[2,3], slope)
 	colnames(slope_unc) <- c(".id", colnames(coef(m.sum))[2:3], "avg")
-	perc_unc <- slope_unc / mean(Yt, na.rm=TRUE) * 100
+	perc_unc <- abs(slope_unc) / abs(mean(Yt, na.rm=TRUE)) * 100
+	perc_unc[slope_unc < 0] <- perc_unc[slope_unc < 0] * -1
 	
 	# return results
 	result <- list(

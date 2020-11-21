@@ -27,7 +27,7 @@ TrendSeasonalAdjusted <- structure(function(
 	##references<< Forkel, M., N. Carvalhais, J. Verbesselt, M. Mahecha, C. Neigh and M. Reichstein (2013): Trend Change Detection in NDVI Time Series: Effects of Inter-Annual Variability and Methodology. - Remote Sensing 5.
 		
 	##seealso<<
-	## \code{\link{Trend}}, \code{\link{TrendRaster}}, \code{\link{MeanSeasonalCycle}}, \code{\link{SSASeasonalCycle}}
+	## \code{\link{Trend}}, \code{\link{TrendRaster}}, \code{\link{MeanSeasonalCycle}}, \code{\link{LmSeasonalCycle}}
 ) {
 	# calculate seasonal cycle
 	St_est <- do.call(funSeasonalCycle, list(Yt))
@@ -93,7 +93,7 @@ TrendSeasonalAdjusted <- structure(function(
 	}
 	
 	# compute MannKendall test
-	mk <- MannKendallSeg(Yt, bp=bp_est)[-1,]
+	mk <- MannKendallSeg(At_est, bp=bp_est)[-1,]
 
 	# return results
 	result <- list(
@@ -134,13 +134,6 @@ lines(MACtrend$adjusted, col="orange")
 MACtrend <- TrendSeasonalAdjusted(ndvi, breaks=1, funSeasonalCycle=MeanSeasonalCycle)
 MACtrend
 plot(MACtrend)
-
-## calculate trend on time series with removed seasonal cycle but seasonal cycle computed based 
-## on singular spectrum analysis
-#SSAtrend <- TrendSeasonalAdjusted(ndvi, funSeasonalCycle=SSASeasonalCycle)
-#SSAtrend 
-#plot(SSAtrend)
-#lines(SSAtrend$adjusted, col="orange")
 
 
 })

@@ -1,13 +1,15 @@
 \name{PlotPhenCycle}
 \alias{PlotPhenCycle}
 \title{Plot a easonal cycle with phenology metrics}
-\description{This function plots a seasonal cycle with phenology metrics.}
-\usage{PlotPhenCycle(x, xpred = NULL, metrics, xlab = "DOY", ylab = "NDVI", 
-    trs = NULL, main = "", ...)}
+\description{This function plots a seasonal cycle with phenology \code{metrics}.}
+\usage{PlotPhenCycle(x, xpred = NULL, 
+    metrics, xlab = "DOY", 
+    ylab = "NDVI", trs = NULL, 
+    main = "", ...)}
 \arguments{
   \item{x}{values of one year}
   \item{xpred}{smoothed/predicted values }
-  \item{metrics}{vector of pheology metrics}
+  \item{metrics}{vector of pheology \code{metrics}}
   \item{xlab}{label for x-axis}
   \item{ylab}{label for y-axis}
   \item{trs}{threshold for threshold methods}
@@ -17,7 +19,7 @@
 
 
 
-\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@tu-dresden.de> [aut, cre]}
 
 
 

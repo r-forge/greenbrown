@@ -131,7 +131,7 @@ FitDoubleLogBeck <- structure(function(
                 b <- diag(1, nc)
             }
             res <- try(qr.coef(a, b), silent=TRUE) 
-            if (class(res) == "try-error") {
+            if (class(res)[1] == "try-error") {
                res <- matrix(NA, ncol(b), nrow(b))
             }
             res

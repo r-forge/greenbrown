@@ -120,7 +120,6 @@ plot(ndvi)
 
 # do calculations
 afl <- AnomaliesFiltersLags(ndvi)
-colnames(afl)
 summary(afl)
 
 # seasonal anomalies

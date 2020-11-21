@@ -54,8 +54,5 @@ tab <- table(a, b)
 # calculate now the accuracy assessment
 AccuracyAssessment(tab)
 
-# calculate Kappa coeffcient
-Kappa(tab)
-
 })
 

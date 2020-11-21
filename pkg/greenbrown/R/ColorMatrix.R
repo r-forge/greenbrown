@@ -22,6 +22,21 @@ ColorMatrix <- structure(function(
 	ctr="gray87"
 	### color in the center of the matrix
 	) {
+  
+  # function to interpolate a matrix
+  .fun <- function(m) {
+    nrow <- nrow(m)
+    ncol <- ncol(m)
+    
+    df <- data.frame(r=rep(1:nrow, ncol), c=rep(1:ncol, each=nrow), v=as.vector(m))
+    reg <- lm(v ~ r*c, data=df)
+    new <- predict(reg, df)
+    new <- (new - min(new)) * ( (max(df$v, na.rm=TRUE) - min(df$v, na.rm=TRUE)) / (max(new) - min(new))) + min(df$v, na.rm=TRUE)
+    m <- matrix(new, nrow=nrow, ncol=ncol)
+    return(m)
+    ### matrix with interpolated values
+  }
+  
 	nrow <- ncol <- dim
 	col.m <- matrix(NA, ncol=ncol, nrow=nrow)
 	col.m[1,1] <- ul
@@ -35,15 +50,15 @@ ColorMatrix <- structure(function(
 		return(x)
 	})
 	red.m <- matrix(col.rgb[1,], ncol=ncol, nrow=nrow)
-	red.m <- InterpolateMatrix(red.m)
+	red.m <- .fun(red.m)
 	red.m[red.m < 0] <- 0
 	red.m[red.m > 255] <- 255
 	green.m <- matrix(col.rgb[2,], ncol=ncol, nrow=nrow)
-	green.m <- InterpolateMatrix(green.m)	
+	green.m <- .fun(green.m)	
 	green.m[green.m < 0] <- 0
 	green.m[green.m > 255] <- 255
 	blue.m <- matrix(col.rgb[3,], ncol=ncol, nrow=nrow)
-	blue.m <- InterpolateMatrix(blue.m)		
+	blue.m <- .fun(blue.m)		
 	blue.m[blue.m < 0] <- 0
 	blue.m[blue.m > 255] <- 255
 	col <- rgb(as.vector(red.m), as.vector(green.m), as.vector(blue.m), maxColorValue=255)

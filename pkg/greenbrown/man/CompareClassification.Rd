@@ -1,23 +1,25 @@
 \name{CompareClassification}
 \alias{CompareClassification}
 \title{Compare two classification maps}
-\description{This function computes an agreement map of two classifications (RasterLayers with classified values). Additionally, it computes a frequency table with user, producer and total accuracies as well as the Kappa coefficient. }
-\usage{CompareClassification(x, y, names = NULL, samplefrac = 1)}
+\description{This function computes an agreement map of two classifications (RasterLayers with classified values). Additionally, it computes a frequency table with user, producer and total accuracies as well as the \code{\link{Kappa}} coefficient. }
+\usage{CompareClassification(x, 
+    y, names = NULL, 
+    samplefrac = 1)}
 \arguments{
   \item{x}{First raster layer with classification.}
   \item{y}{Second raster layer with classification.}
-  \item{names}{a list with names of the two classifications and class names. See example section for details.}
+  \item{names}{a list with \code{names} of the two classifications and class \code{names}. See example section for details.}
   \item{samplefrac}{fraction of grid cells to be sampled from both rasters in order to calculate the contingency table}
 }
 
 \value{The function returns a list of class "CompareClassification" with the following components:
 \itemize{ 
 \item{ \code{raster} a raster layer indicating the agreement of the two classifications. }
-\item{ \code{table} a contingency table with user, producer and total accuracies. Rows in the table correpond to the classification x, columns to the classifcation y. }
-\item{ \code{kappa} Kappa coefficient. }
+\item{ \code{table} a contingency table with user, producer and total accuracies. Rows in the table correpond to the classification \code{x}, columns to the classifcation \code{y}. }
+\item{ \code{kappa} \code{\link{Kappa}} coefficient. }
 }}
 
-\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@tu-dresden.de> [aut, cre]}
 
 
 

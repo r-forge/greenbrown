@@ -7,17 +7,18 @@
 \item{ \code{'acf'} computes the auto-correlation function of the de-trended time series using \code{\link{acf}}. A minimum acf value at a lag of 0.5 indicates seasonality and the function returns TRUE. }
 \item{ \code{'lm'} fits two linear models to the time series. The first model includes the trend and the seasonal cycle as factorial variable. The second model includes only the trend. Based on the \code{\link{BIC}} the better model is selected and the function returns TRUE if the first model (including a seasonal term) is better. }
 }}
-\usage{Seasonality(Yt, return.freq = FALSE, plot = FALSE, ...)}
+\usage{Seasonality(Yt, return.freq = FALSE, 
+    plot = FALSE, ...)}
 \arguments{
   \item{Yt}{univariate time series of class \code{\link{ts}}.}
-  \item{return.freq}{if return.freq is TRUE the function returns the frequency at the maximum of the periodogram.}
-  \item{plot}{plot periodogram and acf? (see \code{\link{spec.pgram}} and \code{\link{acf}})}
+  \item{return.freq}{if \code{return.freq} is TRUE the function returns the frequency at the maximum of the periodogram.}
+  \item{plot}{\code{plot} periodogram and acf? (see \code{\link{spec.pgram}} and \code{\link{acf}})}
   \item{\dots}{further arguments (currently not used)}
 }
 
 \value{The function returns a boolean vector of length 3 including TRUE if a method detected seasonality or FALSE if a method did not detect seasonality. }
 
-\author{Matthias Forkel <matthias.forkel@geo.tuwien.ac.at> [aut, cre]}
+\author{Matthias Forkel <matthias.forkel@tu-dresden.de> [aut, cre]}
 
 
 
