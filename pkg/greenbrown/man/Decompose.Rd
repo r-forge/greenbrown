@@ -24,11 +24,8 @@
 
 \seealso{\code{\link{GetTsStatisticsRaster}} 	}
 \examples{
-# load a time series of Normalized Difference Vegetation Index
-data(ndvi)
-plot(ndvi)
 
-# decompose this time series
+# decompose a time series
 ndvi.dc <- Decompose(ndvi)
 plot(ndvi.dc)
 	

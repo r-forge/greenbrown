@@ -135,41 +135,37 @@ PhenologyRaster <- structure(function(
 	### }
 	### The number of years in the input raster will define the number of layers in the result.  
 }, ex=function() {
-# load a multi-temporal raster dataset of Normalized Difference Vegetation Index
-data(ndvimap)
-plot(ndvimap, 8)
-
-# calculate phenology metrics (this can take some time!)
-phenmap <- PhenologyRaster(ndvimap, start=c(1982, 1), freq=12, 
-	tsgf="TSGFspline", approach="Deriv") 
-# Select method by defining 'tsgf' (temporal smoothing and gap filling) and 
-# by 'approach' (method to summarize phenology metrics). 
-# See \code{\link{Phenology}} for examples and a comparison of methods.
-
-plot(phenmap)
-plot(phenmap, grep("SOS.1982", names(phenmap))) # start of season 1982
-plot(phenmap, grep("EOS.1982", names(phenmap))) # end of season 1982
-plot(phenmap, grep("LOS.1982", names(phenmap))) # length of season 1982
-plot(phenmap, grep("POP.1982", names(phenmap))) # position of peak value 1982
-plot(phenmap, grep("POT.1982", names(phenmap))) # position of trough value 1982
-plot(phenmap, grep("MGS.1982", names(phenmap))) # mean growing season value 1982
-plot(phenmap, grep("PEAK.1982", names(phenmap))) # peak value 1982
-plot(phenmap, grep("TROUGH.1982", names(phenmap))) # trough value 1982
-plot(phenmap, grep("MSP.1982", names(phenmap))) # mean spring value 1982
-plot(phenmap, grep("MAU.1982", names(phenmap))) # mean autumn value 1982
-plot(phenmap, grep("RSP.1982", names(phenmap))) # rate of spring greenup 1982
-plot(phenmap, grep("RAU.1982", names(phenmap))) # rate of autumn senescence 1982
-
-# calculate trends on length of season using TrendRaster
-losmap <- subset(phenmap, grep("LOS", names(phenmap)))
-plot(losmap)
-lostrend <- TrendRaster(losmap, start=c(1982, 1), freq=1)
-plot(lostrend)
-
-# classify trends in length of season
-lostrend.cl <- TrendClassification(lostrend)
-plot(lostrend.cl, col=brgr.colors(3), breaks=c(-1.5, -0.5, 0.5, 1.5))	
-# only a few pixels have a positive trend in the length of growing season
+# # calculate phenology metrics (this can take some time!)
+# phenmap <- PhenologyRaster(ndvimap, start=c(1982, 1), freq=12, 
+# 	tsgf="TSGFspline", approach="Deriv") 
+# # Select method by defining 'tsgf' (temporal smoothing and gap filling) and 
+# # by 'approach' (method to summarize phenology metrics). 
+# # See \code{\link{Phenology}} for examples and a comparison of methods.
+# 
+# plot(phenmap)
+# plot(phenmap, grep("SOS.1982", names(phenmap))) # start of season 1982
+# plot(phenmap, grep("EOS.1982", names(phenmap))) # end of season 1982
+# plot(phenmap, grep("LOS.1982", names(phenmap))) # length of season 1982
+# plot(phenmap, grep("POP.1982", names(phenmap))) # position of peak value 1982
+# plot(phenmap, grep("POT.1982", names(phenmap))) # position of trough value 1982
+# plot(phenmap, grep("MGS.1982", names(phenmap))) # mean growing season value 1982
+# plot(phenmap, grep("PEAK.1982", names(phenmap))) # peak value 1982
+# plot(phenmap, grep("TROUGH.1982", names(phenmap))) # trough value 1982
+# plot(phenmap, grep("MSP.1982", names(phenmap))) # mean spring value 1982
+# plot(phenmap, grep("MAU.1982", names(phenmap))) # mean autumn value 1982
+# plot(phenmap, grep("RSP.1982", names(phenmap))) # rate of spring greenup 1982
+# plot(phenmap, grep("RAU.1982", names(phenmap))) # rate of autumn senescence 1982
+# 
+# # calculate trends on length of season using TrendRaster
+# losmap <- subset(phenmap, grep("LOS", names(phenmap)))
+# plot(losmap)
+# lostrend <- TrendRaster(losmap, start=c(1982, 1), freq=1)
+# plot(lostrend)
+# 
+# # classify trends in length of season
+# lostrend.cl <- TrendClassification(lostrend)
+# plot(lostrend.cl, col=brgr.colors(3), breaks=c(-1.5, -0.5, 0.5, 1.5))	
+# # only a few pixels have a positive trend in the length of growing season
 
 
 })

@@ -84,9 +84,6 @@ IsPermanentGap <- structure(function(
 	return(Pg)
 
 }, ex=function() {
-	# load NDVI data
-	data(ndvi)
-
 	# introduce some systematic gaps in january, february, december and july
 	gaps <- ndvi
 	winter <- cycle(ndvi) == 1 | cycle(ndvi) == 2 | cycle(ndvi) == 12 | cycle(ndvi) == 7
@@ -175,10 +172,6 @@ FillPermanentGaps <- structure(function(
 	return(Yt)
 	### The function returns a time series with filled permanent gaps.
 }, ex=function() {
-
-# load NDVI data
-data(ndvi)
-plot(ndvi)
 
 # sample some winter months to be set as gaps
 winter <- (1:length(ndvi))[cycle(ndvi) == 1 | cycle(ndvi) == 2 | cycle(ndvi) == 12]

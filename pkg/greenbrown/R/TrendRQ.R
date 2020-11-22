@@ -65,9 +65,7 @@ TrendRQ <- structure(function(
 	return(result)
 	### The function returns a list of class "Trend". 
 },ex=function(){
-# load a time series of NDVI (normalized difference vegetation index)
-data(ndvi)
-ndvi <- window(aggregate(ndvi, FUN=mean), end=1996)
+ndvi <- window(aggregate(ndvi, FUN=mean))
 plot(ndvi)
 	
 # calculate trend based on regression to median

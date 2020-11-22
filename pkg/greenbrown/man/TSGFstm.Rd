@@ -19,10 +19,6 @@ Verbesselt, J.; Zeileis, A.; Herold, M., Near real-time disturbance detection us
 
 \seealso{\code{\link{TsPP}}, \code{\link{TrendSTM}} }
 \examples{
-# load a time series of NDVI (normalized difference vegetation index)
-data(ndvi)
-plot(ndvi)
-
 # introduce random gaps 
 gaps <- ndvi
 gaps[runif(100, 1, length(ndvi))] <- NA

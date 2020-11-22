@@ -104,10 +104,6 @@ PhenopixMY <- structure(function(
    return(ppixmy)
    ### An object of class \code{phenopixmy} with dedicated functions: plot(), print(). The structure is actually a list.
 }, ex=function() {
-
-data(ndvi)
-plot(ndvi)
-
 ppixmy <- PhenopixMY(ndvi, "spline", "trs")
 plot(ppixmy)
 

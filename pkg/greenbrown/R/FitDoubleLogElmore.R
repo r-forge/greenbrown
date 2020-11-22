@@ -150,8 +150,7 @@ FitDoubleLogElmore <- structure(function(
 	### The function returns a list with fitted values, parameters, fitting formula and standard errors if hessian is TRUE
 }, ex=function() {
 
-# select one year of NDVi data
-data(ndvi)
+# select one year of NDVI data
 x <- as.vector(window(ndvi, start=c(1991,1), end=c(1991, 12)))
 plot(x)
 

@@ -114,9 +114,6 @@ AnomaliesFiltersLags <- structure(function(
 	   ### \item{ \code{anom.lagX} time lagged version of the anomaly time series for the time lag X }     
 	### }
 }, ex=function() {
-# load a time series of Normalized Difference Vegetation Index
-data(ndvi)
-plot(ndvi)
 
 # do calculations
 afl <- AnomaliesFiltersLags(ndvi)

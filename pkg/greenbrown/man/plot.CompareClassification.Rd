@@ -33,30 +33,25 @@
 
 \seealso{\code{\link{CompareClassification}}, \code{\link{AccuracyAssessment}}, \code{\link{TrendClassification}}}
 \examples{
-# Example: calculate NDVI trends from two methods and compare the significant trends
-
-# load a raster dataset of Normalized Difference Vegetation Index
-data(ndvimap)
-
-# calculate trends with two different methods
-AATmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="AAT", breaks=0)
-plot(AATmap)
-STMmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="STM", breaks=0)
-plot(STMmap)
-
-# classify the trend estimates from the two methods into 
-# positive, negative and no trend
-AATmap.cl <- TrendClassification(AATmap)
-plot(AATmap.cl, col=brgr.colors(3))
-STMmap.cl <- TrendClassification(STMmap)
-plot(STMmap.cl, col=brgr.colors(3))
-
-# compare the two classifications
-compare <- CompareClassification(x=AATmap.cl, y=STMmap.cl, 
-	names=list('AAT'=c("Br", "No", "Gr"), 'STM'=c("Br", "No", "Gr")))
-compare
-
-# plot the comparison
-plot(compare)
+# # calculate trends with two different methods
+# AATmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="AAT", breaks=0)
+# plot(AATmap)
+# STMmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="STM", breaks=0)
+# plot(STMmap)
+# 
+# # classify the trend estimates from the two methods into 
+# # positive, negative and no trend
+# AATmap.cl <- TrendClassification(AATmap)
+# plot(AATmap.cl, col=brgr.colors(3))
+# STMmap.cl <- TrendClassification(STMmap)
+# plot(STMmap.cl, col=brgr.colors(3))
+# 
+# # compare the two classifications
+# compare <- CompareClassification(x=AATmap.cl, y=STMmap.cl, 
+# 	names=list('AAT'=c("Br", "No", "Gr"), 'STM'=c("Br", "No", "Gr")))
+# compare
+# 
+# # plot the comparison
+# plot(compare)
 
 }

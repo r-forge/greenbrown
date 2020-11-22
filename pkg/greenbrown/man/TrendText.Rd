@@ -21,8 +21,6 @@
 
 \seealso{\code{\link{MtsPlot}}}
 \examples{
-
-data(ndvi)
 trd <- TrendText(ndvi, period=c(1982, 1996), unit="")
 plot(ndvi)
 lines(trd$trd1, col="red", lwd=2)

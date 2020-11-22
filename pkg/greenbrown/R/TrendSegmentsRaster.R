@@ -78,23 +78,19 @@ TrendSegmentsRaster <- structure(function(
 	return(trend.seg.rb)
 	### The function returns a RasterBrick. 
 },ex=function(){
-# load a multi-temporal raster dataset of Normalized Difference Vegetation Index
-data(ndvimap)
-ndvimap
-plot(ndvimap, 8)
-
-# calculate trend
-trendmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="AAT", breaks=2)
-plot(trendmap)
-
-# indicate for each time step the trend segment number
-trendsegmentsmap <- TrendSegmentsRaster(trendmap, min.length=5, max.pval=0.05, 
-	start=c(1982, 1), end=c(2011, 1), freq=1)
-plot(trendsegmentsmap, 1:2, col=c("blue", "red")) 
-# first 2 years: everthing belongs to time series segment 1 
-plot(trendsegmentsmap, 29:30, col=c("blue", "red")) 
-# last 2 years: most pixel belong still to first time series segment 
-# (i.e. no breakpoints were detected), but some pixels are in the second 
-# time series segment (i.e. after the first breakpoint) 
+# 
+# # calculate trend
+# trendmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="AAT", breaks=2)
+# plot(trendmap)
+# 
+# # indicate for each time step the trend segment number
+# trendsegmentsmap <- TrendSegmentsRaster(trendmap, min.length=5, max.pval=0.05, 
+# 	start=c(1982, 1), end=c(2011, 1), freq=1)
+# plot(trendsegmentsmap, 1:2, col=c("blue", "red")) 
+# # first 2 years: everthing belongs to time series segment 1 
+# plot(trendsegmentsmap, 29:30, col=c("blue", "red")) 
+# # last 2 years: most pixel belong still to first time series segment 
+# # (i.e. no breakpoints were detected), but some pixels are in the second 
+# # time series segment (i.e. after the first breakpoint) 
 
 })

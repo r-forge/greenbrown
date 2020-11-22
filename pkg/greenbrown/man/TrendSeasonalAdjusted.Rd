@@ -14,7 +14,7 @@
   \item{funSeasonalCycle}{a function to estimate the seasonal cycle of the time series. A own function can be defined to estimate the seasonal cycle which has to return the seasonal cycle as a time series of class "ts". Currently two approaches are part of this package:
 \itemize{ 
 \item{ \code{\link{MeanSeasonalCycle}} is the default which computes the average seasonal cycle from all years. }
-\item{ \code{\link{SSASeasonalCycle}} can be used which detects a modulated seasonal cycle based on Singular Spectrum Analysis. }
+\item{ \code{\link{LmSeasonalCycle}} computes the seasonal cycle based on a linear model. }
 }}
 }
 
@@ -26,10 +26,6 @@
 
 \seealso{\code{\link{Trend}}, \code{\link{TrendRaster}}, \code{\link{MeanSeasonalCycle}}, \code{\link{LmSeasonalCycle}}}
 \examples{
-# load a time series of NDVI (normalized difference vegetation index)
-data(ndvi)
-plot(ndvi)
-	
 # calculate trend on time series with removed mean seasonal cycle
 MACtrend <- TrendSeasonalAdjusted(ndvi, funSeasonalCycle=MeanSeasonalCycle)
 MACtrend

@@ -48,19 +48,6 @@ print.Phenology <- structure(function(
 	cat("PEAK   : ", signif(mean(x$peak, na.rm=TRUE), 2), "+-", signif(sd(x$peak, na.rm=TRUE), 2), "\n")
 	cat("TROUGH : ", signif(mean(x$trough, na.rm=TRUE), 2), "+-", signif(sd(x$trough, na.rm=TRUE), 2), "\n")
 	
-}, ex=function() {
-# load a time series of NDVI (normalized difference vegetation index)
-data(ndvi)
-plot(ndvi)
-	
-# calculate phenology metrics
-phen <- Phenology(ndvi)
-phen
-print(phen)
-
-# plot phenology metrics
-plot(phen)
-	
 })
 
 
@@ -149,10 +136,6 @@ plot.Phenology <- structure(function(
 	text(x=end[1]+1, ytxt, nms, col=col, cex=1.2)
 
 }, ex=function() {
-# load a time series of NDVI (normalized difference vegetation index)
-data(ndvi)
-plot(ndvi)
-	
 # calculate phenology metrics
 phen <- Phenology(ndvi)
 phen

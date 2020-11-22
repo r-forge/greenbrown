@@ -21,9 +21,6 @@
 
 \seealso{\code{\link{plot.phenopix}}, \code{\link{PhenopixMY}}}
 \examples{
-data(ndvi)
-plot(ndvi)
-
 ppixmy <- PhenopixMY(ndvi, "spline", "trs")
 plot(ppixmy)
 

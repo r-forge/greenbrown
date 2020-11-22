@@ -52,12 +52,9 @@ GetTsStatisticsRaster <- structure(function(
 	return(result)
 	### The function returns a RasterBrick with 7 layers: mean, trend slope, range of inter-annual variabililty, standard deviation of inter-annual variabililty, range of seasonal cycle, range and standard deviation of short-term variabililty. 
 }, ex=function() {
-# load a multi-temporal raster dataset of Normalized Difference Vegetation Index
-data(ndvimap)
-plot(ndvimap, 8)
 
-# calculate time series statistics 
-ndvimap.tsstat <- GetTsStatisticsRaster(ndvimap)
-plot(ndvimap.tsstat)
+# # calculate time series statistics 
+# ndvimap.tsstat <- GetTsStatisticsRaster(ndvimap)
+# plot(ndvimap.tsstat)
 
 })

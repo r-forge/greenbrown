@@ -115,10 +115,6 @@ TrendAAT <- structure(function(
 	return(result)
 	### The function returns a list of class "Trend". 
 },ex=function(){
-# load a time series of NDVI (normalized difference vegetation index)
-data(ndvi)
-plot(ndvi)
-	
 # calculate trend on mean annual NDVI values
 trd.annualmean <- TrendAAT(ndvi)
 trd.annualmean
@@ -142,17 +138,5 @@ trd.annualquantile9 <- TrendAAT(ndvi, funAnnual=fun, mosum.pval=1)
 trd.annualquantile9
 plot(trd.annualquantile9)
 
-# calculate trend on an winter NDVI (e.g. upper 0.1 quantile)
-fun <- function(x, ...) { quantile(x, 0.1, ...) }
-trd.annualquantile1 <- TrendAAT(ndvi, funAnnual=fun, mosum.pval=1)
-trd.annualquantile1
-plot(trd.annualquantile1)
-
-# compare trends
-plot(ndvi)
-plot(trd.annualmean, add=TRUE, col="darkgreen", symbolic=TRUE)
-plot(trd.annualmax, add=TRUE, col="red", symbolic=TRUE)
-plot(trd.annualquantile9, add=TRUE, col="orange", symbolic=TRUE)
-plot(trd.annualquantile1, add=TRUE, col="blue", symbolic=TRUE)
 })
 

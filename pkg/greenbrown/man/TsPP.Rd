@@ -36,10 +36,6 @@
 
 \seealso{\code{\link{FillPermanentGaps}}}
 \examples{
-# load a time series of NDVI (normalized difference vegetation index)
-data(ndvi)
-plot(ndvi)
-
 # introduce systematic gaps in winter and random gaps
 gaps <- ndvi
 gaps[runif(50, 1, length(ndvi))] <- NA
@@ -49,17 +45,13 @@ plot(gaps)
 # perform pre-processing of time series using different methods 
 pp.lin <- TsPP(gaps, tsgf=TSGFlinear) # linear interpolation + running median
 pp.spl <- TsPP(gaps, tsgf=TSGFspline) # smoothing splines
-pp.beck <- TsPP(gaps, tsgf=TSGFdoublelog, method="Beck") # Beck et al. (2006)
-pp.elmore <- TsPP(gaps, tsgf=TSGFdoublelog, method="Elmore") # Elmore et al. (2012)
 
 plot(gaps)
 cols <- rainbow(5)
 lines(pp.lin, col=cols[1])
 lines(pp.spl, col=cols[2])
-lines(pp.beck, col=cols[3])
-lines(pp.elmore, col=cols[4])
 
-data.df <- ts.union(time(gaps), orig=ndvi, pp.lin, pp.spl, pp.beck, pp.elmore)
+data.df <- ts.union(time(gaps), orig=ndvi, pp.lin, pp.spl)
 plot(data.df)
 cor(na.omit(data.df[is.na(gaps),]))
 

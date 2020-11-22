@@ -22,22 +22,5 @@ NamesPhenologyRaster <- structure(function(
 	time <- seq(start[1], length=nyears, by=1)
 	names <- c(paste("SOS", time, sep="."), paste("EOS", time, sep="."), paste("LOS", time, sep="."), paste("POP", time, sep="."), paste("POT", time, sep="."), paste("MGS", time, sep="."), paste("PEAK", time, sep="."), paste("TROUGH", time, sep="."), paste("MSP", time, sep="."), paste("MAU", time, sep="."), paste("RSP", time, sep="."), paste("RAU", time, sep="."))
 	return(names)
-}, ex=function() {
-# # load a multi-temporal raster dataset of Normalized Difference Vegetation Index
-# data(ndvimap)
-# plot(ndvimap, 8)
-
-# # calculate phenology
-# phenmap <- PhenologyRaster(ndvimap, start=c(1982, 1), freq=12)
-# plot(phenmap)
-# plot(phenmap)
-
-# # layer names of the result
-# NamesPhenologyRaster(30)
-# NamesPhenologyRaster(phenmap)
-# NamesPhenologyRaster(phenmap, start=1982)
-# names(phenmap)
-
-
 })
 

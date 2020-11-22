@@ -32,10 +32,6 @@
 
 \seealso{\code{\link{plot.default}}, \code{\link{plot.ts}}}
 \examples{
-# load a time series of Normalized Difference Vegetation Index
-data(ndvi)
-plot(ndvi)
-
 # calculate a trend and look at the results
 ndvi.trend <- Trend(ndvi)
 ndvi.trend

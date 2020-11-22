@@ -25,9 +25,6 @@
 \seealso{\code{\link{Phenology}}}
 \examples{
 
-data(ndvi)
-plot(ndvi)
-
 # perform time series processing for first year pof data
 x <- TsPP(ndvi, interpolate=TRUE)[1:365]
 plot(x)

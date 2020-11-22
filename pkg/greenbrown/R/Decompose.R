@@ -87,11 +87,8 @@ Decompose <-  structure(function(
   return(components.ts)
 	### The function returns a multi-variate object of class ts including the time series components.
 }, ex=function() {
-# load a time series of Normalized Difference Vegetation Index
-data(ndvi)
-plot(ndvi)
 
-# decompose this time series
+# decompose a time series
 ndvi.dc <- Decompose(ndvi)
 plot(ndvi.dc)
 	

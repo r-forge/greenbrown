@@ -18,9 +18,7 @@
 
 \seealso{\code{\link{Trend}}, \code{\link{TrendAAT}}}
 \examples{
-# load a time series of NDVI (normalized difference vegetation index)
-data(ndvi)
-ndvi <- window(aggregate(ndvi, FUN=mean), end=1996)
+ndvi <- window(aggregate(ndvi, FUN=mean))
 plot(ndvi)
 	
 # calculate trend based on regression to median

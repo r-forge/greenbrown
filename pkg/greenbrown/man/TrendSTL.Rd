@@ -16,10 +16,7 @@
 
 \seealso{\code{\link{stl}}}
 \examples{
-# load a time series of NDVI (normalized difference vegetation index)
-data(ndvi)
-plot(ndvi)
-	
+
 # calculate trend on mean annual NDVI values
 trd <- TrendSTL(ndvi)
 trd

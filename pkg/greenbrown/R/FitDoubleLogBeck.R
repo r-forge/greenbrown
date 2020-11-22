@@ -179,7 +179,6 @@ FitDoubleLogBeck <- structure(function(
 }, ex=function() {
 
 # select one year of data
-data(ndvi)
 x <- as.vector(window(ndvi, start=c(1994,1), end=c(1994, 12)))
 plot(x)
 
@@ -187,14 +186,14 @@ plot(x)
 fit <- FitDoubleLogBeck(x)
 lines(fit$predicted, col="blue")
 
-# do more inital trials, plot iterations and compute parameter uncertainties
-FitDoubleLogBeck(x, hessian=TRUE, plot=TRUE, ninit=100)	
-
-# fit double-logistic function to one year of data, 
-# interpolate to daily time steps and calculate phenology metrics
-tout <- seq(1, 12, length=365)	# time steps for output (daily)
-fit <- FitDoubleLogBeck(x, tout=tout)
-PhenoDeriv(fit$predicted, plot=TRUE)
+# # do more inital trials, plot iterations and compute parameter uncertainties
+# FitDoubleLogBeck(x, hessian=TRUE, plot=TRUE, ninit=100)	
+# 
+# # fit double-logistic function to one year of data, 
+# # interpolate to daily time steps and calculate phenology metrics
+# tout <- seq(1, 12, length=365)	# time steps for output (daily)
+# fit <- FitDoubleLogBeck(x, tout=tout)
+# PhenoDeriv(fit$predicted, plot=TRUE)
 
 })
 

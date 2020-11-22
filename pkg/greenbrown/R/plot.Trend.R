@@ -117,10 +117,6 @@ plot.Trend <- structure(function(
 		legend("bottomleft", paste("Slope = ", signif(x$slope, 2), " (p-value = ", signif(x$pval, 2), ")", sep=""), bty="n", text.col="blue")	
 	}
 }, ex=function() {
-# load a time series of Normalized Difference Vegetation Index
-data(ndvi)
-plot(ndvi)
-
 # calculate a trend and look at the results
 ndvi.trend <- Trend(ndvi)
 ndvi.trend
@@ -202,15 +198,5 @@ print.Trend <- structure(function(
 	   cat(" ", names, "\n")
 	   for (s in 1:nseg) cat(" ", format(s, width=10), slope[s], perc[s], pval[s], mk.tau[s], mk.pval[s], "\n")
 	}
-}, ex=function() {
-# load a time series of Normalized Difference Vegetation Index
-data(ndvi)
-plot(ndvi)
-
-# calculate a trend and look at the results
-ndvi.trend <- Trend(ndvi)
-ndvi.trend
-print(ndvi.trend)
-	
 })
 

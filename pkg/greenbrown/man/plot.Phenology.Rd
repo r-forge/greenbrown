@@ -26,10 +26,6 @@
 
 \seealso{\code{\link{plot.default}}, \code{\link{plot.ts}}}
 \examples{
-# load a time series of NDVI (normalized difference vegetation index)
-data(ndvi)
-plot(ndvi)
-	
 # calculate phenology metrics
 phen <- Phenology(ndvi)
 phen

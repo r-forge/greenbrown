@@ -19,12 +19,9 @@
 
 \seealso{\code{\link{Decompose}}}
 \examples{
-# load a multi-temporal raster dataset of Normalized Difference Vegetation Index
-data(ndvimap)
-plot(ndvimap, 8)
 
-# calculate time series statistics 
-ndvimap.tsstat <- GetTsStatisticsRaster(ndvimap)
-plot(ndvimap.tsstat)
+# # calculate time series statistics 
+# ndvimap.tsstat <- GetTsStatisticsRaster(ndvimap)
+# plot(ndvimap.tsstat)
 
 }

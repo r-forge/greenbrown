@@ -58,10 +58,6 @@ TrendRunmed <- structure(function(
 	return(result)
 	### The function returns a list of class "Trend". 
 }, ex=function(){
-# load a time series of NDVI (normalized difference vegetation index)
-data(ndvi)
-plot(ndvi)
-	
 # calculate trend on mean annual NDVI values
 trd <- TrendRunmed(ndvi)
 trd

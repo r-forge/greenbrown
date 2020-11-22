@@ -28,8 +28,6 @@
 
 \seealso{\code{\link{Trend}}}
 \examples{
-# load a time series of NDVI (normalized difference vegetation index)
-data(ndvi)
 
 # aggregate time series to annual time steps
 ndvi <- aggregate(ndvi, FUN=mean, na.rm=TRUE)

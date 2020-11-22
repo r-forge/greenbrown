@@ -102,8 +102,6 @@ TrendText <- structure(function(
    return(l)
    ### A list with the estimated trends and with text.
 }, ex=function() {
-
-data(ndvi)
 trd <- TrendText(ndvi, period=c(1982, 1996), unit="")
 plot(ndvi)
 lines(trd$trd1, col="red", lwd=2)

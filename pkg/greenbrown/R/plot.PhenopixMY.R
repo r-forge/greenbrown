@@ -67,9 +67,6 @@ plot.PhenopixMY <- structure(function(
       } # end if metrics
    } # end else type
 }, ex=function() {
-data(ndvi)
-plot(ndvi)
-
 ppixmy <- PhenopixMY(ndvi, "spline", "trs")
 plot(ppixmy)
 

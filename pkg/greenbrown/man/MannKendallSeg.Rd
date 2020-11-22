@@ -18,8 +18,6 @@
 
 \seealso{\code{\link{MannKendall}}}
 \examples{
-# load a time series of NDVI (normalized difference vegetation index)
-data(ndvi)
 
 # aggregate time series to annual time steps
 ndvi <- aggregate(ndvi, FUN=mean)
@@ -37,15 +35,5 @@ mk
 
 # MannKendall test without segments
 MannKendallSeg(ndvi)
-
-# test with NA values
-ndvi[14:18] <- NA
-plot(ndvi)
-bp <- breakpoints(ndvi ~ time(ndvi))
-MannKendallSeg(ndvi, bp=bp)
-
-# without breakpoints
-MannKendallSeg(ndvi)
-
 
 }

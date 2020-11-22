@@ -19,9 +19,6 @@
 
 \seealso{\code{\link{TsPP}}}
 \examples{
-# load NDVI data
-data(ndvi)
-
 # introduce some systematic gaps in january, february, december and july
 gaps <- ndvi
 winter <- cycle(ndvi) == 1 | cycle(ndvi) == 2 | cycle(ndvi) == 12 | cycle(ndvi) == 7

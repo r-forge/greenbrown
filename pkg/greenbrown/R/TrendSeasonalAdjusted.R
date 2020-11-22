@@ -21,7 +21,7 @@ TrendSeasonalAdjusted <- structure(function(
 	### a function to estimate the seasonal cycle of the time series. A own function can be defined to estimate the seasonal cycle which has to return the seasonal cycle as a time series of class "ts". Currently two approaches are part of this package:
 	### \itemize{ 
 	### \item{ \code{\link{MeanSeasonalCycle}} is the default which computes the average seasonal cycle from all years. }
-	### \item{ \code{\link{SSASeasonalCycle}} can be used which detects a modulated seasonal cycle based on Singular Spectrum Analysis. }
+	### \item{ \code{\link{LmSeasonalCycle}} computes the seasonal cycle based on a linear model. }
 	### }
 	
 	##references<< Forkel, M., N. Carvalhais, J. Verbesselt, M. Mahecha, C. Neigh and M. Reichstein (2013): Trend Change Detection in NDVI Time Series: Effects of Inter-Annual Variability and Methodology. - Remote Sensing 5.
@@ -116,10 +116,6 @@ TrendSeasonalAdjusted <- structure(function(
 	return(result)
 	### The function returns a list of class "Trend". 
 },ex=function(){
-# load a time series of NDVI (normalized difference vegetation index)
-data(ndvi)
-plot(ndvi)
-	
 # calculate trend on time series with removed mean seasonal cycle
 MACtrend <- TrendSeasonalAdjusted(ndvi, funSeasonalCycle=MeanSeasonalCycle)
 MACtrend

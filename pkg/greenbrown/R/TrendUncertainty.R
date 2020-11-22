@@ -83,8 +83,6 @@ TrendUncertainty <- structure(function(
 	return(result)
 	### The function returns a data.frame with the estimated Mann-Kendall tau, p-value and slope and intercept of a linear trend with uncertainties defined as the standard deviation of these estimates dependent on different start and end dates.
 }, ex=function(){
-# load a time series of NDVI (normalized difference vegetation index)
-data(ndvi)
 
 # aggregate time series to annual time steps
 ndvi <- aggregate(ndvi, FUN=mean, na.rm=TRUE)

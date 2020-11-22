@@ -16,21 +16,4 @@
 
 
 \seealso{\code{\link{PhenologyRaster}}}
-\examples{
-# # load a multi-temporal raster dataset of Normalized Difference Vegetation Index
-# data(ndvimap)
-# plot(ndvimap, 8)
 
-# # calculate phenology
-# phenmap <- PhenologyRaster(ndvimap, start=c(1982, 1), freq=12)
-# plot(phenmap)
-# plot(phenmap)
-
-# # layer names of the result
-# NamesPhenologyRaster(30)
-# NamesPhenologyRaster(phenmap)
-# NamesPhenologyRaster(phenmap, start=1982)
-# names(phenmap)
-
-
-}

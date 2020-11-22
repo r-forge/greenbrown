@@ -23,9 +23,6 @@
 
 \seealso{\code{\link{Trend}}, \code{\link{plot.TrendSample}}}
 \examples{
-# load a time series of NDVI (normalized difference vegetation index)
-data(ndvi)
-
 # calculate uncertainty of trend dependent on start and end dates
 trd.ens <- TrendSample(ndvi, trend=TrendAAT)
 plot(trd.ens)
@@ -33,10 +30,5 @@ plot(trd.ens, "tau")
 
 trd.ens <- TrendSample(ndvi, trend=TrendRQ)
 plot(trd.ens)
-
-
-# plot relations between start, end dates, length and trend statistics
-
-
 
 }

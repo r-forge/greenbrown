@@ -14,28 +14,4 @@
 
 
 \seealso{\code{\link{TrendRaster}}}
-\examples{
-# load a raster dataset of Normalized Difference Vegetation Index
-data(ndvimap)
-plot(ndvimap, 8)
 
-# calculate trend with maximum 2 breakpoints
-breaks <- 2
-trendmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, 
-   method="AAT", breaks=breaks)
-plot(trendmap)
-
-# layer names of the result
-NamesTrendRaster(breaks)
-NamesTrendRaster(trendmap)
-names(trendmap)
-
-# now imagine you are loosing the layer names ...
-names(trendmap) <- 1:11
-plot(trendmap)	# X1, X2 ... is not meaningfull. How can you get the names back?
-
-# re-create the layer names with NamesTrendRaster
-names(trendmap) <- NamesTrendRaster(trendmap)
-plot(trendmap)
-
-}

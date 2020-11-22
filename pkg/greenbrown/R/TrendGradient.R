@@ -123,32 +123,28 @@ TrendGradient <- structure(function(
 	return(gradient.l)
 	### The function returns a data.frame of class 'TrendGradient'.
 }, ex=function() {
-# load a multi-temporal raster dataset of Normalized Difference Vegetation Index
-data(ndvimap)
-plot(ndvimap, 8)
-
-# compute a latitudinal gradient of trends (by default the method 'AAT' is used):
-gradient <- TrendGradient(ndvimap, start=c(1982, 1), freq=12)
-gradient
-plot(gradient) 
-# shown is the trend at each latitudinal band, the area represents the 95% 
-# confidence interval of the trend (computed with function TrendUncertainty), 
-# symbols indicate the p-value of the trend at each latitude
-
-plot(gradient, type="yx") # the gradient can be also plotted in reversed order
-
-# latitudinal gradient with different number of intervals:
-gradient <- TrendGradient(ndvimap, start=c(1982, 1), freq=12,
-   gradient.brks=seq(66, 69, length=5))
-plot(gradient) 
-
-# example for a longitudinal gradient:
-gradient.r <- raster(ndvimap, 1) # create a raster layer with longitudes:
-gradient.r[] <- xFromCell(gradient.r, 1:ncell(gradient.r)) 
-plot(gradient.r)
-gradient <- TrendGradient(ndvimap, start=c(1982, 1), freq=12, 
-   gradient.r=gradient.r)
-plot(gradient, xlab="Longitude (E)") 
+# # compute a latitudinal gradient of trends (by default the method 'AAT' is used):
+# gradient <- TrendGradient(ndvimap, start=c(1982, 1), freq=12)
+# gradient
+# plot(gradient) 
+# # shown is the trend at each latitudinal band, the area represents the 95% 
+# # confidence interval of the trend (computed with function TrendUncertainty), 
+# # symbols indicate the p-value of the trend at each latitude
+# 
+# plot(gradient, type="yx") # the gradient can be also plotted in reversed order
+# 
+# # latitudinal gradient with different number of intervals:
+# gradient <- TrendGradient(ndvimap, start=c(1982, 1), freq=12,
+#    gradient.brks=seq(66, 69, length=5))
+# plot(gradient) 
+# 
+# # example for a longitudinal gradient:
+# gradient.r <- raster(ndvimap, 1) # create a raster layer with longitudes:
+# gradient.r[] <- xFromCell(gradient.r, 1:ncell(gradient.r)) 
+# plot(gradient.r)
+# gradient <- TrendGradient(ndvimap, start=c(1982, 1), freq=12, 
+#    gradient.r=gradient.r)
+# plot(gradient, xlab="Longitude (E)") 
 
 })
 

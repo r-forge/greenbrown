@@ -21,17 +21,11 @@
 
 \seealso{\code{\link{Phenology}}}
 \examples{
-
-
-data(ndvi)
-plot(ndvi)
-
 # perform time series preprocessing from first year of data
 x <- TsPP(ndvi, interpolate=TRUE)[1:365]
 plot(x)
 
 # calculate phenology metrics for first year
 PhenoDeriv(x, plot=TRUE)
-
 
 }

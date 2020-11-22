@@ -15,12 +15,9 @@
 
 \seealso{\code{\link{TrendRaster}}}
 \examples{
-# load a multi-temporal raster dataset of Normalized Difference Vegetation Index
-data(ndvimap)
 
 cols <- brgr.colors(10)
 brks <- seq(0, 1, 0.1)
 plot(ndvimap, c(3, 6), col=cols, breaks=brks)
-
 
 }

@@ -20,10 +20,6 @@
 
 \seealso{\code{\link{greenProcess}}, \code{\link{plot.PhenopixMY}}, \code{\link{Phenology}} }
 \examples{
-
-data(ndvi)
-plot(ndvi)
-
 ppixmy <- PhenopixMY(ndvi, "spline", "trs")
 plot(ppixmy)
 

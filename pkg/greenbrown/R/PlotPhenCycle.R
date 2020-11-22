@@ -93,9 +93,6 @@ PlotPhenCycle <- structure(function(
 
 }, ex=function() {
 
-data(ndvi)
-plot(ndvi)
-
 # perform time series preprocessing for first year of data
 x <- TsPP(ndvi, interpolate=TRUE)[1:365]
 plot(x)

@@ -69,10 +69,6 @@ Trend <- structure(function(
 	return(trend)
 	### The function returns a list of class "Trend". 
 },ex=function(){
-# load a time series of NDVI (normalized difference vegetation index)
-data(ndvi)
-plot(ndvi)
-	
 # calculate trend (default method: trend calculated based on annual aggregated data)
 trd <- Trend(ndvi)
 trd

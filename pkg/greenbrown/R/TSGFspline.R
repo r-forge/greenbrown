@@ -53,10 +53,6 @@ TSGFspline <- structure(function(
 	return(Yt3)
 	### The function returns a gap-filled and smoothed version of the time series.
 }, ex=function() {
-# load a time series of NDVI (normalized difference vegetation index)
-data(ndvi)
-plot(ndvi)
-
 # introduce random gaps 
 gaps <- ndvi
 gaps[runif(100, 1, length(ndvi))] <- NA

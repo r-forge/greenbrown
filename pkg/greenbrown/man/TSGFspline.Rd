@@ -18,10 +18,6 @@
 
 \seealso{\code{\link{TsPP}}}
 \examples{
-# load a time series of NDVI (normalized difference vegetation index)
-data(ndvi)
-plot(ndvi)
-
 # introduce random gaps 
 gaps <- ndvi
 gaps[runif(100, 1, length(ndvi))] <- NA

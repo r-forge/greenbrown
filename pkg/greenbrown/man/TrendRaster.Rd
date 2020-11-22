@@ -49,29 +49,25 @@ The choosen number of \code{breaks} will define the number of raster layers of t
 
 \seealso{\code{\link{Trend}}, \code{\link{TrendClassification}}, \code{\link{TrendSegmentsRaster}}, \code{\link{NamesTrendRaster}} }
 \examples{
-# load a multi-temporal raster dataset of Normalized Difference Vegetation Index
-data(ndvimap)
-ndvimap
-plot(ndvimap, 8)
-
-# calculate trend: annual aggregation method
-AATmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="AAT", breaks=1)
-plot(AATmap)
-
-# trend on seasonal adjusted time series based, no breakpoints
-MACmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, 
-   method="SeasonalAdjusted", breaks=0, funSeasonalCycle=MeanSeasonalCycle)
-plot(MACmap)
-
-# trend based on season-trend model 
-STMmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="STM", breaks=0)
-plot(STMmap)
-
-# classify the results in greening/browning/no trend
-MACmap.cl <- TrendClassification(MACmap, min.length=(8*12))
-STMmap.cl <- TrendClassification(STMmap, min.length=(8*12))
-par(mfrow=c(1,2)) # set the tiles of the plot
-plot(MACmap.cl, col=brgr.colors(3), main="Method MAC")
-plot(STMmap.cl, col=brgr.colors(3), main="Method STM")
+# 
+# # calculate trend: annual aggregation method
+# AATmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="AAT", breaks=1)
+# plot(AATmap)
+# 
+# # trend on seasonal adjusted time series based, no breakpoints
+# MACmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, 
+#    method="SeasonalAdjusted", breaks=0, funSeasonalCycle=MeanSeasonalCycle)
+# plot(MACmap)
+# 
+# # trend based on season-trend model 
+# STMmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="STM", breaks=0)
+# plot(STMmap)
+# 
+# # classify the results in greening/browning/no trend
+# MACmap.cl <- TrendClassification(MACmap, min.length=(8*12))
+# STMmap.cl <- TrendClassification(STMmap, min.length=(8*12))
+# par(mfrow=c(1,2)) # set the tiles of the plot
+# plot(MACmap.cl, col=brgr.colors(3), main="Method MAC")
+# plot(STMmap.cl, col=brgr.colors(3), main="Method STM")
 
 }

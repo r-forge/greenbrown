@@ -88,18 +88,12 @@ PhenoDeriv <- structure(function(
 	return(metrics)
 	### The function returns a vector with SOS, EOS, LOS, POP, MGS, RSP, RAU, PEAK, MSP and MAU. 
 }, ex=function() {
-
-
-data(ndvi)
-plot(ndvi)
-
 # perform time series preprocessing from first year of data
 x <- TsPP(ndvi, interpolate=TRUE)[1:365]
 plot(x)
 
 # calculate phenology metrics for first year
 PhenoDeriv(x, plot=TRUE)
-
 
 })
 

@@ -200,7 +200,6 @@ MtsPlot <- structure(function(
    ### A list with information about the estimated trend.
 }, ex=function() {
 
-data(ndvi)
 ndvi <- aggregate(ndvi, FUN=mean)
 
 # default plot
@@ -213,31 +212,32 @@ MtsPlot(ndvi, rge=c(0.5, 1), ylim=c(0,1)) # use (0-1) range for y-values and
 # plot with uncertainty ranges
 ndvi2 <- cbind(ndvi, ndvi * 1.3, ndvi * 0.7)
 MtsPlot(ndvi2, rge=c(0.5, 1)) # uncertainty as polygon
-MtsPlot(ndvi2, add=TRUE, rge=c(0, 0.5), unc="line", col="red") # uncertainty as line
+MtsPlot(ndvi2, add=TRUE, rge=c(0, 0.5), unc="line", col="red",
+        axis.pos="r") # uncertainty as line
 
-# plot multiple time series
-ndvi2 <- ndvi * 2 # scaled NDVI
-ndvi3 <- ndvi^2 # squared NDVI
-par(mar=c(3, 3, 2, 3))
-MtsPlot(ndvi, rge=c(0.66, 1), ylab="NDVI")
-MtsPlot(ndvi2, add=TRUE, rge=c(0.33, 0.66), axis.pos="r", ylab="NDVI*2", col="red")
-MtsPlot(ndvi3, add=TRUE, rge=c(0, 0.33), axis.pos="l", ylab="NDVI^2", col="purple")
-
-# options for trend
-MtsPlot(ndvi, ylab="NDVI", trend=NULL) # no trend
-MtsPlot(ndvi, ylab="NDVI", trend.period=c(1982, 1996)) # compute trend in subperiod
-MtsPlot(ndvi, ylab="NDVI", trend.period=c(1982, 1996), 
-        unit="NDVI", trend.text=1) # text: trend in % (default)
-MtsPlot(ndvi, ylab="NDVI", trend.period=c(1982, 1996), 
-        unit="NDVI", trend.text=2) # text: trend in units
-MtsPlot(ndvi, ylab="NDVI", trend.period=c(1982, 1996), 
-        unit="NDVI", trend.text=3) # text: trend without unit
-MtsPlot(ndvi, ylab="NDVI", trend.period=c(1982, 1996), 
-        unit="NDVI", trend.text=4) # text: p-value only
-
-ndvi2 <- cbind(ndvi, ndvi * 1.3, ndvi * 0.7)
-MtsPlot(ndvi2, ylab="NDVI", trend.period=c(1982, 1996), 
-        unit="NDVI", trend.text=5) # text: p-value only
+# # plot multiple time series
+# ndvi2 <- ndvi * 2 # scaled NDVI
+# ndvi3 <- ndvi^2 # squared NDVI
+# par(mar=c(3, 3, 2, 3))
+# MtsPlot(ndvi, rge=c(0.66, 1), ylab="NDVI")
+# MtsPlot(ndvi2, add=TRUE, rge=c(0.33, 0.66), axis.pos="r", ylab="NDVI*2", col="red")
+# MtsPlot(ndvi3, add=TRUE, rge=c(0, 0.33), axis.pos="l", ylab="NDVI^2", col="purple")
+# 
+# # options for trend
+# MtsPlot(ndvi, ylab="NDVI", trend=NULL) # no trend
+# MtsPlot(ndvi, ylab="NDVI", trend.period=c(1982, 1996)) # compute trend in subperiod
+# MtsPlot(ndvi, ylab="NDVI", trend.period=c(1982, 1996), 
+#         unit="NDVI", trend.text=1) # text: trend in % (default)
+# MtsPlot(ndvi, ylab="NDVI", trend.period=c(1982, 1996), 
+#         unit="NDVI", trend.text=2) # text: trend in units
+# MtsPlot(ndvi, ylab="NDVI", trend.period=c(1982, 1996), 
+#         unit="NDVI", trend.text=3) # text: trend without unit
+# MtsPlot(ndvi, ylab="NDVI", trend.period=c(1982, 1996), 
+#         unit="NDVI", trend.text=4) # text: p-value only
+# 
+# ndvi2 <- cbind(ndvi, ndvi * 1.3, ndvi * 0.7)
+# MtsPlot(ndvi2, ylab="NDVI", trend.period=c(1982, 1996), 
+#         unit="NDVI", trend.text=5) # text: p-value only
 
 })
 

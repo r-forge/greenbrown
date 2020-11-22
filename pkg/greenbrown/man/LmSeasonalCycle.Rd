@@ -15,9 +15,6 @@
 
 \seealso{\code{\link{Decompose}}, \code{\link{TrendSeasonalAdjusted}}, \code{\link{MeanSeasonalCycle}}}
 \examples{
-# load a time series of Normalized Difference Vegetation Index
-data(ndvi)
-plot(ndvi)
 ndvi.lmcycl <- LmSeasonalCycle(ndvi)
 plot(ndvi.lmcycl)
 

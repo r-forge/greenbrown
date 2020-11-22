@@ -40,9 +40,6 @@
 
 \seealso{\code{\link{MeanSeasonalCycle}}}
 \examples{
-# load a time series of Normalized Difference Vegetation Index
-data(ndvi)
-plot(ndvi)
 
 # do calculations
 afl <- AnomaliesFiltersLags(ndvi)

@@ -26,8 +26,7 @@
 \seealso{\code{\link{TSGFdoublelog}}, \code{\link{Phenology}} }
 \examples{
 
-# select one year of NDVi data
-data(ndvi)
+# select one year of NDVI data
 x <- as.vector(window(ndvi, start=c(1991,1), end=c(1991, 12)))
 plot(x)
 

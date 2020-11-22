@@ -51,20 +51,6 @@ TrendClassification <- structure(function(
 	names(trend) <- paste("TrendSEG", 1:nseg, sep="")
 	return(trend)
 	### The function returns a RasterLayer in case of one time series segment or a RasterBrick in case of multiple time series segments. Pixels with a significant positive trend have the value 1; pixels with significant negative trends -1 and non-significant trends 0.
-}, ex=function() {
-# load a multi-temporal raster dataset of Normalized Difference Vegetation Index
-data(ndvimap)
-ndvimap
-plot(ndvimap, 8)
-
-# calculate trends on the raster
-trendmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="AAT", breaks=2)
-plot(trendmap)
-
-# classify the trends in greening and browning
-greenbrownmap <- TrendClassification(trendmap, min.length=10, max.pval=0.05)
-plot(greenbrownmap, col=brgr.colors(3))
-
 })
 
 

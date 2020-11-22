@@ -15,17 +15,4 @@
 
 
 
-\examples{
-# load a time series of NDVI (normalized difference vegetation index)
-data(ndvi)
-plot(ndvi)
-	
-# calculate phenology metrics
-phen <- Phenology(ndvi)
-phen
-print(phen)
 
-# plot phenology metrics
-plot(phen)
-	
-}

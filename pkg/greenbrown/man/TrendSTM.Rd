@@ -20,10 +20,7 @@ Verbesselt, J.; Zeileis, A.; Herold, M., Near real-time disturbance detection us
 
 \seealso{\code{\link{Trend}}, \code{\link{TrendRaster}}, \code{\link{TSGFstm}}, }
 \examples{
-# load a time series of NDVI (normalized difference vegetation index)
-data(ndvi)
-plot(ndvi)
-	
+
 # calculate trend 
 trd <- TrendSTM(ndvi)
 trd

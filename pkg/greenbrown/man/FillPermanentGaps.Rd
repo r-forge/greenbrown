@@ -24,10 +24,6 @@
 \seealso{\code{\link{TsPP}}}
 \examples{
 
-# load NDVI data
-data(ndvi)
-plot(ndvi)
-
 # sample some winter months to be set as gaps
 winter <- (1:length(ndvi))[cycle(ndvi) == 1 | cycle(ndvi) == 2 | cycle(ndvi) == 12]
 gaps <- sample(winter, length(winter)*0.3)

@@ -78,11 +78,7 @@ White M.A., P.E. Thornton and S.W. Running (1997): A continental phenology model
 
 \seealso{\code{\link{PhenologyRaster}}, \code{\link{TSGFspline}}, \code{\link{TSGFdoublelog}}, \code{\link{FitDoubleLogElmore}}, \code{\link{FitDoubleLogBeck}}}
 \examples{
-# load a time series of NDVI (normalized difference vegetation index)
-data(ndvi)
-plot(ndvi)
-
-# introduce some missing values
+# introduce some missing values in NDVI time series
 winter <- (1:length(ndvi))[cycle(ndvi) == 1 | cycle(ndvi) == 2 | cycle(ndvi) == 12]
 ndvi[sample(winter, length(winter)*0.5)] <- NA
 plot(ndvi)
@@ -100,77 +96,77 @@ plot(spl.trs, type=c("msp", "mgs", "mau", "peak"))
 plot(spl.trs$series, col="red"); lines(ndvi) 
 
 
-# calculate phenology metrics using different smoothing methods and approaches
-#-----------------------------------------------------------------------------
-
-# linear interpolation/running median + threshold
-lin.trs <- Phenology(ndvi, tsgf="TSGFlinear", approach="White") 
-
-# linear interpolation/running median + derivative
-lin.deriv <- Phenology(ndvi, tsgf="TSGFlinear", approach="Deriv") 
-
-# spline + threshold
-spl.trs <- Phenology(ndvi, tsgf="TSGFspline", approach="White") 
-
-# spline + derivative
-spl.deriv <- Phenology(ndvi, tsgf="TSGFspline", approach="Deriv") 
-
-# double logistic fit + threshold
-beck.trs <- Phenology(ndvi, tsgf="TSGFdoublelog", method="Beck", approach="White") 
-
-# double logistic fit + derivative
-beck.deriv <- Phenology(ndvi, tsgf="TSGFdoublelog", method="Beck", approach="Deriv") 
-
-# double logistic fit + threshold
-elmore.trs <- Phenology(ndvi, tsgf="TSGFdoublelog", method="Elmore", approach="White") 
-
-# double logistic fit + derivative
-elmore.deriv <- Phenology(ndvi, tsgf="TSGFdoublelog", method="Elmore", approach="Deriv") 
-
-# compare results: SOS and EOS
-type <- c("sos", "eos")
-require(RColorBrewer)
-cols <- brewer.pal(10, "Paired")
-nms <- c("Lin+Trs", "Lin+Deriv", "Spline+Trs", "Spline+Deriv", "DoubleLog1+Trs", 
- "DoubleLog1+Deriv", "DoubleLog2+Trs", "DoubleLog2+Deriv")
-plot(lin.trs, col=cols[1], type=type, ylim=c(1, 365))
-plot(lin.deriv, col=cols[2], type=type, add=TRUE)
-plot(spl.trs, col=cols[3], type=type, add=TRUE)
-plot(spl.deriv, col=cols[4], type=type, add=TRUE)
-plot(beck.trs, col=cols[7], type=type, add=TRUE)
-plot(beck.deriv, col=cols[8], type=type, add=TRUE)
-plot(elmore.trs, col=cols[9], type=type, add=TRUE)
-plot(elmore.deriv, col=cols[10], type=type, add=TRUE)
-legend("center", nms, text.col=cols, ncol=3, bty="n")
-
-cor(cbind(lin.trs$sos, lin.deriv$sos, spl.trs$sos, spl.deriv$sos, beck.trs$sos, 
-   beck.deriv$sos, elmore.trs$sos, elmore.deriv$sos), use="pairwise.complete.obs")
-cor(cbind(lin.trs$eos, lin.deriv$eos, spl.trs$eos, spl.deriv$eos, beck.trs$eos, 
-   beck.deriv$eos, elmore.trs$eos, elmore.deriv$eos), use="pairwise.complete.obs")
-
-# compare results: LOS
-type <- c("los")
-plot(lin.trs, col=cols[1], type=type, ylim=c(130, 365))
-plot(lin.deriv, col=cols[2], type=type, add=TRUE)
-plot(spl.trs, col=cols[3], type=type, add=TRUE)
-plot(spl.deriv, col=cols[4], type=type, add=TRUE)
-plot(beck.trs, col=cols[7], type=type, add=TRUE)
-plot(beck.deriv, col=cols[8], type=type, add=TRUE)
-plot(elmore.trs, col=cols[9], type=type, add=TRUE)
-plot(elmore.deriv, col=cols[10], type=type, add=TRUE)
-legend("bottom", nms, text.col=cols, ncol=5, bty="n")
-
-# compare results: MSP, PEAK, TROUGH
-type <- c("msp", "peak", "trough")
-plot(lin.trs, col=cols[1], type=type, ylim=c(0.17, 0.37))
-plot(lin.deriv, col=cols[2], type=type, add=TRUE)
-plot(spl.trs, col=cols[3], type=type, add=TRUE)
-plot(spl.deriv, col=cols[4], type=type, add=TRUE)
-plot(beck.trs, col=cols[7], type=type, add=TRUE)
-plot(beck.deriv, col=cols[8], type=type, add=TRUE)
-plot(elmore.trs, col=cols[9], type=type, add=TRUE)
-plot(elmore.deriv, col=cols[10], type=type, add=TRUE)
-legend("bottom", nms, text.col=cols, ncol=5, bty="n")
+# # calculate phenology metrics using different smoothing methods and approaches
+# #-----------------------------------------------------------------------------
+# 
+# # linear interpolation/running median + threshold
+# lin.trs <- Phenology(ndvi, tsgf="TSGFlinear", approach="White") 
+# 
+# # linear interpolation/running median + derivative
+# lin.deriv <- Phenology(ndvi, tsgf="TSGFlinear", approach="Deriv") 
+# 
+# # spline + threshold
+# spl.trs <- Phenology(ndvi, tsgf="TSGFspline", approach="White") 
+# 
+# # spline + derivative
+# spl.deriv <- Phenology(ndvi, tsgf="TSGFspline", approach="Deriv") 
+# 
+# # double logistic fit + threshold
+# beck.trs <- Phenology(ndvi, tsgf="TSGFdoublelog", method="Beck", approach="White") 
+# 
+# # double logistic fit + derivative
+# beck.deriv <- Phenology(ndvi, tsgf="TSGFdoublelog", method="Beck", approach="Deriv") 
+# 
+# # double logistic fit + threshold
+# elmore.trs <- Phenology(ndvi, tsgf="TSGFdoublelog", method="Elmore", approach="White") 
+# 
+# # double logistic fit + derivative
+# elmore.deriv <- Phenology(ndvi, tsgf="TSGFdoublelog", method="Elmore", approach="Deriv") 
+# 
+# # compare results: SOS and EOS
+# type <- c("sos", "eos")
+# require(RColorBrewer)
+# cols <- brewer.pal(10, "Paired")
+# nms <- c("Lin+Trs", "Lin+Deriv", "Spline+Trs", "Spline+Deriv", "DoubleLog1+Trs", 
+#  "DoubleLog1+Deriv", "DoubleLog2+Trs", "DoubleLog2+Deriv")
+# plot(lin.trs, col=cols[1], type=type, ylim=c(1, 365))
+# plot(lin.deriv, col=cols[2], type=type, add=TRUE)
+# plot(spl.trs, col=cols[3], type=type, add=TRUE)
+# plot(spl.deriv, col=cols[4], type=type, add=TRUE)
+# plot(beck.trs, col=cols[7], type=type, add=TRUE)
+# plot(beck.deriv, col=cols[8], type=type, add=TRUE)
+# plot(elmore.trs, col=cols[9], type=type, add=TRUE)
+# plot(elmore.deriv, col=cols[10], type=type, add=TRUE)
+# legend("center", nms, text.col=cols, ncol=3, bty="n")
+# 
+# cor(cbind(lin.trs$sos, lin.deriv$sos, spl.trs$sos, spl.deriv$sos, beck.trs$sos, 
+#    beck.deriv$sos, elmore.trs$sos, elmore.deriv$sos), use="pairwise.complete.obs")
+# cor(cbind(lin.trs$eos, lin.deriv$eos, spl.trs$eos, spl.deriv$eos, beck.trs$eos, 
+#    beck.deriv$eos, elmore.trs$eos, elmore.deriv$eos), use="pairwise.complete.obs")
+# 
+# # compare results: LOS
+# type <- c("los")
+# plot(lin.trs, col=cols[1], type=type, ylim=c(130, 365))
+# plot(lin.deriv, col=cols[2], type=type, add=TRUE)
+# plot(spl.trs, col=cols[3], type=type, add=TRUE)
+# plot(spl.deriv, col=cols[4], type=type, add=TRUE)
+# plot(beck.trs, col=cols[7], type=type, add=TRUE)
+# plot(beck.deriv, col=cols[8], type=type, add=TRUE)
+# plot(elmore.trs, col=cols[9], type=type, add=TRUE)
+# plot(elmore.deriv, col=cols[10], type=type, add=TRUE)
+# legend("bottom", nms, text.col=cols, ncol=5, bty="n")
+# 
+# # compare results: MSP, PEAK, TROUGH
+# type <- c("msp", "peak", "trough")
+# plot(lin.trs, col=cols[1], type=type, ylim=c(0.17, 0.37))
+# plot(lin.deriv, col=cols[2], type=type, add=TRUE)
+# plot(spl.trs, col=cols[3], type=type, add=TRUE)
+# plot(spl.deriv, col=cols[4], type=type, add=TRUE)
+# plot(beck.trs, col=cols[7], type=type, add=TRUE)
+# plot(beck.deriv, col=cols[8], type=type, add=TRUE)
+# plot(elmore.trs, col=cols[9], type=type, add=TRUE)
+# plot(elmore.deriv, col=cols[10], type=type, add=TRUE)
+# legend("bottom", nms, text.col=cols, ncol=5, bty="n")
 
 
 }

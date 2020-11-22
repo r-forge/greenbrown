@@ -23,9 +23,6 @@ b <- c(1, 2, 1, 2, 2, 2, 3, 4, 2, 2, 5, 1, 2, 2, 2, 1, 2, 3, 4, 5, 5, 3, 3, 2, 2
 # calculate first a contingency table
 tab <- table(a, b)
 
-# calculate now the accuracy assessment
-AccuracyAssessment(tab)
-
 # calculate Kappa coeffcient
 Kappa(tab)
 

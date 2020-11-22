@@ -25,32 +25,14 @@ Elmore, A.J., S.M. Guinn, B.J. Minsley and A.D. Richardson (2012): Landscape con
 
 \seealso{\code{\link{FitDoubleLogBeck}}, \code{\link{FitDoubleLogElmore}}, \code{\link{TsPP}}, \code{\link{Phenology}}}
 \examples{
-# load a time series of NDVI (normalized difference vegetation index)
-data(ndvi)
-plot(ndvi)
-
-# introduce random gaps 
-gaps <- ndvi
-gaps[runif(100, 1, length(ndvi))] <- NA
-plot(gaps)
-
-# do smoothing and gap filling
-tsgf1 <- TSGFdoublelog(gaps, method="Elmore")
-tsgf2 <- TSGFdoublelog(gaps, method="Beck")
-plot(gaps)
-lines(tsgf1, col="red")
-lines(tsgf2, col="blue")
-
-# compare original data with gap-filled data
-cols <- c("red", "blue")
-all <- ts.union(ndvi, tsgf1, tsgf2)
-all[!is.na(gaps),] <- NA
-plot(all[,1], all[,2], col=cols[1], xlab="original", ylab="gap filled")
-points(all[,1], all[,3], col=cols[2])
-abline(0,1)
-r <- c(cor(all[,1], all[,2], use="pairwise.complete.obs"), 
-	cor(all[,1], all[,3], use="pairwise.complete.obs"))
-lgd <- paste(c("Elmore Cor =", "Beck Cor ="), round(r, 3))
-legend("topleft", lgd, text.col=cols)
+# # introduce random gaps 
+# gaps <- ndvi
+# gaps[runif(100, 1, length(ndvi))] <- NA
+# plot(gaps)
+# 
+# # do smoothing and gap filling
+# tsgf <- TSGFdoublelog(gaps, method="Elmore")
+# plot(gaps)
+# lines(tsgf, col="red")
 
 }

@@ -110,9 +110,6 @@ PhenoTrs <- structure(function(
 	### The function returns a vector with SOS, EOS, LOS, POP, MGS, rsp, rau, PEAK, MSP and MAU. 
 }, ex=function() {
 
-data(ndvi)
-plot(ndvi)
-
 # perform time series processing for first year pof data
 x <- TsPP(ndvi, interpolate=TRUE)[1:365]
 plot(x)

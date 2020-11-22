@@ -30,9 +30,6 @@ LmSeasonalCycle <- structure(function(
 	return(St_est)
 	### Mean seasonal cycle of time series ts with the same length as ts, i.e. the mean seasonal cycle is repeated for each year. The mean seasonal cycle is centered to 0.
 }, ex=function() {
-# load a time series of Normalized Difference Vegetation Index
-data(ndvi)
-plot(ndvi)
 ndvi.lmcycl <- LmSeasonalCycle(ndvi)
 plot(ndvi.lmcycl)
 

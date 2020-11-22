@@ -37,10 +37,6 @@ These methods can be applied to gridded (raster) data using the function \code{\
 
 \seealso{\code{\link{plot.Trend}}, \code{\link{TrendAAT}}, \code{\link{TrendSTM}}, \code{\link{TrendSeasonalAdjusted}}, \code{\link{TrendRaster}}, \code{\link{breakpoints}}}
 \examples{
-# load a time series of NDVI (normalized difference vegetation index)
-data(ndvi)
-plot(ndvi)
-	
 # calculate trend (default method: trend calculated based on annual aggregated data)
 trd <- Trend(ndvi)
 trd

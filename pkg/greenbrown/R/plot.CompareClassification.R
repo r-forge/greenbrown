@@ -74,30 +74,25 @@ plot.CompareClassification <- structure(function(
 	coord <- coordinates(x$raster)
 	legend(x=mean(coord[,1]), y=max(coord[,2])+(abs(max(coord[,2]) - min(coord[,2])) * 0.02), lgd, fill=as.vector(col.m), ncol=ncl, xjust=0.5, yjust=0, xpd=TRUE, title=main, bg="white")
 }, ex=function() {
-# Example: calculate NDVI trends from two methods and compare the significant trends
-
-# load a raster dataset of Normalized Difference Vegetation Index
-data(ndvimap)
-
-# calculate trends with two different methods
-AATmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="AAT", breaks=0)
-plot(AATmap)
-STMmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="STM", breaks=0)
-plot(STMmap)
-
-# classify the trend estimates from the two methods into 
-# positive, negative and no trend
-AATmap.cl <- TrendClassification(AATmap)
-plot(AATmap.cl, col=brgr.colors(3))
-STMmap.cl <- TrendClassification(STMmap)
-plot(STMmap.cl, col=brgr.colors(3))
-
-# compare the two classifications
-compare <- CompareClassification(x=AATmap.cl, y=STMmap.cl, 
-	names=list('AAT'=c("Br", "No", "Gr"), 'STM'=c("Br", "No", "Gr")))
-compare
-
-# plot the comparison
-plot(compare)
+# # calculate trends with two different methods
+# AATmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="AAT", breaks=0)
+# plot(AATmap)
+# STMmap <- TrendRaster(ndvimap, start=c(1982, 1), freq=12, method="STM", breaks=0)
+# plot(STMmap)
+# 
+# # classify the trend estimates from the two methods into 
+# # positive, negative and no trend
+# AATmap.cl <- TrendClassification(AATmap)
+# plot(AATmap.cl, col=brgr.colors(3))
+# STMmap.cl <- TrendClassification(STMmap)
+# plot(STMmap.cl, col=brgr.colors(3))
+# 
+# # compare the two classifications
+# compare <- CompareClassification(x=AATmap.cl, y=STMmap.cl, 
+# 	names=list('AAT'=c("Br", "No", "Gr"), 'STM'=c("Br", "No", "Gr")))
+# compare
+# 
+# # plot the comparison
+# plot(compare)
 
 })
